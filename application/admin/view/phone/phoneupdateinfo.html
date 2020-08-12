@@ -1,0 +1,63 @@
+<form class="layui-form">
+    <input type="hidden" name="phone_id" value="{$data.phone_id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone_name" value="{$data.phone_name}" autocomplete="off" placeholder="请输入名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话号</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone"  value="{$data.phone}" autocomplete="off" placeholder="请输入电话" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            $('#up').click(function(){
+                location.href="{:url('Phone/PhoneList')}";
+            });
+            //监听提交
+            form.on('submit(*)',function(data){
+
+                layer.confirm('您确认修改吗？', function(index){
+                        
+                       $.post(
+                               "{:url('Phone/phoneUpdate')}",
+                               data.field,
+                               function(msg){
+                                   if(msg.code==1){
+                                       layer.msg(msg.font, {
+                                         icon: msg.code,
+                                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                       }, function(){
+                                         location.href="{:url('Phone/phoneList')}";
+                                       });   
+                                   } else {
+                                       layer.msg(msg.font,{icon:msg.code});
+                                   }
+                               },'json'
+                       )
+                       
+
+                });
+                return false;
+                
+            })
+        });
+    })
+
+</script>

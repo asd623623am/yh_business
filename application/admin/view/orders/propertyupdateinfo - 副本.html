@@ -1,0 +1,218 @@
+<form class="layui-form">
+
+  <input type="text" value="{$data.id}" name="oder_id">
+    <div class="layui-form-item">
+        <label class="layui-form-label">请输入标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" value="{$data.title}" autocomplete="off" placeholder="请输入标题" class="layui-input">
+        </div>
+    </div>
+
+    <span id="did" hidden="hidden">{$data.district_id}</span>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费小区</label>
+        <div class="layui-input-block">
+          <select name="dis" lay-filter="filter" id="names">
+            <option value="">请选择小区</option>
+            {volist name="select" id='v'}
+            <option value="{$v.id}">{$v.name}</option>
+            {/volist}
+          </select>
+        </div>
+      </div>
+
+       <span id="checkbox" hidden="hidden">{$data.complex}</span>
+      <div class="layui-form-item">
+         <label class="layui-form-label">收费区</label>
+         <div class="layui-input-block">
+
+            <input type="radio" name="sex" value="甲" title="甲">
+            <input type="radio" name="sex" value="乙" title="乙">
+            <input type="radio" name="sex" value="丙" title="丙">
+            <input type="radio" name="sex" value="丁" title="丁">
+            <input type="radio" name="sex" value="四期" title="四期">
+            <input type="radio" name="sex" value="四期商业" title="四期商业">
+
+            <!-- <input type="checkbox" name="甲" lay-filter="filter" value="甲" name="" title="甲">
+            <input type="checkbox" name="乙" lay-filter="filter" value="乙" name="" title="乙"> 
+            <input type="checkbox" name="丙" lay-filter="filter" value="丙" name="" title="丙"> 
+            <input type="checkbox" name="丁" lay-filter="filter" value="丁" name="" title="丁"> 
+            <input type="checkbox" name="四期" lay-filter="filter" value="四期" name="" title="四期"> 
+            <input type="checkbox" name="四期商业" lay-filter="filter" value="四期商业" name="" title="四期商业">  -->
+            <!-- <input type="checkbox" name="" title="禁用" disabled> -->
+         </div>
+       </div>
+
+       <div class="layui-form-item">
+           <label class="layui-form-label">输入楼号</label>
+           <div class="layui-input-block">
+               <input type="text" name="home_code" value="{$data.home_code}" autocomplete="off" placeholder="输入楼号" class="layui-input">
+           </div>
+       </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">物业费设置</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" value="{$data.paytime}" name="paytime" id="test1">
+        </div>
+    </div>  
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">物业费/m²</label>
+        <div class="layui-input-block">
+            <input type="text" name="fee" value="{$data.fee}"  autocomplete="off" placeholder="请输入物业费" class="layui-input">
+        </div>
+    </div>
+
+    
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">赔偿项</label>
+        <div class="layui-input-block">
+            <input type="text" name="compensation" value="{$data.compensation}" autocomplete="off" placeholder="请输入赔偿项" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">凭证号</label>
+        <div class="layui-input-block">
+            <input type="text" name="voucher" value="{$data.voucher}"  autocomplete="off" placeholder="请输入凭证号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">期限</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="start_at" value="{$data.start_at}"  autocomplete="off" id="start_at"  lay-verify="required" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="end_at" value="{$data.end_at}" autocomplete="off" id="end_at"  lay-verify="required" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+
+    {if condition="$data.invoice_status==1"}
+    <div class="layui-form-item">
+          <label class="layui-form-label">发票状态</label>
+          <div class="layui-input-block">
+             <input type="radio" name="invoice_status" value="1" title="未开" checked="">
+             <input type="radio" name="invoice_status" value="2" title="已开">
+          </div>
+      </div>
+      {else/}
+        <div class="layui-form-item">
+          <label class="layui-form-label">发票状态</label>
+          <div class="layui-input-block">
+             <input type="radio" name="invoice_status" value="1" title="未开">
+             <input type="radio" name="invoice_status" value="2" title="已开" checked="">
+          </div>
+      </div>
+      {/if}
+
+
+
+
+     {if condition="$data.is_show==1"}
+      <div class="layui-form-item">
+          <label class="layui-form-label">选择缴费</label>
+          <div class="layui-input-block">
+             <input type="radio" name="is_show" value="1" title="现金支付">
+             <input type="radio" name="is_show" value="2" title="否" checked>
+          </div>
+      </div>
+
+       <div class="layui-form-item">
+        <label class="layui-form-label">实收金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="money" autocomplete="off" placeholder="请输入实收缴费金额" class="layui-input">
+        </div>
+    </div>
+    {else/}
+    <!-- <input type="radio" name="brand_show" value="1" title="是">
+    <input type="radio" name="brand_show" value="0" title="否" checked> -->
+    {/if}
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
+            <button type="reset" id='upss' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+             var laydate = layui.laydate;
+            	$('#upss').click(function(){
+            	    location.href="{:url('Orders/propertyList')}";
+            	});
+
+               var up = $('#did').text();
+               var checkbox = $('#checkbox').text();
+              $("#names").find("option[value='"+up+"']").attr("selected",true);
+              $("input[name='sex'][value="+checkbox+"]").prop("checked",true);
+              // $("[name='checkbox1']").attr("checked",'true'); 
+               form.render();
+                //执行一个laydate实例
+                  laydate.render({
+                    elem: '#test1' //指定元素
+                  });
+                  //常规用法
+                  laydate.render({
+                      elem: '#start_at'
+                  });
+                  laydate.render({
+                      elem: '#end_at'
+                  });
+                var userName=null;  //定义一个空值
+                form.on('select(filter)', function(data){
+                  console.log(data.elem[data.elem.selectedIndex].text);
+                  return false;
+                    userName=data.elem[data.elem.selectedIndex].text;  //取选中下拉框的文本并赋值给userName
+                });
+                var qu ='';  //定义一个空值
+                form.on('checkbox(filter)', function(data){
+                    qu += data.value+'+';
+                });   
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                
+                info.complex=qu;
+                info.dname=userName;
+                $.post(
+                        "{:url('Orders/propertyUp')}",
+                        info,
+                        function(msg){
+
+                            if(msg.code==1){
+                                layer.msg(msg.font, {
+                                  icon: msg.code,
+                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                  location.href="{:url('Orders/propertyList')}";
+                                });   
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+
+
+                            console.log(msg);
+                        },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>

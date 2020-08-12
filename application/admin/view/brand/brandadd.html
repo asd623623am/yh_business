@@ -1,0 +1,146 @@
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">内容标题<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="brand_title" lay-verify="required|username" autocomplete="off" placeholder="请输入标题" class="layui-input">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <input type="hidden" id="logo" name="brand_logo">
+            <label class="layui-form-label">logo</label>
+            <button type="button" class="layui-btn" id="myload">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+            <img src="" id="images">
+            <a href="javascript:;" id='delimg'></a>
+        </div>
+
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">内容介绍<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="brand_describe" class="layui-textarea" lay-verify="required"></textarea>
+        </div>
+    </div>
+   <!--  <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-block">
+            <input type="number" name="brand_sort" lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div> -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否发布</label>
+        <div class="layui-input-block">
+            <input type="radio" name="brand_show" value="1" title="是" checked="">
+            <input type="radio" name="brand_show" value="0" title="否">
+        </div>
+    </div>
+
+    <!--<div class="layui-form-item layui-form-text">
+      <label class="layui-form-label">编辑器</label>
+      <div class="layui-input-block">
+        <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
+      </div>
+    </div>-->
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var upload = layui.upload;
+//            form.verify({
+//                username:function(value,item){
+//                    var username_reg=/^.+|[\u4e00-\u9fa5]+$/i;
+//                    if(!username_reg.test(value)){
+//                        return  '品牌名称格式错误';
+//                    }else{
+//                        $.ajax({
+//                            url:"{:url('Brand/checkName')}",
+//                            type:'post',
+//                            dataType:'json',
+//                            data:{brand_name:value},
+//                            success:function(msg){
+//                                layer.msg(msg.font,{icon:msg.code});
+//                            }
+//                        })
+//
+//                    }
+//
+//                }
+//            });
+
+            //文件上传
+            var uploadInst = upload.render({
+                elem: '#myload' //绑定元素
+                ,url: '{:url("Brand/brandUpload")}' //上传接口
+                ,done: function(res){
+                    //上传完毕回调
+                    //console.log(msg);
+                    layer.msg(res.font,{icon:res.code});
+                    if(res.code==1){
+                        $('#logo').val(res.src);
+                        var url = '__PUBLIC__/'+res.src;
+                        $('#images').attr('src',url);
+                        $('#images').attr('width','100');
+                        $('#images').attr('height','100');
+                        $('#delimg').text('删除图片');
+                    }
+                }
+                ,error: function(){
+                    //请求异常回调
+                }
+            });
+
+            $('#delimg').click(function(){
+                $('#images').attr('src','');
+                $('#images').attr('width','');
+                $('#images').attr('height','');
+                $('#logo').val('');
+                 $('#delimg').text('');
+            });
+            //监听提交
+            form.on('submit(*)',function(data){
+                var tempText = data.field.brand_describe.replace(new RegExp('\n',"gm"),'<br/>');
+                data.field.brand_describe = tempText;
+                $.post(
+                        "{:url('Brand/brandAdd')}",
+                        data.field,
+                        function(msg){
+
+                            if(msg.code==1){
+                                layer.msg(msg.font, {
+                                  icon: msg.code,
+                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                  location.href="{:url('Brand/brandList')}";
+                                });   
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+
+
+                        },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>

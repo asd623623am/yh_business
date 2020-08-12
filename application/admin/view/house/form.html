@@ -1,0 +1,119 @@
+<div style="padding: 20px; background-color: #F2F2F2;">
+<span class="layui-breadcrumb">
+    <a href='#'>房屋管理</a>
+    <a href='{:url("index")}'>房屋列表</a>
+    <a><cite>{if condition="empty($data['id'])"}新增房屋{else /}房屋编辑 {/if}</cite></a>
+</span>
+</div>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <form class="layui-form">
+            <input type="hidden" name="id" value="{$data.id}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">业主</label>
+                <div class="layui-input-block">
+                    <input type="text" name="owner"  value="{$data.owner}" autocomplete="off"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">联系方式</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tel" value="{$data.tel}"  autocomplete="off" lay-verify="required|phone"  class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">小区名称</label>
+                <div class="layui-input-block">
+                    <select name="district_id" lay-verify="required" lay-search="">
+                        <option value="0"></option>
+                        {volist name="districts" id='district'}
+                        <option value="{$district.id}" {if $data.district_id==$district.id}selected{/if}>{$district.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">区</label>
+                <div class="layui-input-block">
+                    <input type="text" name="complex" value="{$data.complex}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">楼</label>
+                <div class="layui-input-block">
+                    <input type="text" name="building" value="{$data.building}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">单元</label>
+                <div class="layui-input-block">
+                    <input type="text" name="unit" value="{$data.unit}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">房间号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="room" value="{$data.room}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">供暖费/m²</label>
+                <div class="layui-input-block">
+                    <input type="text" name="heating_cost" value="{$data.heating_cost}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">物业费/m²</label>
+                <div class="layui-input-block">
+                    <input type="text" name="property_fee" value="{$data.property_fee}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">面积/m²</label>
+                <div class="layui-input-block">
+                    <input type="text" name="area" value="{$data.area}"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">入住时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="check_in_at" value="{$data.check_in_at}" class="layui-input" id="check_in" placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <a class="layui-btn  layui-btn-primary"   href="javascript:history.go(-1)" lay-filter="*">  <i class="layui-icon">&#xe65c;</i>返回</a>
+                    <button class="layui-btn" lay-submit lay-filter="house">{if condition="empty($data['id'])"}添加{else /}修改{/if}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        layui.use(['form','layer','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+
+            //常规用法
+            laydate.render({
+                elem: '#check_in'
+            });
+            //监听提交
+            form.on('submit(house)',function(data){
+                $.post("{:url('form')}",data.field,function(data){
+                    layer.msg(data.msg);
+                    if(data.code==0){
+                        location.href="{:url('index')}";
+                    }
+                },'json');
+                return false;
+            })
+        });
+    })
+
+</script>

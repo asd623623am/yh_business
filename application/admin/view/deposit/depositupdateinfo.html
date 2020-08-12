@@ -1,0 +1,174 @@
+<form class="layui-form">
+<input type="text" hidden="hidden" value="{$data.id}" name="id">
+<input type="text" value="{$page}" id="page">
+    <div class="layui-form-item">
+        <label class="layui-form-label">户主信息</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user_name" value="{$data.user_name}" id='user_name' lay-verify="required" autocomplete="off"
+                   placeholder="请输入缴费金额" class="layui-input">
+        </div>
+    </div>
+    <span id="up" hidden="hidden">{$data.home_id}</span>
+    <span id="upname" hidden="hidden">{$data.home_name}</span>
+
+	<div class="layui-form-item">
+	    <label class="layui-form-label">选择房屋</label>
+	    <div class="layui-input-inline">
+	        <select name="home_id" id='home'>
+	            <option value="">请选择</option>
+
+	            {volist name="selects" id='v'}
+	            <option value="{$v.home_id.'#'.$v.home_name}">{$v.home_name}</option>
+	            {/volist}
+
+	        </select>
+	    </div>
+	</div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="msg" lay-verify="required" autocomplete="off"
+                   placeholder="请输入订单标题" value="{$data.msg}" class="layui-input">
+        </div>
+    </div>
+
+	<div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">押金备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="title" class="layui-textarea" lay-verify="required">{$data.title}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">费用明细</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="cost_info" class="layui-textarea" lay-verify="required">{$data.cost_info}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">缴费金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="fee" value="{$data.fee}" lay-verify="required" autocomplete="off"
+                   placeholder="请输入缴费金额" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">退款金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="refund_money" value="{$data.refund_money}" lay-verify="required" autocomplete="off"
+                   placeholder="请输入退款金额" class="layui-input">
+        </div>
+    </div>
+    <!-- {if condition="$data.is_show==1"}
+    	<div class="layui-form-item">
+    	    <label class="layui-form-label">选择缴费</label>
+    	    <div class="layui-input-block">
+    	       <input type="radio" name="is_show" value="1" title="现金支付">
+    	       <input type="radio" name="is_show" value="0" title="否" checked>
+    	    </div>
+    	</div>
+    {else/} -->
+    <!-- <input type="radio" name="brand_show" value="1" title="是">
+    <input type="radio" name="brand_show" value="0" title="否" checked> -->
+    <!-- {/if} -->
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
+            <button type="reset" id='ups' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form', 'layer'], function(){
+            var form = layui.form;
+            var  layer = layui.layer;
+            var up = $('#up').text();
+            var upname = $('#upname').text();
+            $('#ups').click(function(){
+                var page = $('#page').val();
+                    localStorage.setItem('page',page);
+                    window.history.back();
+                // location.href="{:url('Deposit/depositList')}";
+            });
+            $("#home").find("option[value='"+up+'#'+upname+"']").attr("selected",true);
+            form.render();
+            $('#user_name').blur(function(){
+                var userName = $(this).val();
+                if (userName == '') {
+                        $('#home').children().first().nextAll().remove();
+                        $('#home').append('<option value=""></option>');
+                        form.render('select');
+                        return false;
+                    }
+                    $.post(
+                            '{:url("Deposit/depositHome")}',
+                            {user_name:userName},
+                            function( data ){
+                                if (data.code == 0) {
+
+                                    if (data.data == '') {
+                                        $('#home').children().first().nextAll().remove();
+                                        $('#home').append('<option value=""></option>');
+                                        form.render('select');
+                                        return false;
+                                    }
+
+
+                                    
+                                    $('#home').children().first().nextAll().remove();
+                                    for(var i=0;i<data.data.length;i++){
+                                        $('#home').append('<option value="'+data.data[i].home_id+'">'+data.data[i].home_name+'</option>');
+                                        form.render('select');
+                                    }
+                                } else {
+                                    layer.msg(data.msg,{icon:2});
+                                }
+                            },'json'
+                    )
+                    return false;
+            });
+           	
+
+            //监听提交
+            form.on('submit(*)', function(data){
+                layer.confirm('您确认修改吗？', function(index){
+                        
+                        $.post(
+                                '{:url("Deposit/depositUp")}',
+                                data.field,
+                                function( data ){
+                                    if(data.code==1){
+                                      layer.msg(data.font, {
+                                        icon: data.code,
+                                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                      }, function(){
+                                        var page = $('#page').val();
+                                        localStorage.setItem('page',page);
+                                        window.history.back();
+                                        // location.href="{:url('Deposit/depositList')}";
+                                      });   
+                                  } else {
+                                      layer.msg(data.font,{icon:data.code});
+                                  }
+                                   
+                                },'json'
+                        )
+                        
+
+                });
+
+                return false;
+
+                
+            });
+
+        });
+    })
+
+</script>

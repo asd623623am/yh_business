@@ -1,0 +1,232 @@
+<form class="layui-form">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">收款标题<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="title"  autocomplete="off" placeholder="请输入标题" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费小区<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+          <select name="dis" lay-filter="filter" id="names">
+            <option value="">请选择小区</option>
+            {volist name="dis" id='v'}
+            <option value="{$v.id}">{$v.name}</option>
+            {/volist}
+          </select>
+        </div>
+      </div>
+
+    <div class="layui-form-item">
+    <label class="layui-form-label">收费区<span style="color: red;">*</span></label>
+    <div class="layui-input-block">
+        {volist name="area" id='area'}
+        <input type="radio" name="sex" value="{$area}" title="{$area}" checked="">
+        {/volist}
+      <!-- <input type="radio" name="sex" value="甲" title="甲" checked="">
+      <input type="radio" name="sex" value="乙" title="乙">
+      <input type="radio" name="sex" value="丙" title="丙">
+      <input type="radio" name="sex" value="丁" title="丁">
+      <input type="radio" name="sex" value="四期" title="四期">
+      <input type="radio" name="sex" value="四期商业" title="四期商业"> -->
+    </div>
+  </div>
+
+      <div class="layui-form-item">
+           <label class="layui-form-label">楼/单元/户号<span style="color: red;">*</span></label>
+           <div class="layui-input-block">
+               <input type="text" name="home_code"  autocomplete="off" placeholder="请输入楼/单元/户号    例：1-1-101/1-101" class="layui-input">
+           </div>
+       </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费年<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+               <input type="text" name="paytime"  autocomplete="off" placeholder="输入收费年    例：2020" class="layui-input">
+           </div>
+    </div>  
+
+
+    <div class="layui-form-item">
+    <label class="layui-form-label">选择分类<span style="color: red;">*</span></label>
+    <div class="layui-input-block">
+        {if condition="$ro==1"}
+      <input type="radio" name="type" lay-filter="erweima" value="0" title="物业" checked="">
+      <input type="radio" name="type" lay-filter="erweima" value="1" title="供暖" disabled="disabled">
+       {/if}
+        {if condition="$ro==2"}
+      <input type="radio" name="type" lay-filter="erweima" value="0" title="物业" disabled="disabled">
+      <input type="radio" name="type" lay-filter="erweima" value="1" title="供暖" checked="">
+       {/if}
+         {if condition="$ro==3"}
+       <input type="radio" name="type" lay-filter="erweima" value="0" title="物业" checked="">
+       <input type="radio" name="type" lay-filter="erweima" value="1" title="供暖">
+        {/if}
+    </div>
+  </div>
+
+  <div class="layui-form-item" id="layui-wu">
+      <div class="layui-inline">
+          <label class="layui-form-label">物业：<span style="color: red;">*</span></label>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="wfee" value="" placeholder="请输入价格"  autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 68px;">
+              <input type="text" name=""  style="border:0;outline:0;" value="房屋面积" disabled="disabled" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 25px;">
+              <input type="text" name="month" value="12"  style="border:0;outline:0;" disabled="disabled" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">个月</div>
+          <div class="layui-form-mid">+</div>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="wcost" value="" autocomplete="off" placeholder="请输入费用" class="layui-input">
+          </div>
+          <div class="layui-form-mid">其他费用</div>
+      </div>
+  </div>
+
+  <div class="layui-form-item" id='layui-gong' hidden="hidden">
+      <div class="layui-inline">
+          <label class="layui-form-label">供暖：<span style="color: red;">*</span></label>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="gfee" value="" placeholder="请输入价格"  autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 80px;">
+              <input type="text" name="" value="房屋面积" style="border:0;outline:0;" disabled="disabled" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="gcost" value="1" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">系数</div>
+      </div>
+  </div>
+
+
+<!--     <div class="layui-form-item">
+        <label class="layui-form-label">/m²</label>
+        <div class="layui-input-block">
+            <input type="text" name="fee"  autocomplete="off" placeholder="请输入费用   例子：100/100.00" class="layui-input">
+        </div>
+    </div> -->
+
+    
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">赔偿项</label>
+        <div class="layui-input-block">
+            <input type="text" name="compensation"  autocomplete="off" placeholder="请输入赔偿项  例子：100/100.00" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">凭证号</label>
+        <div class="layui-input-block">
+            <input type="text" name="voucher"  autocomplete="off" placeholder="请输入凭证号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">缴费周期<span style="color: red;">*</span></label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="start_at" value=""  autocomplete="off" id="start_at"  lay-verify="required" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="end_at" value="" autocomplete="off" id="end_at"  lay-verify="required" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即发布</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+             var laydate = layui.laydate;
+            	$('#up').click(function(){
+            	    location.href="{:url('Orderno/paymentList')}";
+            	});
+
+                //执行一个laydate实例
+                  laydate.render({
+                    elem: '#test1' //指定元素
+                  });
+                  //常规用法
+                  laydate.render({
+                      elem: '#start_at'
+                  });
+                  laydate.render({
+                      elem: '#end_at'
+                  });
+                var userName=null;  //定义一个空值
+                form.on('select(filter)', function(data){
+                    userName=data.elem[data.elem.selectedIndex].text;  //取选中下拉框的文本并赋值给userName
+                });
+                var qu ='';  //定义一个空值
+                form.on('checkbox(filter)', function(data){
+                    qu += data.value+'+';
+                });
+
+                form.on('radio(erweima)', function (data) {
+                    $("[name='wfee']").val('');
+                    $("[name='gfee']").val('');
+                    $("[name='wcost']").val('');
+                    $("[name='gcost']").val(1);
+                    if (data.value == 0) {
+                      $('#layui-wu').show();
+                      $('#layui-gong').hide();
+                    } else {
+                      $('#layui-gong').show();
+                      $('#layui-wu').hide();
+                    }
+                });
+
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                info.dname=userName;
+                $.post(
+                        "{:url('Orders/paymentAdd')}",
+                        info,
+                        function(msg){
+
+                            if(msg.code==1){
+                                layer.msg(msg.font, {
+                                  icon: msg.code,
+                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                  location.href="{:url('Orderno/paymentList')}";
+                                });   
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+
+
+                            console.log(msg);
+                        },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>

@@ -1,0 +1,109 @@
+<style>
+    .leftchecked {
+        color: #00d6be !important;
+        font-weight: bold !important;
+    }
+
+    .layui-box1 {
+        text-align: center;
+        padding: 35px 0;
+    }
+
+    .layui-p-b {
+        display: flex;
+    }
+
+    .layui-nav-itemed>a {
+        color: #00d6be !important;
+    }
+    .layui-aaa img{
+        width: 15px;
+        height: 15px;
+        margin-right:8px;
+        vertical-align: middle;
+    }
+
+    .tab_icon {}
+
+    .layui-box1 img{
+        border-radius: 50%;
+    }
+    .layui-side-scroll{
+      height:90%
+    }
+</style>
+
+
+<div class='layui-p-b'>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree nav-ul" lay-filter="test">
+                {volist name="AllMenu" id='v' key="k"}
+                <?php
+                $i=0;
+                $i++;
+                if( strtolower(request()->controller()) == strtolower(ltrim( $v['node_url'] ,'/' )) ){
+                    echo '<li class="layui-nav-item layui-nav-itemed">';
+                }else{
+                    echo '<li class="layui-nav-item ">';
+                }
+                ?>
+                <a class="layui-aaa" href="javascript:;"><span hidden="hidden" class="imgid">{$k}</span><img src="" alt="">{$v.node_name}</a>
+                <dl class="layui-nav-child">
+                    <?php
+                    if( isset($v['son']) ){ ?>
+                    {volist name="$v.son" id='vv'}
+                    <?php
+                        $action = explode( '/' , trim($vv['node_url'] , '/' )  );
+                        $action_url = strtolower(array_pop( $action ));
+                        if( strtolower(request()->action()) ==  $action_url ){
+                            echo '<dd>
+                            <a class="leftchecked" href="'.url($vv['node_url']).'">'.$vv['node_name'].'</a></dd>';
+                        }else{
+                            echo '<dd><a href="'.url($vv['node_url']).'">'.$vv['node_name'].'</a></dd>';
+                        }
+                    ?>
+                    {/volist}
+                    <?php } ?>
+                </dl>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('.imgid').each(function(i,elem){
+                if($(elem).text().length<2){
+                    $(elem).text('0'+$(elem).text());
+                }
+                $(elem).next().attr('src','__IMG__/tab_'+$(elem).text()+'.png')
+            });
+            $('.layui-nav-itemed').each(function(i,elem){      //一参:下标
+                var len = $(elem).find('img').attr('src').substr(11,2);
+                $(elem).find('img').attr('src','__IMG__/tab_'+len+'_active.png');        //参:每个元素
+            });
+             $(".layui-nav").on("click","li",function () {
+
+                var len = $(this).find('img').attr('src').substr(11,2);
+                if($(this).hasClass('layui-nav-itemed')){
+                    // $(this).siblings().attr('class','layui-nav-item');
+                    $('.nav-ul>li').each(function(i,elem){
+                        console.log(111)
+                        // console.log($(elem)
+                        $(elem).attr('class','layui-nav-item');
+                        var n = $(elem).find('img').attr('src').substr(11,2);
+                        $(elem).find('img').attr('src','__IMG__/tab_'+n+'.png');
+
+                      });
+                    $(this).find('img').attr('src','__IMG__/tab_'+len+'_active.png')
+                    $(this).attr('class','layui-nav-item layui-nav-itemed');
+                }else{
+                    $(this).find('img').attr('src','__IMG__/tab_'+len+'.png')
+                }
+             })
+        });
+    </script>

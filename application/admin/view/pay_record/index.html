@@ -1,0 +1,142 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>缴费管理</a>
+        <a><cite>物业收费</cite></a>
+    </span>
+</div>
+<div class="layui-form layui-card-header layuiadmin-card-header-auto" style="height: auto">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="id"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">支付订单号</label>
+            <div class="layui-input-block">
+                <input type="text" name="payment_sn"  placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">支付方式</label>
+
+            <div class="layui-input-block">
+                <select name="pay_type">
+                    <option value=""></option>
+                    {volist name="paytypes" id='paytype'}
+                    <option value="{$paytype.val}">{$paytype.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">费用类别</label>
+            <div class="layui-input-block">
+                <select name="type">
+                    <option value=""></option>
+                    {volist name="types" id='type'}
+                    <option value="{$type.val}">{$type.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">支付状态</label>
+            <div class="layui-input-block">
+                <select name="status">
+                    <option value=""></option>
+                    {volist name="statuss" id='status'}
+                    <option value="{$status.val}">{$status.name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-order" lay-submit lay-filter="submit">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<table class="layui-hide" id="order" lay-filter="order"></table>
+<script>
+    layui.use(['table','layer','form'], function(){
+
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+
+        table.render({
+            elem: '#order',
+            url:'{:url("index")}',
+            limit: '__PAGESIZE__',
+            cellMinWidth: 50, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            defaultToolbar: [],
+            cols: [[
+                // {checkbox: true, fixed: true},
+                {field:'id',sort: true, align: 'center', title: 'ID',width:80},
+                // {field:'order_id',sort: true, align: 'center', title: '收费单ID',width:80},
+                {field:'payment_sn',sort: true, align: 'center', title: '支付订单号'},
+                {field:'amount', align: 'center', title: '支付金额'},
+                {field:'user', align: 'center', title: '用户',
+                    templet: function(d){
+                        if (d.operator_id>0)
+                        {
+                            return '后台操作:['+d.operator_id+']'+d.admin_name;
+                        }
+                        else
+                        {
+                            return '用户支付:['+d.operator_id+']'+d.admin_name;
+                        }
+                    }
+                },
+                {field:'type', align: 'center', title: '费用类别',
+                    templet: function(d){
+                        return d.type==0?'<button class="layui-btn layui-btn-normal layui-btn-xs">物业缴费</button>':'<button class="layui-btn layui-btn-warm layui-btn-xs">供暖缴费</button>';
+                    }
+                },
+                {field:'pay_type', align: 'center', title: '支付方式',
+                    templet: function(d){
+                        switch (d.pay_type)
+                        {
+                            case 0:
+                                return '';
+                            case 1:
+                                return '<button class="layui-btn layui-btn-radius layui-btn-warm layui-btn-xs">现金支付</button>';
+                            case 2:
+                                return '<button class="layui-btn layui-btn-radius layui-btn-xs">POSE机支付</button>';
+                            case 3:
+                                return '<button class="layui-btn layui-btn-radius layui-btn-normal layui-btn-xs">微信支付</button>';
+                        }
+
+                    }
+                },
+                {field:'status', align: 'center', title: '状态',
+                    templet: function(d){
+                        return d.status==1?'<button class="layui-btn layui-btn-normal layui-btn-xs">已支付</button>':'<button class="layui-btn layui-btn-warm layui-btn-xs">待支付</button>';
+                    }
+                },
+                {field:'remark', align: 'center', title: '备注'},
+                {field:'pay_at',align: 'center', title: '支付时间'},
+                {field:'ctime',align: 'center', title: '创建时间'},
+                // {field:'right',toolbar: '#bar',align: 'center', title:'操作'},
+            ]],
+            page: true
+        });
+
+
+        form.on('submit(submit)',function(data){
+            table.reload('order', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                ,where: data.field
+            }, 'data');
+        });
+
+    });
+</script>

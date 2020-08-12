@@ -1,0 +1,196 @@
+<style type="text/css">
+    .marginTs{
+        margin-top: 30px;
+    }
+</style>
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>缴费管理</a>
+        <a><cite> 物业收费</cite></a>
+    </span>
+</div>
+
+
+<div class="search-table layui-form">
+    <div class="layui-inline">
+        <select name="d_id"  id="search-district" lay-search="">
+            <option value="">请选择小区</option>
+            {volist name="districts" id='district'}
+            <option value="{$district.id}">{$district.name}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-inline">
+        <select name="complex"  id="search-key" >
+            <option value="" >请选择区</option>
+            {volist name="area" id='area'}
+            <option value="{$area}">{$area}</option>
+            {/volist}
+        </select>
+    </div>
+   <div class="layui-input-inline">
+        <input type="text" name="home_code" required  placeholder="请输入楼/单元/户号" autocomplete="off" class="layui-input">
+      </div>
+      <div class="layui-input-inline">
+        <input type="text" name="title" required  placeholder="请输入收费标题" autocomplete="off" class="layui-input">
+      </div>
+      <div class="layui-input-inline">
+        <input type="text" name="paytime" required  placeholder="请输入收费年" autocomplete="off" class="layui-input">
+      </div>
+
+    <button class="layui-btn" lay-submit lay-filter="*">搜索</button>
+</div>
+
+
+<button class="layui-btn layui-btn-normal marginTs" id='submit' lay-submit lay-filter="*">立即添加</button>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a> -->
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table','layer','upload','form'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+        
+        table.render({
+            elem: '#test'
+            ,url:'{:url("Orders/propertyList")}'
+            ,limit: 10
+            ,where:{status:1}
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+            {field:'p_id', width:100, title: 'id'}
+                ,{ width:100, title: '序号',type:'numbers'}
+                ,{field:'title',width:200, title: '收费标题'}
+                ,{field:'paytime',width:100, title: '收费年'}
+                ,{field:'fee',width:100, title: '物业/m²'}
+                ,{field:'fanwei',width:200, title: '收费范围'}
+                ,{field:'start_at',width:150, title: '开始日期'}
+                ,{field:'end_at',width:150, title: '结束日期'}
+                ,{field:'j',width:100, title: '缴费进度'}
+                ,{field:'ctime',width:200, title: '创建时间'}
+                ,{field:'right', width:100,toolbar: '#barDemo', title:'操作'}
+            ]],
+            done: function () {
+                $("[data-field='p_id']").css('display','none');
+            },
+            page: true
+        });
+        
+        // table.render({
+        //     elem: '#test'
+        //     ,url:'{:url("Orders/propertyList")}'
+        //     ,limit: 10
+        //     ,where:{status:1}
+        //     ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        //     ,cols: [[
+        //         {field:'p_id', width:100, title: 'id'}
+        //         ,{ width:100, title: '序号',type:'numbers'}
+        //         ,{field:'title',width:200, title: '收费标题'}
+        //         ,{field:'paytime',width:100, title: '收费年'}
+        //         ,{field:'fee',width:100, title: '物业/m²'}
+        //         ,{field:'fanwei',width:200, title: '收费范围'}
+        //         ,{field:'start_at',width:150, title: '开始日期'}
+        //         ,{field:'end_at',width:150, title: '结束日期'}
+        //         ,{field:'j',width:100, title: '缴费进度'}
+        //         ,{field:'ctime',width:200, title: '创建时间'}
+        //         ,{field:'right', width:100,toolbar: '#barDemo', title:'操作'}
+        //     ]],
+        //     done: function () {
+        //         $("[data-field='p_id']").css('display','none');
+        //     },
+        //     page: true
+        // });
+         $('#submit').click(function(){
+            location.href="{:url('Orders/propertyAdd')}";
+        })
+
+         $('#dexcel').click(function(){
+            location.href="{:url('Home/exceAdd')}";
+         });
+
+        //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'detail'){ //查看
+                location.href="{:url('Orders/propertyUpdateInfo')}?id="+data.p_id;
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.post(
+                            '{:url("Orders/propertyDel")}',
+                            {id:data.p_id,status:1},
+                            function(msg){
+                                if (msg.code == 3) {
+                                    layer.confirm(msg.msg,function(index){
+                                        layer.close(layer.index);
+                                        // $.post(
+                                        //         '{:url("Orders/propertyDel")}',
+                                        //         {id:data.p_id,status:2},
+                                        //         function(res){
+                                        //             // layer.msg(res.font,{icon:res.code});
+                                        //              if(res.code==1){
+                                        //              table.reload('test');
+                                        //              }
+                                        //         },'json'
+                                        // )
+                                    });
+                                    return false;
+                                } else {
+                                    layer.msg(msg.font,{icon:msg.code});
+                                     if(msg.code==1){
+                                     table.reload('test');
+                                     }
+                                }
+                                
+                            },'json'
+                    )
+                });
+            }
+        })
+
+
+
+
+
+        form.on('submit(*)', function(data){
+          table.render({
+              elem: '#test'
+              ,url:"{:url('Orders/propertyNewList')}"
+              ,where:data.field
+              ,limit:10
+              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,cols: [[
+              {field:'p_id', width:100, title: 'id'}
+                ,{ width:100, title: '序号',type:'numbers'}
+                ,{field:'title',width:200, title: '收费标题'}
+                ,{field:'paytime',width:100, title: '收费年'}
+                ,{field:'fee',width:100, title: '物业/m²'}
+                ,{field:'fanwei',width:200, title: '收费范围'}
+                ,{field:'start_at',width:150, title: '开始日期'}
+                ,{field:'end_at',width:150, title: '结束日期'}
+                ,{field:'j',width:100, title: '缴费进度'}
+                ,{field:'ctime',width:200, title: '创建时间'}
+                ,{field:'right', width:100,toolbar: '#barDemo', title:'操作'}
+              ]],
+               done: function () {
+                $("[data-field='p_id']").css('display','none');
+                $('.layui-table').on('click','tr',function(){
+                  $(this).css('background','#ccc').siblings().css('background','#fff');
+                });
+            },page: true
+          });
+        });
+
+
+        $('.layui-table').on('click','tr',function(){
+          $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    });
+</script>

@@ -1,0 +1,73 @@
+<form class="layui-form">
+    <input type="hidden" value="{$data.feedback_id}" id="feedback_id" name="feedback_id">
+   
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">反馈内容</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="feedback_content" class="layui-textarea" lay-verify="required">{$data.feedback_content}</textarea>
+        </div>
+    </div>
+
+     <div class="layui-form-item">
+        <label class="layui-form-label">反馈人</label>
+        <div class="layui-input-block">
+            <input type="text" name="user" value="{$data.user}"  autocomplete="off" placeholder="请输入名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            $('#up').click(function(){
+                location.href="{:url('Feedback/feedbackList')}";
+            });
+            //监听提交
+            form.on('submit(*)',function(data){
+
+
+                layer.confirm('您确认修改吗？', function(index){
+                        
+                        $.post(
+                                "{:url('Feedback/feedbackUpdate')}",
+                                data.field,
+                                function(msg){
+
+
+                                    if(msg.code==1){
+                                        layer.msg(msg.font, {
+                                          icon: msg.code,
+                                          time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                        }, function(){
+                                          location.href="{:url('Feedback/feedbackList')}";
+                                        });   
+                                    } else {
+                                        layer.msg(msg.font,{icon:msg.code});
+                                    }
+
+
+                                    
+                                },'json'
+                        )
+                        
+
+                });
+return false;
+                
+                
+            })
+        });
+    })
+
+</script>

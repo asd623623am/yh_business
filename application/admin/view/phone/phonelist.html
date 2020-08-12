@@ -1,0 +1,66 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>电话管理</a>
+        <a><cite> 电话列表</cite></a>
+    </span>
+</div>
+<button class="layui-btn layui-btn-normal marginT" id='submit' lay-submit lay-filter="*">立即添加</button>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        table.render({
+            elem: '#test'
+            ,url:'{:url("Phone/phoneList")}'
+            ,limit: 10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'phone_id', width:200, title: '手机id'}
+                ,{width:100, title: '序号',type:'numbers'}
+                ,{field:'phone_name',width:200, title: '手机号名称'}
+                ,{field:'phone',width:200, title: '手机号'}
+                ,{field:'ctime',width:200, title: '手机号添加时间'}
+                ,{field:'right', width:200,toolbar: '#barDemo', title:'操作'}
+            ]],
+             done: function () {
+                $("[data-field='phone_id']").css('display','none');
+            },
+            page: true
+        });
+         $('#submit').click(function(){
+            location.href="{:url('Phone/phoneAdd')}";
+        })
+        //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'detail'){ //查看
+                location.href="{:url('Phone/phoneUpdateInfo')}?phone_id="+data.phone_id;
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.post(
+                            '{:url("Phone/phoneDel")}',
+                            {phone_id:data.phone_id},
+                            function(msg){
+                                layer.msg(msg.font,{icon:msg.code});
+                                 if(msg.code==1){
+                                 table.reload('test');
+                                 }
+                            },'json'
+                    )
+                });
+            }
+        })
+
+        $('.layui-table').on('click','tr',function(){
+          $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    });
+</script>

@@ -1,0 +1,394 @@
+<style type="text/css">
+    .marginTs{
+        margin-top: 30px;
+    }
+
+
+
+
+    .images{
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+    }
+    .layui-img-div{
+        text-align:center;
+    }
+    .layui-title-div{
+        color: #FF5454;
+        font-size: 20px;
+        margin: 10px 0;
+    }
+    .layui-title2-div{
+        font-size: 20px;
+        margin-bottom: 30px;
+
+    }
+    .layui-title3-div{
+        font-size: 18px;
+        font-weight: bold; 
+        margin-bottom: 20px;
+    }
+    .layui-title4-div{
+        font-size: 10px;
+    }
+</style>
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>押金管理</a>
+        <a><cite> 押金列表</cite></a>
+    </span>
+</div>
+
+
+<div class="search-table layui-form">
+    <div class="layui-inline">
+        <select name="district_id"  id="search-district" lay-search="">
+            <option value="">请选择小区</option>
+            {volist name="districts" id='district'}
+            <option value="{$district.id}">{$district.name}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-inline">
+        <select name="complex"  id="search-key" >
+            <option value="" >请选择区</option>
+            {volist name="area" id='area'}
+            <option value="{$area}">{$area}</option>
+            {/volist}
+        </select>
+    </div>
+     <div class="layui-input-inline">
+        <input type="text" name="order_no" required  placeholder="请输入订单号" autocomplete="off" class="layui-input">
+      </div>
+   <div class="layui-input-inline">
+        <input type="text" name="home_code" required  placeholder="请输入楼/单元/户号" autocomplete="off" class="layui-input">
+      </div>
+      <div class="layui-input-inline">
+        <input type="text" name="user_name" required  placeholder="请输入业主姓名" autocomplete="off" class="layui-input">
+      </div>
+
+    <button class="layui-btn" lay-submit id="sousuo" lay-filter="*">搜索</button>
+</div>
+
+
+<button class="layui-btn layui-btn-normal marginTs" id='submit' lay-submit lay-filter="*">立即添加</button>
+<!-- <button id='send' class="layui-btn layui-btn-normal" lay-submit lay-filter="*">到期提醒</button> -->
+<table class="layui-hide" id="test" lay-filter="testdd"></table>
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-xs" lay-event="pos">订单支付</a>
+      <!-- <a class="layui-btn layui-btn-xs" lay-event="money">现金支付</a> -->
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="refund">退款</a> -->
+</script>
+<script>
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var tmer;
+
+
+
+        var ids = 0;
+        //自动点击.
+        $(document).ready(function(){    
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                            var page = localStorage.getItem('page');
+                        table.reload('test', {
+                            page: {
+                                curr: page //重新从第 1 页开始
+                            }
+                        }); //只重载数据
+                        localStorage.clear();
+            }
+        });
+
+        // table.render({
+        //     elem: '#test'
+        //     ,url:"{:url('Deposit/depositInfo')}"
+        //     ,limit:10
+        //     ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        //     ,cols: [[
+        //         {field:'id', width:100, title: '押金ID', sort: true}
+        //         ,{width:100, title: '序号',type:'numbers'}
+        //         ,{field:'order_no', width:200, title: '订单号'}
+        //         ,{field:'user_name', width:100, title: '业主姓名'}
+        //         ,{field:'home_name', width:220, title: '房屋信息'}
+        //         ,{field:'msg', width:200, title: '订单标题'}
+        //         ,{field:'cost_info', width:400, title: '费用明细'}
+        //         ,{field:'pay_status', width:100, title: '押金状态'}
+        //         ,{field:'fee', width:100, title: '押金金额'}
+        //         ,{field:'refund_money', width:100, title: '退款金额'}
+        //         ,{field:'title', width:300, title: '押金备注'}
+        //         ,{field:'ctime', width:200, title: '创建时间'}
+        //         ,{field:'right', width:200,toolbar: '#barDemo', title: '操作'}
+        //     ]],
+        //     done: function () {
+        //         $("[data-field='id']").css('display','none');
+        //     }
+        //     ,page: true
+        // });
+        $('#send').click(function(){
+        	 layer.msg('发送成功',{icon:1});
+        });
+         $('#submit').click(function(){
+            location.href="{:url('Deposit/depositAdd')}";
+        })
+        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            $('body').on('click','.images',function(){
+
+
+
+                $.post(
+                        "{:url('Deposit/phpqrcode')}",
+                        {id:data.id},
+                        function (msg) {
+                            if (msg.code == 1) {
+                                $('.images').attr('src','data:image/png;base64,'+msg.font.img);
+                                $('.layui-title-div').text('支付中，请勿关闭窗口！');
+                                $('#div-order').text(msg.font.order_no);
+                                clearInterval(tmer);
+                                setTimeout(function () {
+                                    console.log(123);
+                                    setTimeouts(msg.font.order_no);
+                                }, 1000);
+                                
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+                        },
+                'json'
+                )
+            })
+
+
+            if (layEvent === 'edit') { //查看
+                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
+                location.href="{:url('Deposit/depositUpdateInfo')}?id="+data.id+"&page="+pages;
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    $.post(
+                            "{:url('Deposit/depositDel')}",
+                            {deposit_id: data.id},
+                            function (msg) {
+                                layer.msg(msg.font,{icon:msg.code});
+                                if(msg.code==1){
+                                    table.reload('test');
+                                }
+                            },
+                    'json'
+                    )
+                });
+            } else if (layEvent === 'pos') {
+            	/*$.post(
+            	        "{:url('Deposit/phpqrcode')}",
+            	        {id: data.id},
+            	        function (msg) {
+            	        	if (msg.code == 1) {
+            	        		layer.tab({
+            	        		  area: ['200px', '200px'],
+            	        		  tab: [{
+            	        		    title: 'pos支付', 
+            	        		    content: "<img src='data:image/png;base64,"+msg.font.img+"'  />"
+            	        		  }]
+            	        		});  
+            	        	} else {
+            	        		layer.msg(msg.font,{icon:msg.code});
+            	        	}
+            	        },
+            	'json'
+            	)*/
+                imgpay(data.id);
+            } else if (layEvent === 'refund') {
+                layer.confirm('确定退款吗？', function (index) {
+                    $.post(
+                        "{:url('Deposit/depositRefund')}",
+                        {id: data.id},
+                        function (msg) {
+                            if (msg.code == 1) {
+                                layer.msg(msg.font,{icon:msg.code});
+                                table.reload('test');
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+                       },
+                    'json'
+                    )    
+                });
+            	
+            } else if (layEvent == 'money') {
+                    $.post(
+                            "{:url('Deposit/depositUps')}",
+                            {id: data.id,status:1},
+                            function (msg) {
+                                if (msg.code == 3) {
+                                     layer.msg(msg.font,{icon:msg.code});
+                                     return false;
+                                }
+
+                                layer.open({
+                                    type: 1
+                                    ,title: '现金缴费' //不显示标题栏
+                                    ,closeBtn: false
+                                    ,area: '600px;'
+                                    ,shade: 0.8
+                                    ,id: 'modal-insert' //设定一个id，防止重复弹出
+                                    ,btn: ['确定', '关闭']
+                                    ,btnAlign: 'c'
+                                    ,moveType: 1 //拖拽模式，0或者1
+                                    ,content: '<form class="layui-form" style="margin-top: 10px" action="">\n' +
+                                    '  <div class="layui-form-item">\n' +
+                                    '    <label class="layui-form-label">缴费金额</label>\n' +
+                                    '    <div class="layui-input-block">\n' +
+                                    '      <input id="district-modal-value" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入缴费金额" class="layui-input">\n' +
+                                    '    </div>\n' +
+                                    '  </div>'
+                                    ,yes: function(){
+                                        $.post("{:url('Deposit/depositUps')}",{name:$("#district-modal-value").val(),id: data.id,status:2},function(data){
+                                            if (data.code==1)
+                                            {
+                                                layer.msg(data.font, {
+                                                  icon: data.code,
+                                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                                }, function(){
+                                                    layer.closeAll();
+                                                    
+                                                    table.reload('test');
+                                                });
+                                            }
+                                            
+
+                                        },'json');
+                                    }
+                                    ,success: function(layero){
+
+                                    }
+                                });
+
+
+                            },
+                    'json'
+                    )
+
+
+                    
+            }
+        })
+
+
+        form.on('submit(*)', function(data){
+          table.render({
+              elem: '#test'
+              ,url:"{:url('Deposit/depositNewList')}"
+              ,where:data.field
+              ,limit:10
+              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,cols: [[
+              {field:'id', width:100, title: '押金ID', sort: true}
+                ,{width:100, title: '序号',type:'numbers'}
+                ,{field:'order_no', width:200, title: '订单号'}
+                ,{field:'user_name', width:100, title: '业主姓名'}
+                ,{field:'home_name', width:220, title: '房屋信息'}
+                ,{field:'msg', width:200, title: '订单标题'}
+                ,{field:'cost_info', width:400, title: '费用明细'}
+                ,{field:'pay_status', width:100, title: '押金状态'}
+                ,{field:'fee', width:100, title: '押金金额'}
+                ,{field:'refund_money', width:100, title: '退款金额'}
+                ,{field:'title', width:300, title: '押金备注'}
+                ,{field:'ctime', width:200, title: '创建时间'}
+                ,{field:'right', width:200,toolbar: '#barDemo', title: '操作'}
+            ]],
+            done: function () {
+                $("[data-field='id']").css('display','none');
+                $('.layui-table').on('click','tr',function(){
+                  $(this).css('background','#ccc').siblings().css('background','#fff');
+                });
+            }
+            ,page: true
+          });
+        });
+
+            $('.layui-table').on('click','tr',function(){
+              $(this).css('background','#ccc').siblings().css('background','#fff');
+            });
+
+
+
+
+
+
+
+
+
+
+            function imgpay(id){
+                $.post(
+                        "{:url('Deposit/phpqrcode')}",
+                        {id:id},
+                        function (msg) {
+                            if (msg.code == 1) {
+                                layer.tab({
+                                  area: ['500px', '500px'],
+                                  tab: [{
+                                    title: '订单支付', 
+                                    content: "<div class='layui-img-div'><img class='images' src='data:image/png;base64,"+msg.font.img+"'  /><div class='layui-title-div'>支付中，请勿关闭窗口！</div><div class='layui-title2-div'>更换交易方式，重新扫描此二维码即可。</div><div class='layui-title3-div'>特殊情况，请按下边提示操作</div><div class='layui-title4-div'>情况1：当已打印交易凭证，系统未更新状态，请联系管理人员</div><div class='layui-title4-div'>情况2：当系统显示收款成功，单未打印凭证，请去对应的订单列表打印凭证</div></div>"
+                                  }],
+                                  end:function(){ 
+                                        clearInterval(tmer);
+                                        return false;
+                                    }
+                                });
+
+                                
+                                setTimeouts(msg.font.order_no);
+
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+                        },
+                'json'
+                )
+            }
+
+            function setTimeouts(order_no){
+                setTimeout(
+                        function()
+                        {
+                            clearInterval(tmer), layer.msg('二维码已过期，请刷新二维码',{icon:1}),$('.images').attr('src','__IMG__/order.png'),$('.layui-title-div').text('二维码已过期，请刷新二维码！');
+                        },
+                        120000
+                );
+                tmer = setInterval(function(){
+                    $.post(
+                        '{:url("Orderno/orderSel")}',
+                        {order:order_no},
+                        function(msg){
+                            if (msg.code == 2) {
+                                layer.msg(msg.font,{icon:msg.code});
+                                 clearInterval(tmer);
+                                 return false;
+                            }
+                            if (msg.code == 1) {
+                                alert('支付成功！');
+                                clearInterval(tmer);
+                                layer.closeAll();
+                                table.reload('test');
+                                // location.href='{:url("Deposit/depositList")}';
+                                
+                            }
+                        },'json'
+                    )
+                }, 1000);
+
+            }
+
+
+    })
+</script>

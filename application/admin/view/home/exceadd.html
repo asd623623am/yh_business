@@ -1,0 +1,67 @@
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件名称<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="fileName"  autocomplete="off" placeholder="请输入名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">表头名称<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="tableName"  autocomplete="off" placeholder="请输入表头" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">请选择小区</label>
+        <div class="layui-input-block">
+          <select name="dis">
+            <option value="">请选择小区</option>
+            {volist name="dis" id='v'}
+            <option value="{$v.id}">{$v.name}</option>
+            {/volist}
+          </select>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+          <label class="layui-form-label">请选择区</label>
+          <div class="layui-input-block">
+            <select name="qu">
+                <option value="">请选择区</option>
+                {volist name="area" id='area'}
+                <option value="{$area}">{$area}</option>
+                {/volist}
+            </select>
+          </div>
+        </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即生成Excel</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            	$('#up').click(function(){
+            	    location.href="{:url('Home/homeList')}";
+            	});
+            //监听提交
+            form.on('submit(*)',function(data){
+            	var newtemp = data.field;
+            	location.href="{:url('Home/exportExcel')}?fileName="+newtemp.fileName+"&tableName="+newtemp.tableName+"&dis="+newtemp.dis+"&qu="+newtemp.qu;
+            	return false;
+            })
+        });
+    })
+
+</script>

@@ -1,0 +1,293 @@
+<form class="layui-form">
+<input type="text" name="id" hidden="hidden" value="{$data.id}">
+<input type="text" id="page" hidden='hidden' value="{$page}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">收款标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" value="{$data.title}" autocomplete="off" placeholder="请输入标题" class="layui-input">
+        </div>
+    </div>
+     <span id="did" hidden="hidden">{$data.district_id}</span>
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费小区</label>
+        <div class="layui-input-block">
+          <select name="dis" lay-filter="filter" id="names">
+            <option value="">请选择小区</option>
+            {volist name="dis" id='v'}
+            <option value="{$v.id}">{$v.name}</option>
+            {/volist}
+          </select>
+        </div>
+      </div>
+    <span id='complexval' hidden="hidden">{$data.complex}</span>
+    <div class="layui-form-item">
+    <label class="layui-form-label">收费区</label>
+    <div class="layui-input-block">
+        {volist name="area" id='area'}
+        <input type="radio" name="complex" value="{$area}" title="{$area}">
+        {/volist}
+      
+      <!-- <input type="radio" name="complex" value="乙" title="乙">
+      <input type="radio" name="complex" value="丙" title="丙">
+      <input type="radio" name="complex" value="丁" title="丁">
+      <input type="radio" name="complex" value="四期" title="四期">
+      <input type="radio" name="complex" value="四期商业" title="四期商业"> -->
+    </div>
+  </div>
+
+      <div class="layui-form-item">
+           <label class="layui-form-label">输入楼号</label>
+           <div class="layui-input-block">
+               <input type="text" name="home_code" value="{$data.home_code}"  autocomplete="off" placeholder="输入楼号" class="layui-input">
+           </div>
+       </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费年</label>
+        <div class="layui-input-block">
+               <input type="text" name="paytime" value="{$data.paytime}" autocomplete="off" placeholder="输入收费年" class="layui-input">
+           </div>
+    </div>  
+
+    <span id='typeclass' hidden="hidden">{$data.type}</span>
+    <div class="layui-form-item">
+    <label class="layui-form-label">选择分类</label>
+    <div class="layui-input-block">
+
+
+        {if condition="$ro==1"}
+      <input type="radio" name="type" lay-filter="erweima" value="0" title="物业">
+      <input type="radio" name="type" lay-filter="erweima" value="1" title="供暖" disabled="disabled">
+       {/if}
+        {if condition="$ro==2"}
+      <input type="radio" name="type" lay-filter="erweima" value="0" title="物业" disabled="disabled">
+      <input type="radio" name="type" lay-filter="erweima" value="1" title="供暖">
+       {/if}
+         {if condition="$ro==3"}
+       <input type="radio" name="type" lay-filter="erweima" value="0" title="物业">
+       <input type="radio" name="type" lay-filter="erweima" value="1" title="供暖">
+        {/if}
+
+    </div>
+  </div>
+
+
+  <div class="layui-form-item" id="layui-wu" hidden="hidden">
+      <div class="layui-inline">
+          <label class="layui-form-label">物业：</label>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="wfee" value="{$data.fee}" placeholder="请输入价格"  autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 68px;">
+              <input type="text" name=""  style="border:0;outline:0;" value="房屋面积" disabled="disabled" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 25px;">
+              <input type="text" name="month" value="12"  style="border:0;outline:0;" disabled="disabled" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">个月</div>
+          <div class="layui-form-mid">+</div>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="wcost" value="{$data.cost}" autocomplete="off" placeholder="请输入费用" class="layui-input">
+          </div>
+          <div class="layui-form-mid">其他费用</div>
+      </div>
+  </div>
+
+
+
+
+  <div class="layui-form-item" id='layui-gong' hidden="hidden">
+      <div class="layui-inline">
+          <label class="layui-form-label">供暖：</label>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="gfee" value="{$data.fee}" placeholder="请输入价格"  autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 80px;">
+              <input type="text" name="" value="房屋面积" style="border:0;outline:0;" disabled="disabled" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">X</div>
+          <div class="layui-input-inline" style="width: 100px;">
+              <input type="text" name="gcost" value="{$data.cost}" autocomplete="off" class="layui-input">
+          </div>
+          <div class="layui-form-mid">系数</div>
+      </div>
+  </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">赔偿项</label>
+        <div class="layui-input-block">
+            <input type="text" name="compensation" value="{$data.compensation}" autocomplete="off" placeholder="请输入赔偿项" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">凭证号</label>
+        <div class="layui-input-block">
+            <input type="text" name="voucher" value="{$data.voucher}" autocomplete="off" placeholder="请输入凭证号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">缴费周期</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="start_at" value="{$data.start_at}"  autocomplete="off" id="start_at"  lay-verify="required" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="end_at" value="{$data.end_at}" autocomplete="off" id="end_at"  lay-verify="required" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+
+      <span id='invoice_status' hidden="hidden">{$data.invoice_status}</span>
+      <div class="layui-form-item">
+      <label class="layui-form-label">发票状态</label>
+      <div class="layui-input-block">
+        <input type="radio" name="invoice_status" value="1" title="未开发票">
+        <input type="radio" name="invoice_status" value="2" title="手动开发票">
+      </div>
+    </div>
+
+<!--     {if condition="$data.pay_status==0"}
+      <div class="layui-form-item">
+          <label class="layui-form-label">选择缴费</label>
+          <div class="layui-input-block">
+             <input type="radio" name="pay_status" value="1" title="现金支付">
+             <input type="radio" name="pay_status" value="0" title="否" checked>
+          </div>
+      </div>
+      <div class="layui-form-item">
+          <label class="layui-form-label">收款金额</label>
+          <div class="layui-input-block">
+              <input type="text" name="money" autocomplete="off" placeholder="请输入收款金额" class="layui-input">
+          </div>
+      </div>
+    {else/} -->
+    <!-- <input type="radio" name="brand_show" value="1" title="是">
+    <input type="radio" name="brand_show" value="0" title="否" checked> -->
+    <!-- {/if} -->
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即保存</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+             var laydate = layui.laydate;
+            	$('#up').click(function(){
+                    var page = $('#page').val();
+                    localStorage.setItem('page',page);
+                    window.history.back();
+            	    // location.href="{:url('Orderno/paymentList')}?page="+page+"";
+            	});
+
+              var up = $('#did').text();
+               var checkbox = $('#checkbox').text();
+              $("#names").find("option[value='"+up+"']").attr("selected",true);
+
+
+            // $("input[name=is_notice][value=1]").prop("checked","false");
+            var complexval = $('#complexval').text();
+            $("input[name=complex][value="+complexval+"]").prop("checked","true");
+            var typeclass = $('#typeclass').text();
+
+            if (typeclass == 0) {
+              $('#layui-wu').show();
+              $('#layui-gong').hide();
+
+            } else {
+              $('#layui-gong').show();
+              $('#layui-wu').hide();
+            }
+
+            $("input[name=type][value="+typeclass+"]").prop("checked","true");
+            var invoice_status = $('#invoice_status').text();
+            $("input[name=invoice_status][value="+invoice_status+"]").prop("checked","true");
+
+              form.on('radio(erweima)', function (data) {
+                    $("[name='wfee']").val('');
+                    $("[name='gfee']").val('');
+                    $("[name='wcost']").val('');
+                    $("[name='gcost']").val(1);
+                    if (data.value == 0) {
+                      $('#layui-wu').show();
+                      $('#layui-gong').hide();
+                    } else {
+                      $('#layui-gong').show();
+                      $('#layui-wu').hide();
+                    }
+                });
+              form.render();
+              // $("input[name='sex'][value="+checkbox+"]").prop("checked",true);
+                //执行一个laydate实例
+                  laydate.render({
+                    elem: '#test1' //指定元素
+                  });
+                  //常规用法
+                  laydate.render({
+                      elem: '#start_at'
+                  });
+                  laydate.render({
+                      elem: '#end_at'
+                  });
+                
+                var qu ='';  //定义一个空值
+                form.on('checkbox(filter)', function(data){
+                    qu += data.value+'+';
+                });   
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                // console.log(info);
+                // return false;
+                
+                layer.confirm('您确认修改吗？', function(index){
+                        
+                        $.post(
+                        "{:url('Orders/paymentUp')}",
+                        info,
+                        function(msg){
+
+                            if(msg.code==1){
+                                layer.msg(msg.font, {
+                                  icon: msg.code,
+                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                    var page = $('#page').val();
+                                    localStorage.setItem('page',page);
+                                    window.history.back();
+                                    // var page = $('#page').val();
+                                    // location.href="{:url('Orderno/paymentList')}?page="+page+"";
+                                });
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+
+
+                            console.log(msg);
+                        },'json'
+                )
+                
+
+                });
+                
+                return false;
+            })
+        });
+    })
+
+</script>

@@ -1,0 +1,118 @@
+
+<div style="padding: 20px; background-color: #F2F2F2;">
+<span class="layui-breadcrumb">
+    <a href='#'>收费管理</a>
+    <a href='{$show.back_url}'>{$show.back_title}</a>
+    <a><cite>{$show.title}</cite></a>
+</span>
+</div>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <form class="layui-form">
+            <input type="hidden" name="id" value="{$data.id}">
+            <input type="hidden" name="type" value="{$data.type}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">房屋</label>
+                <div class="layui-input-block">
+                    {if !empty($data["id"])}
+                    <input type="hidden" name="house_id" value="{$data.house_id}">
+                    <input type="text"  value="{$data.house}" readonly  class="layui-input">
+                    {else/}
+                    <select name="house_id"  lay-filter="get-house" lay-verify="required" lay-search="">
+                        <option value=""></option>
+                        {volist name="houseList" id='house' empty="暂时没有数据" }
+                        <option class="choose-house" value="{$house.id}" data-fee="{$house.fee}">{$house.owner}-{$house.house}</option>
+                        {/volist}
+                    </select>
+                    {/if}
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title"  value="{$data.title}" autocomplete="off" lay-verify="required"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">应缴金额</label>
+                <div class="layui-input-block">
+                    <input type="text" id="fee" name="fee" value="{$data.fee}"  autocomplete="off" lay-verify="required|number"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">赔偿项</label>
+                <div class="layui-input-block">
+                    <input type="text" name="compensation" value="{$data.compensation}"  autocomplete="off"  class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">凭证号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="voucher" value="{$data.voucher}"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">期限</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="start_at" value="{$data.start_at}"  autocomplete="off" id="start_at"  lay-verify="required" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="end_at" value="{$data.end_at}" autocomplete="off" id="end_at"  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发布</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="status" lay-filter="switch-status"  lay-skin="switch" lay-text="发布|未发布" {if $data['status']==1}checked{/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <a class="layui-btn  layui-btn-primary"   href="javascript:history.go(-1)">  <i class="layui-icon">&#xe65c;</i>返回</a>
+                    <button class="layui-btn" lay-submit lay-filter="submit">{if condition="empty($data['id'])"}添加{else /}修改{/if}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        layui.use(['form','layer','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+
+            //常规用法
+            laydate.render({
+                elem: '#start_at'
+            });
+            laydate.render({
+                elem: '#end_at'
+            });
+            //监听提交
+            form.on('submit(submit)',function(data){
+                $.post("{$show.submit_url}",data.field,function(data){
+                    layer.msg(data.msg,{time:1000},function(){
+                        if(data.code==0) {
+                            location.href = "{$show.back_url}";
+                        }
+                    });
+                },'json');
+                return false;
+            });
+            form.on('select(get-house)',function(data){
+                var fee=$(data.elem[data.elem.selectedIndex]).data("fee");
+                $("#fee").val(fee);
+            });
+            form.on('switch(switch-status)', function(data){
+                $("input[name='status']").val(this.checked ?1:0);
+            });
+        });
+    })
+
+</script>

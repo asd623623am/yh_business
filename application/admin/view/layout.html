@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>小码旺铺物业版管理系统后台</title>
+    <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
+    <script src="__STATIC__/jquery-3.2.1.min.js"></script>
+    <script src="__STATIC__/layui.js"></script>
+    
+</head>
+<style type="text/css">
+    .layui-table img {
+        max-width: 150px;
+        min-height: 100%;
+    }
+    .layui-table-cell{
+        height: auto!important;
+        white-space: normal;
+    }
+    .layui-body{
+        flex: 1;
+    }
+</style>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头部布局-->
+    {include file="public/head" /}
+    <!--左边布局-->
+    {include file="public/left" /}
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            {__CONTENT__}
+        </div>
+    </div>
+
+    </div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        Copyright©2020北京银河一然商务有限公司.All rights reserved.
+      </div>
+</div>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+</script>
+</body>
+</html>
+<script src="__STATIC__/public.js"></script>

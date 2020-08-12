@@ -1,0 +1,105 @@
+<style type="text/css">
+    #district-modal-value{
+        width: 90%;
+    }
+</style>
+
+<div>
+    <span class="layui-breadcrumb">
+      <a href='#'>会员管理</a>
+      <a><cite> 会员列表</cite></a>
+    </span>
+</div>
+
+
+<button class="layui-btn layui-btn-normal marginT" id='submit' lay-submit lay-filter="*">添加新会员</button>
+<button class="layui-btn layui-btn-normal marginT" id='submit' lay-submit lay-filter="*">导出会员（excel）</button>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use(['table','upload','layer'], function(){
+
+        var table = layui.table;
+        var layer = layui.layer;
+
+        table.render({
+            elem: '#test'
+            ,url:'{:url("Home/district")}'
+            ,limit: 10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {width:100, title: '序号',type:'numbers'},
+                {field:'id',width:100,sort: true, align: 'center', title: 'ID'},
+                {field:'name',align: 'center', title: '小区名称'},
+                {field:'ctime',sort: true,align: 'center', title: '创建时间'},
+                {field:'right',toolbar: '#barDemo',align: 'center', title:'操作'},
+            ]],
+            done: function () {
+                $("[data-field='id']").css('display','none');
+            },
+            page: true
+        });
+
+        $('#submit').click(function(){
+                        layer.open({
+                            type: 1
+                            ,title: '新增小区' //不显示标题栏
+                            ,closeBtn: false
+                            ,area: '600px;'
+                            ,shade: 0.8
+                            ,id: 'modal-insert' //设定一个id，防止重复弹出
+                            ,btn: ['确定', '关闭']
+                            ,btnAlign: 'c'
+                            ,moveType: 1 //拖拽模式，0或者1
+                            ,content: '<form class="layui-form" style="margin-top: 10px" action="">\n' +
+                            '  <div class="layui-form-item">\n' +
+                            '    <label class="layui-form-label">小区名称</label>\n' +
+                            '    <div class="layui-input-block">\n' +
+                            '      <input id="district-modal-value" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入小区名称" class="layui-input">\n' +
+                            '    </div>\n' +
+                            '  </div>'
+                            ,yes: function(){
+                                $.post("{:url('districtAdd')}",{name:$("#district-modal-value").val()},function(data){
+                                    layer.msg(data.msg);
+                                    if (data.code==0)
+                                    {
+                                        setTimeout(function(){
+                                            table.reload('district', {page: {curr: 1},where: {}}, 'data');
+                                            layer.closeAll();
+                                        },1000)
+                                        table.reload('test');
+                                    }
+
+                                },'json');
+                            }
+                            ,success: function(layero){
+
+                            }
+                        });
+        });
+
+        // //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if(layEvent === 'del'){ //删除
+                layer.confirm('确定要删除该小区信息吗?', function(index){
+                    $.post("{:url('districtDel')}",{id:data.id},function(data){
+                        layer.msg(data.msg);
+                        if(data.code==0){
+                            table.reload('test');
+                        }
+                    },'json');
+                });
+            }
+        });
+
+        $('.layui-table').on('click','tr',function(){
+          $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    });
+</script>

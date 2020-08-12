@@ -1,0 +1,199 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>数据报表</a>
+        <a><cite> 数据列表</cite></a>
+    </span>
+</div>
+
+<div class="search-table layui-form">
+    <div class="layui-inline">
+        <select name="dis"  id="search-district" lay-search="">
+            <option value="">请选择小区</option>
+            {volist name="dis" id='v'}
+            <option value="{$v.id}">{$v.name}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-inline">
+        <select name="qu"  id="search-key" >
+            <option value="" >请选择区</option>
+            {volist name="area" id='area'}
+            <option value="{$area}">{$area}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-inline">
+        <select name="type"  id="search-key" >
+            <option value="">请选择收费类型</option>
+            <option value="0">物业</option>
+            <option value="1">供暖</option>
+        </select>
+    </div>
+
+
+
+        <div class="layui-inline">
+            <div class="layui-input-inline" style="width: 150px;">
+                <input type="text" name="start_at" value="" placeholder="请输入开始时间"  autocomplete="off" id="start_at"   class="layui-input">
+            </div>
+            <div class="layui-input-inline" style="width: 150px;">
+                <input type="text" name="end_at" value="" placeholder="请输入结束时间" autocomplete="off" id="end_at"  class="layui-input">
+            </div>
+        </div>
+
+
+    <button class="layui-btn" lay-submit lay-filter="*">搜索</button>
+</div>
+<button id='send' class="layui-btn layui-btn-normal marginT" lay-submit lay-filter="*">导出台账</button>
+<button id='senddatainfo' class="layui-btn layui-btn-normal marginT" lay-submit lay-filter="*">导出月/年报表</button>
+<table class="layui-hide" id="test" lay-filter="testdd"></table>
+<!-- <script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-xs" lay-event="pos">查看</a>
+</script> -->
+<script>
+    layui.use(['table','layer','laydate'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+          laydate.render({
+            elem: '#test1' //指定元素
+          });
+          //常规用法
+          laydate.render({
+              elem: '#start_at'
+          });
+          laydate.render({
+              elem: '#end_at'
+          });
+
+        table.render({
+            elem: '#test'
+            ,url:"{:url('Data/dataList')}"
+            ,limit:10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                { width:100, title: '序号', type:'numbers'}
+                ,{field:'user', width:100, title: '业主姓名'}
+                ,{field:'area', width:50, title: '区'}
+                ,{field:'area_num', width:150, title: '楼/单元/户号'}
+                ,{field:'volume', width:100, title: '面积'}
+                ,{field:'status', width:100, title: '缴费状态'}
+                // ,{field:'status',width:200, title: '缴费状态',templet: function(d){
+                //     if (d.status == '未缴费') {
+                //         return '<span style="color:#000">'+d.status+'</span>';
+                //     } else if (d.status == '已缴费') {
+                //         return '<span style="color:#22DD48">'+d.status+'</span>';
+                //     } else if (d.status == '已退款') {
+                //         return '<span style="color:#FF0000">'+d.status+'</span>';
+                //     }
+                // }}
+                
+                ,{field:'deposit_money', width:100, title: '缴费金额'}
+                ,{field:'net_money', width:100, title: '实收金额'}
+                ,{field:'compensate', width:100, title: '赔偿'}
+                ,{field:'pay_times', width:180, title: '缴费时间'}
+                // ,{field:'month', width:100, title: '交费月'}
+                ,{field:'voucher', width:100, title: '凭证号'}
+                // ,{field:'net_deposit_num', width:100, title: '实收人数'}
+                
+                // ,{field:'owe_num', width:100, title: '欠费人'}
+                // ,{field:'owe_money', width:100, title: '欠费金额'}
+                ,{field:'ctime', width:150, title: '入住时间'}
+                ,{field:'pay_time', width:220, title: '缴费周期'}
+                // ,{field:'right', width:250,toolbar: '#barDemo', title: '操作'}
+            ]]
+            ,page: true
+        });
+        $('#send').click(function(){
+        	location.href="{:url('Data/exceAdd')}";
+        	 // layer.msg('正在下载Excel表，请稍等',{icon:1});
+          return false;
+        });
+
+        $('#senddatainfo').click(function(){
+          location.href="{:url('Data/dataExcea')}";
+          return false;
+        })
+        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            if (layEvent === 'edit') { //查看
+                location.href="{:url('Deposit/depositUpdateInfo')}?deposit_id="+data.deposit_id;
+            } else if (layEvent === 'del') { //删除
+               
+            } else if (layEvent === 'pos') {
+            	
+            } else if (layEvent === 'refund') {
+            }
+        })
+
+        form.on('submit(*)', function(data){
+          /*$.post(
+                  '{:url("Data/dataNewList")}',
+                  data.field,
+                  function(msg){
+                      layer.msg(msg.font,{icon:msg.code});
+                       if(msg.code==1){
+                       table.reload('test');
+                       }
+                  },'json'
+          )*/
+          table.render({
+              elem: '#test'
+              ,url:"{:url('Data/dataNewList')}"
+              ,where:data.field
+              ,limit:10
+              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,cols: [[
+                  { width:100, title: '序号', type:'numbers'}
+                ,{field:'user', width:100, title: '业主姓名'}
+                ,{field:'area', width:50, title: '区'}
+                ,{field:'area_num', width:150, title: '楼/单元/户号'}
+                ,{field:'volume', width:100, title: '面积'}
+                ,{field:'status', width:100, title: '缴费状态'}
+                // ,{field:'status',width:200, title: '缴费状态',templet: function(d){
+                //     if (d.status == '未缴费') {
+                //         return '<span style="color:#000">'+d.status+'</span>';
+                //     } else if (d.status == '已缴费') {
+                //         return '<span style="color:#22DD48">'+d.status+'</span>';
+                //     } else if (d.status == '已退款') {
+                //         return '<span style="color:#FF0000">'+d.status+'</span>';
+                //     }
+                // }}
+                
+                ,{field:'deposit_money', width:100, title: '缴费金额'}
+                ,{field:'net_money', width:100, title: '实收金额'}
+                ,{field:'compensate', width:100, title: '赔偿'}
+                ,{field:'pay_times', width:180, title: '缴费时间'}
+                // ,{field:'month', width:100, title: '交费月'}
+                ,{field:'voucher', width:100, title: '凭证号'}
+                // ,{field:'net_deposit_num', width:100, title: '实收人数'}
+                
+                // ,{field:'owe_num', width:100, title: '欠费人'}
+                // ,{field:'owe_money', width:100, title: '欠费金额'}
+                ,{field:'ctime', width:150, title: '入住时间'}
+                ,{field:'pay_time', width:220, title: '缴费周期'}
+                // ,{field:'right', width:250,toolbar: '#barDemo', title: '操作'}
+              ]],
+            done: function () {
+                $('.layui-table').on('click','tr',function(){
+                  $(this).css('background','#ccc').siblings().css('background','#fff');
+                });
+            }
+              ,page: true
+          });
+
+
+          console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        $('.layui-table').on('click','tr',function(){
+          $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    })
+</script>

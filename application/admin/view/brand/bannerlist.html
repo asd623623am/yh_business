@@ -1,0 +1,73 @@
+<!-- layui-icon-refresh-3 -->
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>内容管理</a>
+        <a><cite> 轮播图列表</cite></a>
+    </span>
+</div>
+     <button class="layui-btn layui-btn-normal marginT" id='submit' lay-submit lay-filter="*">立即添加</button>
+     <!-- <button class="layui-btn layui-btn-normal layui-icon layui-icon-refresh-3" lay-submit lay-filter="*"></button> -->
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        table.render({
+            elem: '#test'
+            ,url:'{:url("Brand/bannerList")}'
+            ,limit: 10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'banner_id', width:80, title: 'banner_id'}
+                ,{width:100, title: '序号',type:'numbers'}
+                ,{field:'banner_url[1]',width:300,title:'内容logo',templet:'<div><img src="__PUBLIC__/{{d.banner_url[1]}}"></div>'}
+                // ,{field:'banner_url[2]',width:150,title:'内容logo',templet:'<div><img src="__PUBLIC__/{{d.banner_url[2]}}"></div>'}
+                // ,{field:'banner_url[3]',width:150,title:'内容logo',templet:'<div><img src="__PUBLIC__/{{d.banner_url[3]}}"></div>'}
+                ,{field:'ctime',width:200, title: '内容添加时间'}
+                // ,{field:'brand_sort',width:60, title: '排序'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+            ]],
+            done: function () {
+                $("[data-field='banner_id']").css('display','none');
+            },
+            page: true
+        });
+
+        $('#submit').click(function(){
+            location.href="{:url('Brand/bannerAdd')}";
+        });
+
+
+        //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'detail'){ //查看
+               
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.post(
+                            '{:url("Brand/bannerDel")}',
+                            {banner_id:data.banner_id},
+                            function(msg){
+                                layer.msg(msg.font,{icon:msg.code});
+                                 if(msg.code==1){
+                                 table.reload('test');
+                                 }
+                            },'json'
+                    )
+                });
+            }
+        })
+
+
+        $('.layui-table').on('click','tr',function(){
+          $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    });
+</script>

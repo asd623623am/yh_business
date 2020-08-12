@@ -1,0 +1,229 @@
+<style>
+    .big-size span {
+        font-size: 18px;
+
+    }
+
+    .input-left {
+        left: -55px;
+        top: 10px;
+    }
+
+    .layui-form-item {
+        margin-bottom: 25px;
+    }
+</style>
+<form class="layui-form">
+    <input type="hidden" id='role_id' name='role_id' value="{$data.role_id}">
+    <input type="text" id='page' hidden="hidden" value="{$page}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="role_name" lay-verify="required" autocomplete="off"
+                   placeholder="请输入角色名称" value="{$data.role_name}" class="layui-input">
+        </div>
+    </div>
+    <span id='typeclass' hidden="hidden">{$data.is_admin}</span>
+    <div class="layui-form-item">
+        <label class="layui-form-label">超级管理员</label>
+        <div class="layui-input-block">
+            <input type="radio" name="is_admin" value="1" title="是" >
+            <input type="radio" name="is_admin" value="2" title="否" checked>
+        </div>
+    </div>
+
+    <input type="text" hidden="hidden" id='codeNo' value="{$code}" name="">
+
+
+    <hr/>
+
+    <input type="text" value="{$did}" id="did" hidden="hidden">
+    <div class="layui-form-item">
+       <label class="layui-form-label">选择小区</label>
+       <div class="layui-input-block" id='tag'>
+         {volist name="dis" id='val'}
+         <input type="checkbox" name="like[]" value="{$val.id}" title="{$val.name}">
+         {/volist}
+       </div>
+     </div>
+
+     <input type="text" value="{$data.type}" hidden="hidden" id='types' name="">
+     <div class="layui-form-item">
+        <label class="layui-form-label">选择分类</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="1" title="物业" >
+            <input type="radio" name="type" value="2" title="供暖" >
+            <input type="radio" name="type" value="3" title="全部">
+        </div>
+    </div>
+
+
+    <!-- <div class="layui-form-item">
+        <label class="layui-form-label">是否启用</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="1" title="是" checked="">
+            <input type="radio" name="status" value="2" title="否">
+        </div>
+    </div> -->
+    系统权限
+    <hr/>
+    <div style="margin-left: 4%">
+        {volist name="AllMenu" id='v'}
+
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label big-size">
+                <input type="checkbox" class='parent bbbb' name="power[]"
+                       lay-skin="primary" value="{$v.node_id}" title="{$v.node_name}">
+            </label><br/><br/>
+            <div class="layui-input-block input-left">
+                {volist name='$v["son"]' id='vv'}
+                <input type="checkbox" class="aaaaa bbbb" name="power[]"
+                       lay-skin="primary" value="{$vv.node_id}" lay-filter="two" title="{$vv.node_name}">
+                {/volist}
+            </div>
+        </div>
+
+
+        {/volist}
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit">立即修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $('#up').click(function(){
+            var page = $('#page').val();
+                    localStorage.setItem('page',page);
+                    window.history.back();
+            // location.href="{:url('Operation/roleList')}";
+        });
+
+        //复选框赋值.
+        $('#tag input[type=checkbox]').each(function(){
+            var value = this.value;
+
+            var did = $('#did').val();
+            var arrs = did.split("|");
+            arrs.pop();
+
+
+            for (var i=0; i<arrs.length; i++) {
+                if (value == arrs[i]) {
+                    this.checked = true;
+                }
+            }
+        })
+
+        
+
+        var code = $('#codeNo').val();
+        var arr = code.split("|");
+        arr.pop();
+
+        //单选框赋值
+         var typeclass = $('#typeclass').text();
+         
+        $("input[name=is_admin][value="+typeclass+"]").prop("checked","true");
+
+        var types = $('#types').val();
+         if(typeclass == 1){
+             types = 3;
+         }
+        
+         $("input[name=type][value="+types+"]").prop("checked","true");
+
+
+        form.render();
+        // jQuery.inArray("John", arr);  //3
+        $('.bbbb').each(function(i,item){
+            
+            var a = $.inArray($(item).val(), arr);
+            if (a != -1) {
+                console.log(a);
+                console.log($(item));
+                $(item).next('div').addClass('layui-form-checked');
+            }
+            // form.render();
+        })
+        console.log(arr);
+        // 给父级添加点击事件
+        $('.parent').click(function(){
+            if( $(this).prop('checked') ==  true ){
+                $(this).prop('checked' , false);
+                $(this).parents('.layui-form-item').
+                children('.layui-input-block').find('input').prop('checked' , false);
+            }else{
+                $(this).prop('checked' , true);
+                $(this).parents('.layui-form-item').
+                children('.layui-input-block').find('input').prop('checked' , true);
+            }
+            form.render();
+        });
+
+        // 二级菜单添加点击事件
+        form.on('checkbox(two)', function(data){
+            console.log(data);
+            var mark = 0;
+            //获取同级的所有二级菜单是否有选中的，有选中的化，让父级还是选中的状态
+            data.othis.parent('.layui-input-block').find('input').each(function(){
+                if( $(this).prop('checked') == true ){
+                    mark = 1;
+                }
+            });
+
+            if( data.elem.checked == true ){
+                data.elem.checked =  true ;
+                data.othis.parents('.layui-form-item').
+                find('.layui-form-label').find('input').prop('checked' , true);
+            }else{
+                data.elem.checked =  false ;
+                if( mark !=  1 ){
+                    data.othis.parents('.layui-form-item').
+                    find('.layui-form-label').find('input').prop('checked' , false);
+                }
+            }
+            form.render();
+        });
+        
+        form.on('submit(submit)' , function(data){
+            $.ajax({
+                url:'{:url(\'Role/roleUpdate\')}',
+                data:data.field,
+                type:'post',
+                dataType:'json',
+                success:function( json_info ){
+
+
+                    if(json_info.code==1){
+                        layer.msg(json_info.font, {
+                          icon: json_info.code,
+                          time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            var page = $('#page').val();
+                            localStorage.setItem('page',page);
+                            window.history.back();
+                        //   location.href="{:url('Operation/roleList')}";
+                        });   
+                    } else {
+                        layer.msg(json_info.font,{icon:json_info.code});
+                    }
+
+
+                    
+                }
+            })
+            return false;
+        });
+
+    });
+
+</script>

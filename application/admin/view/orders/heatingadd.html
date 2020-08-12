@@ -1,0 +1,162 @@
+<form class="layui-form">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">收款标题<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="title"  autocomplete="off" placeholder="请输入收款标题" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费小区<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+          <select name="dis" lay-filter="filter" id="names">
+            <option value="">请选择小区</option>
+            {volist name="dis" id='v'}
+            <option value="{$v.id}">{$v.name}</option>
+            {/volist}
+          </select>
+        </div>
+      </div>
+
+
+      <div class="layui-form-item">
+         <label class="layui-form-label">收费区</label>
+         <div class="layui-input-block">
+            {volist name="area" id='area'}
+            <input type="checkbox" lay-filter="filter" value="{$area}" name="" title="{$area}">
+            {/volist}
+         </div>
+       </div>
+
+       <div class="layui-form-item">
+           <label class="layui-form-label">楼号</label>
+           <div class="layui-input-block">
+               <input type="text" name="home_code"  autocomplete="off" placeholder="输入楼号  例：1" class="layui-input">
+           </div>
+       </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费年<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+               <input type="text" name="paytime"  autocomplete="off" placeholder="输入收费年    例：2020" class="layui-input">
+           </div>
+    </div>  
+
+
+
+   <!--  <div class="layui-form-item">
+        <label class="layui-form-label">供暖费/m²</label>
+        <div class="layui-input-block">
+            <input type="text" name="fee"  autocomplete="off" placeholder="请输入物业费    例：100/100.00" class="layui-input">
+        </div>
+    </div> -->
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">供暖：<span style="color: red;">*</span></label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="fee" value="" placeholder="请输入价格"  autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">X</div>
+            <div class="layui-input-inline" style="width: 80px;">
+                <input type="text" name="" value="房屋面积" style="border:0;outline:0;" disabled="disabled" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">X</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="cost" value="1" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">系数</div>
+        </div>
+    </div>
+    
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">缴费周期<span style="color: red;">*</span></label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="start_at" value=""  autocomplete="off" id="start_at"  lay-verify="required" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="end_at" value="" autocomplete="off" id="end_at"  lay-verify="required" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注" name="content" class="layui-textarea" ></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即发布</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+             var laydate = layui.laydate;
+            	$('#up').click(function(){
+            	    location.href="{:url('Orders/heatingList')}";
+            	});
+
+                //执行一个laydate实例
+                  laydate.render({
+                    elem: '#test1' //指定元素
+                  });
+                  //常规用法
+                  laydate.render({
+                      elem: '#start_at'
+                  });
+                  laydate.render({
+                      elem: '#end_at'
+                  });
+                var userName=null;  //定义一个空值
+                form.on('select(filter)', function(data){
+                    userName=data.elem[data.elem.selectedIndex].text;  //取选中下拉框的文本并赋值给userName
+                });
+                var qu ='';  //定义一个空值
+                form.on('checkbox(filter)', function(data){
+                    qu += data.value+'+';
+                });   
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                info.complex=qu;
+                info.dname=userName;
+                $.post(
+                        "{:url('Orders/heatingAdd')}",
+                        info,
+                        function(msg){
+
+                            if(msg.code==1){
+                                layer.msg(msg.font, {
+                                  icon: msg.code,
+                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                  location.href="{:url('Orders/heatingList')}";
+                                });   
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+
+
+                            console.log(msg);
+                        },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>

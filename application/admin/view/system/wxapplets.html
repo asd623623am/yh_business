@@ -1,0 +1,71 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>系统管理</a>
+        <a><cite> 系统列表</cite></a>
+    </span>
+</div>
+<!-- <button class="layui-btn layui-btn-normal marginT" id='submit' lay-submit lay-filter="*">立即添加</button> -->
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+</script>
+<script>
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        table.render({
+            elem: '#test'
+            ,url:'{:url("System/WxApplets")}'
+            ,limit: 10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                ,{field:'id', title: '系统id',}
+                ,{width:100, title: '序号', type:'numbers'}
+                ,{field:'appId', title: '小程序appId',}
+                ,{field:'secret', title: '小程序secret',}
+                ,{field:'merId', title: '小程序商户号',}
+                ,{field:'termNo', title: '设备号',}
+                // ,{field:'system_data', title: '小程序支付秘钥',}
+                // ,{field:'system_name', title: '系统名称',}
+                // ,{field:'ctime',width:200, title: '操作时间'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+            ]],
+            done: function () {
+                $("[data-field='id']").css('display','none');
+            },
+            page: true
+        });
+
+         $('#submit').click(function(){
+            location.href="{:url('System/wxappAdd')}";
+        })
+        //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'detail'){ //查看
+                location.href="{:url('System/wxappUpdateInfo')}?id="+data.id;
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.post(
+                            '{:url("System/wxappDel")}',
+                            {id:data.id},
+                            function(msg){
+                                layer.msg(msg.font,{icon:msg.code});
+                                 if(msg.code==1){
+                                 table.reload('test');
+                                 }
+                            },'json'
+                    )
+                });
+            }
+        })
+
+        $('.layui-table').on('click','tr',function(){
+          $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    });
+</script>

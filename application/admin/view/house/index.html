@@ -1,0 +1,145 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>房屋管理</a>
+        <a><cite> 房屋列表</cite></a>
+    </span>
+</div>
+<div class="search-table layui-form">
+    <div class="layui-inline">
+        <select name="type"  id="search-district" lay-search="">
+            <option value=""></option>
+            {volist name="districts" id='district'}
+            <option value="{$district.id}">{$district.name}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-inline">
+        <select name="type"  id="search-key" >
+            <option value="owner" selected>业主</option>
+            <option value="id">ID</option>
+            <option value="tel">联系方式</option>
+        </select>
+    </div>
+    <div class="layui-inline">
+        <input class="layui-input" name="value" id="search-value" autocomplete="off">
+    </div>
+    <button id="search-btn" class="layui-btn" data-type="reload">搜索</button>
+</div>
+<table class="layui-hide" id="house" lay-filter="house"></table>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="importData" id="importData">导入数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="download">下载模板</button>
+        <button class="layui-btn layui-btn-sm" lay-event="insert">新增房屋</button>
+    </div>
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table','upload','layer'], function(){
+
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;//主要是这个
+
+        table.render({
+            elem: '#house',
+            url:'{:url("House/index")}',
+            limit: '__PAGESIZE__',
+            cellMinWidth: 50, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            toolbar:'#toolbar',
+            cols: [[
+                // {checkbox: true, fixed: true},
+                {field:'id',sort: true, align: 'center', title: 'ID'},
+                {field:'owner', align: 'center', title: '业主'},
+                {field:'tel', align: 'center', title: '联系方式'},
+                {field:'district', align: 'center', title: '小区名称'},
+                {field:'complex', align: 'center', title: '区'},
+                {field:'building', align: 'center', title: '楼'},
+                {field:'unit', align: 'center', title: '单元'},
+                {field:'room', align: 'center', title: '房间号'},
+                {field:'heating_cost',align: 'center', title: '供暖费/m²'},
+                {field:'property_fee',align: 'center', title: '物业费/m²'},
+                {field:'area',align: 'center', title: '面积/m²'},
+                {field:'check_in_at',align: 'center', title: '入住时间'},
+                {field:'ctime',sort: true,align: 'center', title: '创建时间'},
+                {field:'right',toolbar: '#bar',align: 'center', title:'操作'},
+            ]],
+            page: true
+        });
+        var uploadInst = upload.render({
+            elem: '#importData', //绑定元素
+            url: '{:url("House/importData")}', //上传接口
+            size: '3072',
+            accept: "file",
+            exts: 'xls|xlsx|xlsm|xlt|xltx|xltm',
+            data: {},
+            auto: true,
+            bindAction: '#btnUpload',                    //auto为false时，点击触发上传
+            multiple: false,                             //多文件上传
+            //, number: 100                               //multiple:true时有效
+            done: function (res) {                      //传输完成的回调
+                layer.msg(res.msg);
+                table.reload('house', {page: {curr: 1},where: {}}, 'data');
+            },
+            error: function () {                         //传输失败的回调
+                //请求异常回调
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(house)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'import':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'insert':
+                    location.href="{:url('form')}?id=0";
+                    break;
+                case 'download':
+                    location.href="{:url('downloadExcel')}";
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            };
+        });
+
+        //删除和修改
+        table.on('tool(house)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'edit'){ //查看
+                location.href="{:url('form')}?id="+data.id;
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('确定要删除该房屋信息吗?', function(index){
+                    $.post("{:url('del')}",{id:data.id},function(data){
+                        layer.msg(data.msg);
+                        if(data.code==0){
+                            table.reload('house', {page: {curr: 1},where: {}}, 'data');
+                        }
+                    },'json');
+                });
+            }
+        });
+
+        $('#search-btn').on('click', function(){
+            table.reload('house', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                ,where: {
+                    keyword: $('#search-value').val(),
+                    key:$('#search-key').val(),
+                    district_id:$("#search-district").val()
+                }
+            }, 'data');
+        });
+    });
+</script>

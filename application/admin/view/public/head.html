@@ -1,0 +1,31 @@
+<style type="text/css">
+    .layui-title-class{
+        display: block;
+        position:absolute;left:50%;
+        top:0;
+        height: 100%;
+        width: 300px;
+        transform: translate(-50%, 0%);
+        color: #fff;
+        font-weight: bold;
+    }
+</style>
+<div class="layui-header">
+    <img src="/WechatIMG.png" style="margin-left:20px; margin-top: 5px;" height="50" width="155">
+    <a href="/admin.php/Index/Index" class="layui-title-class"><div class="layui-logo">小码旺铺会员版管理系统后台</div></a>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <!-- <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item"><a href="">邮件管理</a></li>
+        <li class="layui-nav-item"><a href="">消息管理</a></li>
+        <li class="layui-nav-item"><a href="">授权管理</a></li>
+    </ul> -->
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <!-- <img src="__STATIC__/images/d833c895d143ad4b6eba587980025aafa50f06f6.jpg" class="layui-nav-img"> -->
+                欢迎{$Think.session.admin.admin_name}登录
+            </a>
+        </li>
+        <li class="layui-nav-item"><a href="{:url('Login/logout')}">注销</a></li>
+    </ul>
+</div>

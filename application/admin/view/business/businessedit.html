@@ -1,0 +1,113 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>商户管理</a>
+        <a><cite> 修改商户信息</cite></a>
+    </span>
+</div>
+<div class="layui-form-item">
+</div>
+<form class="layui-form">
+    <div class="layui-form-item" style="display: none;">
+        <label class="layui-form-label">商户bid<span style="color: red;">*</span></label>
+        <div class="layui-input-inline">
+            <input type="text" name="bid"  autocomplete="off" value="{$bs.bid}" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户名称<span style="color: red;">*</span></label>
+        <div class="layui-input-inline">
+            <input type="text" name="bname"  autocomplete="off" value="{$bs.bname}" placeholder="商户名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <input type="hidden" id="logo" name="banner_url">
+            <label class="layui-form-label">商户Logo</label>
+            <button type="button" class="layui-btn" id="myload">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+            <img src="__PUBLIC__/{{bs.logo}}}" id="images">
+            <a href="javascript:;" id='delimg'></a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">确认添加</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            var uploads = upload.render({
+                elem: '#myload'
+                ,url: '{:url("Brand/bannerUpload")}'
+                ,multiple: true
+                ,number:3
+                ,allDone: function(obj){ //当文件全部被提交后，才触发
+                }
+                ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+
+                    layer.msg(res.font,{icon:res.code});
+                    if(res.code==1){
+                        var str = '';
+                        $('#logo').val($('#logo').val()+'#'+res.src);
+                        var url = '__PUBLIC__/'+res.src;
+                        $('#images').attr('src',url);
+                        $('#images').attr('width','100');
+                        $('#images').attr('height','100');
+                        $('#delimg').text('删除图片');
+                    }
+
+                }
+            });
+            $('#delimg').click(function(){
+                $('#images').attr('src','');
+                $('#images').attr('width','');
+                $('#images').attr('height','');
+                $('#logo').val('');
+                $('#delimg').text('');
+            });
+            $('#up').click(function(){
+                location.href="{:url('Business/businesslist')}";
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#test1' //指定元素
+            });
+            var userName=null;  //定义一个空值
+            form.on('select(filter)', function(data){
+                userName=data.elem[data.elem.selectedIndex].text;  //取选中下拉框的文本并赋值给userName
+            });
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "{:url('Business/businessEdit')}",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="{:url('Business/businesslist')}";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            })
+        });
+    })
+</script>

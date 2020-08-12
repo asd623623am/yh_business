@@ -1,0 +1,56 @@
+<div class="layui-form-item">
+    <span class="layui-breadcrumb">
+        <a href='#'>商户管理</a>
+        <a><cite> 商户信息列表</cite></a>
+    </span>
+</div>
+<div class="layui-form-item">
+</div>
+<table class="layui-hide" id="test" lay-filter="testdd"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn " lay-event="edit">编辑</a>
+<!--    <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>-->
+</script>
+<script>
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        table.render({
+            elem: '#test'
+            ,url:"{:url('Business/businessList')}"
+            ,limit:10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'bid', width:'7%', title: 'ID', sort: true}
+                ,{field:'bname', width:'19%', title: '商户名称'}
+                ,{field:'logo', width:'30.5%', title: '商户Logo',templet:'<div><img src="__PUBLIC__/{{d.logo}}"></div>'}
+                ,{field:'create_time', width:'16%', title: '创建时间',align:'center'}
+                ,{field:'update_time', width:'16%', title: '更新时间',align:'center'}
+                ,{field:'right', width:'12%',toolbar: '#barDemo', title: '操作',align:'center'}
+            ]]
+            // ,page: true
+        });
+        //监听单元格编辑
+        table.on('edit(testdd)', function(obj){
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+            $.post(
+                "{:url('Business/businesseEdit')}",
+                {value:value,field:field,admin_id:data.admin_id},
+                function(msg){
+                    layer.msg(msg.font,{icon:msg.code});
+                },'json')
+        });
+        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'edit') { //查看
+                location.href="{:url('Business/businessEdit')}?bid="+data.bid;
+            }
+        })
+        $('.layui-table').on('click','tr',function(){
+            $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+    })
+</script>
