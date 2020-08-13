@@ -8,6 +8,6 @@ class Store extends Model{
    protected $table='xm_store';
 
    protected $createTime='create_time';
-   protected $updateTime=false;
+   protected $updateTime='update_time';
 
 }

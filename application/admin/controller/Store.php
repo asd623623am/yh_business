@@ -3,7 +3,6 @@
 namespace app\admin\controller;
 
 use think\Db;
-use think\View;
 
 
 /**
@@ -16,7 +15,6 @@ use think\View;
 class Store extends Common
 {
 
-
     /**
      * Notes: 获取门店列表
      * Class: getStoreList
@@ -26,19 +24,42 @@ class Store extends Common
     public function storeList(){
 
         if( request() -> isAjax() ){
-            $data=Db::table("xm_store")->select();
+            $where = ['status' => 1];
+            $data=Db::table("xm_store")->where($where)->select();
             foreach ($data as &$val){
                 $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                 $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
+                $val['start_end_time'] = date('H:i:s',$val['start_business_hours']).'-'.date('H:i:s',$val['end_business_hours']);
             }
             unset($val);
-            $count=Db::table("xm_store")->count();
+            $count=Db::table("xm_store")->where($where)->count();
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
         }else{
             return view();
         }
+    }
+
+    /**
+     * Notes: 查看门店信息
+     * Class: storeInfo
+     * user: bingwoo
+     * date: 2020/8/13 14:13
+     */
+    public function storeInfo(){
+
+        $postData = input('get.');
+        if(!empty($postData)){
+            $storeId = $postData['storeid'];
+            $storeData = model('Store')->where(['storeid'=>$storeId])->find()->toArray();
+            if(!empty($storeData)){
+                $this->assign('store',$storeData);
+                return  view();
+            }
+            $this->getTips();
+        }
+        $this->getTips();
     }
 
     /**
@@ -49,105 +70,28 @@ class Store extends Common
      */
     public function storeAdd(){
         if(check()){
-            # 检查名字是否重复
-            $data=input('post.');
+            $data = input('post.');
             if(empty($data)){
                 exit('非法操作此页面');
             }
             $where = [
-                'district_id'	=> $data['dis'],
-                'complex'		=> $data['qu'],
-                'home_code'		=> $data['home_code']
+                'name'	=> $data['name'],
             ];
-            $info = model('Home')->where($where)->find();
-            if ($info != null) {
-
-                fail('已经有此房子，请去修改房屋信息！');
-
-                if (isset($data['status'])) {
-
-                    $arr = explode('-', $data['home_code']);
-                    $len = count($arr);
-                    if ($len == 3) {
-                        $building = $arr[0];
-                        $unit = $arr[1];
-                        $room = $arr[2];
-
-                    } else {
-                        $building = $arr[0];
-                        $unit = '';
-                        $room = $arr[1];
-                    }
-
-                    $insert = [
-                        'home_ids'		=> date('YmdHis') . str_pad(mt_rand(1, 999999), 5, '0', STR_PAD_LEFT),
-                        'district_id'	=> $data['dis'],
-                        'district_name'	=> $data['dname'],
-                        'complex'		=> $data['qu'],
-                        'home_code'		=> $data['home_code'],
-                        'building'		=> $building,
-                        'unit'			=> $unit,
-                        'room'			=> $room,
-                        'owner'			=> $data['home_name'],
-                        'tel'			=> $data['tel'],
-                        'area'			=> $data['area'],
-                        'check_in_at'   => $data['ctime'],
-                        'is_delete'		=> 1,
-                        'ctime'			=> time(),
-                        'content'		=> $data['content'],
-                    ];
-
-
-                    $res = model('Home')->allowField(true)->save($insert);
-                    if ($res) {
-                        $this -> addLog('添加了一个房屋');
-                        win('添加成功');
-                    } else {
-                        fail('添加失败');
-                    }
-                } else {
-                    echo json_encode(['font' => '您确认添加吗？', 'code' => 3]);
-                    exit;
-                }
-
+            $info = model('Store')->where($where)->find();
+            if (!empty($info)) {
+                fail('门店名称已存在！');
             } else {
-
-                $arr = explode('-', $data['home_code']);
-                $len = count($arr);
-                if ($len == 3) {
-                    $building = $arr[0];
-                    $unit = $arr[1];
-                    $room = $arr[2];
-
-                } else {
-                    $building = $arr[0];
-                    $unit = '';
-                    $room = $arr[1];
+                $insert = $this->processData(processData);
+                $storeid = model('Store')->field('storeid')->order('storeid desc')->find();
+                $insert['store_no'] = 100001;
+                if(!empty($storeid)){
+                    $len = strlen($storeid);
+                    $strno = substr(100001,0,6-$len);
+                    $insert['store_no'] = $strno.$storeid;
                 }
-
-
-                $insert = [
-                    'home_ids'		=> date('YmdHis') . str_pad(mt_rand(1, 999999), 5, '0', STR_PAD_LEFT),
-                    'district_id'	=> $data['dis'],
-                    'district_name'	=> $data['dname'],
-                    'complex'		=> $data['qu'],
-                    'home_code'		=> $data['home_code'],
-                    'building'		=> $building,
-                    'unit'			=> $unit,
-                    'room'			=> $room,
-                    'owner'			=> $data['home_name'],
-                    'tel'			=> $data['tel'],
-                    'area'			=> $data['area'],
-                    'check_in_at'   => $data['ctime'],
-                    'is_delete'		=> 1,
-                    'ctime'			=> time(),
-                    'content'		=> $data['content'],
-                ];
-
-
-                $res = model('Home')->allowField(true)->save($insert);
+                $res = model('Store')->allowField(true)->save($insert);
                 if($res){
-                    $this -> addLog('添加了一个房屋');
+                    $this -> addLog('添加了一个门店');
                     win('添加成功');
                 }else{
                     fail('添加失败');
@@ -155,8 +99,6 @@ class Store extends Common
             }
 
         }else{
-            $district=model('District')->select()->toArray();
-            $this->assign('dis',$district);
             return view();
         }
 
@@ -172,37 +114,32 @@ class Store extends Common
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
-                if(isset($postData['bname'])&&!empty($postData['bname'])){
-                    $where = ['bid' => $postData['bid']];
-//                    $insert['bid'] = $postData['bid'];
-                    $insert['bname'] = $postData['bname'];
-                    if(!empty($postData['banner_url'])){
-                        $len = strlen($postData['banner_url']);
-                        $strDate = substr($postData['banner_url'],1,8);
-                        $strname = substr($postData['banner_url'],10,$len-10);
-                        $insert['logo'] = $strDate.'/'.$strname;
-                    }
-                    $insert['update_time'] = time();
-                    $res = model('Business')->save($insert,$where);
-                    if ($res) {
-                        $this -> addLog('修改商户信息');
-                        win('修改成功');
-                    } else {
-                        fail('修改失败');
-                    }
+                $insert = $this->processData(processData);
+                $where = ['storeid' => $postData['storeid']];
+                $res = model('Store')->save($insert,$where);
+                if ($res) {
+                    $this -> addLog('修改门店信息');
+                    win('修改成功');
+                } else {
+                    fail('修改失败');
                 }
             }
         }else{
-            $bid=input('get.bid');
-            if(empty($bid)){
-                exit('非法操作此页面');
+            $storeId=input('get.storeid');
+            if(empty($storeId)){
+                $this->getTips();
             }else{
-                $where=[
-                    'bid'=>$bid
+                $where = [
+                    'storeid' => $storeId
                 ];
             }
-            $bsData = model('Business')->field('bid,bname,logo')->where($where)->find()->toArray();
-            $this->assign('bs',$bsData);
+            $storeData = model('Store')->where($where)->find()->toArray();
+            if(empty($storeData)){
+                $this->fail('获取信息失败！');
+            }
+            $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
+            $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
+            $this->assign('store',$storeData);
             return view();
         }
     }
@@ -214,7 +151,76 @@ class Store extends Common
      * date: 2020/8/12 10:56
      */
     public function storeDel(){
+        $postData = input('post.');
+        if(!empty($postData)){
+            $delDate = ['status' => 0];
+            $where = ['storeid' => $postData['storeid']];
+            $res = model('Store')->save($delDate,$where);
+            if ($res) {
+                $this -> addLog('删除门店信息');
+                win('删除成功');
+            } else {
+                fail('删除失败');
+            }
+        }
+        $this->postTips();
 
+    }
+
+    /**
+     * Notes: 处理数据格式
+     * Class: processDara
+     * user: bingwoo
+     * date: 2020/8/13 13:53
+     */
+    private function processData($postData){
+        $insert = [
+            'name'		=> $postData['name'],
+            'address'	=> $postData['address'],
+            'user_name'	=> $postData['user_name'],
+            'user_tel'	=> (int)$postData['user_tel'],
+            'account'	=> $postData['account'],
+            'password'	=> $postData['passwords'],
+        ];
+        //门店logo
+        if(!empty($data['banner_url'])){
+            $len = strlen($postData['banner_url']);
+            $strDate = substr($postData['banner_url'],1,8);
+            $strname = substr($postData['banner_url'],10,$len-10);
+            $insert['logo'] = $strDate.'/'.$strname;
+        }
+        //pos支付
+        if(!empty($postData['pos_pay'])){
+            $insert['pos_pay'] = $postData['pos_pay'];
+        }
+        //刷脸支付
+        if(!empty($data['face_pay'])){
+            $insert['face_pay'] =$postData['face_pay'];
+        }
+        //营业时间
+        $insert['start_business_hours'] = strtotime(date('Y-m-d').$postData['start_business_hours']);
+        $insert['end_business_hours'] = strtotime(date('Y-m-d').$postData['end_business_hours']);
+        return $insert;
+    }
+
+    /**
+     * Notes: 返回post提示信息
+     * Class: tips
+     * user: bingwoo
+     * date: 2020/8/13 14:05
+     */
+    private function postTips(){
+        return fail('门店信息有误');
+    }
+
+    /**
+     * Notes: 返回get请求提示
+     * Class: getTips
+     * user: bingwoo
+     * date: 2020/8/13 14:11
+     */
+    private function getTips(){
+        exit('门店信息有误');
     }
 
 

@@ -45,7 +45,6 @@ class business extends Common{
             if(!empty($postData)){
                 if(isset($postData['bname'])&&!empty($postData['bname'])){
                     $where = ['bid' => $postData['bid']];
-//                    $insert['bid'] = $postData['bid'];
                     $insert['bname'] = $postData['bname'];
                     if(!empty($postData['banner_url'])){
                         $len = strlen($postData['banner_url']);
