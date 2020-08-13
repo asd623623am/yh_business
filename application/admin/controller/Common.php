@@ -296,9 +296,9 @@ class Common extends Controller
 //                    $key = array_column($son, 'node_id');
 //                    array_multisort($key, SORT_ASC, $temp[11]['son']);
 //                }
-//                if ($v['node_name'] == '系统管理') {
-//                    $temp['12'] = $v;
-//                }
+               if ($v['node_name'] == '系统管理') {
+                   $temp['12'] = $v;
+               }
 //                if($v['node_name'] == '权限节点管理'){
 //                    $temp['13'] = $v;
 //                }
