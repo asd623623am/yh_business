@@ -308,6 +308,12 @@ class Common extends Controller
                 if($v['node_name'] == '门店管理'){
                     $temp['15'] = $v;
                 }
+                if ($v['node_name'] == '会员管理') {
+                    $temp['16'] = $v;
+                }
+                if ($v['node_name'] == '订单管理') {
+                    $temp['17'] = $v;
+                }
             }
             ksort($temp);
             $return['menu'] = $temp;

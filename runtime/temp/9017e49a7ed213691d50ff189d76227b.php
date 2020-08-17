@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:96:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberlist.html";i:1597636292;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:100:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\business\businessedit.html";i:1597301811;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,107 +169,118 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <style type="text/css">
-    .marginTs{
-        margin-top: 30px;
-    }
-</style>
-<div class="layui-form-item">
+            <div class="layui-form-item">
     <span class="layui-breadcrumb">
-        <a href='#'>会员管理</a>
-        <a><cite> 会员列表</cite></a>
+        <a href='#'>商户管理</a>
+        <a><cite> 修改商户信息</cite></a>
     </span>
 </div>
-
-
-<div class="search-table layui-form">
-      <div class="layui-input-inline">
-     <input type="text" name="tel" required  placeholder="请输入手机号/会员卡号" autocomplete="off" class="layui-input">
+<div class="layui-form-item">
+</div>
+<form class="layui-form">
+    <div class="layui-form-item" style="display: none;">
+        <label class="layui-form-label">商户bid<span style="color: red;">*</span></label>
+        <div class="layui-input-inline">
+            <input type="text" name="bid"  autocomplete="off" value="<?php echo $bs['bid']; ?>" placeholder="" class="layui-input">
+        </div>
     </div>
-    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">查询</button>
-</div>
-<div class="marginTs">
-</div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-</script>
-<script>
-    layui.use(['table','layer','upload','form'], function(){
-        var table = layui.table;
-        var layer = layui.layer;
-        var upload = layui.upload;
-        var form = layui.form;
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户名称<span style="color: red;">*</span></label>
+        <div class="layui-input-inline">
+            <input type="text" name="bname"  autocomplete="off" value="<?php echo $bs['bname']; ?>" placeholder="商户名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <input type="hidden" id="logo" name="banner_url">
+            <label class="layui-form-label">商户Logo</label>
+            <button type="button" class="layui-btn" id="myload">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+            <img src="__PUBLIC__/{{bs.logo}}}" id="images">
+            <a href="javascript:;" id='delimg'></a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">确认添加</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
 
-            var ids = 0;
-            //自动点击.
-            $(document).ready(function(){
-                $("#sousuo").trigger("click");
-                ids = 1;
-                if(ids == 1){
-                             var page = localStorage.getItem('page');
-                            table.reload('test', {
-                                page: {
-                                    curr: page //重新从第 1 页开始
-                                }
-                            }); //只重载数据
-                            localStorage.clear();
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            var uploads = upload.render({
+                elem: '#myload'
+                ,url: '<?php echo url("Brand/bannerUpload"); ?>'
+                ,multiple: true
+                ,number:3
+                ,allDone: function(obj){ //当文件全部被提交后，才触发
+                }
+                ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+
+                    layer.msg(res.font,{icon:res.code});
+                    if(res.code==1){
+                        var str = '';
+                        $('#logo').val($('#logo').val()+'#'+res.src);
+                        var url = '__PUBLIC__/'+res.src;
+                        $('#images').attr('src',url);
+                        $('#images').attr('width','100');
+                        $('#images').attr('height','100');
+                        $('#delimg').text('删除图片');
+                    }
+
                 }
             });
-         $('#submit').click(function(){
-            location.href="<?php echo url('Member/memberAdd'); ?>";
-        })
-
-        //删除和修改
-        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的DOM对象
-
-            if(layEvent === 'detail'){ //查看
-
-                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="<?php echo url('Member/memberUpdateInfo'); ?>?uid="+data.uid+"&page="+pages;
-
-            }
-        })
-
-        form.on('submit(*)', function(data){
-          table.render({
-              elem: '#test'
-              ,url:"<?php echo url('Member/memberList'); ?>"
-              ,where:data.field
-              ,limit:10
-              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-              ,cols: [[
-                {field:'uid', width:200, title: '会员ID'}
-                ,{width:100, title: '序号',type:'numbers'}
-                ,{field:'card',width:200, title: '会员卡号'}
-                ,{field:'name',width:100, title: '姓名'}
-                ,{field:'grid',width:100, title: '会员等级'}
-                ,{field:'discount',width:150, title: '折扣'}
-                ,{field:'pay_money',width:100, title: '消费金额'}
-                ,{field:'points',width:100, title: '积分'}
-                ,{field:'balance',width:100, title: '储值余额'}
-                ,{field:'phone',width:150, title: '手机号'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title:'消费账单',align:'center',fixed: 'right'}
-            ]],
-            done: function () {
-                $("[data-field='uid']").css('display','none');
-                $('.layui-table').on('click','tr',function(){
-                  $(this).css('background','#ccc').siblings().css('background','#fff');
-                });
-            },page: true
-          });
-
+            $('#delimg').click(function(){
+                $('#images').attr('src','');
+                $('#images').attr('width','');
+                $('#images').attr('height','');
+                $('#logo').val('');
+                $('#delimg').text('');
+            });
+            $('#up').click(function(){
+                location.href="<?php echo url('Business/businesslist'); ?>";
+            });
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#test1' //指定元素
+            });
+            var userName=null;  //定义一个空值
+            form.on('select(filter)', function(data){
+                userName=data.elem[data.elem.selectedIndex].text;  //取选中下拉框的文本并赋值给userName
+            });
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "<?php echo url('Business/businessEdit'); ?>",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="<?php echo url('Business/businesslist'); ?>";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            })
         });
-
-
-
-        $('.layui-table').on('click','tr',function(){
-          $(this).css('background','#ccc').siblings().css('background','#fff');
-        });
-    });
+    })
 </script>
 
         </div>

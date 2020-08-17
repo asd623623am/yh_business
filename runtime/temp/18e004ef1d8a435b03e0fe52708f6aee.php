@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:96:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberlist.html";i:1597636292;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:95:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberadd.html";i:1597632273;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,107 +169,170 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <style type="text/css">
-    .marginTs{
-        margin-top: 30px;
-    }
-</style>
-<div class="layui-form-item">
-    <span class="layui-breadcrumb">
-        <a href='#'>会员管理</a>
-        <a><cite> 会员列表</cite></a>
-    </span>
-</div>
+            <form class="layui-form">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">请选择小区<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+          <select name="dis" lay-filter="filter" id="names">
+            <option value="">请选择小区</option>
+            
+          </select>
+        </div>
+      </div>
 
 
-<div class="search-table layui-form">
-      <div class="layui-input-inline">
-     <input type="text" name="tel" required  placeholder="请输入手机号/会员卡号" autocomplete="off" class="layui-input">
+      <div class="layui-form-item">
+          <label class="layui-form-label">请选择区<span style="color: red;">*</span></label>
+          <div class="layui-input-block">
+            <select name="qu">
+              <option value="">请选择区</option>
+              
+            </select>
+          </div>
+        </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="home_code"  autocomplete="off" placeholder="请输入楼/单元/户号" class="layui-input">
+        </div>
     </div>
-    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">查询</button>
-</div>
-<div class="marginTs">
-</div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
-</script>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员等级<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="home_name"  autocomplete="off" placeholder="请输入业主姓名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">折扣<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="tel"  autocomplete="off" placeholder="请输入联系方式 多个手机号用，区分" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号码<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="area"  autocomplete="off" placeholder="请输入面积" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">请选择门店<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+          <select name="qu">
+            <option value="">请选择门店</option>
+            
+          </select>
+        </div>
+      </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">入住时间<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="ctime" id="test1">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" name="content" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即添加</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    layui.use(['table','layer','upload','form'], function(){
-        var table = layui.table;
-        var layer = layui.layer;
-        var upload = layui.upload;
-        var form = layui.form;
+    $(function(){
+        layui.use(['form','layer','upload','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+             var laydate = layui.laydate;
+            	$('#up').click(function(){
+            	    location.href="<?php echo url('Home/homeList'); ?>";
+            	});
 
-            var ids = 0;
-            //自动点击.
-            $(document).ready(function(){
-                $("#sousuo").trigger("click");
-                ids = 1;
-                if(ids == 1){
-                             var page = localStorage.getItem('page');
-                            table.reload('test', {
-                                page: {
-                                    curr: page //重新从第 1 页开始
-                                }
-                            }); //只重载数据
-                            localStorage.clear();
-                }
-            });
-         $('#submit').click(function(){
-            location.href="<?php echo url('Member/memberAdd'); ?>";
-        })
+                //执行一个laydate实例
+                  laydate.render({
+                    elem: '#test1' //指定元素
+                  });
 
-        //删除和修改
-        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的DOM对象
-
-            if(layEvent === 'detail'){ //查看
-
-                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="<?php echo url('Member/memberUpdateInfo'); ?>?uid="+data.uid+"&page="+pages;
-
-            }
-        })
-
-        form.on('submit(*)', function(data){
-          table.render({
-              elem: '#test'
-              ,url:"<?php echo url('Member/memberList'); ?>"
-              ,where:data.field
-              ,limit:10
-              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-              ,cols: [[
-                {field:'uid', width:200, title: '会员ID'}
-                ,{width:100, title: '序号',type:'numbers'}
-                ,{field:'card',width:200, title: '会员卡号'}
-                ,{field:'name',width:100, title: '姓名'}
-                ,{field:'grid',width:100, title: '会员等级'}
-                ,{field:'discount',width:150, title: '折扣'}
-                ,{field:'pay_money',width:100, title: '消费金额'}
-                ,{field:'points',width:100, title: '积分'}
-                ,{field:'balance',width:100, title: '储值余额'}
-                ,{field:'phone',width:150, title: '手机号'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title:'消费账单',align:'center',fixed: 'right'}
-            ]],
-            done: function () {
-                $("[data-field='uid']").css('display','none');
-                $('.layui-table').on('click','tr',function(){
-                  $(this).css('background','#ccc').siblings().css('background','#fff');
+                var userName=null;  //定义一个空值
+                form.on('select(filter)', function(data){
+                    userName=data.elem[data.elem.selectedIndex].text;  //取选中下拉框的文本并赋值给userName
                 });
-            },page: true
-          });
 
+            //监听提交
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                info.dname=userName;
+                $.post(
+                        "<?php echo url('Home/homeAdd'); ?>",
+                        info,
+                        function(msg){
+                            console.log(msg);
+
+                            if (msg.code == 3) {
+                                layer.confirm('已经有这个房子了，确定要继续添加吗？', function(index){
+                                    info.status = 1;
+                                    $.post(
+                                            '<?php echo url("Home/homeAdd"); ?>',
+                                            info,
+                                            function(da){
+                                                
+                                                if(da.code==1){
+                                                    layer.msg(da.font, {
+                                                      icon: da.code,
+                                                      time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                                    }, function(){
+                                                      location.href="<?php echo url('Home/homeList'); ?>";
+                                                    });   
+                                                } else {
+                                                    layer.msg(da.font,{icon:da.code});
+                                                }
+
+
+
+
+
+                                            },'json'
+                                    )
+                                });
+                            } else {
+                                if(msg.code==1){
+                                    layer.msg(msg.font, {
+                                      icon: msg.code,
+                                      time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                    }, function(){
+                                      location.href="<?php echo url('Home/homeList'); ?>";
+                                    });   
+                                } else {
+                                    layer.msg(msg.font,{icon:msg.code});
+                                }
+                            }
+
+                            
+
+
+                            
+                        },'json'
+                )
+                return false;
+            })
         });
+    })
 
-
-
-        $('.layui-table').on('click','tr',function(){
-          $(this).css('background','#ccc').siblings().css('background','#fff');
-        });
-    });
 </script>
 
         </div>

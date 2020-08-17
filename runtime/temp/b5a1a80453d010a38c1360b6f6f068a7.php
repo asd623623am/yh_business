@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:96:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberlist.html";i:1597636292;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:102:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberupdateinfo.html";i:1597646028;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,31 +169,82 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <style type="text/css">
-    .marginTs{
-        margin-top: 30px;
-    }
-</style>
-<div class="layui-form-item">
+            <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
         <a href='#'>会员管理</a>
-        <a><cite> 会员列表</cite></a>
+        <a><cite> 会员信息</cite></a>
     </span>
-</div>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>门店基础信息设置</legend>
+</fieldset>
+<input type="text" hidden="hidden" value="<?php echo $page; ?>" id="page">
+<div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">姓名:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['name']; ?></div>
+        </div>
 
+        <div class="layui-inline">
+            <label class="layui-form-label">手机:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['phone']; ?></div>
+        </div>
 
-<div class="search-table layui-form">
-      <div class="layui-input-inline">
-     <input type="text" name="tel" required  placeholder="请输入手机号/会员卡号" autocomplete="off" class="layui-input">
+        <div class="layui-inline">
+            <label class="layui-form-label">卡号:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['card']; ?></div>
+        </div>
     </div>
-    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">查询</button>
-</div>
-<div class="marginTs">
-</div>
+    <div class="layui-form-item">
+        
+    </div>
+
+
+        <div class="layui-form-item">
+        
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">折扣:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['discount']; ?></div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">积分:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['points']; ?></div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">余额:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['balance']; ?></div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">消费金额:</label>
+            <div class="layui-form-mid layui-word-aux"><?php echo $arr['pay_money']; ?></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        
+    </div>
+    <div class="layui-form-item">
+        
+    </div>
+    <div class="layui-form-item">
+        
+    </div>
+
+
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
 </script>
+
+<div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
 <script>
     layui.use(['table','layer','upload','form'], function(){
         var table = layui.table;
@@ -201,48 +252,20 @@
         var upload = layui.upload;
         var form = layui.form;
 
-            var ids = 0;
-            //自动点击.
-            $(document).ready(function(){
-                $("#sousuo").trigger("click");
-                ids = 1;
-                if(ids == 1){
-                             var page = localStorage.getItem('page');
-                            table.reload('test', {
-                                page: {
-                                    curr: page //重新从第 1 页开始
-                                }
-                            }); //只重载数据
-                            localStorage.clear();
-                }
-            });
-         $('#submit').click(function(){
-            location.href="<?php echo url('Member/memberAdd'); ?>";
-        })
+        $('#up').click(function(){
+            var page = $('#page').val();
+                localStorage.setItem('page',page);
+                window.history.back();
+            // location.href="<?php echo url('Deposit/depositList'); ?>";
+        });
 
-        //删除和修改
-        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的DOM对象
-
-            if(layEvent === 'detail'){ //查看
-
-                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="<?php echo url('Member/memberUpdateInfo'); ?>?uid="+data.uid+"&page="+pages;
-
-            }
-        })
-
-        form.on('submit(*)', function(data){
-          table.render({
-              elem: '#test'
-              ,url:"<?php echo url('Member/memberList'); ?>"
-              ,where:data.field
-              ,limit:10
-              ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-              ,cols: [[
-                {field:'uid', width:200, title: '会员ID'}
+        table.render({
+            elem: '#test'
+           ,url:"<?php echo url('Member/memberList'); ?>"
+            ,limit:10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                  {field:'uid', width:200, title: '会员ID'}
                 ,{width:100, title: '序号',type:'numbers'}
                 ,{field:'card',width:200, title: '会员卡号'}
                 ,{field:'name',width:100, title: '姓名'}
@@ -259,12 +282,24 @@
                 $('.layui-table').on('click','tr',function(){
                   $(this).css('background','#ccc').siblings().css('background','#fff');
                 });
-            },page: true
-          });
-
+            }
+            ,page: true
         });
 
+        //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
 
+            if(layEvent === 'detail'){ //查看
+                alert('暂时没有订单数据');
+                return false;
+                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
+                location.href="<?php echo url('Member/memberUpdateInfo'); ?>?uid="+data.uid+"&page="+pages;
+
+            }
+        })
 
         $('.layui-table').on('click','tr',function(){
           $(this).css('background','#ccc').siblings().css('background','#fff');

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:96:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberlist.html";i:1597636292;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:92:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\home\homelist.html";i:1597301811;s:85:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\layout.html";i:1597308289;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\head.html";i:1597301811;s:90:"E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\public\left.html";i:1597301811;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -183,16 +183,45 @@
 
 
 <div class="search-table layui-form">
-      <div class="layui-input-inline">
-     <input type="text" name="tel" required  placeholder="请输入手机号/会员卡号" autocomplete="off" class="layui-input">
+    <div class="layui-input-inline">
+      <input type="text" name="owner" required  placeholder="请输入会员姓名" autocomplete="off" class="layui-input">
     </div>
-    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">查询</button>
+    <div class="layui-inline">
+        <select name="complex"  id="search-key" >
+            <option value="" >请选择性别</option>
+            <?php if(is_array($area) || $area instanceof \think\Collection || $area instanceof \think\Paginator): $i = 0; $__LIST__ = $area;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$area): $mod = ($i % 2 );++$i;?>
+            <option value="<?php echo $area; ?>"><?php echo $area; ?></option>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+        </select>
+    </div>
+    <div class="layui-input-inline">
+     <input type="text" name="tel" required  placeholder="请输入手机号" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-inline">
+        <select name="complex"  id="search-key" >
+            <option value="" >请选择等级</option>
+            <?php if(is_array($area) || $area instanceof \think\Collection || $area instanceof \think\Paginator): $i = 0; $__LIST__ = $area;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$area): $mod = ($i % 2 );++$i;?>
+            <option value="<?php echo $area; ?>"><?php echo $area; ?></option>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+        </select>
+    </div>
+    <div class="layui-input-inline">
+      <input type="text" name="owner" required  placeholder="请输入会员卡号" autocomplete="off" class="layui-input">
+    </div>
+    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
 <div class="marginTs">
+<button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
+<button type="button" class="layui-btn" id="myload" style="background-color:#1E9FFF">
+  <i class="layui-icon">&#xe67c;</i>导入Excel表
+</button>
+<button class="layui-btn layui-btn-normal" id='dexcel' lay-submit lay-filter="*">导出Excel表</button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
     layui.use(['table','layer','upload','form'], function(){
@@ -200,6 +229,24 @@
         var layer = layui.layer;
         var upload = layui.upload;
         var form = layui.form;
+
+        //文件上传
+        var uploadInst = upload.render({
+            elem: '#myload' //绑定元素
+            ,url: '<?php echo url("Home/homeupload"); ?>' //上传接口
+            ,exts: 'xls|xlsx|xlsm|xlt|xltx|xltm'
+            ,done: function(res){
+                //上传完毕回调
+                //console.log(msg);
+                layer.msg(res.font,{icon:res.code});
+                if(res.code==1){
+                  table.reload('test');
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
 
             var ids = 0;
             //自动点击.
@@ -217,9 +264,12 @@
                 }
             });
          $('#submit').click(function(){
-            location.href="<?php echo url('Member/memberAdd'); ?>";
+            location.href="<?php echo url('Home/homeAdd'); ?>";
         })
 
+         $('#dexcel').click(function(){
+            location.href="<?php echo url('Home/exceAdd'); ?>";
+         });
         //删除和修改
         table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
@@ -227,41 +277,53 @@
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             if(layEvent === 'detail'){ //查看
-
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="<?php echo url('Member/memberUpdateInfo'); ?>?uid="+data.uid+"&page="+pages;
-
+                location.href="<?php echo url('Home/homeUpdateInfo'); ?>?home_id="+data.home_id+"&page="+pages;
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.post(
+                            '<?php echo url("Home/homeDel"); ?>',
+                            {home_id:data.home_id},
+                            function(msg){
+                                layer.msg(msg.font,{icon:msg.code});
+                                 if(msg.code==1){
+                                 table.reload('test');
+                                 }
+                            },'json'
+                    )
+                });
             }
         })
-
         form.on('submit(*)', function(data){
           table.render({
               elem: '#test'
-              ,url:"<?php echo url('Member/memberList'); ?>"
+              ,url:"<?php echo url('Home/dataNewList'); ?>"
               ,where:data.field
               ,limit:10
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
               ,cols: [[
-                {field:'uid', width:200, title: '会员ID'}
-                ,{width:100, title: '序号',type:'numbers'}
-                ,{field:'card',width:200, title: '会员卡号'}
-                ,{field:'name',width:100, title: '姓名'}
-                ,{field:'grid',width:100, title: '会员等级'}
-                ,{field:'discount',width:150, title: '折扣'}
-                ,{field:'pay_money',width:100, title: '消费金额'}
-                ,{field:'points',width:100, title: '积分'}
-                ,{field:'balance',width:100, title: '储值余额'}
-                ,{field:'phone',width:150, title: '手机号'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title:'消费账单',align:'center',fixed: 'right'}
+                {field:'home_id', width:200, title: '微信信息'}
+                ,{field:'home_id', width:200, title: '微信信息'}
+                ,{width:100, title: '姓名',type:'numbers'}
+                ,{field:'home_ids',width:200, title: '性别'}
+                ,{field:'district_name',width:100, title: '生日'}
+                ,{field:'complex',width:100, title: '会员卡号'}
+                ,{field:'home_code',width:150, title: '手机'}
+                ,{field:'owner',width:100, title: '等级'}
+                ,{field:'tel',width:100, title: '联系方式'}
+                ,{field:'area',width:100, title: '面积'}
+                ,{field:'check_in_at',width:150, title: '入住时间'}
+                ,{field:'content',width:200, title: '备注'}
+                ,{field:'ctime',width:200, title: '添加时间'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
             ]],
             done: function () {
-                $("[data-field='uid']").css('display','none');
+                $("[data-field='home_id']").css('display','none');
                 $('.layui-table').on('click','tr',function(){
                   $(this).css('background','#ccc').siblings().css('background','#fff');
                 });
             },page: true
           });
-
         });
 
 
