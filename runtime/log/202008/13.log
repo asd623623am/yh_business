@@ -5495,3 +5495,2344 @@
 [ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001658s ]
 
 ---------------------------------------------------------------
+[ 2020-08-13T17:17:26+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storeadd.html
+[ log ] www.yh_business.com/admin.php/store/storeadd.html [运行时间：0.097898s][吞吐率：10.21req/s] [内存消耗：2,653.30kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storeadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Store.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\store\storeadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004649s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002783s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002108s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002377s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001809s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:17:39+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.yh_business.com/admin.php/System/systemList.html [运行时间：0.127169s][吞吐率：7.86req/s] [内存消耗：2,795.18kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/store/storeadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005726s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.010265s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002238s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.005022s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.005204s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:17:39+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.138478s][吞吐率：7.22req/s] [内存消耗：2,515.06kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.014476s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004701s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.008315s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.006813s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.006985s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.004586s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.001180s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:17:39+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.059754s][吞吐率：16.74req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:17:39+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.052347s][吞吐率：19.10req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:17:41+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.113337s][吞吐率：8.82req/s] [内存消耗：2,794.95kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002459s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002071s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002971s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001902s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002203s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:22:13+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.yh_business.com/admin.php/System/systemList.html [运行时间：0.109848s][吞吐率：9.10req/s] [内存消耗：2,658.38kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003010s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003620s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002780s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003427s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001594s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:22:14+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.105215s][吞吐率：9.50req/s] [内存消耗：2,515.28kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013136s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003571s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004603s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004119s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001966s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.003562s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.002682s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:22:14+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.071456s][吞吐率：13.99req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:22:14+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.068820s][吞吐率：14.53req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:22:15+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.085205s][吞吐率：11.74req/s] [内存消耗：2,658.13kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004851s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003792s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002852s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003140s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001707s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:22:21+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/system/systemupload.html
+[ log ] www.yh_business.com/admin.php/system/systemupload.html [运行时间：0.104973s][吞吐率：9.53req/s] [内存消耗：2,582.30kb] [文件加载：70]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemupload',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'content-type' => 'multipart/form-data; boundary=----WebKitFormBoundaryZQqB41Fg1ViHfJPN',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.yh_business.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '228383',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemUpload[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013762s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003278s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004698s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002414s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001903s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:23:51+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.098148s][吞吐率：10.19req/s] [内存消耗：2,795.24kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013374s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004447s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004283s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003581s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002906s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:18+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/business/businessList.html
+[ log ] www.yh_business.com/admin.php/business/businessList.html [运行时间：0.105767s][吞吐率：9.45req/s] [内存消耗：2,624.80kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'business',
+    2 => 'businessList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\business->businessList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Business.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\business\businesslist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003198s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004551s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002635s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002339s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002319s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:19+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/business/businesslist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/business/businesslist.html?page=1&limit=10 [运行时间：0.145514s][吞吐率：6.87req/s] [内存消耗：2,485.85kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'business',
+    2 => 'businesslist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/business/businessList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\business->businessList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Business.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012316s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004470s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002986s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004230s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.004576s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `xm_business` [ RunTime:0.005180s ]
+[ sql ] [ SQL ] SELECT * FROM `xm_business` [ RunTime:0.006003s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `xm_business` LIMIT 1 [ RunTime:0.002019s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:19+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.logo%7D%7D [运行时间：0.061109s][吞吐率：16.36req/s] [内存消耗：1,547.52kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/business/businessList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:23+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Store/storeList.html
+[ log ] www.yh_business.com/admin.php/Store/storeList.html [运行时间：0.094471s][吞吐率：10.59req/s] [内存消耗：2,650.09kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Store',
+    2 => 'storeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/business/businessList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Store.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\store\storelist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012497s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002664s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002836s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003579s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002112s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:23+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel=
+[ log ] www.yh_business.com/admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel= [运行时间：0.125203s][吞吐率：7.99req/s] [内存消耗：2,503.94kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+  'sname' => '',
+  'code' => '',
+  'tel' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Store.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007715s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.007053s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003734s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.007516s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.004670s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `xm_store` [ RunTime:0.007475s ]
+[ sql ] [ SQL ] SELECT * FROM `xm_store` WHERE  `status` = 1 [ RunTime:0.006640s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `xm_store` WHERE  `status` = 1 LIMIT 1 [ RunTime:0.003664s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:23+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel=
+[ log ] www.yh_business.com/admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel= [运行时间：0.110759s][吞吐率：9.03req/s] [内存消耗：2,503.94kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+  'sname' => '',
+  'code' => '',
+  'tel' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Store.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003941s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003215s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003724s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002163s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001170s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `xm_store` [ RunTime:0.002363s ]
+[ sql ] [ SQL ] SELECT * FROM `xm_store` WHERE  `status` = 1 [ RunTime:0.001918s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `xm_store` WHERE  `status` = 1 LIMIT 1 [ RunTime:0.001429s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:24+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.logo%7D%7D [运行时间：0.076899s][吞吐率：13.00req/s] [内存消耗：1,547.52kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:24+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storelist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/store/storelist.html?page=1&limit=10 [运行时间：0.081205s][吞吐率：12.31req/s] [内存消耗：2,503.77kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Store.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002937s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003436s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.005584s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001899s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001443s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `xm_store` [ RunTime:0.002091s ]
+[ sql ] [ SQL ] SELECT * FROM `xm_store` WHERE  `status` = 1 [ RunTime:0.002740s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `xm_store` WHERE  `status` = 1 LIMIT 1 [ RunTime:0.001625s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:25+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storeadd.html
+[ log ] www.yh_business.com/admin.php/store/storeadd.html [运行时间：0.087206s][吞吐率：11.47req/s] [内存消耗：2,653.10kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storeadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Store.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\store\storeadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003020s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003296s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.009546s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002202s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002345s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:24:25+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.logo%7D%7D [运行时间：0.100220s][吞吐率：9.98req/s] [内存消耗：1,686.85kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Store/storeList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:16+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.yh_business.com/admin.php/System/systemList.html [运行时间：0.106577s][吞吐率：9.38req/s] [内存消耗：2,658.38kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/store/storeadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003848s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003335s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004021s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003520s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003211s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:16+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.106662s][吞吐率：9.38req/s] [内存消耗：2,515.28kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003634s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002627s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004262s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003860s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001802s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.002331s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.001601s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:16+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.082210s][吞吐率：12.16req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:16+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.075164s][吞吐率：13.30req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:17+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.112169s][吞吐率：8.92req/s] [内存消耗：2,799.79kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013242s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002042s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004396s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.006438s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.004795s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:25+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/system/systemupload.html
+[ log ] www.yh_business.com/admin.php/system/systemupload.html [运行时间：0.121691s][吞吐率：8.22req/s] [内存消耗：2,582.30kb] [文件加载：70]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemupload',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'content-type' => 'multipart/form-data; boundary=----WebKitFormBoundaryjwpNYpWMX2vtykAz',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.yh_business.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '228383',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemUpload[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012247s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004190s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.008077s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.009013s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002546s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:29+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.077891s][吞吐率：12.84req/s] [内存消耗：2,667.39kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'no-cache',
+  'pragma' => 'no-cache',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001996s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001924s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001933s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002727s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001262s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T17:27:36+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/system/systemupload.html
+[ log ] www.yh_business.com/admin.php/system/systemupload.html [运行时间：0.161889s][吞吐率：6.18req/s] [内存消耗：2,582.30kb] [文件加载：70]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemupload',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'content-type' => 'multipart/form-data; boundary=----WebKitFormBoundarypfVw9HwxLvRAgHbl',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.yh_business.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '228383',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemUpload[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.018600s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002634s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.014575s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001950s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.004596s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:02+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.088819s][吞吐率：11.26req/s] [内存消耗：2,799.99kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002686s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002416s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002723s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002952s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002542s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:10+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/system/systemupload.html
+[ log ] www.yh_business.com/admin.php/system/systemupload.html [运行时间：0.107293s][吞吐率：9.32req/s] [内存消耗：2,582.30kb] [文件加载：70]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemupload',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'content-type' => 'multipart/form-data; boundary=----WebKitFormBoundarycjvpFwOcFbcDbOAB',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.yh_business.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '228383',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemUpload[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005265s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004369s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003750s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004047s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003788s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:19+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.yh_business.com/admin.php/System/systemList.html [运行时间：0.085449s][吞吐率：11.70req/s] [内存消耗：2,658.38kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003114s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003361s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003338s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002753s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001688s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:20+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.108693s][吞吐率：9.20req/s] [内存消耗：2,515.28kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.017048s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002410s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003964s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003750s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002618s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.003630s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.002611s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:20+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.065416s][吞吐率：15.29req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:20+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.059980s][吞吐率：16.67req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:27+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemadd.html
+[ log ] www.yh_business.com/admin.php/system/systemadd.html [运行时间：0.090457s][吞吐率：11.05req/s] [内存消耗：2,666.88kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemadd',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemAdd[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemadd.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013212s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002204s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002246s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001929s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002698s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:29+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.yh_business.com/admin.php/System/systemList.html [运行时间：0.090324s][吞吐率：11.07req/s] [内存消耗：2,658.38kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012682s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004013s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003100s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003407s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002466s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:29+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.101125s][吞吐率：9.89req/s] [内存消耗：2,515.28kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005065s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003963s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.004086s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003282s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003616s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.002486s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.001744s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:30+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.054224s][吞吐率：18.44req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:07:30+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.044092s][吞吐率：22.68req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:03+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.yh_business.com/admin.php/System/systemList.html [运行时间：0.100660s][吞吐率：9.93req/s] [内存消耗：2,795.48kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemadd.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011808s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003552s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002765s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002847s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002095s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:04+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.098947s][吞吐率：10.11req/s] [内存消耗：2,515.28kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004498s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004114s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.005325s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004585s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003125s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.003559s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.002626s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:04+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.049846s][吞吐率：20.06req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:04+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.038581s][吞吐率：25.92req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:07+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemupdateinfo.html?system_id=1
+[ log ] www.yh_business.com/admin.php/system/systemupdateinfo.html?system_id=1 [运行时间：0.154413s][吞吐率：6.48req/s] [内存消耗：2,799.46kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemupdateinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'system_id' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemUpdateInfo[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemupdateinfo.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+  3 => 'data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002947s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002124s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003232s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002049s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003967s ]
+[ sql ] [ SQL ] SELECT * FROM `system` WHERE  `system_id` = 1 LIMIT 1 [ RunTime:0.002659s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:33+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemupdateinfo.html?system_id=1
+[ log ] www.yh_business.com/admin.php/system/systemupdateinfo.html?system_id=1 [运行时间：0.081816s][吞吐率：12.22req/s] [内存消耗：2,799.66kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemupdateinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/System/systemList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'system_id' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemUpdateInfo[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemupdateinfo.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+  3 => 'data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003784s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004301s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003660s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002988s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002567s ]
+[ sql ] [ SQL ] SELECT * FROM `system` WHERE  `system_id` = 1 LIMIT 1 [ RunTime:0.002909s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:36+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html
+[ log ] www.yh_business.com/admin.php/system/systemlist.html [运行时间：0.084551s][吞吐率：11.83req/s] [内存消耗：2,658.43kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemupdateinfo.html?system_id=1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003009s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002371s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003300s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002341s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002279s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:36+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/system/systemlist.html?page=1&limit=10
+[ log ] www.yh_business.com/admin.php/system/systemlist.html?page=1&limit=10 [运行时间：0.118172s][吞吐率：8.46req/s] [内存消耗：2,515.28kb] [文件加载：67]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'system',
+    2 => 'systemlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemlist.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\System.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013674s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003988s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003756s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.011511s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003645s ]
+[ sql ] [ SQL ] SELECT * FROM `system` ORDER BY `system_id`  desc LIMIT 0,10 [ RunTime:0.003526s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `system` LIMIT 1 [ RunTime:0.001644s ]
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:36+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/%7B%7Bd.company_logo%7D%7D
+[ log ] www.yh_business.com/uploads/%7B%7Bd.company_logo%7D%7D [运行时间：0.044617s][吞吐率：22.41req/s] [内存消耗：1,547.66kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '{{d.company_logo}}',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemlist.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-13T18:10:36+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png
+[ log ] www.yh_business.com/uploads/20200710/0e4b7004c86ad05bcb9dd39024246306.png [运行时间：0.043994s][吞吐率：22.73req/s] [内存消耗：1,548.17kb] [文件加载：57]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'uploads',
+    2 => '20200710',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=1c3v2mj70qqe4np4vh5t03c4l7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/system/systemlist.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------

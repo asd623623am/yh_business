@@ -1,0 +1,154 @@
+[ 2020-08-17T09:37:08+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Member/memberList
+[ log ] www.yh_business.com/admin.php/Member/memberList [运行时间：10.124538s][吞吐率：0.10req/s] [内存消耗：2,629.22kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Member',
+    2 => 'memberList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=0nalo1390j01mp2pack1dkfvbi; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Member->memberList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Member.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\yh_business\public/../application/admin\view\member\memberlist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:10.028845s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002635s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.002063s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002671s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.002193s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:37:09+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/datanewlist.html?page=1&limit=10&owner=&tel=
+[ log ] www.yh_business.com/admin.php/home/datanewlist.html?page=1&limit=10&owner=&tel= [运行时间：0.133644s][吞吐率：7.48req/s] [内存消耗：2,598.58kb] [文件加载：70]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'datanewlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=0nalo1390j01mp2pack1dkfvbi; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Member/memberList',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+  'owner' => '',
+  'tel' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->dataNewList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006159s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.006761s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.005225s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004432s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.004682s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.011665s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' LIMIT 0,10 [ RunTime:0.003907s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.002960s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:37:09+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/datanewlist.html?page=1&limit=10&owner=&tel=
+[ log ] www.yh_business.com/admin.php/home/datanewlist.html?page=1&limit=10&owner=&tel= [运行时间：0.121443s][吞吐率：8.23req/s] [内存消耗：2,598.58kb] [文件加载：70]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'datanewlist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=0nalo1390j01mp2pack1dkfvbi; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.yh_business.com/admin.php/Member/memberList',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.yh_business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+  'owner' => '',
+  'tel' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->dataNewList[ E:\PHPserver\wwwroot\default\yh_business\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003886s ] mysql:dbname=business;host=192.168.0.116;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004404s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.003310s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004849s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.003024s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.009690s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' LIMIT 0,10 [ RunTime:0.003650s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.001538s ]
+
+---------------------------------------------------------------
