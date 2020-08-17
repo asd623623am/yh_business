@@ -54,6 +54,8 @@ class Store extends Common
             $storeId = $postData['storeid'];
             $storeData = model('Store')->where(['storeid'=>$storeId])->find()->toArray();
             if(!empty($storeData)){
+                $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
+                $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
                 $this->assign('store',$storeData);
                 return  view();
             }
@@ -78,15 +80,19 @@ class Store extends Common
                 'name'	=> $data['name'],
             ];
             $info = model('Store')->where($where)->find();
+            //验证必传字段
+            $ret = \app\admin\model\Store::isVerificationField($data);
             if (!empty($info)) {
                 fail('门店名称已存在！');
             } else {
-                $insert = $this->processData(processData);
-                $storeid = model('Store')->field('storeid')->order('storeid desc')->find();
+                $insert = $this->processData($data);
+                $storeData = model('Store')->field('storeid')->order('storeid desc')->find();
                 $insert['store_no'] = 100001;
-                if(!empty($storeid)){
-                    $len = strlen($storeid);
+                if(!empty($storeData)){
+                    $storeid = $storeData['storeid'];
+                    $len = strlen((string)$storeid);
                     $strno = substr(100001,0,6-$len);
+                    $storeid += 1;
                     $insert['store_no'] = $strno.$storeid;
                 }
                 $res = model('Store')->allowField(true)->save($insert);
@@ -114,7 +120,8 @@ class Store extends Common
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
-                $insert = $this->processData(processData);
+                \app\admin\model\Store::isVerificationField($postData);
+                $insert = $this->processData($postData);
                 $where = ['storeid' => $postData['storeid']];
                 $res = model('Store')->save($insert,$where);
                 if ($res) {
@@ -183,7 +190,7 @@ class Store extends Common
             'password'	=> $postData['passwords'],
         ];
         //门店logo
-        if(!empty($data['banner_url'])){
+        if(!empty($postData['banner_url'])){
             $len = strlen($postData['banner_url']);
             $strDate = substr($postData['banner_url'],1,8);
             $strname = substr($postData['banner_url'],10,$len-10);
@@ -194,12 +201,20 @@ class Store extends Common
             $insert['pos_pay'] = $postData['pos_pay'];
         }
         //刷脸支付
-        if(!empty($data['face_pay'])){
+        if(!empty($postData['face_pay'])){
             $insert['face_pay'] =$postData['face_pay'];
         }
         //营业时间
-        $insert['start_business_hours'] = strtotime(date('Y-m-d').$postData['start_business_hours']);
-        $insert['end_business_hours'] = strtotime(date('Y-m-d').$postData['end_business_hours']);
+        $insert['start_business_hours'] = $insert['end_business_hours'] = 0;
+        if(!empty($postData['start_business_hours'])){
+            $insert['start_business_hours'] = strtotime(date('Y-m-d').$postData['start_business_hours']);
+        }
+        if(!empty($postData['end_business_hours'])){
+            $insert['end_business_hours'] = strtotime(date('Y-m-d').$postData['end_business_hours']);
+        }
+        if($insert['start_business_hours']>$insert['end_business_hours']){
+            fail('开始时间不能小于结束时间');
+        }
         return $insert;
     }
 
@@ -222,6 +237,8 @@ class Store extends Common
     private function getTips(){
         exit('门店信息有误');
     }
+
+
 
 
 }

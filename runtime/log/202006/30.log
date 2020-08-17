@@ -1,0 +1,95 @@
+[ 2020-06-30T18:09:46+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.backend.com/admin.php/System/systemList.html [运行时间：4.394826s][吞吐率：0.23req/s] [内存消耗：2,620.97kb] [文件加载：73]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Feedback/feedbackList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'no-cache',
+  'pragma' => 'no-cache',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.434383s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:1.680885s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.057937s ]
+
+---------------------------------------------------------------
+[ 2020-06-30T18:09:46+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/System/systemList.html
+[ log ] www.backend.com/admin.php/System/systemList.html [运行时间：0.148638s][吞吐率：6.73req/s] [内存消耗：2,620.68kb] [文件加载：73]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'System',
+    2 => 'systemList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Feedback/feedbackList.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\System->systemList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\System.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\system\systemlist.html [ array (
+  0 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.060183s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.016391s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.014672s ]
+
+---------------------------------------------------------------

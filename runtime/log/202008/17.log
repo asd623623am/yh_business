@@ -1,0 +1,524 @@
+[ 2020-08-17T09:27:33+08:00 ] 127.0.0.1 127.0.0.1 GET /
+[ log ] business.com/ [运行时间：0.964129s][吞吐率：1.04req/s] [内存消耗：3,420.81kb] [文件加载：68]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'module',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\phpstudy_pro\WWW\yh_business\application\index\controller\Index.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008410s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `banner` [ RunTime:0.050355s ]
+[ sql ] [ SQL ] SELECT * FROM `banner` [ RunTime:0.000404s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `brand` [ RunTime:0.016113s ]
+[ sql ] [ SQL ] SELECT * FROM `brand` WHERE  `brand_show` = 1 ORDER BY `brand_id`  desc LIMIT 1 [ RunTime:0.000940s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:36+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php
+[ log ] business.com/admin.php [运行时间：0.142733s][吞吐率：7.01req/s] [内存消耗：2,243.61kb] [文件加载：62]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'purpose' => 'prefetch',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ RUN ] app\admin\controller\Login->Login[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Login.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ VIEW ] D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\login\login.html [ array (
+) ]
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:37+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php
+[ log ] business.com/admin.php [运行时间：0.021727s][吞吐率：46.03req/s] [内存消耗：2,243.42kb] [文件加载：62]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ RUN ] app\admin\controller\Login->Login[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Login.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ VIEW ] D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\login\login.html [ array (
+) ]
+[ info ] [ LOG ] INIT File
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:40+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/login/login.html
+[ log ] business.com/admin.php/login/login.html [运行时间：0.092013s][吞吐率：10.87req/s] [内存消耗：3,121.70kb] [文件加载：63]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'login',
+    2 => 'login',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php',
+  'origin' => 'http://business.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '37',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+)
+[ info ] [ PARAM ] array (
+  'admin_name' => 'admin',
+  'admin_pwd' => 'adminadmin',
+)
+[ info ] [ RUN ] app\admin\controller\Login->Login[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010083s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `admin` [ RunTime:0.039081s ]
+[ sql ] [ SQL ] SELECT * FROM `admin` WHERE  `admin_name` = 'admin' LIMIT 1 [ RunTime:0.000408s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:42+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/index/index.html
+[ log ] business.com/admin.php/index/index.html [运行时间：0.211929s][吞吐率：4.72req/s] [内存消耗：3,564.57kb] [文件加载：73]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Index->index[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Index.php ]
+[ info ] [ VIEW ] D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\index\index.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010880s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.041288s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000452s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.024019s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000322s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:43+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/index/paynumber.html
+[ log ] business.com/admin.php/index/paynumber.html [运行时间：0.246980s][吞吐率：4.05req/s] [内存消耗：3,482.74kb] [文件加载：70]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'index',
+    2 => 'paynumber',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php/index/index.html',
+  'origin' => 'http://business.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '6',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+)
+[ info ] [ PARAM ] array (
+  'data' => 'm',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Index->payNumber[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Index.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010906s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001855s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000428s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002157s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000255s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `order_no` [ RunTime:0.174066s ]
+[ sql ] [ SQL ] SELECT * FROM `order_no` WHERE  `status` = 1  AND `type` IN ('0','1')  AND `pay_status` = '1'  AND `finish_at` >  1596211200 [ RunTime:0.000481s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:43+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/index/paymoney.html
+[ log ] business.com/admin.php/index/paymoney.html [运行时间：0.203938s][吞吐率：4.90req/s] [内存消耗：3,482.74kb] [文件加载：70]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'index',
+    2 => 'paymoney',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php/index/index.html',
+  'origin' => 'http://business.com',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '6',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+)
+[ info ] [ PARAM ] array (
+  'data' => 'm',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Index->payMoney[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Index.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000857s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001843s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000440s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001833s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000268s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `order_no` [ RunTime:0.001901s ]
+[ sql ] [ SQL ] SELECT * FROM `order_no` WHERE  `status` = 1  AND `type` IN ('0','1')  AND `pay_status` = '1'  AND `finish_at` >  1596211200 [ RunTime:0.000415s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:43+08:00 ] 127.0.0.1 127.0.0.1 POST /admin.php/index/indexdata.html
+[ log ] business.com/admin.php/index/indexdata.html [运行时间：0.308903s][吞吐率：3.24req/s] [内存消耗：3,480.22kb] [文件加载：71]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'index',
+    2 => 'indexdata',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php/index/index.html',
+  'origin' => 'http://business.com',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '0',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Index->indexData[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Index.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001014s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001830s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000456s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001816s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000305s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.140860s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000433s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `order_no` [ RunTime:0.002573s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `order_no` WHERE  `status` = 1  AND `type` IN ('0','1')  AND `pay_status` IN ('0','1') LIMIT 1 [ RunTime:0.000413s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `order_no` WHERE  `status` = 1  AND `type` IN ('0','1')  AND `pay_status` IN ('0','1') LIMIT 1 [ RunTime:0.000192s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `order_no` WHERE  `pay_status` = '1'  AND `status` = 1  AND `type` IN ('0','1') LIMIT 1 [ RunTime:0.000332s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:45+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Store/storeList.html
+[ log ] business.com/admin.php/Store/storeList.html [运行时间：0.111313s][吞吐率：8.98req/s] [内存消耗：3,502.38kb] [文件加载：73]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Store',
+    2 => 'storeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Store.php ]
+[ info ] [ VIEW ] D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\store\storelist.html [ array (
+  0 => 'area',
+  1 => 'images',
+  2 => 'AllMenu',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010309s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001793s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000407s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001715s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000274s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:46+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel=
+[ log ] business.com/admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel= [运行时间：0.075638s][吞吐率：13.22req/s] [内存消耗：3,352.21kb] [文件加载：66]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php/Store/storeList.html',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+  'sname' => '',
+  'code' => '',
+  'tel' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Store.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010341s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001752s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000395s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001692s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000274s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `xm_store` [ RunTime:0.030292s ]
+[ sql ] [ SQL ] SELECT * FROM `xm_store` WHERE  `status` = 1 [ RunTime:0.000377s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `xm_store` WHERE  `status` = 1 LIMIT 1 [ RunTime:0.000282s ]
+
+---------------------------------------------------------------
+[ 2020-08-17T09:27:46+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel=
+[ log ] business.com/admin.php/store/storelist.html?page=1&limit=10&sname=&code=&tel= [运行时间：0.044897s][吞吐率：22.27req/s] [内存消耗：3,352.21kb] [文件加载：66]
+[ info ] [ LANG ] D:\phpstudy_pro\WWW\yh_business\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'store',
+    2 => 'storelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e17g2rlcvmq29aphuhe0g9ane7; thinkphp_show_page_trace=0|0',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://business.com/admin.php/Store/storeList.html',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'business.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+  'sname' => '',
+  'code' => '',
+  'tel' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Store->storeList[ D:\phpstudy_pro\WWW\yh_business\application\admin\controller\Store.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010252s ] mysql:dbname=business;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.001735s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000399s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001755s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000300s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `xm_store` [ RunTime:0.001757s ]
+[ sql ] [ SQL ] SELECT * FROM `xm_store` WHERE  `status` = 1 [ RunTime:0.000349s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `xm_store` WHERE  `status` = 1 LIMIT 1 [ RunTime:0.000297s ]
+
+---------------------------------------------------------------

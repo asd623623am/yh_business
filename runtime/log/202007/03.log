@@ -1,0 +1,981 @@
+[ 2020-07-03T11:57:35+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：1.845460s][吞吐率：0.54req/s] [内存消耗：2,836.80kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.348082s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.387559s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.079113s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.012498s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.059847s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.003220s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.008891s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T11:57:36+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.162148s][吞吐率：6.17req/s] [内存消耗：2,696.13kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'no-cache',
+  'pragma' => 'no-cache',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001159s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003691s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001088s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.001995s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000581s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.002790s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000829s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T11:57:38+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.190086s][吞吐率：5.26req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001190s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.037314s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001163s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002931s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000588s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.039668s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.030027s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.022740s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T11:57:51+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.113698s][吞吐率：8.80req/s] [内存消耗：2,836.82kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010576s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.010500s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.014787s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002227s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000662s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.001863s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000606s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T11:57:52+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.089977s][吞吐率：11.11req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001335s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003928s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001081s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002995s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000837s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003354s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.000986s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000820s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:03+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.109541s][吞吐率：9.13req/s] [内存消耗：2,836.82kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001443s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004612s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001142s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002159s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000584s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.001678s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000563s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:04+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.103018s][吞吐率：9.71req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011446s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003620s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001237s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002667s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000802s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003971s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.001266s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000504s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:05+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.074977s][吞吐率：13.34req/s] [内存消耗：2,695.83kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001020s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004518s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001014s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002315s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000765s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.001763s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000771s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:05+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.171965s][吞吐率：5.82req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001297s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.071721s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001078s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003118s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000861s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003880s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.001147s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000597s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:11+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.118858s][吞吐率：8.41req/s] [内存消耗：2,836.82kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000990s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.035384s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000994s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002576s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001017s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.002696s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000576s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:11+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.106573s][吞吐率：9.38req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001099s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.022217s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001317s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003258s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000866s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003178s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.001011s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000562s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:12+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.068509s][吞吐率：14.60req/s] [内存消耗：2,695.83kb] [文件加载：74]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000912s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002759s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000789s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002297s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000818s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.002354s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000489s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:12+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.234276s][吞吐率：4.27req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001560s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004542s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.014569s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003623s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001135s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003838s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.001361s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000640s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:17+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.116667s][吞吐率：8.57req/s] [内存消耗：2,836.82kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.015708s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004160s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001322s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002532s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001087s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.003051s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000676s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:17+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.103817s][吞吐率：9.63req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001228s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004330s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001256s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.019348s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000792s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003311s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.001113s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000599s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:38+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.131278s][吞吐率：7.62req/s] [内存消耗：2,836.82kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002113s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.004786s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001271s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003649s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.001167s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.003596s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.001055s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:39+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.086209s][吞吐率：11.60req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001059s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.002718s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000813s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.004260s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000591s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.003512s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.001964s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000653s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:46+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/Home/homeList.html
+[ log ] www.backend.com/admin.php/Home/homeList.html [运行时间：0.102264s][吞吐率：9.78req/s] [内存消耗：2,836.82kb] [文件加载：76]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'Home',
+    2 => 'homeList',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ VIEW ] E:\PHPserver\wwwroot\default\aliyun_1805\public/../application/admin\view\home\homelist.html [ array (
+  0 => 'images',
+  1 => 'AllMenu',
+  2 => 'districts',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004794s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003573s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.000897s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.002444s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000465s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `district` [ RunTime:0.002664s ]
+[ sql ] [ SQL ] SELECT `id`,`name` FROM `district` ORDER BY `id`  asc [ RunTime:0.000417s ]
+
+---------------------------------------------------------------
+[ 2020-07-03T12:00:47+08:00 ] 127.0.0.1 127.0.0.1 GET /admin.php/home/homelist.html?page=1&limit=10
+[ log ] www.backend.com/admin.php/home/homelist.html?page=1&limit=10 [运行时间：0.086036s][吞吐率：11.62req/s] [内存消耗：2,556.90kb] [文件加载：68]
+[ info ] [ LANG ] E:\PHPserver\wwwroot\default\aliyun_1805\thinkphp\lang\zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'home',
+    2 => 'homelist',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'thinkphp_show_page_trace=0|0; thinkphp_show_page_trace=0|0; PHPSESSID=hu6de7c6nutcp5tk4rjbuqv0p7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.backend.com/admin.php/Home/homeList.html',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => 'www.backend.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'limit' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\Home->homeList[ E:\PHPserver\wwwroot\default\aliyun_1805\application\admin\controller\Home.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001413s ] mysql:dbname=property;host=127.0.0.1;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `power_node` [ RunTime:0.003159s ]
+[ sql ] [ SQL ] SELECT * FROM `power_node` WHERE  `status` = 1 ORDER BY level asc [ RunTime:0.001119s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `system` [ RunTime:0.003495s ]
+[ sql ] [ SQL ] SELECT * FROM `system` LIMIT 1 [ RunTime:0.000611s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `home` [ RunTime:0.002934s ]
+[ sql ] [ SQL ] SELECT * FROM `home` WHERE  `is_delete` = '1' ORDER BY `home_id`  desc LIMIT 0,10 [ RunTime:0.000795s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `home` WHERE  `is_delete` = '1' LIMIT 1 [ RunTime:0.000533s ]
+
+---------------------------------------------------------------
