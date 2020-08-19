@@ -24,30 +24,22 @@
         </div>
     </div>
     <span id='typeclass' hidden="hidden">{$data.is_admin}</span>
-    <div class="layui-form-item">
+    <!-- <div class="layui-form-item">
         <label class="layui-form-label">超级管理员</label>
         <div class="layui-input-block">
             <input type="radio" name="is_admin" value="1" title="是" >
             <input type="radio" name="is_admin" value="2" title="否" checked>
         </div>
-    </div>
+    </div> -->
 
     <input type="text" hidden="hidden" id='codeNo' value="{$code}" name="">
 
 
     <hr/>
 
-    <input type="text" value="{$did}" id="did" hidden="hidden">
-    <div class="layui-form-item">
-       <label class="layui-form-label">选择小区</label>
-       <div class="layui-input-block" id='tag'>
-         {volist name="dis" id='val'}
-         <input type="checkbox" name="like[]" value="{$val.id}" title="{$val.name}">
-         {/volist}
-       </div>
-     </div>
+  
 
-     <input type="text" value="{$data.type}" hidden="hidden" id='types' name="">
+     <!-- <input type="text" value="{$data.type}" hidden="hidden" id='types' name="">
      <div class="layui-form-item">
         <label class="layui-form-label">选择分类</label>
         <div class="layui-input-block">
@@ -55,7 +47,7 @@
             <input type="radio" name="type" value="2" title="供暖" >
             <input type="radio" name="type" value="3" title="全部">
         </div>
-    </div>
+    </div> -->
 
 
     <!-- <div class="layui-form-item">

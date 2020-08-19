@@ -1,0 +1,156 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/login/login.html";i:1597672422;}*/ ?>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小码旺铺会员后台登录</title>
+<link href="__STATIC__/admin/css/login.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+<link href="__STATIC__/admin/css/demo.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+<link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
+<link rel="stylesheet" href="__STATIC__/css/layui.css">
+<script src="__STATIC__/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/js/Validform_v5.3.2_min.js"></script>
+<style>
+  html{
+    background-image: url(__STATIC__/admin/themes/timg.jpg) ;
+    background-size: 100% 100%;
+  }
+  body{
+    background: none;
+  }
+  .logo_img{
+    width: 300px;ICP19042
+    height: 90px;
+    display: block;
+    background: rgba(255,255,255,0.3);
+  }
+  .logo_img img{
+    width: 100%;
+    height:100%;
+  }
+  .temp-demo{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,.5);
+  }
+</style>
+<html>
+<body>
+  <!-- margin-left:100px; margin-top: 40px; -->
+  <div style="position: absolute;left: 100px;top: 40px;z-index: 9">
+        <img style="width:400px;height:150px; " src="__STATIC__/admin/themes/logn.png">
+        <div style="width: 50px; border-top:2px solid #fff; margin:-20px 0 20px 53px;">
+
+        </div>
+        <h1 style="color:#fff; margin-left:50px; font-family:'宋体'; letter-spacing:5px;">小码旺铺会员版管理系统后台</h1>
+    </div>
+  <div class="temp-demo">
+
+  </div>
+<div class="header">
+  <!-- <h1 class="headerLogo"><a class="logo_img" title="小码旺铺物业后台" target="_blank" href="#"><img  alt="logo" src="__STATIC__/admin/images/logins.png"></a></h1> -->
+</div>
+
+<div class="banner">
+<div class="login-aside">
+  <div id="o-box-up"></div>
+  <div id="o-box-down"  style="table-layout:fixed;">
+   <div class="error-box"></div>
+
+   <form class="layui-form" action="">
+
+       <div class="fm-item" style="margin-bottom:45px;">
+          <h1>欢迎登录</h1>
+      </div>
+
+
+
+   <div class="fm-item">
+	   <label for="logonId" class="form-label">会员系统登陆：</label>
+	   <input type="text" placeholder="输入账号" name="admin_name"
+              value='' lay-verify="required|username" class="i-text">
+       <div class="ui-form-explain"></div>
+  </div>
+
+  <div class="fm-item">
+	   <label for="logonId" class="form-label">登陆密码：</label>
+	   <input type="password"
+             value="" maxlength="100" name="admin_pwd"
+              class="i-text" lay-verify="required" placeholder="请输入密码！">
+       <div class="ui-form-explain"></div>
+  </div>
+
+ <!--  <div class="fm-item pos-r">
+	   <label for="logonId" class="form-label">验证码</label>
+	   <input type="text" placeholder="输入验证码"
+              value="8888" lay-verify="required" name="mycode" class="i-text yzm">
+        <div><img src="<?php echo captcha_src(); ?>"  id='code' class="yzm-img" alt="captcha" /></div>
+  </div> -->
+  <div class="fm-item" style="margin-top: 10px;">
+	   <label for="logonId" class="form-label"></label>
+	   <button type="submit" id='logins' value="" lay-submit lay-filter="*" tabindex="4" id="send-btn" class="btn-login">登录</button>
+       <div class="ui-form-explain"></div>
+  </div>
+  </form>
+  </div>
+</div>
+	<div class="bd">
+		<ul>
+<!-- 			<li style="background:url(__STATIC__/admin/themes/theme-pic1.jpg) #CCE1F3 center 0 no-repeat;"></li> -->
+			<li ></li>
+		</ul>
+	</div>
+</div>
+<div class="layui-footer" style="text-align: center;position: fixed; bottom: 10px;left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.5); ">
+    <!-- 底部固定区域 -->
+    <!-- © 京ICP19042138号-5 -->
+    Copyright©2020北京银河一然商务有限公司.All rights reserved.
+  </div>
+</body>
+</html>
+<Script>
+    $(function() {
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form;
+              form.on('submit(*)',function(data){
+                $.post(
+                        "<?php echo url('Login/Login'); ?>",
+                        data.field,
+                        function(msg){
+
+                          layer.msg(msg.font, {
+                            icon: msg.code,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                          }, function(){
+                              if(msg.code==1){
+                                  location.href="<?php echo url('Index/index'); ?>";
+                                  $('#code').attr('src','<?php echo captcha_src(); ?>?+num='+Math.random());
+                              }
+                          });
+
+
+
+                            /*layer.msg(msg.font,{icon:msg.code},{time:2000},function(){
+                              if(msg.code==1){
+                                  location.href="<?php echo url('Index/index'); ?>";
+                                  $('#code').attr('src','<?php echo captcha_src(); ?>?+num='+Math.random());
+                              }
+                            });*/
+
+                        },
+                    'json'
+                );
+                return false;
+            })
+            //验证码切换
+            // $('#code').click(function(){
+            //     $('#code').attr('src','<?php echo captcha_src(); ?>?+num='+Math.random());
+            // });
+
+        })
+    })
+
+</Script>

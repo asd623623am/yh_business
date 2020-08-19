@@ -29,20 +29,23 @@ class Member extends Common
 		        $tel = input('get.tel');
 		        $where = [];
 
-		        if (!empty($tel)) {
+		        
+				$admin = session('admin');
+				$where = [];
+				if($admin['admin_type'] == 1 || $admin['admin_type'] == 2){
+					$where['status'] = 1;
+				} else {
+					$where['status'] = 1;
+					$where['storeid'] = $admin['storeid'];
+				}
+				if (!empty($tel)) {
 		        	$len = strlen($tel);
 		        	if ($len == 11) {
-		        		$where = [
-		        			'phone'	=> $tel
-		        		];
+		        		$where['phone'] = $tel;
 		        	} else {
-		        		$where = [
-		        			'card'	=> $tel
-		        		];
+		        		$where['card'] = $tel;
 		        	}
 		        }
-
-		        $where['status']	= 1;
 		        $dataInfo = model('Member')->where($where)->page($page,$limit)->select()->toArray();
 		       $count=model('Member')->where($where)->count();
 		        $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$dataInfo];
@@ -75,9 +78,56 @@ class Member extends Common
     		exit('没有找到您的数据！');
     	}
 
-    	$arr = $info->toArray();
+		$arr = $info->toArray();
+		$this->assign('uid',$data['uid']);
     	$this->assign('arr',$arr);
     	$this->assign('page',$data['page']);
     	return view();
-    }
+	}
+	
+	public function orderList()
+	{
+		$data = input();
+		if(empty($data['uid'])){
+			fail('请求有误！');
+		}
+
+		if(empty($data['page'])){
+			fail('请求有误！');
+		}
+		if(empty($data['limit'])){
+			fail('请求有误！');
+		}
+		$page = $data['page'];
+		$limit = $data['limit'];
+		$where = [
+			'uid' => $data['uid'],
+			'status'	=>1
+		];
+		$count = model('Xmorder')->where($where)->count();
+		$res = model('Xmorder')->where($where)->page($page,$limit)->select()->toArray();
+
+		foreach($res as $k=>$v){
+			$res[$k]['content'] = '菜品数量：'.$v['goods_amount'].'<br/>'.'总额：'.$v['pay_fee'];
+
+			if($v['pay_id'] == 1 ){
+				$res[$k]['pay_id'] = '微信支付';
+			}
+
+			if($v['pay_status'] == 0){
+				$res[$k]['pay_status'] = '未付款';
+			} else if($v['pay_status'] == 1){
+				$res[$k]['pay_status'] = '付款中';
+			} else if($v['pay_status'] == 2){
+				$res[$k]['pay_status'] = '已付款';
+			} else if($v['pay_status'] == 3){
+				$res[$k]['pay_status'] = '已退款';
+			}
+		}
+
+
+		$info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
+		echo json_encode($info);
+		exit;
+	}
 }

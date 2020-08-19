@@ -8,6 +8,7 @@
     <legend>门店基础信息设置</legend>
 </fieldset>
 <input type="text" hidden="hidden" value="{$page}" id="page">
+<input type="text" id='uid' hidden="hidden" value="{$uid}">
 <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">姓名:</label>
@@ -87,27 +88,25 @@
                 window.history.back();
             // location.href="{:url('Deposit/depositList')}";
         });
-
+        var uid = $('#uid').val();
         table.render({
             elem: '#test'
-           ,url:"{:url('Member/memberList')}"
+           ,url:"{:url('Member/orderList')}"
+           ,where:{uid:uid}
             ,limit:10
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
-                  {field:'uid', width:200, title: '会员ID'}
+            {field:'orderid', width:100, title: 'orderid'}
                 ,{width:100, title: '序号',type:'numbers'}
-                ,{field:'card',width:200, title: '会员卡号'}
-                ,{field:'name',width:100, title: '姓名'}
-                ,{field:'grid',width:100, title: '会员等级'}
-                ,{field:'discount',width:150, title: '折扣'}
-                ,{field:'pay_money',width:100, title: '消费金额'}
-                ,{field:'points',width:100, title: '积分'}
-                ,{field:'balance',width:100, title: '储值余额'}
-                ,{field:'phone',width:150, title: '手机号'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title:'消费账单',align:'center',fixed: 'right'}
+                ,{field:'order_sn', width:200, title: '订单号'}
+                ,{field:'tnumber',width:100, title: '桌号'}
+                ,{field:'content',width:200, title: '订单内容'}
+                ,{field:'pay_id',width:100, title: '支付方式'}
+                ,{field:'pay_status',width:150, title: '状态'}
+                ,{field:'right', width:100,toolbar: '#barDemo', title:'操作'}
             ]],
             done: function () {
-                $("[data-field='uid']").css('display','none');
+                $("[data-field='orderid']").css('display','none');
                 $('.layui-table').on('click','tr',function(){
                   $(this).css('background','#ccc').siblings().css('background','#fff');
                 });
@@ -122,10 +121,9 @@
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             if(layEvent === 'detail'){ //查看
-                alert('暂时没有订单数据');
-                return false;
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="{:url('Member/memberUpdateInfo')}?uid="+data.uid+"&page="+pages;
+                location.href="{:url('Xmorder/orderInfo')}?orderid="+data.orderid+"&page="+pages;
+                return false;
 
             }
         })

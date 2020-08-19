@@ -55,8 +55,9 @@ class Operation extends Common
 	        $limit=input('get.limit');
 	        if(empty($limit)){
 	            exit('非法操作此页面');
-	        }
-	        $role_info=model('Role')->where(['status'=>1])->page($page,$limit)->select();
+			}
+			$admin = session('admin');
+	        $role_info=model('Role')->where(['status'=>1,'admin_ids'=>$admin['admin_id']])->page($page,$limit)->select();
 	        $count=model('Role')->count();
 	        $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$role_info];
 	        echo json_encode($info);

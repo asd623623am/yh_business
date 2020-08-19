@@ -102,7 +102,6 @@ class Common extends Controller
                 admin_id = ' . $admin_info['admin_id'];
 
             $menu = model('admin')->query($sql);
-            
             // dump($menu);exit;
 
             if (!empty($menu)) {
@@ -122,37 +121,36 @@ class Common extends Controller
 
             $roles = model('admin_role')->where(['admin_id'=>$admin_info['admin_id']])->find()->toArray();
             $ro =model('Role')->where(['role_id'=>$roles['role_id']])->find()->toArray();
-
             $temp = [];
             #判断管理员 是有物业权限还是供暖权限
-            foreach ($new as $k => $v) {
-                if ($v['node_name'] == '缴费创建') {
-                    if ($ro['type'] == 1) {
-                        foreach ($v['son'] as $key => $val) {
-                            if ($val['node_name'] == '创建物业收费单') {
-                                $temp[] = $val;
-                            }
-                            if ($val['node_name'] == '物业收费单列表') {
-                                $temp[] = $val;
-                            }
-                        }
-                    } else if ($ro['type'] == 2) {
-                        foreach ($v['son'] as $key => $val) {
-                            if ($val['node_name'] == '创建供暖收费单') {
-                                $temp[] = $val;
-                            }
-                            if ($val['node_name'] == '供暖收费单列表') {
-                                $temp[] = $val;
-                            }
-                        }
+            // foreach ($new as $k => $v) {
+            //     if ($v['node_name'] == '缴费创建') {
+            //         if ($ro['type'] == 1) {
+            //             foreach ($v['son'] as $key => $val) {
+            //                 if ($val['node_name'] == '创建物业收费单') {
+            //                     $temp[] = $val;
+            //                 }
+            //                 if ($val['node_name'] == '物业收费单列表') {
+            //                     $temp[] = $val;
+            //                 }
+            //             }
+            //         } else if ($ro['type'] == 2) {
+            //             foreach ($v['son'] as $key => $val) {
+            //                 if ($val['node_name'] == '创建供暖收费单') {
+            //                     $temp[] = $val;
+            //                 }
+            //                 if ($val['node_name'] == '供暖收费单列表') {
+            //                     $temp[] = $val;
+            //                 }
+            //             }
                         
-                    } else {
-                        $temp = $v['son'];
-                    }
+            //         } else {
+            //             $temp = $v['son'];
+            //         }
 
-                    $new[$k]['son'] = $temp;
-                }
-            }
+            //         $new[$k]['son'] = $temp;
+            //     }
+            // }
             
             $return = [
                 'menu' => $new,
@@ -290,12 +288,12 @@ class Common extends Controller
 //                if ($v['node_name'] == '反馈记录') {
 //                    $temp['10'] = $v;
 //                }
-//                if ($v['node_name'] == '权限管理') {
-//                    $temp['11'] = $v;
-//                     $son = $temp[11]['son'];
-//                    $key = array_column($son, 'node_id');
-//                    array_multisort($key, SORT_ASC, $temp[11]['son']);
-//                }
+               if ($v['node_name'] == '权限管理') {
+                   $temp['11'] = $v;
+                    $son = $temp[11]['son'];
+                   $key = array_column($son, 'node_id');
+                   array_multisort($key, SORT_ASC, $temp[11]['son']);
+               }
                if ($v['node_name'] == '系统管理') {
                    $temp['12'] = $v;
                }

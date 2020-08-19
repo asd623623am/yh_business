@@ -22,7 +22,7 @@
                    placeholder="请输入角色名称" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" hidden>
         <label class="layui-form-label">超级管理员<span style="color: red;">*</span></label>
         <div class="layui-input-block">
             <input type="radio" name="is_admin" value="1" title="是" >
@@ -31,7 +31,7 @@
     </div>
     <hr/>
 
-    <div class="layui-form-item">
+    <!-- <div class="layui-form-item">
        <label class="layui-form-label">选择小区<span style="color: red;">*</span></label>
        <div class="layui-input-block">
          {volist name="data" id='val'}
@@ -46,7 +46,7 @@
             <input type="radio" name="type" value="2" title="供暖" >
             <input type="radio" name="type" value="3" title="全部" checked>
         </div>
-    </div>
+    </div> -->
     <!-- <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
         <div class="layui-input-block">
@@ -88,37 +88,7 @@
     layui.use(['form', 'layer'], function(){
         var form = layui.form;
         var layer = layui.layer;
-
-        //获取小区列表.
-        // $.ajax({
-        //         url:'{:url("Role/rolePowerList")}',
-        //         type:'get',
-        //         dataType:'json',
-        //         success:function( info ){
-        //         $(info.data).each(function(index,val){
-        //             console.log(index);
-        //             console.log(val);
-        //           });
-        //             console.log(info);
-        //             return false;
-        //             if(json_info.code==1){
-        //                 layer.msg(json_info.font, {
-        //                   icon: json_info.code,
-        //                   time: 2000 //2秒关闭（如果不配置，默认是3秒）
-        //                 }, function(){
-        //                   location.href="{:url('Operation/roleList')}";
-        //                 });   
-        //             } else {
-        //                 layer.msg(json_info.font,{icon:json_info.code});
-        //             }
-
-                    
-        //         }
-        //     })
-
-
-
-        // 给父级添加点击事件
+       // 给父级添加点击事件
         $('.parent').click(function(){
             if( $(this).prop('checked') ==  true ){
                 $(this).prop('checked' , false);

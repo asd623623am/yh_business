@@ -38,15 +38,17 @@ class Admin extends Common
             # 接受角色id的数据
             $role = $data['role'];
             $role_data = model('Role')->where(['role_id'=>reset($role)])->find();
-            if ($role_data->is_admin == 1) {
-                $data['admin_type'] = 1;
-            } else {
+
+            $admin = session('admin');
+            if ($admin['admin_type'] == 1) {
                 $data['admin_type'] = 2;
+            } else {
+                $data['admin_type'] = $admin['admin_type'];
             }
+            $data['pid'] = $admin['admin_id'];
+            $data['storeid'] = $admin['storeid'];
             unset( $data['role'] );
             try{
-
-
                 # 写入管理员表
                 $model->save($data);
 
@@ -102,8 +104,8 @@ class Admin extends Common
             //     -> where( $where )
             //     -> group('r.role_id')
             //     ->select();
-
-            $role_list = $role_model->where(['status'=>1])->select()->toArray();
+            $admin = session('admin');
+            $role_list = $role_model->where(['status'=>1,'is_admin'=>['neq',1],'admin_ids'=>$admin['admin_id']])->select()->toArray();
             $this -> assign('role' , $role_list );
             return view();
         }
@@ -148,7 +150,9 @@ class Admin extends Common
         if (empty($page_num)) {
             exit('非法操作此页面');
         }
-        $admin_info = model('Admin')->page($p, $page_num)->select();
+
+        $admin = session('admin');
+        $admin_info = model('Admin')->where(['pid'=>$admin['admin_id']])->page($p, $page_num)->select();
         $count = model('Admin')->count();
         $info = ['code' => 0, 'msg' => '', 'count' => $count, 'data' => $admin_info];
         echo json_encode($info);

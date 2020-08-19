@@ -15,6 +15,11 @@ class Role extends Common{
         # 判断是否是post提交数据
         if( request() -> isPost() ){
 
+            $admin=session('admin');
+
+            if($admin['admin_type'] == 1){
+                $admin['admin_type'] = 2;
+            }
             //如果是超级管理员就直接添加.
             $is_admin = request() ->param('is_admin');
             if ($is_admin == 1) {
@@ -27,7 +32,6 @@ class Role extends Common{
                 
                 if ($info) {
                     $this -> addLog('添加一个新的角色');
-
                     win('添加成功');
                 } else {
                     fail('添加失败');
@@ -52,8 +56,8 @@ class Role extends Common{
                 $now = time();
                 $insert = [];
                 $insert['role_name'] = request() ->param('role_name');
-                $insert['is_admin'] = $is_admin;
-                $insert['type'] = request() ->param('type');
+                $insert['is_admin'] = $admin['admin_type'];
+                $insert['admin_ids'] = $admin['admin_id'];
                 $insert['status'] = 1;
                 $insert['ctime'] = $now;
                 $role_model -> insert( $insert );
@@ -73,6 +77,7 @@ class Role extends Common{
                     $new[$i]['node_id'] = $v;
                     $i ++;
                 }
+
                 $role_node = model('RoleNode');
                 $number = $role_node -> insertAll( $new );
 
@@ -82,23 +87,23 @@ class Role extends Common{
 
 
                 //写入小区权限.
-                if (isset($post['like'])) {
-                    $like = $post['like'];
+                // if (isset($post['like'])) {
+                //     $like = $post['like'];
 
-                    $ii = 0 ;
-                    $temp = [];
-                    foreach( $like as $k => $v ){
-                        $temp[$ii]['r_id'] = $role_id; //角色
-                        $temp[$ii]['d_id'] = $v; //小区id
-                        $ii ++;
-                    }
-
-                    $role_district = model('RoleDistrict');
-                    $num = $role_district -> insertAll( $temp );
-                    if( $num < 1 ){
-                        throw new Exception('写入关联表失败');
-                    }
-                }
+                //     $ii = 0 ;
+                //     $temp = [];
+                //     foreach( $like as $k => $v ){
+                //         $temp[$ii]['r_id'] = $role_id; //角色
+                //         $temp[$ii]['d_id'] = $v; //小区id
+                //         $ii ++;
+                //     }
+                //     dump($temp);exit;
+                //     $role_district = model('RoleDistrict');
+                //     $num = $role_district -> insertAll( $temp );
+                //     if( $num < 1 ){
+                //         throw new Exception('写入关联表失败');
+                //     }
+                // }
 
                 $role_model -> commit();
                 $this -> addLog('添加一个新的角色');
@@ -181,22 +186,21 @@ class Role extends Common{
         $wheres = [
             'r_id' => $role_id
         ];
-        $darr = model('RoleDistrict')->where($wheres)->select()->toArray();
+        // $darr = model('RoleDistrict')->where($wheres)->select()->toArray();
         $code = model('RoleNode')->where($where)->select()->toArray();
         $str = '';
         foreach ($code as $key => $value) {
             $str .= $value['node_id'].'|';
         }
-
-        $strs = '';
-        foreach ($darr as $k => $v) {
-            $strs .= $v['d_id'].'|';
-        }
-        $dis = model('District')->select();
-        $this->assign('dis',$dis);
+        // $strs = '';
+        // foreach ($darr as $k => $v) {
+        //     $strs .= $v['d_id'].'|';
+        // }
+        // $dis = model('District')->select();
+        // $this->assign('dis',$dis);
         $this->assign('data', $data);
         $this->assign('code',$str);
-        $this->assign('did',$strs);
+        // $this->assign('did',$strs);
         $page = input('get.page');
         if(empty($page)){
             exit('非法操作此页面');
@@ -213,9 +217,6 @@ class Role extends Common{
         if (empty($data)) {
             fail('非法操作此页面');
         }
-
-
-
         $role_id = $data['role_id'];
         $rwhere=[
             'role_id'   => $role_id
@@ -227,7 +228,11 @@ class Role extends Common{
             'type'       => '',
         ];
         Db::table('role')->where($rwhere)->update($font);
-        if ($data['is_admin'] == 1) {
+        $admin = session('admin');
+        if($admin['admin_type'] == 1){
+            $admin['admin_type'] = 2;
+        }
+        if ($admin['admin_type'] == 1) {
             $fonts = [
                 'role_name'  => $data['role_name'],
                 'is_admin'   => $data['is_admin'],
@@ -240,7 +245,7 @@ class Role extends Common{
                 $rwheres=[
                     'r_id'   => $role_id
                 ];
-                model('RoleDistrict')->where($rwheres)->delete();
+                // model('RoleDistrict')->where($rwheres)->delete();
                 $this -> addLog('修改了一个角色');
                 win('修改成功');
                 exit;
@@ -256,9 +261,9 @@ class Role extends Common{
         ];
         $font = [
             'role_name'  => $data['role_name'],
-            'is_admin'   => $data['is_admin'],
-            'type'       => $data['type']
+            'is_admin'   => $admin['admin_type'],
         ];
+
         $reslut = Db::table('role')->where($rwhere)->update($font);
 
         if (!isset($data['power'])) {
@@ -271,7 +276,6 @@ class Role extends Common{
                  $role_node = model('RoleNode');
                  $ndata = $role_node->where($where_rdel)->select()->toArray();
                 if (empty($ndata)) {
-
                         #添加权限角色关联表.
                         $power = $data['power'];
                         $i = 0 ;
@@ -284,7 +288,8 @@ class Role extends Common{
                         $role_node = model('RoleNode');
                         $number = $role_node -> insertAll( $new );
                         if ($number) {
-                                
+                            $this -> addLog('修改了一个角色');
+                            win('修改成功'); 
                                 #添加小区角色关联表.
                                 $whered = [
                                     'r_id'  => $role_id,
@@ -347,8 +352,6 @@ class Role extends Common{
 
 
                 } else {
-
-
                     $res=model('RoleNode')->where($where_rdel)->delete();
                     if ($res) {
                         
@@ -373,6 +376,8 @@ class Role extends Common{
                                     $ddata=model('RoleDistrict')->where($whered)->select()->toArray();
 
                                     if (empty($ddata)) {
+                                        $this -> addLog('修改了一个角色');
+                                                    win('修改成功');exit;
                                                 //写入小区权限.
                                                 if (isset($data['like'])) {
                                                     $like = $data['like'];

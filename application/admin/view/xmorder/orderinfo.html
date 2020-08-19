@@ -1,0 +1,77 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>订单管理</a>
+        <a><cite> 订单详细</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>门店基础信息设置</legend>
+</fieldset>
+<input type="text" hidden="hidden" value="{$page}" id="page">
+<div class="layui-form-item">
+    <div style="width: 40%; margin-left: 40px; float: left;">
+        <span style="font-size: 40px;">{$order.sname}</span>
+        <span style="font-size: 20px; color:gray; margin-left: 30%;">{$order.pay_status}</span>
+       <hr>
+       
+       {volist name="goods" id='goods'}
+       <div style="margin-top: 20px;">
+           <span style="font-size: 20px;">{$goods.goods_name}</span>
+           <span style="margin-left: 40%;">x<span>{$goods.goods_number}</span></span>
+            <span style="margin-left: 5%; color: gray;">￥{$goods.original_price}</span>
+            <span style="margin-left: 10%; color: red;">￥{$goods.selling_price}</span>
+            <div>
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">规格1</button>
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">规格2</button>
+            </div>
+       </div>
+       {/volist}
+
+       <!-- <div style="margin-top: 20px;">
+            <span style="font-size: 20px;">水果沙拉</span>
+            <span style="margin-left: 40%;">x<span>1</span></span>
+            <span style="margin-left: 5%; color: gray;">￥32</span>
+            <span style="margin-left: 10%; color: red;">￥24</span>
+        </div> -->
+        <div style="margin-left: 65%; margin-top: 20%;">
+            <span style="font-size: 20px;">小计：</span>
+            <span style="margin-left:20px; color: red;">￥{$order.receivables}</span>
+        </div>
+        <div>
+            <h2>备注</h2>
+            <span style="color: gray;">{$order.remark}</span>
+        </div>
+    </div>
+    
+
+
+    <div style="float:right; width: 40%;">
+        <h2>订单详情</h2>
+        <div style="margin-top: 20px;" >桌台号/就餐方式： <span style="margin-left: 20%;">{$order.tnumber}/{$order.order_type}</span></div>
+        <div style="margin-top: 20px;" >订单编号： <span style="margin-left: 20%;">{$order.order_sn}</span></div>
+        <div style="margin-top: 20px;" >支付方式： <span style="margin-left: 20%;">{$order.pay_id}</span></div>
+        <div style="margin-top: 20px;" >下单时间： <span style="margin-left: 20%;">{$order.create_time}</span></div>
+        <div style="margin-top: 20px;" >支付时间： <span style="margin-left: 20%;">{$order.pay_time}</span></div>
+        
+    </div>
+ 
+
+<div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+<script>
+    layui.use(['table','layer','upload','form'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+
+        $('#up').click(function(){
+            var page = $('#page').val();
+                    localStorage.setItem('page',page);
+                    window.history.back();
+        });
+    });
+</script>
