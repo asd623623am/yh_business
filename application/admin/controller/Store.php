@@ -24,8 +24,16 @@ class Store extends Common
     public function storeList(){
 
         if( request() -> isAjax() ){
+            $page=input('get.page');
+            if(empty($page)){
+                exit('非法操作此页面');
+            }
+            $limit=input('get.limit');
+            if(empty($limit)){
+                exit('非法操作此页面');
+            }
             $where = ['status' => 1];
-            $data=Db::table("xm_store")->where($where)->select();
+            $data=Db::table("xm_store")->where($where)->page($page,$limit)->select();
             foreach ($data as &$val){
                 $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                 $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
@@ -73,6 +81,7 @@ class Store extends Common
     public function storeAdd(){
         if(check()){
             $data = input('post.');
+            dump($data);exit();
             if(empty($data)){
                 exit('非法操作此页面');
             }

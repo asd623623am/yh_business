@@ -1,15 +1,20 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:91:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\business\businesslist.html";i:1597198742;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597301644;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:91:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\business\businesslist.html";i:1597827154;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597821551;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
 <!DOCTYPE html>
-<html>
+<html no-cache>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小码旺铺物业版管理系统后台</title>
     <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/css/publish.css">
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    
+    <script src="__STATIC__/move.js"></script>
+    <script src="__STATIC__/publishImg.js"></script>
+    <script src="__STATIC__/croppers.js"></script>
+    <script src="__STATIC__/multiSelect.js"></script>
+
 </head>
 <style type="text/css">
     .layui-table img {
@@ -169,12 +174,12 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <div class="layui-form-item">
+            <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
         <a href='#'>商户管理</a>
         <a><cite> 商户信息列表</cite></a>
     </span>
-</div>
+</blockquote>
 <div class="layui-form-item">
 </div>
 <table class="layui-hide" id="test" lay-filter="testdd"></table>

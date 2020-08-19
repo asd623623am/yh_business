@@ -1,15 +1,20 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\store\storeadd.html";i:1597375578;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597301644;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\store\storeadd.html";i:1597813120;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597821551;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
 <!DOCTYPE html>
-<html>
+<html no-cache>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小码旺铺物业版管理系统后台</title>
     <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/css/publish.css">
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    
+    <script src="__STATIC__/move.js"></script>
+    <script src="__STATIC__/publishImg.js"></script>
+    <script src="__STATIC__/croppers.js"></script>
+    <script src="__STATIC__/multiSelect.js"></script>
+
 </head>
 <style type="text/css">
     .layui-table img {
@@ -255,9 +260,6 @@
             </div>
         </div>
     </div>
-<!--    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
-<!--        <legend>门店支付设置</legend>-->
-<!--    </fieldset>-->
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">pos支付</label>
@@ -290,7 +292,7 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     $(function(){
-        layui.use(['form','layer','upload','laydate','laydate'], function(){
+        layui.use(['form','layer','upload','laydate'], function(){
             var form = layui.form;
             var layer = layui.layer;
             var laydate = layui.laydate;
@@ -299,7 +301,7 @@
                 elem: '#myload'
                 ,url: '<?php echo url("Brand/bannerUpload"); ?>'
                 ,multiple: true
-                ,number:3
+                ,number:1
                 ,allDone: function(obj){ //当文件全部被提交后，才触发
                 }
                 ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”

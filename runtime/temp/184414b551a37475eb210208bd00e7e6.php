@@ -1,15 +1,20 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\store\storelist.html";i:1597298409;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597301644;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:85:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\store\storelist.html";i:1597827098;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597821551;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
 <!DOCTYPE html>
-<html>
+<html no-cache>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小码旺铺物业版管理系统后台</title>
     <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/css/publish.css">
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    
+    <script src="__STATIC__/move.js"></script>
+    <script src="__STATIC__/publishImg.js"></script>
+    <script src="__STATIC__/croppers.js"></script>
+    <script src="__STATIC__/multiSelect.js"></script>
+
 </head>
 <style type="text/css">
     .layui-table img {
@@ -180,25 +185,19 @@
         <a><cite> 门店列表</cite></a>
     </span>
 </blockquote>
-<!--<div class="layui-form-item">-->
-<!--        <span class="layui-breadcrumb">-->
-<!--            <a href='#'>门店管理</a>-->
-<!--            <a><cite> 门店列表</cite></a>-->
-<!--        </span>-->
-<!--</div>-->
 <div class="search-table layui-form">
     <div class="layui-input-inline">
-        <input type="text" name="sname" required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
+        <input type="text" name="sname" required  placeholder="请输入门店名称" autocomplete="off" class="layui-input">
     </div>
     <div class="layui-input-inline">
-        <input type="text" name="code" required  placeholder="请输门店编号" autocomplete="off" class="layui-input">
+        <input type="text" name="code" required  placeholder="请输入门店编号" autocomplete="off" class="layui-input">
     </div>
     <div class="layui-input-inline">
         <input type="text" name="tel" required  placeholder="请输入联系人姓名" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
-    <div class="marginTs">
+<div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -208,9 +207,10 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table','layer',], function(){
+    layui.use(['table','layer','upload','form'], function(){
         var table = layui.table;
         var layer = layui.layer;
+        var upload = layui.upload;
         var form = layui.form;
         var ids = 0;
         //自动点击.
@@ -265,7 +265,7 @@
                 elem: '#test'
                 ,url:"<?php echo url('Store/storeList'); ?>"
                 ,where:data.field
-                ,limit:10
+                ,limit:1
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
                     {field:'storeid', width:80, title: '序号', sort: true},

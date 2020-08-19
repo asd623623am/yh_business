@@ -84,9 +84,6 @@
             </div>
         </div>
     </div>
-<!--    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
-<!--        <legend>门店支付设置</legend>-->
-<!--    </fieldset>-->
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">pos支付</label>
@@ -119,7 +116,7 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     $(function(){
-        layui.use(['form','layer','upload','laydate','laydate'], function(){
+        layui.use(['form','layer','upload','laydate'], function(){
             var form = layui.form;
             var layer = layui.layer;
             var laydate = layui.laydate;
@@ -128,7 +125,7 @@
                 elem: '#myload'
                 ,url: '{:url("Brand/bannerUpload")}'
                 ,multiple: true
-                ,number:3
+                ,number:1
                 ,allDone: function(obj){ //当文件全部被提交后，才触发
                 }
                 ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”

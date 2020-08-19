@@ -1,0 +1,153 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>商品管理</a>
+        <a><cite> 商品列表</cite></a>
+    </span>
+</blockquote>
+<div class="search-table layui-form">
+    <div class="layui-inline tempsTest">
+        <select name="gtid"  id="search-district" lay-search="">
+            <option value="">请选择菜品分类</option>
+            {volist name="gtData" id='gtData'}
+            <option value="{$gtData.gtid}">{$gtData.gtname}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-input-inline tempsTest">
+        <input type="text" name="gname" required  placeholder="请输入菜品名称" autocomplete="off" class="layui-input">
+    </div>
+    <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+</div>
+<div class="layui-btn-group demoTable" style="margin-top: 10px">
+    <button class="layui-btn layui-btn-normal" data-type="goodsAdd">添加菜品</button>
+</div>
+<table class="layui-hide" id="test" lay-filter="testdd"></table>
+<script type="text/html" id="barDemo">
+<!--    <a class="layui-btn layui-btn-xs" lay-event="sel">查看</a>-->
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">上架</a>
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="down">下架</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table','layer','upload','form'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+        //自动点击.
+        $(document).ready(function(){
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                var page = localStorage.getItem('page');
+                table.reload('test', {
+                    page: {
+                        curr: page //重新从第 1 页开始
+                    }
+                }); //只重载数据
+                localStorage.clear();
+            }
+        });
+        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'edit') { //修改
+                location.href="{:url('Goods/goodsEdit')}?gid="+data.gid;
+            }else if(layEvent === 'del'){
+                layer.confirm("确认删除'"+data.name+"'吗？", function(index){
+                    $.post(
+                        "{:url('Goods/goodsDel')}",
+                        data,
+                        function(msg){
+                            if(msg.code ==1){
+                                layer.msg(msg.font);
+                                location.href="{:url('Goods/goodsList')}";
+                            }else{
+                                layer.msg(msg.font, {icon: 5});
+                            }
+                        },'json'
+                    )
+                    return false;
+                })
+            }else if(layEvent === 'up'){
+                layer.confirm("确认上架'"+data.name+"'吗？", function(index){
+                    $.post(
+                        "{:url('Goods/goodsUp')}",
+                        data,
+                        function(msg){
+                            if(msg.code ==1){
+                                layer.msg(msg.font);
+                                location.href="{:url('Goods/goodsList')}"
+                            }else{
+                                layer.msg(msg.font, {icon: 5});
+                            }
+                        },'json'
+                    )
+                    return false;
+                });
+            }else if(layEvent === 'down'){
+                layer.confirm("确认下架'"+data.name+"'吗？", function(index){
+                    $.post(
+                        "{:url('Goods/goodsDown')}",
+                        data,
+                        function(msg){
+                            if(msg.code ==1){
+                                layer.msg(msg.font);
+                                location.href="{:url('Goods/goodsList')}";
+                            }else{
+                                layer.msg(msg.font, {icon: 5});
+                            }
+                        },'json'
+                    )
+                    return false;
+                })
+            }else if(layEvent === 'sel'){
+                $.post(
+                    "{:url('Goods/goodsInfo')}",
+                    data,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="{:url('Goods/goodsList')}";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            }
+
+        });
+        form.on('submit(*)', function(data){
+            table.render({
+                elem: '#test'
+                ,url:"{:url('Goods/goodsList')}"
+                ,where:data.field
+                ,limit:10
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[
+                    {field:'gid', width:80, title: 'ID',}
+                    ,{field:'img', width:150 , title: '菜品图片',templet:'<div><img style="height: 80px;height: 80px" src="__PUBLIC__/{{d.img}}"></div>'}
+                    ,{field:'name', width:150 , title: '菜品名称'}
+                    ,{field:'gtname', width:150 , title: '菜品类别'}
+                    ,{field:'stock', width:100, title: '菜品库存'}
+                    ,{field:'price', width:150, title: '价格'}
+                    ,{field:'is_special', width:100, title: '特色菜品',align:'center'}
+                    ,{field:'groundin', width:100, title: '菜品状态',align:'center'}
+                    ,{field:'sort', width:100, title: '排序值',align:'center'}
+                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center'}
+                ]]
+                ,page: true
+            });
+        });
+
+        $('.layui-table').on('click','tr',function(){
+            $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+        //跳转页面
+        $('.demoTable .layui-btn').on('click', function(){
+            location.href="{:url('Goods/goodsAdd')}";
+        });
+    });
+</script>

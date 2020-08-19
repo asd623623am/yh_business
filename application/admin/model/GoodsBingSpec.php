@@ -1,6 +1,8 @@
 <?php
+
 namespace app\admin\controller;
 
+use think\Model;
 
 /**
  * Notes:商品绑定规格管理
@@ -9,7 +11,7 @@ namespace app\admin\controller;
  * date: 2020/8/11  
  * time: 下午 01:38
  */
-class GoodsBingSpec extends Common{
+class GoodsBingSpec extends Model{
 
     protected $table='xm_goods_bing_spec';
 

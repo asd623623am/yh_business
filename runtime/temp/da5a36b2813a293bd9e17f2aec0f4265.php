@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:83:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\home\homelist.html";i:1597030750;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1596511401;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:83:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\home\homelist.html";i:1597732039;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597803622;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,8 @@
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    
+    <script src="__STATIC__/multiSelect.js"></script>
+
 </head>
 <style type="text/css">
     .layui-table img {
@@ -247,22 +248,21 @@
                 //请求异常回调
             }
         });
-
-            var ids = 0;
-            //自动点击.
-            $(document).ready(function(){
-                $("#sousuo").trigger("click");
-                ids = 1;
-                if(ids == 1){
-                             var page = localStorage.getItem('page');
-                            table.reload('test', {
-                                page: {
-                                    curr: page //重新从第 1 页开始
-                                }
-                            }); //只重载数据
-                            localStorage.clear();
-                }
-            });
+        var ids = 0;
+        //自动点击.
+        $(document).ready(function(){
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                         var page = localStorage.getItem('page');
+                        table.reload('test', {
+                            page: {
+                                curr: page //重新从第 1 页开始
+                            }
+                        }); //只重载数据
+                        localStorage.clear();
+            }
+        });
          $('#submit').click(function(){
             location.href="<?php echo url('Home/homeAdd'); ?>";
         })
@@ -325,9 +325,6 @@
             },page: true
           });
         });
-
-
-
         $('.layui-table').on('click','tr',function(){
           $(this).css('background','#ccc').siblings().css('background','#fff');
         });
@@ -338,10 +335,10 @@
     </div>
 
     </div>
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        Copyright©2020北京银河一然商务有限公司.All rights reserved.
-      </div>
+<!-- 底部固定区域 -->
+    <div class="layui-footer" style="background: #EEEEEE;text-align:center">
+        Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
+    </div>
 </div>
 <script>
     //JavaScript代码区域

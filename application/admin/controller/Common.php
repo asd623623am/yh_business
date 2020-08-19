@@ -214,67 +214,67 @@ class Common extends Controller
             $res = $return['menu'];
             $temp = [];
             foreach ($res as $k => $v) {
-                if ($v['node_name'] == '基本情况') {
-                    $temp['0'] = $v;
-                }
-                if ($v['node_name'] == '房屋管理') {
-                    $temp['1'] = $v;
-                    $son = $temp[1]['son'];
-                    $key = array_column($son, 'node_id');
-                    array_multisort($key, SORT_ASC, $temp[1]['son']);
-
-                }
-                if ($v['node_name'] == '缴费创建') {
-                    $temp['2'] = $v;
-                     $son = $temp[2]['son'];
-                     $sontemp = [];
-                     foreach ($son as $kk => $vv) {
-                         if ($vv['node_name'] == '创建物业收费单') {
-                            $sontemp[0] = $vv;
-                        }
-                        if ($vv['node_name'] == '物业收费单列表') {
-                            $sontemp[1] = $vv;
-                        }
-                        if ($vv['node_name'] == '创建供暖收费单') {
-                            $sontemp[2] = $vv;
-                        }
-                        if ($vv['node_name'] == '供暖收费单列表') {
-                            $sontemp[3] = $vv;
-                        }
-                        if ($vv['node_name'] == '缴费订单列表') {
-                            $sontemp[4] = $vv;
-                        }
-                     }
-                     ksort($sontemp);
-                     $temp[2]['son'] = $sontemp;
-                    // $key = array_column($son, 'node_name');
-                    // array_multisort($key, SORT_ASC, $temp[1]['son']);
-
-                }
-                 if ($v['node_name'] == '缴费订单') {
-                    $temp['3'] = $v;
-                }
-                if ($v['node_name'] == '押金管理') {
-                    $temp['4'] = $v;
-                    $sontemp = [];
-                    $son = $temp[4]['son'];
-                    foreach ($son as $kk => $vv) {
-                        if ($vv['node_name'] == '创建押金订单') {
-                            $sontemp[0] = $vv;
-                        }
-                        if ($vv['node_name'] == '押金缴费') {
-                            $sontemp[1] = $vv;
-                        }
-                        if ($vv['node_name'] == '押金退款') {
-                            $sontemp[2] = $vv;
-                        }
-                    }
-                    ksort($sontemp);
-                    $temp[4]['son'] = $sontemp;
-                }
-                if ($v['node_name'] == '数据报表') {
-                    $temp['5'] = $v;
-                }
+//                if ($v['node_name'] == '基本情况') {
+//                    $temp['0'] = $v;
+//                }
+//                if ($v['node_name'] == '房屋管理') {
+//                    $temp['1'] = $v;
+//                    $son = $temp[1]['son'];
+//                    $key = array_column($son, 'node_id');
+//                    array_multisort($key, SORT_ASC, $temp[1]['son']);
+//
+//                }
+//                if ($v['node_name'] == '缴费创建') {
+//                    $temp['2'] = $v;
+//                     $son = $temp[2]['son'];
+//                     $sontemp = [];
+//                     foreach ($son as $kk => $vv) {
+//                         if ($vv['node_name'] == '创建物业收费单') {
+//                            $sontemp[0] = $vv;
+//                        }
+//                        if ($vv['node_name'] == '物业收费单列表') {
+//                            $sontemp[1] = $vv;
+//                        }
+//                        if ($vv['node_name'] == '创建供暖收费单') {
+//                            $sontemp[2] = $vv;
+//                        }
+//                        if ($vv['node_name'] == '供暖收费单列表') {
+//                            $sontemp[3] = $vv;
+//                        }
+//                        if ($vv['node_name'] == '缴费订单列表') {
+//                            $sontemp[4] = $vv;
+//                        }
+//                     }
+//                     ksort($sontemp);
+//                     $temp[2]['son'] = $sontemp;
+//                    // $key = array_column($son, 'node_name');
+//                    // array_multisort($key, SORT_ASC, $temp[1]['son']);
+//
+//                }
+//                 if ($v['node_name'] == '缴费订单') {
+//                    $temp['3'] = $v;
+//                }
+//                if ($v['node_name'] == '押金管理') {
+//                    $temp['4'] = $v;
+//                    $sontemp = [];
+//                    $son = $temp[4]['son'];
+//                    foreach ($son as $kk => $vv) {
+//                        if ($vv['node_name'] == '创建押金订单') {
+//                            $sontemp[0] = $vv;
+//                        }
+//                        if ($vv['node_name'] == '押金缴费') {
+//                            $sontemp[1] = $vv;
+//                        }
+//                        if ($vv['node_name'] == '押金退款') {
+//                            $sontemp[2] = $vv;
+//                        }
+//                    }
+//                    ksort($sontemp);
+//                    $temp[4]['son'] = $sontemp;
+//                }
+//                if ($v['node_name'] == '数据报表') {
+//                    $temp['5'] = $v;
+//                }
 //                if ($v['node_name'] == '内容管理') {
 //                    $temp['6'] = $v;
 //                }
@@ -299,14 +299,17 @@ class Common extends Controller
 //                if ($v['node_name'] == '系统管理') {
 //                    $temp['12'] = $v;
 //                }
-//                if($v['node_name'] == '权限节点管理'){
-//                    $temp['13'] = $v;
-//                }
+                if($v['node_name'] == '权限节点管理'){
+                    $temp['13'] = $v;
+                }
                 if($v['node_name'] == '商户基础信息'){
                     $temp['14'] = $v;
                 }
                 if($v['node_name'] == '门店管理'){
                     $temp['15'] = $v;
+                }
+                if($v['node_name'] == '菜品管理'){
+                    $temp['16'] = $v;
                 }
             }
             ksort($temp);

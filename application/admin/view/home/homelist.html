@@ -76,22 +76,21 @@
                 //请求异常回调
             }
         });
-
-            var ids = 0;
-            //自动点击.
-            $(document).ready(function(){
-                $("#sousuo").trigger("click");
-                ids = 1;
-                if(ids == 1){
-                             var page = localStorage.getItem('page');
-                            table.reload('test', {
-                                page: {
-                                    curr: page //重新从第 1 页开始
-                                }
-                            }); //只重载数据
-                            localStorage.clear();
-                }
-            });
+        var ids = 0;
+        //自动点击.
+        $(document).ready(function(){
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                         var page = localStorage.getItem('page');
+                        table.reload('test', {
+                            page: {
+                                curr: page //重新从第 1 页开始
+                            }
+                        }); //只重载数据
+                        localStorage.clear();
+            }
+        });
          $('#submit').click(function(){
             location.href="{:url('Home/homeAdd')}";
         })
@@ -154,9 +153,6 @@
             },page: true
           });
         });
-
-
-
         $('.layui-table').on('click','tr',function(){
           $(this).css('background','#ccc').siblings().css('background','#fff');
         });

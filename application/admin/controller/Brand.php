@@ -234,6 +234,32 @@ class Brand extends Common{
 
     }
 
+    /**
+     * Notes: 上传多张图片
+     * Class: bannerUploads
+     * user: bingwoo
+     * date: 2020/8/19 11:08
+     */
+    public function bannerUploads(){
+
+        $file = request()->file('file');
+        if(empty($file)){
+            exit('非法操作此页面');
+        }
+        die;
+        //动到框架应用根目录/public/uploads/ 目录下
+        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+        if($info){
+            // 成功上传后 获取上传信息
+            echo json_encode(['font'=>'上传成功','code'=>1,'src'=>$info->getSaveName()]);
+
+        }else{
+            // 上传失败获取错误信息
+            fail($file->getError());
+        }
+
+    }
+
 
     public function bannerList()
     {

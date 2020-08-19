@@ -1,17 +1,20 @@
 <?php
-namespace app\admin\controller;
 
+namespace app\admin\model;
+
+use think\Model;
 
 /**
- * Notes:商品规格管理
- * Created by PhpStorm.
+ * Notes:商品分类管理
+ * Created: by PhpStorm.
+ * package: app\admin\model
+ * Class: GoodsType
  * user: bingwoo
- * date: 2020/8/11  
- * time: 下午 01:38
+ * date: 2020/8/17 9:42
  */
-class GoodsSpec extends Common{
+class GoodsSpec extends Model{
 
-    protected $table='xm_goods_spec';
+    protected $table = 'xm_goods_spec';
 
     //定义时间戳字段名;
     protected $createTime = 'create_time';

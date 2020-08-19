@@ -9,25 +9,19 @@
         <a><cite> 门店列表</cite></a>
     </span>
 </blockquote>
-<!--<div class="layui-form-item">-->
-<!--        <span class="layui-breadcrumb">-->
-<!--            <a href='#'>门店管理</a>-->
-<!--            <a><cite> 门店列表</cite></a>-->
-<!--        </span>-->
-<!--</div>-->
 <div class="search-table layui-form">
     <div class="layui-input-inline">
-        <input type="text" name="sname" required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
+        <input type="text" name="sname" required  placeholder="请输入门店名称" autocomplete="off" class="layui-input">
     </div>
     <div class="layui-input-inline">
-        <input type="text" name="code" required  placeholder="请输门店编号" autocomplete="off" class="layui-input">
+        <input type="text" name="code" required  placeholder="请输入门店编号" autocomplete="off" class="layui-input">
     </div>
     <div class="layui-input-inline">
         <input type="text" name="tel" required  placeholder="请输入联系人姓名" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
-    <div class="marginTs">
+<div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -37,9 +31,10 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table','layer',], function(){
+    layui.use(['table','layer','upload','form'], function(){
         var table = layui.table;
         var layer = layui.layer;
+        var upload = layui.upload;
         var form = layui.form;
         var ids = 0;
         //自动点击.
@@ -94,7 +89,7 @@
                 elem: '#test'
                 ,url:"{:url('Store/storeList')}"
                 ,where:data.field
-                ,limit:10
+                ,limit:1
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
                     {field:'storeid', width:80, title: '序号', sort: true},
