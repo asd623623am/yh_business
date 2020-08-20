@@ -1,0 +1,94 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>菜品管理</a>
+        <a><cite> 修改规格</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>修改规格</legend>
+</fieldset>
+<form class="layui-form">
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">规格id<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="gsid" value="{$spec.gsid}"  autocomplete="off" placeholder="规格id" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">规格名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="gsname"  value="{$spec.gsname}" autocomplete="off" placeholder="请输入规格名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none;">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品介绍value</label>
+            <div class="layui-input-block">
+                <input type="text" id="value_spec_content" name="value_spec_content"  value="{$spec.spec_content}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">菜品介绍</label>
+        <div class="layui-input-block">
+            <textarea name="spec_content" id="spec_content" placeholder="多个规格以逗号分隔，例如：红，黄，蓝" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否多选</label>
+        <div class="layui-input-block">
+            <input type="checkbox" value="{$spec.is_more}" id="is_more" name="is_more"  lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">确认修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','element','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            //设置菜品分类默认值
+            var value_spec_content = $('#value_spec_content').val();
+            document.getElementById('spec_content').value = value_spec_content;
+            //设置特色菜品默认选中状态
+            var is_more = $('#is_more').val();
+            if(is_more == 1){
+                $('#is_more').attr('checked',true);
+            }
+            form.render();
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#test1' //指定元素
+            });
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "{:url('Goods/goodsSpecEdit')}",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="{:url('Goods/goodsSpecList')}";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>
