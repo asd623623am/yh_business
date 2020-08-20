@@ -50,10 +50,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">菜品规格</label>
         <div class="layui-input-inline" >
-            <select name="gsids" id="gsids"  multiple="multiple" lay-filter="test222" >
+            <select name="gstids" id="gstids"  multiple="multiple" lay-filter="test222" >
                 <option value="" >请选择规格</option>
-                {volist name="gsData" id='gsData'}
-                <option value="{$gsData.gsid}">{$gsData.gsname}</option>
+                {volist name="gstData" id='gstData'}
+                <option value="{$gstData.gstid}">{$gstData.gstname}</option>
                 {/volist}
             </select>
         </div>
@@ -164,16 +164,16 @@
                 });
                 form.on('submit(*)',function(data){
                     //获取所有规格，多个以逗号分隔,如"1,2,3"
-                    var gsids = '';
+                    var gstids = '';
                     $('select[multiple] option:selected').each(function() {
-                        // gsids.push($(this).val());
-                        if(gsids.length == 0){
-                            gsids = $(this).val();
+                        // gstids.push($(this).val());
+                        if(gstids.length == 0){
+                            gstids = $(this).val();
                         }else{
-                            gsids += "," + $(this).val();
+                            gstids += "," + $(this).val();
                         }
                     });
-                    data.field.gsids = gsids;
+                    data.field.gstids = gstids;
                     var info = data.field;
                     console.log(info);
                     $.post(

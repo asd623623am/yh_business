@@ -12,7 +12,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">规格id<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="gsid" value="{$spec.gsid}"  autocomplete="off" placeholder="规格id" class="layui-input">
+                <input type="text" name="gstid" value="{$spec.gstid}"  autocomplete="off" placeholder="规格分类id" class="layui-input">
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">规格名称<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="gsname"  value="{$spec.gsname}" autocomplete="off" placeholder="请输入规格名称" class="layui-input">
+                <input type="text" name="gstname"  value="{$spec.gstname}" autocomplete="off" placeholder="请输入规格名称" class="layui-input">
             </div>
         </div>
     </div>
@@ -29,14 +29,14 @@
         <div class="layui-inline">
             <label class="layui-form-label">菜品介绍value</label>
             <div class="layui-input-block">
-                <input type="text" id="value_spec_content" name="value_spec_content"  value="{$spec.spec_content}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+                <input type="text" id="value_gsname" name="value_gsname"  value="{$spec.gsname}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
             </div>
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">菜品介绍</label>
         <div class="layui-input-block">
-            <textarea name="spec_content" id="spec_content" placeholder="多个规格以逗号分隔，例如：红，黄，蓝" class="layui-textarea"></textarea>
+            <textarea name="gsname" id="gsname" placeholder="多个规格以逗号分隔，例如：红，黄，蓝" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -60,8 +60,8 @@
             var layer = layui.layer;
             var laydate = layui.laydate;
             //设置菜品分类默认值
-            var value_spec_content = $('#value_spec_content').val();
-            document.getElementById('spec_content').value = value_spec_content;
+            var value_gsname = $('#value_gsname').val();
+            document.getElementById('gsname').value = value_gsname;
             //设置特色菜品默认选中状态
             var is_more = $('#is_more').val();
             if(is_more == 1){

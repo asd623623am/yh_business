@@ -215,9 +215,17 @@ class Goods extends Common{
             $insert['storeid'] = $storeid;
             $insert['check_time'] = time();
             $insert['create_time'] = time();
+            $insert['update_time'] = time();
             $insert = \app\admin\model\Goods::isNoVerificationField($postData,$insert);
-            $ret = model('goods')->allowField(true)->save($insert);
+            $gid = model('goods')->insertGetId($insert);
             /*@todo 后期规格绑定价格在做处理*/
+            $gbsData = [];
+            $gbsData['storeid'] = $storeid;
+            $gbsData['goodsid'] = $gid;
+            $gbsData['gstids'] = $postData['gstids'];
+            $gbsData['update_time'] = time();
+            $gbsData['create_time'] = time();
+            $ret = model('goodsBingSpec')->save($gbsData);
             if($ret){
                 $this -> addLog('添加商品信息');
                 win('添加成功');
@@ -226,9 +234,9 @@ class Goods extends Common{
             }
         }else{
             $gtData = model('goodsType')->where(['storeid'=>$storeid])->select();
-            $gsData = model('goodsSpec')->where(['storeid'=>$storeid])->select();
+            $gstData = model('goodsSpecType')->where(['storeid'=>$storeid])->select();
             $this->assign('gtData',$gtData);
-            $this->assign('gsData',$gsData);
+            $this->assign('gstData',$gstData);
             return view();
         }
     }
@@ -501,11 +509,13 @@ class Goods extends Common{
             if(!empty($getData['gsname'])){
                 $where['gsname'] = $getData['gsname'];
             }
-            $data=Db::table("xm_goods_spec")->where($where)->page($getData['page'],$getData['limit'])->select();
+            $data=Db::table("xm_goods_spec_type")->where($where)->page($getData['page'],$getData['limit'])->select();
             if(!empty($data)){
                 foreach ($data as &$val){
                     $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                     $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
+                    $gsData = model('goodsSpec')->where(['gstid'=>$val['gstid']])->column('gsname');
+                    $val['gsname'] = implode(",",$gsData);
                     $val['ismorename'] = '单选';
                     if($val['is_more'] == 1){
                         $val['ismorename'] = '多选';
@@ -513,16 +523,20 @@ class Goods extends Common{
                 }
                 unset($val);
             }
-            $count=Db::table("xm_goods_spec")->where($where)->count();
+            $count=Db::table("xm_goods_spec_type")->where($where)->count();
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
         }else{
-            $gsData = model('goodsSpec')->where(['storeid'=>$storeid])->select();
-            if(empty($gsData)){
+            $gstData = model('goodsSpecType')->where(['storeid'=>$storeid])->select()->toArray();
+            if(empty($gstData)){
                 fail("规格信息有误");
             }
-            $this->assign('gsData',$gsData);
+            foreach ($gstData as &$gstv){
+                $gsData = model('goodsSpec')->where(['gstid'=>$gstv['gstid']])->column('gsname');
+                $gstv['$gsData'] = implode(',',$gsData);
+            }
+            $this->assign('gsData',$gstData);
             return view();
         }
     }
@@ -545,10 +559,32 @@ class Goods extends Common{
             if (isset($postData['is_more'])){
                 $insert['is_more'] = 1;
             }
-            $insert['storeid'] = $storeid;
-            $insert['gsname'] = $postData['gsname'];
-            $insert['spec_content'] = $postData['spec_content'];
-            $ret = model('goodsSpec')->allowField(true)->save($insert);
+            //添加商品规格分类信息
+            $istData = [
+                'storeid'=>$storeid,
+                'gstname'=>$postData['gsname'],
+                'create_time'=>time(),
+                'update_time'=>time(),
+            ];
+            $gstId = model('goodsSpecType')->insertGetId($istData);
+            //添加商品规格信息
+            $insert['gstid'] = $gstId;
+            $insert['create_time'] = time();
+            $insert['update_time'] = time();
+//            $insert['spec_content'] = $postData['spec_content'];
+            //批量添加
+            $insertAll = [];
+            $Econtent = explode("，",$postData['spec_content']);
+            $Zcontent = explode("，",$postData['spec_content']);
+            $spec_content = $Econtent;
+            if(count($Zcontent)>count($Econtent)){
+                $spec_content = $Zcontent;
+            }
+            foreach ($spec_content as $val){
+                $insert['gsname'] = $val;
+                $insertAll[] = $insert;
+            }
+            $ret = model('goodsSpec')->insertAll($insertAll);
             if($ret){
                 $this -> addLog('添加规格信息');
                 win('添加成功');
@@ -571,17 +607,35 @@ class Goods extends Common{
             $postData = input('post.');
             if(!empty($postData)){
                 $editData = [
-                    'gsname'=>$postData['gsname'],
-                    'spec_content'=>$postData['spec_content'],
+                    'gstname'=>$postData['gstname'],
                     'update_time'=>time(),
                 ];
                 $editData['is_more'] = 0;
                 if(isset($postData['is_more'])){
                     $editData['is_more'] = 1;
                 }
-                $where = ['gsid'=>$postData['gsid']];
-                $res = model('goodsSpec')->save($editData,$where);
-                if ($res) {
+                $where = ['gstid'=>$postData['gstid']];
+                //1：修改规格更新时间
+                model('goodsSpecType')->save($editData,$where);
+                //2：删除分类下规格信息
+                model('goodsSpec')->where($where)->delete();
+                $insertAll = [];
+                $Econtent = explode("，",$postData['gsname']);
+                $Zcontent = explode("，",$postData['gsname']);
+                $spec_content = $Econtent;
+                if(count($Zcontent)>count($Econtent)){
+                    $spec_content = $Zcontent;
+                }
+                $insert['gstid'] = $postData['gstid'];
+                $insert['create_time'] = time();
+                $insert['update_time'] = time();
+                foreach ($spec_content as $val){
+                    $insert['gsname'] = $val;
+                    $insertAll[] = $insert;
+                }
+                //3：添加规格信息
+                $insgs = model('goodsSpec')->insertAll($insertAll);
+                if ($insgs) {
                     $this -> addLog('修改规格信息');
                     win('修改成功');
                 } else {
@@ -589,19 +643,21 @@ class Goods extends Common{
                 }
             }
         }else{
-            $gsid=input('get.gsid');
-            if(empty($gsid)){
+            $gstid=input('get.gstid');
+            if(empty($gstid)){
                 exit('非法操作此页面');
             }else{
                 $where=[
-                    'gsid'=>$gsid
+                    'gstid'=>$gstid
                 ];
             }
-            $gsData = model('goodsSpec')->where($where)->find()->toArray();
-            if(empty($gsData)){
+            $gstData = model('goodsSpecType')->where($where)->find()->toArray();
+            if(empty($gstData)){
                 fail("规格信息有误");
             }
-            $this->assign('spec',$gsData);
+            $gsData = model('goodsSpec')->where(['gstid'=>$gstid])->column('gsname');
+            $gstData['gsname'] = implode(',',$gsData);
+            $this->assign('spec',$gstData);
             return view();
         }
     }
@@ -612,16 +668,17 @@ class Goods extends Common{
      */
     public function goodsSpecDel(){
         $postData = input('post.');
-        if(isset($postData['gsid'])&&!empty($postData['gsid'])){
-
-            $ret = model('goodsSpec')->where(['gsid' => $postData['gsid']])->delete();
-            if($ret){
+        if(isset($postData['gstid'])&&!empty($postData['gstid'])){
+            $where = ['gstid' => $postData['gstid']];
+            $retGs = model('goodsSpec')->where($where)->delete();
+            $retGst = model('goodsSpecType')->where($where)->delete();
+            if($retGs && $retGst){
                 win('删除规格'.$postData['gsname'].'成功');
             }else{
                 fail('删除规格'.$postData['gsname'].'失败');
             }
         }else{
-            fail('规格'.$postData['gsname'].'信息有误');
+            fail('规格'.$postData['gstname'].'信息有误');
         }
     }
 }
