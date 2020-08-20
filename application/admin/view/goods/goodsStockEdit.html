@@ -1,0 +1,95 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>菜品管理</a>
+        <a><cite> 菜品添加</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>菜品添加</legend>
+</fieldset>
+<form class="layui-form">
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品id<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="gid" value="{$goods.gid}"  autocomplete="off" placeholder="菜品id" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="name" disabled="disabled" value="{$goods.name}" autocomplete="off" placeholder="请输入菜品名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品编号<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="code" disabled="disabled" value="{$goods.code}" autocomplete="off" placeholder="请输入菜品编号" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品编号<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" value="{$goods.is_selling_fragrance}" id="is_selling_fragrance" name="is_selling_fragrance" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开启库存</label>
+        <div class="layui-input-block">
+            <input type="checkbox" value="{$goods.is_open_stock}" id="is_open_stock" name="is_open_stock" lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">库存数量</label>
+            <div class="layui-input-block">
+                <input type="text" name="stock"  value="{$goods.stock}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">确认修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        layui.use(['form','layer','element'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            //设置库存默认选中状态
+            var is_open_stock = $('#is_open_stock').val();
+            if(is_open_stock == 1){
+                $('#is_open_stock').attr('checked',true);
+            }
+            form.render();
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "{:url('Goods/goodsStockEdit')}",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="{:url('Goods/goodsStockList')}";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>
