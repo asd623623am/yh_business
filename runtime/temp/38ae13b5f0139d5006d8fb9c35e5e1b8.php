@@ -1,20 +1,15 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:95:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodsstocklist.html";i:1597895179;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597895179;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:92:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/system/systemlist.html";i:1597672422;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
 <!DOCTYPE html>
-<html no-cache>
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小码旺铺物业版管理系统后台</title>
     <link rel="stylesheet" href="__STATIC__/css/layui.css">
-    <link rel="stylesheet" href="__STATIC__/css/publish.css">
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    <script src="__STATIC__/move.js"></script>
-    <script src="__STATIC__/publishImg.js"></script>
-    <script src="__STATIC__/croppers.js"></script>
-    <script src="__STATIC__/multiSelect.js"></script>
-
+    
 </head>
 <style type="text/css">
     .layui-table img {
@@ -172,113 +167,97 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
-            <blockquote class="layui-elem-quote layui-text">
+            <div class="layui-form-item">
     <span class="layui-breadcrumb">
-        <a href='#'>商品管理</a>
-        <a><cite> 商品列表</cite></a>
+        <a href='#'>系统管理</a>
+        <a><cite> 系统列表</cite></a>
     </span>
-</blockquote>
-<div class="search-table layui-form">
-    <div class="layui-inline tempsTest">
-        <select name="gtid"  id="search-district" lay-search="">
-            <option value="">请选择菜品分类</option>
-            <?php if(is_array($gtData) || $gtData instanceof \think\Collection || $gtData instanceof \think\Paginator): $i = 0; $__LIST__ = $gtData;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gtData): $mod = ($i % 2 );++$i;?>
-            <option value="<?php echo $gtData['gtid']; ?>"><?php echo $gtData['gtname']; ?></option>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
-        </select>
-    </div>
-    <div class="layui-input-inline tempsTest">
-        <input type="text" name="gname" required  placeholder="请输入菜品名称" autocomplete="off" class="layui-input">
-    </div>
-    <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
 </div>
-<table class="layui-hide" id="test" lay-filter="testdd"></table>
+<button class="layui-btn layui-btn-normal marginT" id='submit' lay-submit lay-filter="*">立即添加</button>
+<table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">估清</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table','layer','upload','form'], function(){
+    layui.use(['table','layer'], function(){
         var table = layui.table;
         var layer = layui.layer;
-        var upload = layui.upload;
-        var form = layui.form;
-        form.on('submit(*)', function(data){
-            table.render({
-                elem: '#test'
-                ,url:"<?php echo url('Goods/goodsStockList'); ?>"
-                ,where:data.field
-                ,limit:10
-                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                ,cols: [[
-                    {field:'gid', width:80, title: 'ID',}
-                    ,{field:'name', width:200 , title: '菜品名称'}
-                    ,{field:'gtname', width:200 , title: '菜品类别'}
-                    ,{field:'open_stock', width:120, title: '是否开启库存',align:'center'}
-                    ,{field:'stock', width:110, title: '菜品库存'}
-                    ,{field:'is_selling', width:110, title: '是否售罄',align:'center'}
-                    ,{field:'check_time', width:180, title: '盘点时间',align:'center'}
-                    ,{field:'update_time', width:180, title: '更新时间',align:'center'}
-                    ,{field:'right', width:120,toolbar: '#barDemo', title: '操作',align:'center'}
-                ]]
-                ,page: true
-            });
+        table.render({
+            elem: '#test'
+            ,url:'<?php echo url("System/systemList"); ?>'
+            ,limit: 10
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                ,{field:'system_id', title: '系统id',}
+                ,{width:100, title: '序号', type:'numbers'}
+                ,{field:'company_logo',width:200,title:'商户logo',templet:'<div><img src="__PUBLIC__/{{d.company_logo}}"></div>'}
+                ,{field:'company_name', title: '商户名称',}
+                // ,{field:'system_data', title: '版权信息',}
+                // ,{field:'system_name', title: '系统名称',}
+                ,{field:'ctime',width:200, title: '操作时间'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+            ]],
+            done: function () {
+                $("[data-field='system_id']").css('display','none');
+            },
+            page: true
         });
-        //自动点击.
-        $(document).ready(function(){
-            $("#sousuo").trigger("click");
-            ids = 1;
-            if(ids == 1){
-                var page = localStorage.getItem('page');
-                table.reload('test', {
-                    page: {
-                        curr: page //重新从第 1 页开始
-                    }
-                }); //只重载数据
-                localStorage.clear();
-            }
+
+        //既点及改
+        //监听单元格编辑
+        table.on('edit(test)', function(obj){
+            var value = obj.value //得到修改后的值
+                    var data = obj.data //得到所在行所有键值
+                    var field = obj.field; //得到字段
+            $.post(
+                    '<?php echo url("Brand/brandUpdate"); ?>',
+                    {value:value,brand_id:data.brand_id,field:field},
+                    function(msg){
+                        layer.msg(msg.font,{icon:msg.code});
+                    },'json'
+            )
         });
-        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+         $('#submit').click(function(){
+            location.href="<?php echo url('System/systemAdd'); ?>";
+        })
+        //删除和修改
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            if (layEvent === 'edit') { //修改
-                location.href="<?php echo url('Goods/goodsStockEdit'); ?>?gid="+data.gid;
-            }else if(layEvent === 'del'){
-                layer.confirm("确认清零 ["+data.name+"] 库存吗？", function(index){
-                    $.post(
-                        "<?php echo url('Goods/goodsStockDel'); ?>",
-                        data,
-                        function(msg){
-                            if(msg.code ==1){
-                                layer.msg(msg.font);
-                                location.href="<?php echo url('Goods/goodsStockList'); ?>";
-                            }else{
-                                layer.msg(msg.font, {icon: 5});
-                            }
-                        },'json'
-                    )
-                    return false;
-                })
-            }
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-        });
+            if(layEvent === 'detail'){ //查看
+                location.href="<?php echo url('System/systemUpdateInfo'); ?>?system_id="+data.system_id;
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    $.post(
+                            '<?php echo url("System/systemDel"); ?>',
+                            {system_id:data.system_id},
+                            function(msg){
+                                layer.msg(msg.font,{icon:msg.code});
+                                 if(msg.code==1){
+                                 table.reload('test');
+                                 }
+                            },'json'
+                    )
+                });
+            }
+        })
+
         $('.layui-table').on('click','tr',function(){
-            $(this).css('background','#ccc').siblings().css('background','#fff');
-        });
-        //跳转页面
-        $('.demoTable .layui-btn').on('click', function(){
-            location.href="<?php echo url('Goods/goodsAdd'); ?>";
+          $(this).css('background','#ccc').siblings().css('background','#fff');
         });
     });
 </script>
         </div>
     </div>
 
-</div>
+    </div>
 <!-- 底部固定区域 -->
-<div class="layui-footer" style="background: #EEEEEE;text-align:center">
-    Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
-</div>
+    <div class="layui-footer" style="background: #EEEEEE;text-align:center">
+        Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
+    </div>
 </div>
 <script>
     //JavaScript代码区域

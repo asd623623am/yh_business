@@ -1,20 +1,15 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:95:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodsstocklist.html";i:1597895179;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597895179;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:94:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodsspecedit.html";i:1597833710;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
 <!DOCTYPE html>
-<html no-cache>
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小码旺铺物业版管理系统后台</title>
     <link rel="stylesheet" href="__STATIC__/css/layui.css">
-    <link rel="stylesheet" href="__STATIC__/css/publish.css">
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    <script src="__STATIC__/move.js"></script>
-    <script src="__STATIC__/publishImg.js"></script>
-    <script src="__STATIC__/croppers.js"></script>
-    <script src="__STATIC__/multiSelect.js"></script>
-
+    
 </head>
 <style type="text/css">
     .layui-table img {
@@ -174,111 +169,107 @@
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
-        <a href='#'>商品管理</a>
-        <a><cite> 商品列表</cite></a>
+        <a href='#'>菜品管理</a>
+        <a><cite> 修改规格</cite></a>
     </span>
 </blockquote>
-<div class="search-table layui-form">
-    <div class="layui-inline tempsTest">
-        <select name="gtid"  id="search-district" lay-search="">
-            <option value="">请选择菜品分类</option>
-            <?php if(is_array($gtData) || $gtData instanceof \think\Collection || $gtData instanceof \think\Paginator): $i = 0; $__LIST__ = $gtData;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gtData): $mod = ($i % 2 );++$i;?>
-            <option value="<?php echo $gtData['gtid']; ?>"><?php echo $gtData['gtname']; ?></option>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
-        </select>
-    </div>
-    <div class="layui-input-inline tempsTest">
-        <input type="text" name="gname" required  placeholder="请输入菜品名称" autocomplete="off" class="layui-input">
-    </div>
-    <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
-</div>
-<table class="layui-hide" id="test" lay-filter="testdd"></table>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">估清</a>
-</script>
-<script>
-    layui.use(['table','layer','upload','form'], function(){
-        var table = layui.table;
-        var layer = layui.layer;
-        var upload = layui.upload;
-        var form = layui.form;
-        form.on('submit(*)', function(data){
-            table.render({
-                elem: '#test'
-                ,url:"<?php echo url('Goods/goodsStockList'); ?>"
-                ,where:data.field
-                ,limit:10
-                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                ,cols: [[
-                    {field:'gid', width:80, title: 'ID',}
-                    ,{field:'name', width:200 , title: '菜品名称'}
-                    ,{field:'gtname', width:200 , title: '菜品类别'}
-                    ,{field:'open_stock', width:120, title: '是否开启库存',align:'center'}
-                    ,{field:'stock', width:110, title: '菜品库存'}
-                    ,{field:'is_selling', width:110, title: '是否售罄',align:'center'}
-                    ,{field:'check_time', width:180, title: '盘点时间',align:'center'}
-                    ,{field:'update_time', width:180, title: '更新时间',align:'center'}
-                    ,{field:'right', width:120,toolbar: '#barDemo', title: '操作',align:'center'}
-                ]]
-                ,page: true
-            });
-        });
-        //自动点击.
-        $(document).ready(function(){
-            $("#sousuo").trigger("click");
-            ids = 1;
-            if(ids == 1){
-                var page = localStorage.getItem('page');
-                table.reload('test', {
-                    page: {
-                        curr: page //重新从第 1 页开始
-                    }
-                }); //只重载数据
-                localStorage.clear();
-            }
-        });
-        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            if (layEvent === 'edit') { //修改
-                location.href="<?php echo url('Goods/goodsStockEdit'); ?>?gid="+data.gid;
-            }else if(layEvent === 'del'){
-                layer.confirm("确认清零 ["+data.name+"] 库存吗？", function(index){
-                    $.post(
-                        "<?php echo url('Goods/goodsStockDel'); ?>",
-                        data,
-                        function(msg){
-                            if(msg.code ==1){
-                                layer.msg(msg.font);
-                                location.href="<?php echo url('Goods/goodsStockList'); ?>";
-                            }else{
-                                layer.msg(msg.font, {icon: 5});
-                            }
-                        },'json'
-                    )
-                    return false;
-                })
-            }
-
-        });
-        $('.layui-table').on('click','tr',function(){
-            $(this).css('background','#ccc').siblings().css('background','#fff');
-        });
-        //跳转页面
-        $('.demoTable .layui-btn').on('click', function(){
-            location.href="<?php echo url('Goods/goodsAdd'); ?>";
-        });
-    });
-</script>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>修改规格</legend>
+</fieldset>
+<form class="layui-form">
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">规格id<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="gsid" value="<?php echo $spec['gsid']; ?>"  autocomplete="off" placeholder="规格id" class="layui-input">
+            </div>
         </div>
     </div>
 
-</div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">规格名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="gsname"  value="<?php echo $spec['gsname']; ?>" autocomplete="off" placeholder="请输入规格名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none;">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品介绍value</label>
+            <div class="layui-input-block">
+                <input type="text" id="value_spec_content" name="value_spec_content"  value="<?php echo $spec['spec_content']; ?>" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">菜品介绍</label>
+        <div class="layui-input-block">
+            <textarea name="spec_content" id="spec_content" placeholder="多个规格以逗号分隔，例如：红，黄，蓝" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否多选</label>
+        <div class="layui-input-block">
+            <input type="checkbox" value="<?php echo $spec['is_more']; ?>" id="is_more" name="is_more"  lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">确认修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','element','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            //设置菜品分类默认值
+            var value_spec_content = $('#value_spec_content').val();
+            document.getElementById('spec_content').value = value_spec_content;
+            //设置特色菜品默认选中状态
+            var is_more = $('#is_more').val();
+            if(is_more == 1){
+                $('#is_more').attr('checked',true);
+            }
+            form.render();
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#test1' //指定元素
+            });
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "<?php echo url('Goods/goodsSpecEdit'); ?>",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="<?php echo url('Goods/goodsSpecList'); ?>";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            })
+        });
+    })
+
+</script>
+
+        </div>
+    </div>
+
+    </div>
 <!-- 底部固定区域 -->
-<div class="layui-footer" style="background: #EEEEEE;text-align:center">
-    Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
-</div>
+    <div class="layui-footer" style="background: #EEEEEE;text-align:center">
+        Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
+    </div>
 </div>
 <script>
     //JavaScript代码区域

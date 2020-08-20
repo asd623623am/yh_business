@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:95:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodsstocklist.html";i:1597895179;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597895179;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:95:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodsstockedit.html";i:1597895179;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597895179;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
 <!DOCTYPE html>
 <html no-cache>
 <head>
@@ -174,103 +174,103 @@
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
-        <a href='#'>商品管理</a>
-        <a><cite> 商品列表</cite></a>
+        <a href='#'>菜品管理</a>
+        <a><cite> 菜品添加</cite></a>
     </span>
 </blockquote>
-<div class="search-table layui-form">
-    <div class="layui-inline tempsTest">
-        <select name="gtid"  id="search-district" lay-search="">
-            <option value="">请选择菜品分类</option>
-            <?php if(is_array($gtData) || $gtData instanceof \think\Collection || $gtData instanceof \think\Paginator): $i = 0; $__LIST__ = $gtData;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gtData): $mod = ($i % 2 );++$i;?>
-            <option value="<?php echo $gtData['gtid']; ?>"><?php echo $gtData['gtname']; ?></option>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
-        </select>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>菜品添加</legend>
+</fieldset>
+<form class="layui-form">
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品id<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="gid" value="<?php echo $goods['gid']; ?>"  autocomplete="off" placeholder="菜品id" class="layui-input">
+            </div>
+        </div>
     </div>
-    <div class="layui-input-inline tempsTest">
-        <input type="text" name="gname" required  placeholder="请输入菜品名称" autocomplete="off" class="layui-input">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="name" disabled="disabled" value="<?php echo $goods['name']; ?>" autocomplete="off" placeholder="请输入菜品名称" class="layui-input">
+            </div>
+        </div>
     </div>
-    <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
-</div>
-<table class="layui-hide" id="test" lay-filter="testdd"></table>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">估清</a>
-</script>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品编号<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="code" disabled="disabled" value="<?php echo $goods['code']; ?>" autocomplete="off" placeholder="请输入菜品编号" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品编号<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" value="<?php echo $goods['is_selling_fragrance']; ?>" id="is_selling_fragrance" name="is_selling_fragrance" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开启库存</label>
+        <div class="layui-input-block">
+            <input type="checkbox" value="<?php echo $goods['is_open_stock']; ?>" id="is_open_stock" name="is_open_stock" lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">库存数量</label>
+            <div class="layui-input-block">
+                <input type="text" name="stock"  value="<?php echo $goods['stock']; ?>" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">确认修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
 <script>
-    layui.use(['table','layer','upload','form'], function(){
-        var table = layui.table;
-        var layer = layui.layer;
-        var upload = layui.upload;
-        var form = layui.form;
-        form.on('submit(*)', function(data){
-            table.render({
-                elem: '#test'
-                ,url:"<?php echo url('Goods/goodsStockList'); ?>"
-                ,where:data.field
-                ,limit:10
-                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                ,cols: [[
-                    {field:'gid', width:80, title: 'ID',}
-                    ,{field:'name', width:200 , title: '菜品名称'}
-                    ,{field:'gtname', width:200 , title: '菜品类别'}
-                    ,{field:'open_stock', width:120, title: '是否开启库存',align:'center'}
-                    ,{field:'stock', width:110, title: '菜品库存'}
-                    ,{field:'is_selling', width:110, title: '是否售罄',align:'center'}
-                    ,{field:'check_time', width:180, title: '盘点时间',align:'center'}
-                    ,{field:'update_time', width:180, title: '更新时间',align:'center'}
-                    ,{field:'right', width:120,toolbar: '#barDemo', title: '操作',align:'center'}
-                ]]
-                ,page: true
+    $(function(){
+        layui.use(['form','layer','element'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            //设置库存默认选中状态
+            var is_open_stock = $('#is_open_stock').val();
+            if(is_open_stock == 1){
+                $('#is_open_stock').attr('checked',true);
+            }
+            form.render();
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "<?php echo url('Goods/goodsStockEdit'); ?>",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font);
+                            location.href="<?php echo url('Goods/goodsStockList'); ?>";
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            });
+            $('#up').click(function(){
+                location.href="<?php echo url('Goods/goodsStockList'); ?>";
             });
         });
-        //自动点击.
-        $(document).ready(function(){
-            $("#sousuo").trigger("click");
-            ids = 1;
-            if(ids == 1){
-                var page = localStorage.getItem('page');
-                table.reload('test', {
-                    page: {
-                        curr: page //重新从第 1 页开始
-                    }
-                }); //只重载数据
-                localStorage.clear();
-            }
-        });
-        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            if (layEvent === 'edit') { //修改
-                location.href="<?php echo url('Goods/goodsStockEdit'); ?>?gid="+data.gid;
-            }else if(layEvent === 'del'){
-                layer.confirm("确认清零 ["+data.name+"] 库存吗？", function(index){
-                    $.post(
-                        "<?php echo url('Goods/goodsStockDel'); ?>",
-                        data,
-                        function(msg){
-                            if(msg.code ==1){
-                                layer.msg(msg.font);
-                                location.href="<?php echo url('Goods/goodsStockList'); ?>";
-                            }else{
-                                layer.msg(msg.font, {icon: 5});
-                            }
-                        },'json'
-                    )
-                    return false;
-                })
-            }
+    })
 
-        });
-        $('.layui-table').on('click','tr',function(){
-            $(this).css('background','#ccc').siblings().css('background','#fff');
-        });
-        //跳转页面
-        $('.demoTable .layui-btn').on('click', function(){
-            location.href="<?php echo url('Goods/goodsAdd'); ?>";
-        });
-    });
 </script>
+
         </div>
     </div>
 

@@ -1,15 +1,20 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:90:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodslist.html";i:1597830764;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:90:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/goods/goodslist.html";i:1597895179;s:81:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/layout.html";i:1597895179;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/head.html";i:1597672422;s:86:"/Applications/MxSrvs/www/yh_business/public/../application/admin/view/public/left.html";i:1597672422;}*/ ?>
 <!DOCTYPE html>
-<html>
+<html no-cache>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小码旺铺物业版管理系统后台</title>
     <link rel="stylesheet" href="__STATIC__/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/css/publish.css">
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    
+    <script src="__STATIC__/move.js"></script>
+    <script src="__STATIC__/publishImg.js"></script>
+    <script src="__STATIC__/croppers.js"></script>
+    <script src="__STATIC__/multiSelect.js"></script>
+
 </head>
 <style type="text/css">
     .layui-table img {
@@ -174,7 +179,7 @@
     </span>
 </blockquote>
 <div class="search-table layui-form">
-    <div class="layui-inline tempsTest">
+    <div class="layui-input-inline tempsTest">
         <select name="gtid"  id="search-district" lay-search="">
             <option value="">请选择菜品分类</option>
             <?php if(is_array($gtData) || $gtData instanceof \think\Collection || $gtData instanceof \think\Paginator): $i = 0; $__LIST__ = $gtData;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gtData): $mod = ($i % 2 );++$i;?>
@@ -323,11 +328,11 @@
         </div>
     </div>
 
-    </div>
+</div>
 <!-- 底部固定区域 -->
-    <div class="layui-footer" style="background: #EEEEEE;text-align:center">
-        Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
-    </div>
+<div class="layui-footer" style="background: #EEEEEE;text-align:center">
+    Copyright  ©2020  北京银河一然商务有限公司.  All rights reserved.
+</div>
 </div>
 <script>
     //JavaScript代码区域
