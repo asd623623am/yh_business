@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\index\index.html";i:1597028258;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597809316;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\index\index.html";i:1597028258;s:76:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\layout.html";i:1597830763;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\head.html";i:1597028307;s:81:"D:\phpstudy_pro\WWW\yh_business\public/../application/admin\view\public\left.html";i:1597028892;}*/ ?>
 <!DOCTYPE html>
 <html no-cache>
 <head>
@@ -10,10 +10,10 @@
     <link rel="icon" href="__STATIC__/admin/images/WechatIMG16.png" type="image/x-icon">
     <script src="__STATIC__/jquery-3.2.1.min.js"></script>
     <script src="__STATIC__/layui.js"></script>
-    <script src="__STATIC__/multiSelect.js"></script>
     <script src="__STATIC__/move.js"></script>
     <script src="__STATIC__/publishImg.js"></script>
     <script src="__STATIC__/croppers.js"></script>
+    <script src="__STATIC__/multiSelect.js"></script>
 
 </head>
 <style type="text/css">

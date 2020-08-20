@@ -418,6 +418,53 @@ class Goods extends Common{
     }
 
     /**
+     * Notes: 修改菜品
+     * user: bingwoo
+     */
+    public function goodsStockEdit(){
+
+        if(check()){
+            $postData = input('post.');
+            $editData = [
+                'stock'=>$postData['stock'],
+            ];
+            if(isset($postData['is_open_stock']) && $editData['stock'] == 0){
+                $editData['is_selling_fragrance'] = 0;
+            }else{
+                $editData['is_open_stock'] = 0;
+            }
+            $where = ['gid'=>$postData['gid']];
+            $res = model('goods')->save($editData,$where);
+            if ($res) {
+                $this -> addLog('修改菜品信息');
+                win('修改成功');
+            } else {
+                fail('修改失败');
+            }
+        }else{
+            $gid=input('get.gid');
+            if(empty($gid)){
+                exit('非法操作此页面');
+            }else{
+                $where=[
+                    'gid'=>$gid
+                ];
+            }
+            $gData = model('goods')->where($where)->find()->toArray();
+            if(empty($gData)){
+                fail("菜品信息有误");
+            }
+            $gtData = model('goodsType')->where(['storeid'=>$gData['storeid']])->select();
+            if(empty($gtData)){
+                fail("菜品分类信息有误");
+            }
+            $this->assign('gtData',$gtData);
+            $this->assign('goods',$gData);
+            return view();
+        }
+    }
+
+    /**
      * Notes: 估清菜品库存 注：库存清零
      * user: bingwoo
      */
