@@ -167,7 +167,11 @@
                     var gsids = '';
                     $('select[multiple] option:selected').each(function() {
                         // gsids.push($(this).val());
-                        gsids += $(this).val() + ",";
+                        if(gsids.length == 0){
+                            gsids = $(this).val();
+                        }else{
+                            gsids += "," + $(this).val();
+                        }
                     });
                     data.field.gsids = gsids;
                     var info = data.field;
@@ -185,6 +189,9 @@
                         },'json'
                     )
                     return false;
+                });
+                $('#up').click(function(){
+                    location.href="{:url('Goods/goodsList')}";
                 });
             });
         })

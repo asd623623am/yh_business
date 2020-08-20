@@ -88,7 +88,10 @@
                     },'json'
                 )
                 return false;
-            })
+            });
+            $('#up').click(function(){
+                location.href="{:url('Goods/goodsStockList')}";
+            });
         });
     })
 
