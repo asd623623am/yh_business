@@ -13,15 +13,15 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '192.168.0.116',
+    'hostname'        => 'localhost',
     // 数据库名
-    'database'        => 'business',
+    'database'        => 'airscan',
     // 用户名
-    'username'        => 'business',
+    'username'        => 'airscan',
     // 密码
-    'password'        => 'business',
+    'password'        => 'airscan',
     // 端口
-    'hostport'        => '3306',
+    'hostport'        => '3307',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
