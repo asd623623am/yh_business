@@ -47,10 +47,10 @@ class Goods extends Model{
      */
     public static function  isNoVerificationField($data,$saveData){
 
-        $isNoVerifield = ['sort','original_price','member_price','img','staff_price','is_special','is_open_stock','stock','trade_description'];
+        $isNoVerifield = ['sort','original_price','gsids','member_price','img','staff_price','is_special',
+            'is_open_stock','stock','trade_description'];
         foreach ($isNoVerifield as $val){
             if(!empty($data[$val])){
-
                 if($val == 'is_open_stock' || $val == 'is_special' ){
                     $saveData[$val] = 1;
                 }else{
