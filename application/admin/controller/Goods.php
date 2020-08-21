@@ -255,14 +255,20 @@ class Goods extends Common{
                 $editData = \app\admin\model\Goods::isNoVerificationField($postData,$editData);
                 $where = ['gid'=>$postData['gid']];
                 $res = model('goods')->save($editData,$where);
-                if ($res) {
+                $gbsData = [
+                    'gstids'=>$postData['tag2'],
+                    'update_time'=>time()
+                ];
+                $ret = model('goodsBingSpec')->save($gbsData,['goodsid'=>$postData['gid']]);
+                if ($res && $ret) {
                     $this -> addLog('修改菜品信息');
                     win('修改成功');
                 } else {
                     fail('修改失败');
                 }
             }
-        }else{
+        }
+        else{
             $gid=input('get.gid');
             if(empty($gid)){
                 exit('非法操作此页面');
@@ -275,14 +281,28 @@ class Goods extends Common{
             if(empty($gData)){
                 fail("菜品信息有误");
             }
-            $gtData = model('goodsType')->where(['storeid'=>$gData['storeid']])->select();
+            $gtData = model('goodsType')->where(['storeid'=>$gData['storeid']])->select()->toArray();
             if(empty($gtData)){
                 fail("菜品分类信息有误");
             }
+            foreach ($gtData as $gtv){
+                if($gtv['gtid'] == $gData['gtid']){
+                    $gData['gtvalue'] = $gtv['gtname'];
+                }
+            }
+            $gstData = model('goodsSpecType')->where(['storeid'=>$gData['storeid']])->select()->toArray();
+            $gsbData = model('goodsBingSpec')->where(['goodsid'=>$gData['gid']])->find()->toArray();
             $this->assign('gtData',$gtData);
             $this->assign('goods',$gData);
+            $this->assign('gstData',$gstData);
+            $this->assign('gbsData',$gsbData);
             return view();
         }
+    }
+    public function getGoodsSpecTypeList(){
+        $postData = input('post.');
+        $gstData = model('goodsSpecType')->where(['storeid'=>$postData['storeid']])->select()->toArray();
+        win($gstData);
     }
 
     /**

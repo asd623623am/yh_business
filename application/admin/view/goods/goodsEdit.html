@@ -44,6 +44,14 @@
             </div>
         </div>
     </div>
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品分类值<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text"id="gtvalue" name="gtvalue" value="{$goods.gtid}"  class="layui-input">
+            </div>
+        </div>
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">菜品分类<span style="color: red;">*</span></label>
         <div class="layui-input-inline" id="app">
@@ -55,6 +63,26 @@
             </select>
         </div>
     </div>
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label">菜品规格</label>-->
+<!--        <div class="layui-input-inline" >-->
+<!--            <select name="gstidss" id="gstidss"  multiple="multiple" lay-filter="test222" >-->
+<!--                <option value="" >请选择规格</option>-->
+<!--                {volist name="gstData" id='gstData'}-->
+<!--                <option value="{$gstData.gstid}">{$gstData.gstname}</option>-->
+<!--                {/volist}-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <button type="button" style="display: none" class="layui-btn layui-btn-normal" id="get-val">获取选中值</button>-->
+<!--    </div>-->
+    <input type="text"id="gstids" name="gstids" value="{$gbsData.gstids}"  style="display: none">
+    <input type="text"id="getStoreid" name="getStoreid" value="{$goods.storeid}"  style="display: none">
+    <div class="layui-form-item">
+        <label class="layui-form-label">请选择规格</label>
+        <div class="layui-input-block" id="tag_ids2" >
+        </div>
+    </div>
+    <button type="button" style="display: none" class="layui-btn layui-btn-normal" id="get-val">获取选中值</button>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">菜品售价<span style="color: red;">*</span></label>
@@ -135,11 +163,13 @@
 
 <script>
     $(function(){
-        layui.use(['form','layer','upload','element','laydate'], function(){
+        layui.use(['form','layer','upload','element','laydate','selectM','element','jquery'], function(){
             var form = layui.form;
             var layer = layui.layer;
             var laydate = layui.laydate;
             var upload = layui.upload;
+            var $ = layui.jquery;
+            var selectM = layui.selectM;
             var uploads = upload.render({
                 elem: '#test2'
                 ,url: '{:url("Brand/bannerUpload")}'
@@ -160,7 +190,6 @@
             var value_trade_description = $('#value_trade_description').val();
             document.getElementById('trade_description').value = value_trade_description;
 
-
             //设置特色菜品默认选中状态
             var is_special = $('#is_special').val();
             if(is_special == 1){
@@ -171,7 +200,35 @@
             if(is_open_stock == 1){
                 $('#is_open_stock').attr('checked',true);
             }
+            //设置分类默认值
+            var gtid = $('#gtvalue').val();
+            $('#gtid').val(gtid)
             form.render();
+
+            //设置规格选中默认值
+            var gstids = $('#gstids').val();
+            gstList= gstids.split(',');
+            var storeid = $('#getStoreid').val();
+            // var arr = new Array();
+            $(document).ready(function(){
+                $.post("{:url('Goods/getGoodsSpecTypeList')}",
+                    {storeid:storeid},
+                    function(msg){
+                        if(msg.code ==1){
+                            var tagIns2 = selectM({
+                                elem: '#tag_ids2'//元素容器【必填】
+                                ,data: msg.font//候选数据【必填】
+                                ,selected: gstList//默认值
+                                ,max : 6//最多选中个数，默认5
+                                ,name: 'tag2'//input的name 不设置与选择器相同(去#.)
+                                ,delimiter: ','//值的分隔符
+                                ,width:495
+                                ,field: {idName:'gstid',titleName:'gstname'}//候选项数据的键名
+                            });
+                            arr = msg.font
+                        }
+                    },'json');
+            });
 
             var uploads = upload.render({
                 elem: '#myload'
@@ -207,7 +264,6 @@
             laydate.render({
                 elem: '#test1' //指定元素
             });
-
             //时间范围
             laydate.render({
                 elem: '#test4'
