@@ -239,6 +239,12 @@ class Common extends Controller
                 if ($v['node_name'] == '系统管理') {
                     $temp['7'] = $v;
                 }
+                if($v['node_name'] == '上架审核'){
+                    $temp['8'] = $v;
+                }
+                if($v['node_name'] == '店铺设置'){
+                    $temp['9'] = $v;
+                }
             }
             ksort($temp);
             $return['menu'] = $temp;

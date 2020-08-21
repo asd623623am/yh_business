@@ -68,8 +68,8 @@ class System extends Common
 		       $arr=[
 		            'company_logo'	=> $data['company_logo'],
            			'company_name'	=> $data['company_name'],
-           			'system_data'	=> $data['system_data'],
-           			'system_name'	=> $data['system_name']
+           			// 'system_data'	=> $data['system_data'],
+           			// 'system_name'	=> $data['system_name']
 		       ];
 		       
 		       $reslut = Db::table('system')->where($where)->update($arr);
