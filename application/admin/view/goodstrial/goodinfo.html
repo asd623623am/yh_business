@@ -1,0 +1,108 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>上架审核</a>
+        <a><cite> 审核信息</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>菜品信息</legend>
+</fieldset>
+<input type="text" hidden="hidden" value="{$page}" id="page">
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label">门店名称:</label>
+        <div class="layui-form-mid layui-word-aux">{$arr.sname}</div>
+    </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品名称:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.name}</div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品图片:</label>
+            <div class="layui-form-mid layui-word-aux"><div><img src="__PUBLIC__/{$arr.img}"></div></div>
+        </div>
+    </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">菜品类别:</label>
+                <div class="layui-form-mid layui-word-aux">{$arr.gtname}</div>
+            </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">库存:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.stock}</div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">售价:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.selling_price}</div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">原价:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.original_price}</div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">会员价:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.member_price}</div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">员工价:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.staff_price}</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">是否是特色菜：</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.is_special}</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">商品状态:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.is_grounding}</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">商品介绍:</label>
+            <div class="layui-form-mid layui-word-aux">{$arr.trade_description}</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        
+    </div>
+
+
+<div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+<script>
+    layui.use(['table','layer','upload','form'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+
+        $('#up').click(function(){
+            var page = $('#page').val();
+                localStorage.setItem('page',page);
+                window.history.back();
+            // location.href="{:url('Deposit/depositList')}";
+        });   
+    });
+</script>
