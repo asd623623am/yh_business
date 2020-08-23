@@ -15,9 +15,10 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
-    layui.use(['table','layer'], function(){
+    layui.use(['table','layer','form'], function(){
         var table = layui.table;
         var layer = layui.layer;
+        var form = layui.form;
         table.render({
             elem: '#test'
             ,url:"{:url('Goods/goodsTypeList')}"
@@ -62,5 +63,6 @@
         $('.demoTable .layui-btn').on('click', function(){
             location.href="{:url('Goods/goodsTypeAdd')}";
         });
+        form.render();
     });
 </script>

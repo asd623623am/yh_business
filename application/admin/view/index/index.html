@@ -1,175 +1,200 @@
 <style type="text/css">
-        .layui-body {
-                background: #eee;
-                min-width: 880px;
-        }
+    .layui-body {
+        background: #eee;
+        min-width: 880px;
+    }
 
-        .layui-footer {
-                background: #eee;
-        }
+    .layui-footer {
+        background: #eee;
+    }
 
-        .d {
-                display: flex;
-                justify-content: space-between;
-        }
+    .d {
+        display: flex;
+        justify-content: space-between;
+    }
 
-        .index-title {
-                color: #676767;
-                line-height: 38px;
-                font-size: 18px;
-        }
+    .index-title {
+        color: #676767;
+        line-height: 38px;
+        font-size: 18px;
+    }
 
-        .countHu {
-                display: flex;
-                justify-content: space-between;
-                margin: 20px 0;
-                color: #fff;
-        }
+    .storeinfo{
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        background: #fff;
+        box-sizing: border-box;
+        align-items: center;
+        background-size: cover;
+        /*background: red;*/
+    }
 
+    .storeinfo-left{
+        margin: 20px;
+        /*padding: 20px;*/
+        /*border-radius:80px;*/
+        border-radius:50% !important;
+        width: 140px;
+        height: 120px;
+        overflow:hidden !important;
+    }
+
+    .storeinfo-right{
+        width: 100%;
+        margin: 20px;
+    }
+
+    .countHu {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        /*color: #fff;*/
+    }
+
+    .countHu>div {
+        width: 24%;
+        display: flex;
+        justify-content: space-between;
+        padding: 30px;
+        box-sizing: border-box;
+        align-items: center;
+        background-size: cover;
+    }
+
+    @media (min-width: 1024px) {
         .countHu>div {
-                width: 32.5%;
-                display: flex;
-                justify-content: space-between;
-                padding: 30px;
-                box-sizing: border-box;
-                align-items: center;
-                background-size: cover;
+            height: 100px;
         }
+    }
 
-        @media (min-width: 1024px) {
-                .countHu>div {
-                        height: 100px;
-                }
+    /*>=1024的设备*/
+    @media (min-width: 1280px) {
+        .countHu>div {
+            height: 120px;
         }
+    }
 
-
-        /*>=1024的设备*/
-        @media (min-width: 1280px) {
-                .countHu>div {
-                        height: 120px;
-                }
-        }
-
-        @media (min-width: 1366px) {
-                .countHu>div {
-                        height: 150px;
-                }
-
-                .countHu>div .left .left-count {
-                        margin-top: 8px;
-                }
-        }
-
-        @media (min-width: 1440px) {
-                .countHu>div {
-                        height: 180px;
-                }
-
-                .countHu>div .left .left-count em {
-                        font-size: 36px;
-                        margin-right: 12px;
-                }
-        }
-
-        @media (min-width: 1680px) {
-                .countHu>div {
-                        height: 200px;
-                        justify-content: space-around;
-                        font-size: 20px;
-                }
-
-                .countHu>div .left .left-count {
-                        margin-top: 10px;
-                }
-
-                .countHu>div .left .left-count em {
-                        font-size: 38px;
-                        margin-right: 15px;
-                }
-        }
-
-
-        .countHu-house {
-                background: url('__IMG__/red.png') no-repeat;
-
-        }
-
-        .countHu-dingdan {
-
-                background: url('__IMG__/blue.png') no-repeat;
-        }
-
-        .countHu-jindu {
-                background: url('__IMG__/purple.png') no-repeat;
+    @media (min-width: 1366px) {
+        .countHu>div {
+            height: 150px;
         }
 
         .countHu>div .left .left-count {
-                margin-top: 5px;
+            margin-top: 8px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .countHu>div {
+            height: 180px;
         }
 
         .countHu>div .left .left-count em {
-                font-size: 35px;
-                font-style: normal;
-                margin-right: 10px;
+            font-size: 36px;
+            margin-right: 12px;
+        }
+    }
+
+    @media (min-width: 1680px) {
+        .countHu>div {
+            height: 200px;
+            justify-content: space-around;
+            font-size: 20px;
         }
 
-        .countHu>div .right img {
-                width: 65px;
-                height: 65px;
+        .countHu>div .left .left-count {
+            margin-top: 10px;
         }
 
-        .countHu-jindu .left-count {
-                font-size: 20px;
-                margin-top: 15px !important;
+        .countHu>div .left .left-count em {
+            font-size: 38px;
+            margin-right: 15px;
         }
+    }
 
-        .char {
-                /* display: flex;
-                justify-content: space-between; */
-        }
+    .countHu-house {
+        /*background: url('__IMG__/red.png') no-repeat;*/
+        background: #fff;
 
-        .char>div {
-                min-width: 480px;
-                width: 100%;
-                margin-top: 20px;
-                background: #fff;
-                padding: 30px;
-                box-sizing: border-box;
-        }
+    }
 
+    .countHu-dingdan {
 
+        /*background: url('__IMG__/blue.png') no-repeat;*/
+        background: #fff;
+    }
 
-        .char-title {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 30px;
-        }
+    .countHu-jindu {
+        /*background: url('__IMG__/purple.png') no-repeat;*/
+        background: #fff;
+    }
 
-        .char-title-left i {
-                border: 2px solid #23DAC3;
-        }
+    .countHu>div .left .left-count {
+        margin-top: 5px;
+    }
 
-        .char-title-left em {
-                font-style: normal;
-                margin-left: 7px;
-                font-weight: bold;
-        }
+    .countHu>div .left .left-count em {
+        font-size: 35px;
+        font-style: normal;
+        margin-right: 10px;
+    }
 
-        .char-title-right b {
-                font-weight: 100;
-                border: 1px solid #ccc;
-                border-radius: 15px;
-                padding: 3px 10px;
-                background: #fff;
-                color: rgb(95, 93, 93);
-                font-size: 12px;
-                cursor: pointer;
-        }
+    .countHu>div .right img {
+        width: 65px;
+        height: 65px;
+    }
 
-        .char-title-right .active {
-                border-color: #23DAC3;
-                color: #23DAC3;
-        }
+    .countHu-jindu .left-count {
+        font-size: 20px;
+        margin-top: 15px !important;
+    }
+
+    .char {
+        /* display: flex;
+        justify-content: space-between; */
+    }
+
+    .char>div {
+        min-width: 480px;
+        width: 100%;
+        margin-top: 20px;
+        background: #fff;
+        padding: 30px;
+        box-sizing: border-box;
+    }
+
+    .char-title {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .char-title-left i {
+        border: 2px solid #23DAC3;
+    }
+
+    .char-title-left em {
+        font-style: normal;
+        margin-left: 7px;
+        font-weight: bold;
+    }
+
+    .char-title-right b {
+        font-weight: 100;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        padding: 3px 10px;
+        background: #fff;
+        color: rgb(95, 93, 93);
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .char-title-right .active {
+        border-color: #23DAC3;
+        color: #23DAC3;
+    }
 </style>
 <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
 <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
@@ -177,264 +202,277 @@
 <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
 <script src="https://code.highcharts.com.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
 <form class="layui-form index">
-	<div class='d'>
-		<div class="index-title">基本情况 / 基本情况详情</div>
-		<button type="button" id="submet" class="layui-btn layui-btn-normal cuiFei">一键催费</button>
-	</div>
-	<div class="countHu">
-		<div class="countHu-house">
-			<div class="left">
-				<div>&nbsp;门店数量</div>
-				<div class="left-count"><em id='home_num'>0</em></div>
-			</div>
-			<div class="right"><img src="__IMG__/1.1.png" alt=""></div>
-		</div>
-		<div class="countHu-dingdan">
-			<div class="left">
-				<div>&nbsp;订单数量</div>
-				<div class="left-count"><em id='order_no'>0</em></div>
-			</div>
-			<div class="right"><img src="__IMG__/1.2.png" alt=""></div>
-		</div>
-		<div class="countHu-jindu">
-			<div class="left">
-				<div>&nbsp;订单统计</div>
-				<div class="left-count "><span id='pay_count'>0</span></div>
-<!--				<div class="left-count "><span id='pay_count'>0</span>/<span id='count'>0</span></div>-->
-			</div>
-			<div class="right"><img src="__IMG__/1.3.png" alt=""></div>
-		</div>
-	</div>
-	<div class="char">
-		<!-- <div id="container" style="max-width:400px;height:300px"></div> -->
-		<div>
-			<div class="char-title char1">
-				<div class="char-title-left">
-					<i></i>
-					<em>交易金额</em>
-				</div>
-				<div class="char-title-right">
-					<b v='w'>本周</b>
-					<b class="active" v='m'>本月</b>
-					<b v="y">本年</b>
-				</div>
-			</div>
-			<div id="container1"></div>
-		</div>
-		<div>
-			<div class="char-title char2">
-				<div class="char-title-left">
-					<i></i>
-					<em>交易笔数</em>
-				</div>
-				<div class="char-title-right">
-					<b v='w'>本周</b>
-					<b class="active" v='m'>本月</b>
-					<b v='y'>本年</b>
-				</div>
-			</div>
-			<div id="container2"></div>
-		</div>
-	</div>
+    <div class='d'>
+        <div class="index-title">基本情况 / 基本情况详情</div>
+    </div>
+    <div class="storeinfo">
+        <div class="storeinfo-left" >
+            <img style="width: 130px;height: 130px" src="__PUBLIC__/{$systemInfo.company_logo}">
+        </div>
+        <div class="storeinfo-right" >
+            <div style="font-weight:bold;font-size: 24px;">{$systemInfo.company_name}</div><br>
+            <div style="margin-top: 10px"><i class="layui-icon layui-icon-cellphone"></i> 电话:{$systemInfo.utel}</div><br>
+            <div style="margin-top: 10px"><i class="layui-icon layui-icon-location"></i>  地址:{$systemInfo.address}</div>
+        </div>
+    </div>
+    <div class="countHu">
+        <div class="countHu-jindu">
+            <div class="left">
+                <div style="font-weight: bold;font-size: 20px">&nbsp;今日营业额（元）</div>
+                <div class="left-count "><em id='pay_count'>{$amountTotal}</em></div>
+            </div>
+        </div>
+        <div class="countHu-dingdan">
+            <div class="left">
+                <div style="font-weight: bold;font-size: 20px">&nbsp;今日有效订单（个）</div>
+                <div class="left-count "><em id='pay_counts'>{$orderNum}</em></div>
+            </div>
+<!--            <div class="right"><img src="__IMG__/1.2.png" alt=""></div>-->
+        </div>
+        <div class="countHu-house">
+            <div class="left">
+                <div style="font-weight: bold;font-size: 20px">&nbsp;开通店铺数量（个）</div>
+                <div class="left-count"><em id='home_num'>{$storeNum}</em></div>
+            </div>
+<!--            <div class="right"><img src="__IMG__/1.1.png" alt=""></div>-->
+        </div>
+        <div class="countHu-dingdan">
+            <div class="left">
+                <div style="font-weight: bold;font-size: 20px">&nbsp;已有商品数量（个）</div>
+                <div class="left-count"><em id='order_no' >{$goodsNum}</em></div>
+            </div>
+<!--            <div class="left"><img src="__IMG__/1.2.png" alt=""></div>-->
+        </div>
+    </div>
+    <div class="char">
+        <!-- <div id="container" style="max-width:400px;height:300px"></div> -->
+        <div>
+            <div class="char-title char1">
+                <div class="char-title-left">
+                    <i></i>
+                    <em>交易金额</em>
+                </div>
+                <div class="char-title-right">
+                    <b class="active" v='d'>当日</b>
+                    <b v='w'>本周</b>
+                    <b v='m'>本月</b>
+                    <b v="y">本年</b>
+                </div>
+            </div>
+            <div id="container1"></div>
+        </div>
+<!--        <div>-->
+<!--            <div class="char-title char2">-->
+<!--                <div class="char-title-left">-->
+<!--                    <i></i>-->
+<!--                    <em>交易笔数</em>-->
+<!--                </div>-->
+<!--                <div class="char-title-right">-->
+<!--                    <b v='w'>本周</b>-->
+<!--                    <b class="active" v='m'>本月</b>-->
+<!--                    <b v='y'>本年</b>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div id="container2"></div>-->
+<!--        </div>-->
+    </div>
 
 </form>
 <script type="text/javascript">
-	layui.use(['form', 'layer', 'upload'], function () {
-		var form = layui.form;
-		var layer = layui.layer;
-		$.post(
-			"{:url('Index/indexData')}",
-			function (msg) {
-				if (msg.code == 0) {
-					var data = msg.data;
-					$('#home_num').text(data.home_num);
-					$('#order_no').text(data.order_no);
-					$('#pay_count').text(data.pay_count);
-					$('#count').text(data.count);
-				}
-			}, 'json'
-		);
-		$('#submet').click(function () {
-			$.post(
-				"{:url('Index/indexSend')}",
-				function (msg) {
-					if (msg.code == 1) {
-						layer.msg(msg.font, { icon: msg.code });
-					} else {
-						layer.msg(msg.font, { icon: msg.code });
-					}
-				}, 'json'
-			)
-			return false;
-		});
-	})
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        // $.post(
+        //     "{:url('Index/indexData')}",
+        //     function (msg) {
+        //         if (msg.code == 0) {
+        //             var data = msg.data;
+        //             $('#home_num').text(data.home_num);
+        //             $('#order_no').text(data.order_no);
+        //             $('#pay_count').text(data.pay_count);
+        //             $('#count').text(data.count);
+        //         }
+        //     }, 'json'
+        // );
+        // $('#submet').click(function () {
+        //     $.post(
+        //         "{:url('Index/indexSend')}",
+        //         function (msg) {
+        //             if (msg.code == 1) {
+        //                 layer.msg(msg.font, { icon: msg.code });
+        //             } else {
+        //                 layer.msg(msg.font, { icon: msg.code });
+        //             }
+        //         }, 'json'
+        //     )
+        //     return false;
+        // });
+    })
 
-	$('.char1 b').on('click', function () {
-		$(this).addClass('active').siblings().removeClass('active')
-		var val = $(this).attr('v');
-		majax(val);
-		console.log(11)
+    $('.char1 b').on('click', function () {
+        $(this).addClass('active').siblings().removeClass('active')
+        var val = $(this).attr('v');
+        majax(val);
+        console.log(11)
 
-	})
-	$('.char2 b').on('click', function () {
-		$(this).addClass('active').siblings().removeClass('active')
-		var val = $(this).attr('v');
-		pajax(val);
-		console.log(22)
+    })
+    // $('.char2 b').on('click', function () {
+    //     $(this).addClass('active').siblings().removeClass('active')
+    //     var val = $(this).attr('v');
+    //     pajax(val);
+    //     console.log(22)
+    //
+    // })
+    let content = [{ categories: '1', data: 1000 }, { categories: '2', data: 1000 }, { categories: '3', data: 1000 }]
 
-	})
-	let content = [{ categories: '1', data: 1000 }, { categories: '2', data: 1000 }, { categories: '3', data: 1000 }]
+    // var pval = $('.char2 .active').attr('v');
+    // pajax(pval);
 
-	var pval = $('.char2 .active').attr('v');
-	pajax(pval);
+    var mval1 = $('.char1 .active').attr('v');
+    majax(mval1);
+    // function pajax(vals) {
+    //     $.post(
+    //         "{:url('Index/payNumber')}",
+    //         {data:vals},
+    //         function (msg) {
+    //             if (msg.code == 0) {
+    //                 ex2(msg.data.a,msg.data.b)
+    //             }
+    //         }, 'json'
+    //     )
+    //     return false;
+    // }
 
-var mval1 = $('.char1 .active').attr('v');
-	majax(mval1);
-	function pajax(vals)
-	{
-		$.post(
-			"{:url('Index/payNumber')}",
-			{data:vals},
-			function (msg) {
-				if (msg.code == 0) {
-					ex2(msg.data.a,msg.data.b)
-				}
-			}, 'json'
-		)
-			return false;
-	}
+    function majax(vals)
+    {
+        $.post(
+            "{:url('Index/payMoney')}",
+            {data:vals},
+            function (msg) {
+                if (msg.code == 0) {
+                    ex1(msg.data.a,msg.data.b)
+                }
+            }, 'json'
+        )
+        return false;
+    }
 
-	function majax(vals)
-	{
-		$.post(
-			"{:url('Index/payMoney')}",
-			{data:vals},
-			function (msg) {
-				if (msg.code == 0) {
-					ex1(msg.data.a,msg.data.b)
-				}
-			}, 'json'
-		)
-			return false;
-	}
-
-	function ex1(categories,datas,max){
-			var chart1 = Highcharts.chart('container1', {
-				title: {
-					text: ' '
-				},
-				xAxis: {
-					min: 0,
-					max: max,
-					categories: categories
-				},
-				yAxis: {
-					title: {
-						text: ''
-					},
-					lineWidth: 1,	//y轴线宽度
-					gridLineWidth: 0,  //横着的每条线
-				},
-				legend: {
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'middle'
-				},
-				series: [{
-					name: '',
-					data: datas,
-
-					marker: {
-						enabled: false
-					},
-					color: '#23DAC3',
-		            lineWidth: 1
-				},
-					// {
-					// 	name: '工人',
-					// 	data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-					// }
-				],
-
-				responsive: {
-					rules: [{
-						condition: {
-							maxWidth: 500
-						},
-						chartOptions: {
-							legend: {
-								layout: 'horizontal',
-								align: 'center',
-								verticalAlign: 'bottom'
-							}
-						}
-					}]
-				},
-				credits: {
-					enabled: false //不显示LOGO
-				},
-				exporting: {
-					enabled: false //不显示菜单
-				},
-			});
-	}
-	function ex2(categories,datas,max)
-	{
-		Highcharts.chart('container2', {
-				title: {
-					text: ' '
-				},
-				xAxis: {
-					min: 0,
-					max: max,
-					categories:categories
-				},
-				yAxis: {
-					title: {
-						text: ''
-					},
-					lineWidth: 1,	//y轴线宽度
-					gridLineWidth: 0,  //横着的每条线
-				},
-				legend: {
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'middle'
-				},
-				series: [{
-					name: '',
-					data: datas,
-					marker: {
-						enabled: false
-					},
-					color: '#23DAC3',
-		            lineWidth: 1
-				},
-				],
-
-				responsive: {
-					rules: [{
-						condition: {
-							maxWidth: 500
-						},
-						chartOptions: {
-							legend: {
-								layout: 'horizontal',
-								align: 'center',
-								verticalAlign: 'bottom'
-							}
-						}
-					}]
-				},
-				credits: {
-					enabled: false //不显示LOGO
-				},
-				exporting: {
-					enabled: false //不显示菜单
-				},
-                legend: {
-                        enabled: false // 关闭图例
+    function ex1(categories,datas,max){
+        var chart1 = Highcharts.chart('container1', {
+            title: {
+                text: ' '
+            },
+            xAxis: {
+                min: 0,
+                max: max,
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: ''
                 },
-			});
-	}
+                lineWidth: 1,	//y轴线宽度
+                gridLineWidth: 0,  //横着的每条线
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            series: [{
+                name: '',
+                data: datas,
+
+                marker: {
+                    enabled: false
+                },
+                color: '#23DAC3',
+                lineWidth: 1
+            },
+                // {
+                // 	name: '工人',
+                // 	data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                // }
+            ],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            },
+            credits: {
+                enabled: false //不显示LOGO
+            },
+            exporting: {
+                enabled: false //不显示菜单
+            },
+        });
+    }
+    function ex2(categories,datas,max) {
+        Highcharts.chart('container2', {
+            title: {
+                text: ' '
+            },
+            xAxis: {
+                min: 0,
+                max: max,
+                categories:categories
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                lineWidth: 1,	//y轴线宽度
+                gridLineWidth: 0,  //横着的每条线
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            series: [{
+                name: '',
+                data: datas,
+                marker: {
+                    enabled: false
+                },
+                color: '#23DAC3',
+                lineWidth: 1
+            },
+            ],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            },
+            credits: {
+                enabled: false //不显示LOGO
+            },
+            exporting: {
+                enabled: false //不显示菜单
+            },
+            legend: {
+                enabled: false // 关闭图例
+            },
+        });
+    }
 </script>

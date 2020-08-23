@@ -4,9 +4,9 @@
         <a><cite> 系统列表</cite></a>
     </span>
 </blockquote>
-<div class="layui-btn-group demoTable" style="margin-top: 10px">
-    <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
-</div>
+<!--<div class="layui-btn-group demoTable" style="margin-top: 10px">-->
+<!--    <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>-->
+<!--</div>-->
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="detail">编辑</a>
@@ -24,12 +24,17 @@
             ,cols: [[
                 ,{field:'system_id', title: '系统id',}
                 ,{width:100, title: '序号', type:'numbers'}
-                ,{field:'company_logo',width:200,title:'商户logo',templet:'<div><img src="__PUBLIC__/{{d.company_logo}}"></div>'}
-                ,{field:'company_name', title: '商户名称',}
-                // ,{field:'system_data', title: '版权信息',}
-                // ,{field:'system_name', title: '系统名称',}
-                ,{field:'ctime',width:200, title: '操作时间'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+                ,{field:'company_logo',width:100,title:'商户logo',templet:'<div><img style="width: 30px;height: 30px" src="__PUBLIC__/{{d.company_logo}}"></div>'}
+                ,{field:'company_name',width:200, title: '商户名称',}
+                ,{field:'uname', title: '联系人',width:120,}
+                ,{field:'utel', title: '联系电话',width:120,}
+                ,{field:'address', title: '联系地址',width:200,}
+                ,{field:'mini_appid', title: '小程序appid',width:150,}
+                ,{field:'mini_appsecret', title: '小程序密钥',width:150,}
+                ,{field:'gz_appid', title: '公众号appid',width:150,}
+                ,{field:'gz_appsecret', title: '公众号密钥',width:150,}
+                ,{field:'ctime',width:180, title: '操作时间',align:'center'}
+                ,{field:'right', width:120,toolbar: '#barDemo', title:'操作',fixed: 'right',align:'center'}
             ]],
             done: function () {
                 $("[data-field='system_id']").css('display','none');

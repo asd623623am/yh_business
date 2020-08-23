@@ -221,28 +221,28 @@ class Common extends Controller
                 if($v['node_name'] == '菜品管理'){
                     $temp['2'] = $v;
                 }
-                if ($v['node_name'] == '订单管理') {
+                if($v['node_name'] == '上架审核'){
                     $temp['3'] = $v;
                 }
-                if ($v['node_name'] == '会员管理') {
+                if ($v['node_name'] == '订单管理') {
                     $temp['4'] = $v;
                 }
-                if($v['node_name'] == '商户基础信息'){
+                if ($v['node_name'] == '会员管理') {
                     $temp['5'] = $v;
                 }
-                if ($v['node_name'] == '权限管理') {
+                if ($v['node_name'] == '二维码管理') {
                     $temp['6'] = $v;
-                     $son = $temp[6]['son'];
-                    $key = array_column($son, 'node_id');
-                    array_multisort($key, SORT_ASC, $temp[6]['son']);
-                }
-                if ($v['node_name'] == '系统管理') {
-                    $temp['7'] = $v;
-                }
-                if($v['node_name'] == '上架审核'){
-                    $temp['8'] = $v;
                 }
                 if($v['node_name'] == '店铺设置'){
+                    $temp['7'] = $v;
+                }
+                if ($v['node_name'] == '权限管理') {
+                    $temp['8'] = $v;
+                    $son = $temp[8]['son'];
+                    $key = array_column($son, 'node_id');
+                    array_multisort($key, SORT_ASC, $temp[8]['son']);
+                }
+                if ($v['node_name'] == '系统管理') {
                     $temp['9'] = $v;
                 }
             }

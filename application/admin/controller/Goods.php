@@ -176,7 +176,7 @@ class Goods extends Common{
                         $val['groundin'] = '已上架';
                     }
                     //合并显示商品价格
-                    $val['price'] = "售价:".$val['selling_price']."原价:".$val['original_price']."会员价:".$val['member_price']."员工价:".$val['staff_price'];
+                    $val['price'] = "售价:".$val['selling_price']."<br>原价:".$val['original_price']."<br>会员价:".$val['member_price']."<br>员工价:".$val['staff_price'];
                     //商品图片默认显示第一张
                     if(!empty($val['img'])){
                         $img = explode(',',$val['img']);
