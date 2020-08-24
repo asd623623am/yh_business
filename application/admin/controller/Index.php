@@ -2,9 +2,34 @@
 namespace  app\admin\controller;
 use think\Controller;
 use Msg\Msg;
+use think\Db;
+
 class Index extends Common{
     public function index(){
-       return view();
+        //获取商户基础信息
+        $system_info = model('System')->field('company_logo,company_name,utel,address')->find();
+        //获取今日有效订单数量
+        $where = [];
+        $where['order_status'] = 5;
+        $where['shipping_status'] = 2;
+        $where['pay_status'] = 2;
+        $where['create_time'] = date('Y-m-d',time());
+        $orderData = model('Xmorder')->where($where)->select()->toArray();
+        $amountTotal = array_sum(array_column($orderData, 'pay_fee'));
+        //获取开业门店数量和商品数量
+        $storeWhere = [];
+        $storeWhere['status'] = 1;
+        $storeNum = model('store')->where($storeWhere)->count();
+        $goodsWhere = [];
+        $goodsWhere['status'] = 1;
+        $goodsWhere['is_grounding'] = 2;
+        $goodsNum = model('goods')->where($goodsWhere)->count();
+        $this->assign('systemInfo',$system_info);
+        $this->assign('amountTotal',$amountTotal);
+        $this->assign('orderNum',count($orderData));
+        $this->assign('storeNum',$storeNum);
+        $this->assign('goodsNum',$goodsNum);
+        return view();
     }
 
     /**
@@ -81,8 +106,7 @@ class Index extends Common{
     	// $this->sendPhone();
     }
 
-        
-        public function send($mobiles,$extno,$content,$sendtime)
+    public function send($mobiles,$extno,$content,$sendtime)
         {
             $url ="https://dx.ipyy.net/sms.aspx";
             $body=array(
@@ -106,8 +130,7 @@ class Index extends Common{
             return $result;
         }
 
-
-        /**
+    /**
      * 发送自定义的模板消息
      * @param $touser
      * @param $template_id
@@ -154,10 +177,8 @@ class Index extends Common{
 
     }
 
-
-
-        //调用发送方法
-        public function sendmsg()
+    //调用发送方法
+    public function sendmsg()
         {
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=&secret=';
 
@@ -277,13 +298,12 @@ class Index extends Common{
          return true;
         }
         
-
-        /**
-         * 二维数组去重
-         * @param  [type] $array2D [description]
-         * @return [type]          [description]
-         */
-        public function assoc_unique($arr, $key) {
+    /**
+     * 二维数组去重
+     * @param  [type] $array2D [description]
+     * @return [type]          [description]
+     */
+    public function assoc_unique($arr, $key) {
 
         $tmp_arr = array();
 
@@ -366,10 +386,6 @@ class Index extends Common{
         return $data;
     }
  
-
-
-
-
     public function indexData()
     {
 
@@ -491,28 +507,53 @@ class Index extends Common{
             fail('非法操作');
         }
 
-
-        $newwhere = [
-            'status'=>1,
-            'type'  => array('in',[0,1]),
-            'pay_status'    =>1
-
-        ];
-        $info = model('Orders')->where($newwhere)->whereTime('finish_at', $data)->select()->toArray();
-
-
+        $where = [];
+        $where['order_status'] = 5;
+        $where['shipping_status'] = 2;
+        $where['pay_status'] = 2;
         $newtemp = [];
         $categories = [];
         $datas = [];
-
-        if ($data == 'w') {
-            foreach ($info as $k => $v) {
-                $info[$k]['finish_at'] = date('Y-m-d',$v['finish_at']);
-                $temp[date('Y-m-d',$v['finish_at'])][] = $v['pay_fee'];
+        if($data == 'd'){
+            $startDate = strtotime(date('Y-m-d',time()));
+            $endDate = strtotime(date('Y-m-d',strtotime("+1 days")));
+            $where['create_time'] = ['between', [$startDate, $endDate-1]];
+            $orderData = model('Xmorder')->where($where)->select()->toArray();
+            foreach ($orderData as $k => $v) {
+                $temp[date('H',$v['create_time'])][] = $v['pay_fee'];
             }
+            for ($i = 0;$i<24;$i++){
+                $categories[] = $i."时";
+                if(isset($temp[$i]) && !empty($temp[$i])){
+                    $datas[] = array_sum($temp[$i]);
+                }else{
+                    $datas[] = 0;
+                }
 
+            }
+            $newtemp = [
+                'a' =>$categories,
+                'b' =>$datas,
+                'max' => count($datas)-1,
+            ];
 
-
+        }else if ($data == 'w') {
+            //当前日期
+            $sdefaultDate = date("Y-m-d");
+            //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
+            $first=1;
+            //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
+            $w=date('w',strtotime($sdefaultDate));
+            //获取本周开始日期，如果$w是0，则表示周日，减去 6 天
+            $week_start=date('Y-m-d',strtotime("$sdefaultDate -".($w ? $w - $first : 6).' days'));
+            //本周结束日期
+            $week_end=date('Y-m-d',strtotime("$week_start +7 days"));
+            $where['create_time'] = ['between',[strtotime($week_start),strtotime($week_end)-1]];
+            $info = model('Xmorder')->where($where)->select()->toArray();
+            foreach ($info as $k => $v) {
+                $info[$k]['finish_at'] = date('Y-m-d',$v['create_time']);
+                $temp[date('Y-m-d',$v['create_time'])][] = $v['pay_fee'];
+            }
             $res = $this->get_week(time());
             foreach ($res as $key => $val) {
 
@@ -521,7 +562,6 @@ class Index extends Common{
                 $w = $weekarray[date("w",$time)];
 
                 $categories[] = $val.'星期'.$w;
-
 
                 if (!empty($temp[$val])) {
                     $datas[] = array_sum($temp[$val]);
@@ -537,10 +577,10 @@ class Index extends Common{
             }
         } else if ($data == 'm') {
             $res = $this->getMonthDays();
-
+            $info = model('Xmorder')->where($where)->select()->toArray();
             foreach ($info as $k => $v) {
-                $info[$k]['finish_at'] = date('Y-m-d',$v['finish_at']);
-                $temp[date('d',$v['finish_at'])][] = $v['pay_fee'];
+                $info[$k]['finish_at'] = date('Y-m-d',$v['create_time']);
+                $temp[date('d',$v['create_time'])][] = $v['pay_fee'];
             }
 
             $categories = [];
@@ -560,10 +600,11 @@ class Index extends Common{
                 'max' => count($datas)-1,
             ];  
         } else if ($data == 'y') {
-             $res = $this->getYear();
+            $res = $this->getYear();
+            $info = model('Xmorder')->where($where)->select()->toArray();
             foreach ($info as $k => $v) {
-                $info[$k]['finish_at'] = date('Y-m-d',$v['finish_at']);
-                 $temp[date('m',$v['finish_at'])][] = $v['pay_fee'];
+                $info[$k]['finish_at'] = date('Y-m-d',$v['create_time']);
+                 $temp[date('m',$v['create_time'])][] = $v['pay_fee'];
             }
             $categories = [];
             $datas = [];
@@ -581,9 +622,6 @@ class Index extends Common{
                 'max' => count($datas)-1,
             ];
         }
-        
-       
-
 
          $info=['code'=>0,'msg'=>'','data'=>$newtemp];
         return json($info);
@@ -691,13 +729,11 @@ class Index extends Common{
         return json($info);
     }
 
-
     /**
 
     * 获取本周所有日期
 
     */
-
     function get_week($time = '', $format='Y-m-d'){
 
     $time = $time != '' ? $time : time();
@@ -722,7 +758,7 @@ class Index extends Common{
  * 获取当前月的所有日期
  * @return array
  */
-private function getMonthDays()
+    private function getMonthDays()
 {
     $monthDays = [];
     $firstDay = date('Y-m-01', time());
@@ -734,6 +770,7 @@ private function getMonthDays()
     }
     return $monthDays;
 }
+
     /**
      * 获取年
      * @return [type] [description]
@@ -742,8 +779,6 @@ private function getMonthDays()
     {
         return ['01','02','03','04','05','06','07','08','09','10','11','12'];
     }
-
-
 
         /**
      * 计算金额.

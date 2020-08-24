@@ -44,16 +44,15 @@
     }
 </style>
 
-<div class="layui-form-item">
+<blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
         <a href='#'>上架审核</a>
         <a><cite> 审核列表</cite></a>
     </span>
-</div>
-
+</blockquote>
 
 <div class="search-table layui-form">
-     <div class="layui-inline tempsTest">
+     <div class="layui-inline">
         <select name="store">
             <option value="" >门店</option>
             {volist name="store" id="store"}
@@ -75,7 +74,7 @@
                placeholder="请输入菜品名称" class="layui-input" style="width: 200px"/>
     </div>
 
-    <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+    <button class="layui-btn" lay-submit id='sousuo' lay-filter="*">搜索</button>
 </div>
 
 

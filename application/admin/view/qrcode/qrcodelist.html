@@ -1,0 +1,105 @@
+<style type="text/css">
+    .marginTs{
+        margin-top: 30px;
+    }
+</style>
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>二维码管理</a>
+        <a><cite> 二维码列表</cite></a>
+    </span>
+</blockquote>
+<div class="search-table layui-form">
+    <div class="layui-input-inline">
+        <input type="text" name="storename" required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
+    </div>
+    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
+</div>
+<div class="layui-btn-group demoTable" style="margin-top: 10px">
+    <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
+</div>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="download">下载</a>
+</script>
+<script>
+    layui.use(['table','layer',], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var ids = 0;
+        form.on('submit(*)', function(data){
+            table.render({
+                elem: '#test'
+                ,url:"{:url('Qrcode/qrcodeList')}"
+                ,where:data.field
+                ,limit:10
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[
+                    {field:'qid', width:80, title: '序号', sort: true},
+                    ,{field:'storename', width:200, title: '门店名称'}
+                    ,{field:'tnumber', width:150, title: '桌台号'}
+                    ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img style="height: 30px;height: 30px" src="__PUBLIC__/{{d.logo}}"></div>'}
+                    ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 30px;height: 30px" src="__PUBLIC__/{{d.logo}}"></div>'}
+                    ,{field:'create_time',width:200, title: '创建时间'}
+                    ,{field:'update_time',width:200, title: '更新时间'}
+                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
+                ]],
+                done: function () {
+                    $("[data-field='home_id']").css('display','none');
+                    $('.layui-table').on('click','tr',function(){
+                        $(this).css('background','#ccc').siblings().css('background','#fff');
+                    });
+                },page: true
+            });
+        });
+        //自动点击.
+        $(document).ready(function(){
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                var page = localStorage.getItem('page');
+                table.reload('test', {
+                    page: {
+                        curr: page //重新从第 1 页开始
+                    }
+                }); //只重载数据
+                localStorage.clear();
+            }
+        });
+        $('#submit').click(function(){
+            location.href="{:url('Qrcode/qrcodeAdd')}";
+        })
+        //删除、修改、下载
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if(layEvent === 'edit'){
+                location.href="{:url('Qrcode/qrcodeEdit')}?qid="+data.qid;
+            }else if(layEvent === 'del'){ //删除
+                //拼接弹窗信息
+                var strMsg = '确定删除"';
+                strMsg = strMsg.concat(data.tnumber);
+                strMsg = strMsg.concat('"吗?');
+                layer.confirm(strMsg, function(index){
+                    $.post('{:url("Qrcode/qrcodeDel")}',
+                        {qid:data.qid,tnumber:data.tnumber},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                            if(msg.code==1){
+                                table.reload('test');
+                            }
+                        },'json'
+                    )
+                });
+            }
+        })
+
+        $('.layui-table').on('click','tr',function(){
+            $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+        form.render();
+    });
+</script>

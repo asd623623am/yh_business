@@ -173,12 +173,19 @@ class System extends Common
 			'system_id'	=> $data['system_id']
 		];
 
-		$font = [
-			'company_logo'	=> $data['company_logo'],
-			'company_name'	=> $data['company_name'],
-			// 'system_data'	=> $data['system_data'],
-			// 'system_name'	=> $data['system_name']
-		];
+        $font = [
+            'company_logo'	=> $data['company_logo'],
+            'company_name'	=> $data['company_name'],
+            'uname'	=> $data['uname'],
+            'utel'	=> $data['utel'],
+            'address'	=> $data['address'],
+            'mini_appid'	=> $data['mini_appid'],
+            'mini_appsecret'	=> $data['mini_appsecret'],
+            'gz_appid'	=> $data['gz_appid'],
+            'gz_appsecret'	=> $data['gz_appsecret'],
+            'update_time'	=> time(),
+        ];
+
 		$reslut = Db::table('system')->where($where)->update($font);
 
 		if ($reslut) {

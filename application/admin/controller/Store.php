@@ -25,6 +25,16 @@ class Store extends Common
 
         if( request() -> isAjax() ){
             $where = ['status' => 1];
+            $getData = input('get.');
+            if(!empty($getData['storename'])){
+                $where['name'] = $getData['storename'];
+            }
+            if(!empty($getData['code'])){
+                $where['store_no'] = $getData['code'];
+            }
+            if(!empty($getData['user_name'])){
+                $where['user_name'] = $getData['user_name'];
+            }
             $data=Db::table("xm_store")->where($where)->select();
             foreach ($data as &$val){
                 $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
