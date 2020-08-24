@@ -456,4 +456,104 @@ class System extends Common
 	    }
 
 	}
+
+	public function test()
+	{
+		$res = $this->QrcodeCreate('111',2);
+		dump($res);exit;
+		// $tokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET';
+		$token = '36_kr1fxhDmONEFrMV9Jf7WyZgy8UBiD5SEIcV2vFabM4FTzLCdEuTC-zG8OQw5FjJRqIxRUewRHM_06g9hRQuAjLiLUPwKccXdQ3Yd9Uer3BE6J8CR7sQlSwS5Y9TC11ko99kR2wOb2HBZUIuFVIJfADAJWX';
+		$urls  = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=$token";
+		$data = [
+			'action_name'	=> 'QR_LIMIT_STR_SCENE',
+			'action_info'	=> [
+				'name'	=> '你好啊',
+				'url'	=> '哈哈哈'
+			],
+			'scene_id'	=> 100000,
+			'scene_str' => 64
+		];
+		$ress=$this->curl_post($urls,$data);
+		// $res=file_get_contents($urls,);
+		dump($ress);exit;
+		header("Content-Type:text/html;charset=utf8");
+		$ee = urlencode("gQFI8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1RqallrX1RseXJLek41MU1BeFlYAAIE8aPXVgMEXAIAAA==");//在ticket里打开网页的token
+		$url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ee";
+		echo $url;
+	}
+
+	/* 创建二维码 @param - $qrcodeID传递的参数，$qrcodeType二维码类型 默认为临时二维码 @return - 返回二维码图片地址 */
+public function QrcodeCreate($qrcodeID, $qrcodeType = 0) {
+	if ($qrcodeType == 0) {
+	$qrcodeType = 'QR_SCENE';
+	} else {
+	$qrcodeType = 'QR_LIMIT_SCENE';
+	}
+	$tempJson = '{"expire_seconds": 1800, "action_name": "' . $qrcodeType . '", "action_info": {"scene": {"scene_id": ' . $qrcodeID . '}}}';
+	$access_token = '36_5VVs_3TeL-_5eJm9EKNay_3r6dt2qFihisB-n29o-NUJWiPtrLXKDSJbFpa0WT5FthAO0XqZK4ar5CRM1bOIDehaW9fh6ZxwOknoI7aNLbNGjkhI4oVj9Y5HLd3MYmyj4dd3vK45t2eDpVHzDDFhAJASSU';
+	$url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token;
+	$tempArr = $this->sendpostss ( $url, $tempJson );
+
+	dump($tempArr);exit;
+	if (@array_key_exists ( 'ticket', $tempArr )) {
+	return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' . $tempArr ['ticket'];
+	} else {
+	$this->ErrorLogger ( 'qrcode create falied.' );
+	$this->AccessTokenGet ();
+	$this->QrcodeCreate ();
+	}
+}
+
+// 工具函数 //
+/* 使用curl来post一个json数据 */
+// CURLOPT_SSL_VERIFYPEER,CURLOPT_SSL_VERIFYHOST - 在做https中要用到
+// CURLOPT_RETURNTRANSFER - 不以文件流返回，带1
+private function JsonPost($url, $jsonData){
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+	curl_setopt($curl, CURLOPT_POST, 1);
+	curl_setopt($curl, CURLOPT_POSTFIELDS, $jsonData);
+	curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	$result = curl_exec($curl);
+	dump($reslut);exit;
+	if (curl_errno($curl)) {
+	$this->ErrorLogger('curl falied. Error Info: '.curl_error($curl));
+	}
+	curl_close($curl);
+	return $result;
+	}
+
+		/**
+     * 发送post formdata请求
+     */
+	public function sendpostss($url,$data)
+	{
+	    $data = @json_encode($data);
+
+	    $headers = [
+	        'Content-Type: application/json;charset=utf-8',
+	        'Content-Length: ' . strlen($data)
+	    ];
+
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 8);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+
+		$output = curl_exec($curl);
+		curl_close($curl);
+		return @json_decode($output, true);
+	}
+
 }
