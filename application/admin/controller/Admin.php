@@ -153,7 +153,7 @@ class Admin extends Common
 
         $admin = session('admin');
         $admin_info = model('Admin')->where(['pid'=>$admin['admin_id']])->page($p, $page_num)->select();
-        $count = model('Admin')->count();
+        $count = model('Admin')->where(['pid'=>$admin['admin_id']])->count();
         $info = ['code' => 0, 'msg' => '', 'count' => $count, 'data' => $admin_info];
         echo json_encode($info);
     }

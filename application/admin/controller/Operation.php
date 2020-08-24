@@ -58,7 +58,7 @@ class Operation extends Common
 			}
 			$admin = session('admin');
 	        $role_info=model('Role')->where(['status'=>1,'admin_ids'=>$admin['admin_id']])->page($page,$limit)->select();
-	        $count=model('Role')->count();
+	        $count=model('Role')->where(['status'=>1,'admin_ids'=>$admin['admin_id']])->count();
 	        $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$role_info];
 	        echo json_encode($info);
 	        exit;
