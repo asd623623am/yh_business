@@ -69,7 +69,7 @@
        layui.use(['form','layer'], function(){
            var form = layui.form;
            var layer = layui.layer;
-
+           form.render();
            //表单验证
            form.verify({
                username:function(value,item){   //value表单的值，item表单的属性

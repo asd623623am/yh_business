@@ -97,6 +97,7 @@
     layui.use(['form', 'layer'], function(){
         var form = layui.form;
         var layer = layui.layer;
+        form.render();
        // 给父级添加点击事件
         $('.parent').click(function(){
             if( $(this).prop('checked') ==  true ){
