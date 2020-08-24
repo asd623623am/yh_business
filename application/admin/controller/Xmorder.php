@@ -200,6 +200,7 @@ class Xmorder extends Common
 		} else {
 			$order['sname'] = $Store->name;
 		}
+
 		$this->assign('order',$order);
 		//菜品信息
 		$goodWhere = [
@@ -221,5 +222,27 @@ class Xmorder extends Common
 		$this->assign('goods',$goodData);
 		return view();
 		// dump($goods);
+	}
+
+	public function refund()
+	{
+		$order = input();
+		if(empty($order)){
+			fail('非法请求！');
+		}
+		$where = [
+			'order_sn'	=> $order['order_no'],
+			'status'	=> 1
+		];
+
+		$result = model('Xmorder')->where($where)->find();
+		if($result== null){
+			fail('没有找到您的订单！');
+		}
+		$result = $result->toArray();
+		if($result['pay_status'] != 2){
+			fail('您还不是已支付订单！');
+		}
+		win('退款成功');
 	}
 }

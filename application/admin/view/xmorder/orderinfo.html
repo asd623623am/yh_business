@@ -8,10 +8,11 @@
     <legend>门店基础信息设置</legend>
 </fieldset>
 <input type="text" hidden="hidden" value="{$page}" id="page">
+<input type="text" hidden="hidden" value="{$order.order_sn}" id="order">
 <div class="layui-form-item">
     <div style="width: 40%; margin-left: 40px; float: left;">
         <span style="font-size: 40px;">{$order.sname}</span>
-        <span style="font-size: 20px; color:gray; margin-left: 30%;">{$order.pay_status}</span>
+        <span style="font-size: 20px; color:gray; margin-left: 30%;" id="status" >{$order.pay_status}</span>
        <hr>
        
        {volist name="goods" id='goods'}
@@ -59,6 +60,7 @@
 <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+            <button type="reset" id='refund' class="layui-btn  layui-btn-normal" style="display: none;">退款</button>
         </div>
     </div>
 <script>
@@ -67,11 +69,33 @@
         var layer = layui.layer;
         var upload = layui.upload;
         var form = layui.form;
+        var status = $('#status').text();
+        if(status == '已付款'){
+            $('#refund').attr('style','display:inline;');
+        } else {
+            $('#refund').attr('style','display:none;');
+        }
 
         $('#up').click(function(){
             var page = $('#page').val();
                     localStorage.setItem('page',page);
                     window.history.back();
+        });
+
+        $('#refund').click(function(){
+            var order = $('#order').val();
+            $.post(
+                        "{:url('Xmorder/refund')}",
+                        {order_no:order},
+                        function (msg) {
+                            if (msg.code == 1) {
+                                layer.msg(msg.font,{icon:msg.code});
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+                        },
+                'json'
+                )
         });
     });
 </script>
