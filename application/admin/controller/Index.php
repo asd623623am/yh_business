@@ -1,10 +1,14 @@
 <?php
 namespace  app\admin\controller;
-use think\Controller;
-use Msg\Msg;
-use think\Db;
+use EasyWeChat\BasicService\QrCode\Client;
 
 class Index extends Common{
+
+    /**
+     * @var \EasyWeChat\Kernel\ServiceContainer
+     */
+    protected $app;
+
     public function index(){
         //获取商户基础信息
         $system_info = model('System')->field('company_logo,company_name,utel,address')->find();
@@ -177,6 +181,31 @@ class Index extends Common{
 
     }
 
+    public function sendTestMsg(){
+
+        //获取token
+        $appid = 'wx04302be65c7efdfa';
+        $secret = '5885f95297eeee1ec410fb2430fe3d2d';
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$secret;
+        $ret = $this->request_get($url);
+        if($ret == false){
+            exit();
+        }
+        $ret = @json_decode($ret,true);
+        //获取ticket
+        $token = $ret['access_token'];
+        $tiUrl = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$token;
+        $data = '{"expireSeconds":86400,"action_name":"QR_SCENE","action_info":{"scene":{"scene_id":"1234"}}}';
+        $ret = $this->request_post($tiUrl,$data);
+        $ret = @json_decode($ret,true);
+        //通过ticket换取二维码
+        $ticket = $ret['ticket'];
+        $longtime = $ret['expire_seconds'];
+        $qrcodeUrl = $ret['url'];
+        $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$longtime.'&url='.$qrcodeUrl;
+        dump($qrUrl);die();
+    }
+
     //调用发送方法
     public function sendmsg()
         {
@@ -340,12 +369,40 @@ class Index extends Common{
             $token = json_decode(stripslashes($token));
             $arr = json_decode(json_encode($token), true);
             $access_token = $arr['access_token'];
-
-
         return $access_token;
     }
 
-        /**
+    /**
+     * 发送post formdata请求
+     */
+    public function sendpostss($url,$data)
+    {
+        $data = @json_encode($data);
+
+        $headers = [
+            'Content-Type: application/json;charset=utf-8',
+            'Content-Length: ' . strlen($data)
+        ];
+
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 8);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return @json_decode($output, true);
+    }
+
+    /**
      * 发送post请求
      * @param string $url
      * @param string $param
@@ -360,10 +417,14 @@ class Index extends Common{
         $curlPost = $param;
         $ch = curl_init(); //初始化curl
         curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
-        curl_setopt($ch, CURLOPT_HEADER, 0); //设置header
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //要求结果为字符串且输出到屏幕上
-        curl_setopt($ch, CURLOPT_POST, 1); //post提交方式
+        curl_setopt($ch, CURLOPT_POST, true); //post提交方式
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        curl_setopt($ch, CURLOPT_HEADER, false);//设置header
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $data = curl_exec($ch); //运行curl
         curl_close($ch);
         return $data;
@@ -380,7 +441,12 @@ class Index extends Common{
         }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;
@@ -780,13 +846,32 @@ class Index extends Common{
         return ['01','02','03','04','05','06','07','08','09','10','11','12'];
     }
 
-        /**
+    /**
      * 计算金额.
      * @return [type] [description]
      */
     public function sprintfs($data)
     {
         return sprintf("%1\$.2f", $data);
+    }
+
+    /**
+     * Notes: 更新公众号token（90分钟一刷新）
+     * Class: updateToken
+     * user: bingwoo
+     * date: 2020/8/25 10:53
+     */
+    public function updateGztoken(){
+        $configData = model('system')->find()->toArray();
+        $appid = $configData['gz_appid'];
+        $secret = $configData['gz_appsecret'];
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$secret;
+        $ret = $this->request_get($url);
+        if($ret == false){
+            exit();
+        }
+        $ret = @json_decode($ret,true);
+        model('')->save();
     }
 
 }

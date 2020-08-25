@@ -298,5 +298,59 @@ function showOrderOperate( $order_status ,$order_no){
     }
 }
 
+/**
+ * Notes: post请求
+ * Class: request_post
+ * user: bingwoo
+ * date: 2020/8/25 10:51
+ */
+function request_post($url = '', $param = ''){
+    if (empty($url) || empty($param)) {
+        return false;
+    }
+    $postUrl = $url;
+    $curlPost = $param;
+    $ch = curl_init(); //初始化curl
+    curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
+    curl_setopt($ch, CURLOPT_POST, true); //post提交方式
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+    curl_setopt($ch, CURLOPT_HEADER, false);//设置header
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//要求结果为字符串且输出到屏幕上
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    $data = curl_exec($ch); //运行curl
+    curl_close($ch);
+    return $data;
+}
+
+/**
+ * Notes: 发送get请求
+ * Class: request_get
+ * user: bingwoo
+ * date: 2020/8/25 10:52
+ */
+function request_get($url = ''){
+    if (empty($url)) {
+        return false;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
+}
+
+
+
+
+
 
 

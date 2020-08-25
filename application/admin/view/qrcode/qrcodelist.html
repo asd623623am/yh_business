@@ -41,8 +41,8 @@
                     {field:'qid', width:80, title: '序号', sort: true},
                     ,{field:'storename', width:200, title: '门店名称'}
                     ,{field:'tnumber', width:150, title: '桌台号'}
-                    ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img style="height: 30px;height: 30px" src="__PUBLIC__/{{d.logo}}"></div>'}
-                    ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 30px;height: 30px" src="__PUBLIC__/{{d.logo}}"></div>'}
+                    ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img style="height: 30px;height: 30px" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
+                    ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 30px;height: 30px" src="__QRCODE__/{{d.mini_qrcode}}"></div>'}
                     ,{field:'create_time',width:200, title: '创建时间'}
                     ,{field:'update_time',width:200, title: '更新时间'}
                     ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
@@ -78,8 +78,8 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if(layEvent === 'edit'){
                 location.href="{:url('Qrcode/qrcodeEdit')}?qid="+data.qid;
-            }else if(layEvent === 'del'){ //删除
-                //拼接弹窗信息
+            }else if(layEvent === 'del'){
+                //删除 拼接弹窗信息
                 var strMsg = '确定删除"';
                 strMsg = strMsg.concat(data.tnumber);
                 strMsg = strMsg.concat('"吗?');
@@ -94,6 +94,18 @@
                         },'json'
                     )
                 });
+            }else if(layEvent == 'download'){
+                //下载二维码
+                $.post('{:url("Qrcode/downloadQrocde")}',
+                    {qid:data.qid,tnumber:data.tnumber,storename:data.storename},
+                    function(msg){
+                        layer.msg(msg.font,{icon:msg.code});
+                        if(msg.code==1){
+                            table.reload('test');
+                        }
+                    },'json'
+                )
+
             }
         })
 

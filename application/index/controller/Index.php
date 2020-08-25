@@ -252,7 +252,6 @@ class Index extends Controller
 
 	}
 
-
 	/**
 	 * 绑定住房信息
 	 * @return [type] [description]
@@ -1136,9 +1135,7 @@ class Index extends Controller
     	
     }
 
-
-
-        /**
+    /**
      * 返回小程序服务图片
      * @return [type] [description]
      */
@@ -1157,7 +1154,6 @@ class Index extends Controller
     	];
     	return $this->reply(0,'成功',$data);
     }
-
 
     ###打印电子发票.
     public function payinvoice()
@@ -1252,32 +1248,61 @@ class Index extends Controller
         return $sign;
     }
 
-    	/**
-         * 发送post formdata请求
-         */
-    	public function sendpostss($url,array $data)
-    	{
-    	    $data = @json_encode($data);
+    /**
+     * 发送post formdata请求
+     */
+    public function sendpostss($url,array $data)
+    {
+        $data = @json_encode($data);
 
-    	    $headers = [
-    	        'Content-Type: application/json;charset=utf-8',
-    	        'Content-Length: ' . strlen($data)
-    	    ];
+        $headers = [
+            'Content-Type: application/json;charset=utf-8',
+            'Content-Length: ' . strlen($data)
+        ];
 
 
-    		$curl = curl_init();
-    		curl_setopt($curl, CURLOPT_URL, $url);
-    		curl_setopt($curl, CURLOPT_HEADER, false);
-    		curl_setopt($curl, CURLOPT_POST, true);
-    		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-    		curl_setopt($curl, CURLOPT_TIMEOUT, 8);
-    		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 8);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
-    		$output = curl_exec($curl);
-    		curl_close($curl);
-    		return @json_decode($output, true);
-    	}
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return @json_decode($output, true);
+    }
+
+    /**
+     * Notes: 更新公众号token（90分钟一刷新）
+     * Class: updateToken
+     * user: bingwoo
+     * date: 2020/8/25 10:53
+     */
+    public function updateGztoken(){
+        $configData = model('system')->find()->toArray();
+        $appid = $configData['gz_appid'];
+        $secret = $configData['gz_appsecret'];
+        //获取token
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$secret;
+        $ret = request_get($url);
+        if($ret == false){
+            /* @todo 添加错误日志*/
+            exit();
+        }
+        $ret = @json_decode($ret,true);
+        $where = ['system_id'=>1];
+        $savaData = [
+            'gz_token' => $ret['access_token']
+        ];
+        $reSave = model('system')->save($savaData,$where);
+        if($reSave == false){
+            /* @todo 添加错误日志*/
+        }
+        exit();
+    }
 
 }
