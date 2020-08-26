@@ -86,6 +86,15 @@ class Store extends Common
             if(empty($data)){
                 exit('非法操作此页面');
             }
+            ######## 东杰
+            $admin_where = [
+                'admin_name'   => $data['account']
+            ];
+            $res = model('Admin')->where($admin_where)->select()->toArray();
+            if(!empty($res)){
+                fail('登录账号已被用，请更换登录账号！');
+            }
+            ##########
             $where = [
                 'name'	=> $data['name'],
             ];
@@ -102,11 +111,37 @@ class Store extends Common
                     $storeInfo['storeid'] += 1;
                     $insert['store_no'] = $strno.$storeInfo['storeid'];
                 }
-                $res = model('Store')->allowField(true)->save($insert);
+                $insert['create_time'] = time();
+                $insert['update_time'] = time();
+                $store_id = model('Store')->insertGetId($insert);
                 /* @todo 添加用户和门店权限绑定*/
-                if($res){
-                    $this -> addLog('添加了一个门店');
-                    win('添加成功');
+                if($store_id){
+
+                    $admin_insert = [
+                        'admin_type'    =>3,
+                        'admin_name'    =>$data['account'],
+                        'admin_pwd'     =>$data['passwords'],
+                        'admin_tel'     =>'',
+                        'storeid'       => $store_id
+                    ];
+                    $model = model('Admin');
+                    $model->save($admin_insert);
+                    $admin_id = $model -> getLastInsID();
+                    if($admin_id){
+                        $roleinsert = [
+                            'admin_id'  => $admin_id,
+                            'role_id'   => 18
+                        ];
+                        $adminres = model('AdminRole')->insert($roleinsert);
+                        if($adminres){
+                            $this->addLog('添加了一个门店');
+                            win('添加成功');
+                        }else{
+                            fail('添加失败');
+                        }
+                    } else {
+                        fail('添加失败');
+                    }
                 }else{
                     fail('添加失败');
                 }

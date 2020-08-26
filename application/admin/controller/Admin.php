@@ -47,6 +47,7 @@ class Admin extends Common
             }
             $data['pid'] = $admin['admin_id'];
             $data['storeid'] = $admin['storeid'];
+
             unset( $data['role'] );
             try{
                 # 写入管理员表
