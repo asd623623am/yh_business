@@ -22,8 +22,9 @@
             <span style="margin-left: 5%; color: gray;">￥{$goods.original_price}</span>
             <span style="margin-left: 10%; color: red;">￥{$goods.selling_price}</span>
             <div>
-                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">规格1</button>
-                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">规格2</button>
+            {volist name="goods.son" id='son'}
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">{$son.gsname}</button>
+            {/volist}
             </div>
        </div>
        {/volist}

@@ -210,14 +210,24 @@ class Xmorder extends Common
 		$goodData = [];
 		if(!empty($goods)){
 			foreach($goods as $k=>$v){
+
+				$gbsid = explode(',',$v['gbsid']);
+				$gwhere = [
+					'gsid'	=> array('in',$gbsid),
+					'status'	=> 0
+				];
+				$ass=Db::table("xm_goods_spec")->where($gwhere)->select();
+
 				$goodData[] = [
 					'goods_name'	=> $v['goods_name'],
 					'goods_number'	=> $v['goods_number'],
 					'original_price'	=> $v['original_price'],
-					'selling_price'	=> $v['selling_price']
+					'selling_price'	=> $v['selling_price'],
+					'son'	=> $ass
 				];
 			}
 		}
+
 		$this->assign('page',$data['page']);
 		$this->assign('goods',$goodData);
 		return view();
