@@ -19,7 +19,7 @@ class Goods extends Common{
      */
     public function goodsTypeList(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         $where = ['storeid'=>$storeid];
         $where['status'] = 1;
         if( request() -> isAjax() ){
@@ -54,7 +54,7 @@ class Goods extends Common{
      */
     public function goodsTypeAdd(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         if(check()){
             $postData = input('post.');
             $insert = [
@@ -143,7 +143,7 @@ class Goods extends Common{
     */
     public function goodsList(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         if( request() -> isAjax() ){
             $where = ['storeid'=>$storeid];
             $getData = input('get.');
@@ -211,7 +211,7 @@ class Goods extends Common{
      */
     public function goodsAdd(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         if(check()){
             $postData = input('post.');
             /* 验证商品必传信息*/
@@ -252,7 +252,7 @@ class Goods extends Common{
      */
     public function goodsEdit(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
@@ -421,7 +421,7 @@ class Goods extends Common{
      */
     public function goodsStockList(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         if( request() -> isAjax() ){
             $where = ['storeid'=>$storeid,'status'=>1];
             $getData = input('get.');
@@ -560,7 +560,7 @@ class Goods extends Common{
      */
     public function goodsSpecList(){
 
-        $storeid = 1;
+        $storeid = getStoreid();
         if( request() -> isAjax() ){
             $where = ['storeid'=>$storeid];
             $getData = input('get.');
@@ -587,9 +587,6 @@ class Goods extends Common{
             exit;
         }else{
             $gstData = model('goodsSpecType')->where(['storeid'=>$storeid])->select()->toArray();
-            if(empty($gstData)){
-                fail("规格信息有误");
-            }
             foreach ($gstData as &$gstv){
                 $gsData = model('goodsSpec')->where(['gstid'=>$gstv['gstid']])->column('gsname');
                 $gstv['$gsData'] = implode(',',$gsData);
@@ -604,7 +601,7 @@ class Goods extends Common{
      * user: bingwoo
      */
     public function goodsSpecAdd(){
-        $storeid = 1;
+        $storeid = getStoreid();
         if(check()){
             $postData = input('post.');
             $insert = [];
@@ -614,9 +611,6 @@ class Goods extends Common{
             if(empty($postData['spec_content'])){
                 fail("规格内容不能为空");
             }
-            if (isset($postData['is_more'])){
-                $insert['is_more'] = 1;
-            }
             //添加商品规格分类信息
             $istData = [
                 'storeid'=>$storeid,
@@ -624,6 +618,9 @@ class Goods extends Common{
                 'create_time'=>time(),
                 'update_time'=>time(),
             ];
+            if (isset($postData['is_more'])){
+                $istData['is_more'] = 1;
+            }
             $gstId = model('goodsSpecType')->insertGetId($istData);
             //添加商品规格信息
             $insert['gstid'] = $gstId;

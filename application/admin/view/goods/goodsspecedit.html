@@ -67,7 +67,6 @@
             if(is_more == 1){
                 $('#is_more').attr('checked',true);
             }
-            form.render();
             //执行一个laydate实例
             laydate.render({
                 elem: '#test1' //指定元素
@@ -92,6 +91,7 @@
             $('#up').click(function(){
                 location.href="{:url('Goods/goodsSpecList')}";
             });
+            form.render();
         });
     })
 

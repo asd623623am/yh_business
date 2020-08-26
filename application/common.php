@@ -348,6 +348,18 @@ function request_get($url = ''){
     return $data;
 }
 
+/**
+ * Notes: 获取当前登录用户的门店的id
+ * Class: getStoreid
+ * user: bingwoo
+ * date: 2020/8/26 17:15
+ */
+function getStoreid(){
+
+    $loginInfo = session('admin');
+    return $loginInfo['storeid'];
+}
+
 
 
 

@@ -103,7 +103,7 @@ class Store extends Common
                 fail('门店名称已存在！');
             } else {
                 $insert = $this->processData($data);
-                $storeInfo = model('Store')->field('storeid')->order('storeid desc')->find()->toArray();
+                $storeInfo = model('Store')->field('storeid')->order('storeid desc')->find();
                 $insert['store_no'] = 100001;
                 if(!empty($storeInfo['storeid'])){
                     $len = strlen($storeInfo['storeid']);
