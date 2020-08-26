@@ -1,49 +1,3 @@
-<style type="text/css">
-    .marginTs{
-        margin-top: 30px;
-    }
-    .tempsTest{
-        margin-top:5px;
-    }
-    .red{
-        color:red;
-    }
-
-    .green{
-        color:green;
-    }
-    .black{
-        color:black;
-    }
-
-    .images{
-        margin: 0 auto;
-        width: 150px;
-        height: 150px;
-    }
-    .layui-img-div{
-        text-align:center;
-    }
-    .layui-title-div{
-        color: #FF5454;
-        font-size: 20px;
-        margin: 10px 0;
-    }
-    .layui-title2-div{
-        font-size: 20px;
-        margin-bottom: 30px;
-
-    }
-    .layui-title3-div{
-        font-size: 18px;
-        font-weight: bold; 
-        margin-bottom: 20px;
-    }
-    .layui-title4-div{
-        font-size: 10px;
-    }
-</style>
-
 <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
         <a href='#'>上架审核</a>
@@ -54,7 +8,7 @@
 <div class="search-table layui-form">
      <div class="layui-inline">
         <select name="store">
-            <option value="" >门店</option>
+            <option value="" >请选择门店</option>
             {volist name="store" id="store"}
             <option value="{$store.storeid}">{$store.name}</option>
             {/volist}
@@ -68,18 +22,12 @@
               {/volist}
         </select>
     </div>
-
     <div class="layui-input-inline">
         <input value="" type="text" name="name" autocomplete="off"
                placeholder="请输入菜品名称" class="layui-input" style="width: 200px"/>
     </div>
-
     <button class="layui-btn" lay-submit id='sousuo' lay-filter="*">搜索</button>
 </div>
-
-
-
-
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="pos">详情</a>
@@ -95,102 +43,86 @@
         var form = layui.form;
         var laydate = layui.laydate;
         var tmer;
-
         layui.use('form', function(){
             var form = layui.form; 
             form.render();
         });
-
-            var ids = 0;
-            
-            //自动点击.
-            $(document).ready(function(){
-                
-                $("#sousuo").trigger("click");
-                ids = 1;
-                if(ids == 1){
-                             var page = localStorage.getItem('page');
-                            table.reload('test', {
-                                page: {
-                                    curr: page //重新从第 1 页开始
-                                }
-                            }); //只重载数据
-                            localStorage.clear();
-                }
-           
-            });
-            
-
+        var ids = 0;
+        //自动点击.
+        $(document).ready(function(){
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                 var page = localStorage.getItem('page');
+                table.reload('test', {
+                    page: {
+                        curr: page //重新从第 1 页开始
+                    }
+                }); //只重载数据
+                localStorage.clear();
+            }
+        });
         //删除和修改
         table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对
-
             if(layEvent === 'detail'){ //查看
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
                 location.href="{:url('Orders/paymentUpdateInfo')}?id="+data.id+"&page="+pages;
-            } else if(layEvent === 'del'){ //删除
-                
-            } else if (layEvent == 'refund') {
-               
-            } else if (layEvent == 'pos') {
+            }else if (layEvent == 'pos') {
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
                 location.href="{:url('Goodstrial/goodInfo')}?gid="+data.gid+"&page="+pages;
                 return false;
             } else if (layEvent == 'up') {
-                layer.confirm('确认通过嘛？', function(index){
-                    $.post(
-                            '{:url("Goodstrial/goodstrialUp")}',
-                            {gid:data.gid,type:1},
-                            function(msg){
-                                layer.msg(msg.font,{icon:msg.code});
-                                 if(msg.code==1){
-                                 table.reload('test');
-                                 }
-                            },'json'
-                    )
-                });
-
-
-                    
-            } else if (layEvent == 'down') {
-
-                layer.confirm('确认下架嘛？', function(index){
+                layer.confirm('确认通过菜品【<font style="color: red">'+data.name+'</font>】吗？', function(index){
                     $.post(
                         '{:url("Goodstrial/goodstrialUp")}',
-                            {gid:data.gid,type:2},
-                            function(msg){
-                                layer.msg(msg.font,{icon:msg.code});
-                                 if(msg.code==1){
-                                 table.reload('test');
-                                 }
-                            },'json'
+                        {gid:data.gid,type:1},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                             if(msg.code==1){
+                             table.reload('test');
+                             }
+                        },'json'
+                    )
+                });
+            } else if (layEvent == 'down') {
+                layer.confirm('确认下架菜品【<font style="color: red">'+data.name+'</font>】吗？', function(index){
+                    $.post(
+                    '{:url("Goodstrial/goodstrialUp")}',
+                        {gid:data.gid,type:2},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                             if(msg.code==1){
+                                table.reload('test');
+                             }
+                        },'json'
                     )
                 });
                 
             }
         })
-
-
-
         form.on('submit(*)', function(data){
           table.render({
               elem: '#test'
               ,url:"{:url('Goodstrial/goodLists')}"
               ,where:data.field
-              ,limit:2
+              ,limit:10
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
               ,cols: [[
               {field:'gid', width:100, title: 'gid'}
                 ,{width:100, title: '序号',type:'numbers'}
-                ,{field:'img', width:200, title: '首页图片',templet:'<div><img src="__PUBLIC__/{{d.img}}"></div>'}
+                ,{field:'gtname',width:150, title: '菜品类别',align:'center'}
                 ,{field:'name',width:200, title: '菜名'}
-                ,{field:'gtname',width:200, title: '菜品类别'}
+                ,{field:'img', width:100, title: '菜品图片',templet:'<div><img style="height:25px" src="__PUBLIC__/{{d.img}}"></div>'}
                 ,{field:'stock',width:100, title: '库存'}
-                ,{field:'price',width:150, title: '价格'}
-                ,{field:'is_grounding',width:150, title: '商品状态'}
-                ,{field:'right', width:100,toolbar: '#barDemo', title:'操作'}
+                ,{field:'selling_price',width:100, title: '售价'}
+                ,{field:'original_price',width:100, title: '原价'}
+                ,{field:'member_price',width:100, title: '会员价'}
+                ,{field:'staff_price',width:100, title: '员工价'}
+                ,{field:'is_grounding',width:100, title: '商品状态'}
+                ,{field:'right', width:155,toolbar: '#barDemo', title:'操作',fixed:'right'}
             ]],
             done: function () {
                 $("[data-field='gid']").css('display','none');

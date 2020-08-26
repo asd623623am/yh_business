@@ -166,7 +166,6 @@
                     //获取所有规格，多个以逗号分隔,如"1,2,3"
                     var gstids = '';
                     $('select[multiple] option:selected').each(function() {
-                        // gstids.push($(this).val());
                         if(gstids.length == 0){
                             gstids = $(this).val();
                         }else{
@@ -193,6 +192,7 @@
                 $('#up').click(function(){
                     location.href="{:url('Goods/goodsList')}";
                 });
+                form.render();
             });
         })
     </script>

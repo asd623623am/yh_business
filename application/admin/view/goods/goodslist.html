@@ -71,7 +71,7 @@
                     return false;
                 })
             }else if(layEvent === 'up'){
-                layer.confirm("确认上架'"+data.name+"'吗？", function(index){
+                layer.confirm("确认上架菜品【<font style='color: red'>"+data.name+"</font>】吗？", function(index){
                     $.post(
                         "{:url('Goods/goodsUp')}",
                         data,
@@ -87,7 +87,7 @@
                     return false;
                 });
             }else if(layEvent === 'down'){
-                layer.confirm("确认下架'"+data.name+"'吗？", function(index){
+                layer.confirm("确认下架菜品【<font style='color: red'>"+data.name+"</font>】吗？", function(index){
                     $.post(
                         "{:url('Goods/goodsDown')}",
                         data,

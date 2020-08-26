@@ -7,90 +7,103 @@
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>菜品信息</legend>
 </fieldset>
-<input type="text" hidden="hidden" value="{$page}" id="page">
 <div class="layui-form-item">
-    <div class="layui-inline">
-        <label class="layui-form-label">门店名称:</label>
-        <div class="layui-form-mid layui-word-aux">{$arr.sname}</div>
+    <input type="text" hidden="hidden" value="{$page}" id="page">
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">菜品图片:</label>
+        <div class="layui-input-block">
+            <img style="width: 115px;height: 115px;" src="__PUBLIC__/{$arr.img}" id="images">
+            <a href="javascript:;" id='delimg'></a>
+        </div>
     </div>
-    </div>
-
-
-
+    <!--<div class="layui-form-item">-->
+    <!--    <div class="layui-inline">-->
+    <!--        <label class="layui-form-label">门店名称:</label>-->
+    <!--        <div class="layui-input-block">-->
+    <!--            <input type="text" name="pos_pay" disabled="disabled" value="{$arr.sname}"  class="layui-input">-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">菜品名称:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.name}</div>
-        </div>
-    </div>
-
-
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">菜品图片:</label>
-            <div class="layui-form-mid layui-word-aux"><div><img src="__PUBLIC__/{$arr.img}"></div></div>
-        </div>
-    </div>
-
-
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">菜品类别:</label>
-                <div class="layui-form-mid layui-word-aux">{$arr.gtname}</div>
+            <div class="layui-input-block">
+                <input type="text" name="pos_pay" disabled="disabled" value="{$arr.name}" class="layui-input">
             </div>
+        </div>
     </div>
-
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">库存:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.stock}</div>
+            <label class="layui-form-label">菜品类别:</label>
+            <div class="layui-input-block">
+                <input type="text" name="pos_pay" disabled="disabled" value="{$arr.gtname}" class="layui-input">
+            </div>
         </div>
-
+    </div>
+    <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">售价:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.selling_price}</div>
+            <label class="layui-form-label">库存数量:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.stock}"  class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜品售价:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.selling_price}"  class="layui-input">
+            </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">原价:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.original_price}</div>
+            <label class="layui-form-label">菜品原价:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.original_price}"  class="layui-input">
+            </div>
         </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">会员价:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.member_price}</div>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.member_price}"  class="layui-input">
+            </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">员工价:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.staff_price}</div>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.staff_price}"  class="layui-input">
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">是否是特色菜：</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.is_special}</div>
+            <label class="layui-form-label">是否特色:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.is_special}"  class="layui-input">
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">商品状态:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.is_grounding}</div>
+            <label class="layui-form-label">菜品状态:</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.is_grounding}"  class="layui-input">
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">商品介绍:</label>
-            <div class="layui-form-mid layui-word-aux">{$arr.trade_description}</div>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$arr.trade_description}"  class="layui-input">
+            </div>
         </div>
     </div>
-    <div class="layui-form-item">
-        
+    <div class="layui-input-block">
+        <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
     </div>
-
-
-<div class="layui-form-item">
-        <div class="layui-input-block">
-            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
-        </div>
-    </div>
+</div>
 <script>
     layui.use(['table','layer','upload','form'], function(){
         var table = layui.table;

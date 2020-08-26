@@ -32,9 +32,14 @@ class Goodstrial extends Common
                 $where['name'] = $input['name'];
             }
             $where['status'] = 1;
-            $data=Db::table("xm_goods")->where($where)->page($page,$limit)->select();
-            
             $type = Db::table("xm_goods_type")->where(['status'=>1])->select();
+            if(!empty($input['gitid'])){
+                $where['gtid'] = $input['gitid'];
+            }else{
+                $gtidArr = array_column($type,'gtid');
+                $where['gtid'] = ['in',$gtidArr];
+            }
+            $data=Db::table("xm_goods")->where($where)->page($page,$limit)->select();
             $temp = [];
             foreach($data as $k=>$v){
                 $img = '';
@@ -50,15 +55,11 @@ class Goodstrial extends Common
                         $gtname = $vv['gtname'];
                     }
                 }
-                $stock = '';
                 if($v['is_open_stock'] == 0){
                     $stock = '未开启';
                 } else {
                     $stock = $v['stock'];
                 }
-
-                $price = '售价：'.$v['selling_price'].'<br>原价：'.$v['original_price'].'<br>会员价：'.$v['member_price'].'<br>员工价：'.$v['staff_price'];
-                
                 $is_grounding = '';
                 if($v['is_grounding'] == 0){
                     $is_grounding = '已下架';
@@ -78,7 +79,10 @@ class Goodstrial extends Common
                     'name'  => $v['name'],
                     'gtname'    => $gtname,
                     'stock' => $stock,
-                    'price' => $price,
+                    'selling_price'  => $v['selling_price'],
+                    'original_price'  => $v['original_price'],
+                    'member_price'  => $v['member_price'],
+                    'staff_price'  => $v['staff_price'],
                     'is_grounding' => $is_grounding,
                 ];
             }

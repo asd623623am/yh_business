@@ -93,15 +93,17 @@ class Store extends Common
             if (!empty($info)) {
                 fail('门店名称已存在！');
             } else {
-                $insert = $this->processData(processData);
-                $storeid = model('Store')->field('storeid')->order('storeid desc')->find();
+                $insert = $this->processData($data);
+                $storeInfo = model('Store')->field('storeid')->order('storeid desc')->find()->toArray();
                 $insert['store_no'] = 100001;
-                if(!empty($storeid)){
-                    $len = strlen($storeid);
+                if(!empty($storeInfo['storeid'])){
+                    $len = strlen($storeInfo['storeid']);
                     $strno = substr(100001,0,6-$len);
-                    $insert['store_no'] = $strno.$storeid;
+                    $storeInfo['storeid'] += 1;
+                    $insert['store_no'] = $strno.$storeInfo['storeid'];
                 }
                 $res = model('Store')->allowField(true)->save($insert);
+                /* @todo 添加用户和门店权限绑定*/
                 if($res){
                     $this -> addLog('添加了一个门店');
                     win('添加成功');
