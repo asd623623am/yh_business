@@ -197,7 +197,7 @@ class Store extends Common
             'password'	=> $postData['passwords'],
         ];
         //门店logo
-        if(!empty($data['banner_url'])){
+        if(!empty($postData['banner_url'])){
             $len = strlen($postData['banner_url']);
             $strDate = substr($postData['banner_url'],1,8);
             $strname = substr($postData['banner_url'],10,$len-10);
@@ -208,7 +208,7 @@ class Store extends Common
             $insert['pos_pay'] = $postData['pos_pay'];
         }
         //刷脸支付
-        if(!empty($data['face_pay'])){
+        if(!empty($postData['face_pay'])){
             $insert['face_pay'] =$postData['face_pay'];
         }
         //营业时间
