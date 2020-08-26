@@ -64,6 +64,8 @@ class Store extends Common
             $storeId = $postData['storeid'];
             $storeData = model('Store')->where(['storeid'=>$storeId])->find()->toArray();
             if(!empty($storeData)){
+                $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
+                $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
                 $this->assign('store',$storeData);
                 return  view();
             }
@@ -124,7 +126,7 @@ class Store extends Common
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
-                $insert = $this->processData(processData);
+                $insert = $this->processData($postData);
                 $where = ['storeid' => $postData['storeid']];
                 $res = model('Store')->save($insert,$where);
                 if ($res) {

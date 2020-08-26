@@ -21,6 +21,7 @@ class Goods extends Common{
 
         $storeid = 1;
         $where = ['storeid'=>$storeid];
+        $where['status'] = 1;
         if( request() -> isAjax() ){
             $page=input('get.page');
             if(empty($page)){
@@ -34,8 +35,7 @@ class Goods extends Common{
             foreach ($data as &$val){
                 $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                 $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
-                $gcount = Db::table("xm_goods")->where(['gtid'=>$val['gtid']])->count();
-
+                $gcount = Db::table("xm_goods")->where(['gtid'=>$val['gtid'],'status'=>1])->count();
                 $val['gcount'] = $gcount."个商品";
             }
             unset($val);
@@ -128,9 +128,9 @@ class Goods extends Common{
             $where = ['gtid' => $postData['gtid']];
             $ret = model('goodsType')->save(['status'=>2],$where);
             if($ret){
-                win('删除分类'.$postData['gtname'].'成功');
+                win($postData['gtname'].'分类删除成功');
             }else{
-                fail('删除分类'.$postData['gtname'].'失败');
+                fail($postData['gtname'].'分类删失败');
             }
         }else{
             fail('分类信息有误');
@@ -153,17 +153,17 @@ class Goods extends Common{
             if(!empty($getData['gname'])){
                 $where['name'] = $getData['gname'];
             }
+            $gtData = Db::table("xm_goods_type")->where(['status'=>1])->select();
+            if(empty($gtData)){
+               fail("商品分类加载失败");
+            }
+            $gtidArr = array_column($gtData,'gtid');
+            $where['gtid'] = ['in',$gtidArr];
             $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
             if(!empty($data)){
                 foreach ($data as &$val){
                     $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                     $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
-                    $gtData = Db::table("xm_goods_type")->where(['gtid'=>$val['gtid']])->find();
-                    if(!empty($gtData)){
-                        $val['gtname'] = $gtData['gtname'];
-                    }else{
-                        fail('商品列表加载失败');
-                    }
                     $val['is_special'] = "否";
                     if($val['is_special'] == 1){
                         $val['is_special'] = "是";
@@ -175,12 +175,16 @@ class Goods extends Common{
                     }elseif ($val['is_grounding'] == 1){
                         $val['groundin'] = '已上架';
                     }
-                    //合并显示商品价格
-                    $val['price'] = "售价:".$val['selling_price']."<br>原价:".$val['original_price']."<br>会员价:".$val['member_price']."<br>员工价:".$val['staff_price'];
                     //商品图片默认显示第一张
                     if(!empty($val['img'])){
                         $img = explode(',',$val['img']);
                         $val['img'] = $img[0];
+                    }
+                    $val['gtname'] = '';
+                    foreach ($gtData as $gtval){
+                        if($gtval['gtid'] == $val['gtid']){
+                            $val['gtname'] = $gtval['gtname'];
+                        }
                     }
                 }
                 unset($val);
@@ -190,7 +194,7 @@ class Goods extends Common{
             echo json_encode($info);
             exit;
         }else{
-            $gtData = model('goodsType')->where(['storeid'=>$storeid])->select();
+            $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
             if(empty($gtData)){
                 fail("菜品分类信息有误");
             }
@@ -299,6 +303,7 @@ class Goods extends Common{
             return view();
         }
     }
+
     public function getGoodsSpecTypeList(){
         $postData = input('post.');
         $gstData = model('goodsSpecType')->where(['storeid'=>$postData['storeid']])->select()->toArray();

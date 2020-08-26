@@ -55,14 +55,14 @@
             if (layEvent === 'edit') { //修改
                 location.href="{:url('Goods/goodsEdit')}?gid="+data.gid;
             }else if(layEvent === 'del'){
-                layer.confirm("确认删除'"+data.name+"'吗？", function(index){
+                layer.confirm("确认删除菜品【<font style='color: red'>"+data.name+"</font】吗？", function(index){
                     $.post(
                         "{:url('Goods/goodsDel')}",
                         data,
                         function(msg){
                             if(msg.code ==1){
                                 layer.msg(msg.font);
-                                location.href="{:url('Goods/goodsList')}";
+                                // location.href="{:url('Goods/goodsList')}";
                             }else{
                                 layer.msg(msg.font, {icon: 5});
                             }
@@ -128,15 +128,18 @@
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
                     {field:'gid', width:80, title: 'ID',}
-                    ,{field:'img', width:150 , title: '菜品图片',templet:'<div><img style="height: 80px;height: 80px" src="__PUBLIC__/{{d.img}}"></div>'}
-                    ,{field:'name', width:150 , title: '菜品名称'}
                     ,{field:'gtname', width:150 , title: '菜品类别'}
+                    ,{field:'name', width:150 , title: '菜品名称'}
+                    ,{field:'img', width:100 , title: '菜品图片',templet:'<div><img style="height: 25px;" src="__PUBLIC__/{{d.img}}"></div>'}
                     ,{field:'stock', width:100, title: '菜品库存'}
-                    ,{field:'price', width:150, title: '价格'}
+                    ,{field:'selling_price', width:100, title: '售价'}
+                    ,{field:'original_price', width:100, title: '原价'}
+                    ,{field:'member_price', width:100, title: '会员价'}
+                    ,{field:'staff_price', width:100, title: '员工价'}
                     ,{field:'is_special', width:100, title: '特色菜品',align:'center'}
                     ,{field:'groundin', width:100, title: '菜品状态',align:'center'}
                     ,{field:'sort', width:100, title: '排序值',align:'center'}
-                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center'}
+                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
                 ]]
                 ,page: true
             });
