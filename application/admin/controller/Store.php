@@ -64,6 +64,8 @@ class Store extends Common
             $storeId = $postData['storeid'];
             $storeData = model('Store')->where(['storeid'=>$storeId])->find()->toArray();
             if(!empty($storeData)){
+                $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
+                $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
                 $this->assign('store',$storeData);
                 return  view();
             }
@@ -91,15 +93,17 @@ class Store extends Common
             if (!empty($info)) {
                 fail('门店名称已存在！');
             } else {
-                $insert = $this->processData(processData);
-                $storeid = model('Store')->field('storeid')->order('storeid desc')->find();
+                $insert = $this->processData($data);
+                $storeInfo = model('Store')->field('storeid')->order('storeid desc')->find()->toArray();
                 $insert['store_no'] = 100001;
-                if(!empty($storeid)){
-                    $len = strlen($storeid);
+                if(!empty($storeInfo['storeid'])){
+                    $len = strlen($storeInfo['storeid']);
                     $strno = substr(100001,0,6-$len);
-                    $insert['store_no'] = $strno.$storeid;
+                    $storeInfo['storeid'] += 1;
+                    $insert['store_no'] = $strno.$storeInfo['storeid'];
                 }
                 $res = model('Store')->allowField(true)->save($insert);
+                /* @todo 添加用户和门店权限绑定*/
                 if($res){
                     $this -> addLog('添加了一个门店');
                     win('添加成功');
@@ -124,7 +128,7 @@ class Store extends Common
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
-                $insert = $this->processData(processData);
+                $insert = $this->processData($postData);
                 $where = ['storeid' => $postData['storeid']];
                 $res = model('Store')->save($insert,$where);
                 if ($res) {
@@ -193,7 +197,7 @@ class Store extends Common
             'password'	=> $postData['passwords'],
         ];
         //门店logo
-        if(!empty($data['banner_url'])){
+        if(!empty($postData['banner_url'])){
             $len = strlen($postData['banner_url']);
             $strDate = substr($postData['banner_url'],1,8);
             $strname = substr($postData['banner_url'],10,$len-10);
@@ -204,7 +208,7 @@ class Store extends Common
             $insert['pos_pay'] = $postData['pos_pay'];
         }
         //刷脸支付
-        if(!empty($data['face_pay'])){
+        if(!empty($postData['face_pay'])){
             $insert['face_pay'] =$postData['face_pay'];
         }
         //营业时间

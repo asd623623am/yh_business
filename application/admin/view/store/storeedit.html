@@ -148,7 +148,9 @@
                 $('#delimg').text('');
             });
             $('#up').click(function(){
-                location.href="{:url('Store/storeList')}";
+                history.back(-1);
+                // window.history.go(-1);
+                // location.href="{:url('Store/storeList')}";
             });
 
             //执行一个laydate实例

@@ -1,0 +1,113 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>门店管理</a>
+        <a><cite> 查看门店信息</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>门店基础信息设置</legend>
+</fieldset>
+<form class="layui-form" >
+    <div class="layui-form-item">
+        <div class="layui-inline" style="display:none">
+            <label class="layui-form-label">门店名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="storeid" value="{$store.storeid}"  autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">门店名称:</label>
+            <div class="layui-form-mid layui-word-aux">{$store.name}</div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">门店Logo:</label>
+        <div class="layui-input-block">
+            <img style="width: 115px;height: 115px;" src="__PUBLIC__/{$store.logo}" id="images">
+            <a href="javascript:;" id='delimg'></a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">门店地址:</label>
+        <div class="layui-form-mid layui-word-aux">{$store.address}</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">营业时间:</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" disabled="disabled" value="{$store.start_business_hours}" id="test4" name="start_business_hours" placeholder="开始时间">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" disabled="disabled" value="{$store.end_business_hours}" id="test5" name="end_business_hours" placeholder="结束时间">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">联系人<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="user_name" disabled="disabled" value="{$store.user_name}" autocomplete="off" placeholder="请输入联系人" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">联系方式<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="user_tel" disabled="disabled" value="{$store.user_tel}" autocomplete="off" placeholder="请输入联系方式" class="layui-input">
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">登录账号<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="account" disabled="disabled" value="{$store.account}" autocomplete="off" placeholder="请输入登录账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">登录密码<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="passwords" disabled="disabled" value="{$store.password}" autocomplete="off" placeholder="请输入登录密码" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">pos支付</label>
+            <div class="layui-input-block">
+                <input type="text" name="pos_pay" disabled="disabled" value="{$store.pos_pay}" autocomplete="off" placeholder="请输入pos信息" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">刷脸支付</label>
+            <div class="layui-input-block">
+                <input type="text" name="face_pay" disabled="disabled" value="{$store.face_pay}" autocomplete="off" placeholder="请输入刷脸支付" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">小票机</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" disabled="disabled" value="{$store.password}" autocomplete="off" placeholder="请输入小票机信息" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function(){
+        layui.use(['form','layer','upload','laydate','laydate'], function(){
+            $('#up').click(function(){
+                window.history.back();
+                // location.href="{:url('Store/storeList')}";
+            });
+        });
+    })
+
+</script>

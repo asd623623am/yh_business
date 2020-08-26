@@ -110,7 +110,6 @@ class Xmorder extends Common
 				}
 			}
 
-
 			$info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
 		    echo json_encode($info);
 		    exit;

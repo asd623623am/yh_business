@@ -11,6 +11,7 @@ return [
     //输出替换
     'view_replace_str'  =>  [
         '__PUBLIC__'=>'/uploads',
+        '__QRCODE__'=>'/qrcode',
         '__PUBLICS__'=>'/uploadsb',
         '__IMG__'=>'/image',
 

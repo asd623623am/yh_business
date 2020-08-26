@@ -6,7 +6,7 @@
 </blockquote>
 <div class="search-table layui-form">
     <div class="layui-input-inline tempsTest">
-        <input type="text" name="gsname" required  placeholder="请输入规格名称" autocomplete="off" class="layui-input">
+        <input type="text" name="gstname" required  placeholder="请输入规格名称" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
 </div>
@@ -72,7 +72,7 @@
                     ,{field:'gstname', width:200 , title: '规格名称'}
                     ,{field:'gsname', width:600 , title: '规格内容'}
                     ,{field:'ismorename', width:200, title: '单/多选',align:'center'}
-                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center'}
+                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
                 ]]
                 ,page: true
             });

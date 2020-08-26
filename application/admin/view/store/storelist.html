@@ -9,12 +9,6 @@
         <a><cite> 门店列表</cite></a>
     </span>
 </blockquote>
-<!--<div class="layui-form-item">-->
-<!--        <span class="layui-breadcrumb">-->
-<!--            <a href='#'>门店管理</a>-->
-<!--            <a><cite> 门店列表</cite></a>-->
-<!--        </span>-->
-<!--</div>-->
 <div class="search-table layui-form">
     <div class="layui-input-inline">
         <input type="text" name="storename" required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
@@ -45,15 +39,20 @@
         //自动点击.
         $(document).ready(function(){
             $("#sousuo").trigger("click");
+            var send_name = $('#storename').val();
+            console.log(send_name);
             ids = 1;
             if(ids == 1){
                 var page = localStorage.getItem('page');
                 table.reload('test', {
+                    where:{
+                        // 'storename': send_name,
+                    },
                     page: {
                         curr: page //重新从第 1 页开始
                     }
                 }); //只重载数据
-                localStorage.clear();
+                // localStorage.clear();
             }
         });
         $('#submit').click(function(){
@@ -72,9 +71,9 @@
                 location.href="{:url('Store/storeEdit')}?storeid="+data.storeid;
             }else if(layEvent === 'del'){ //删除
                 //拼接弹窗信息
-                var strMsg = '确定删除"';
+                var strMsg = '确定删除门店【<font style="color: red">';
                 strMsg = strMsg.concat(data.name);
-                strMsg = strMsg.concat('"吗?');
+                strMsg = strMsg.concat('</font>】吗?');
                 layer.confirm(strMsg, function(index){
                     $.post(
                         '{:url("Store/StoreDel")}',
@@ -100,8 +99,8 @@
                     {field:'storeid', width:80, title: '序号', sort: true},
                     ,{field:'store_no', width:100, title: '门店编号',}
                     ,{field:'name', width:200, title: '门店名称'}
-                    ,{field:'logo',width:100, title: '门店logo',templet:'<div><img style="height: 30px;height: 30px" src="__PUBLIC__/{{d.logo}}"></div>'}
-                    ,{field:'address',width:250, title: '门店地址'}
+                    ,{field:'logo',width:100, title: '门店logo',templet:'<div><img style="height: 25px" src="__PUBLIC__/{{d.logo}}"></div>'}
+                    ,{field:'address',width:300, title: '门店地址'}
                     ,{field:'user_name',width:150, title: '联系人'}
                     ,{field:'user_tel',width:150, title: '联系方式'}
                     ,{field:'start_end_time',width:150, title: '经营时间'}
@@ -115,8 +114,6 @@
                 },page: true
             });
         });
-
-
 
         $('.layui-table').on('click','tr',function(){
             $(this).css('background','#ccc').siblings().css('background','#fff');

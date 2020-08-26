@@ -31,7 +31,7 @@
                 ,{field:'sort', width:150, title: '排序'}
                 ,{field:'create_time', width:240, title: '创建时间',align:'center'}
                 ,{field:'update_time', width:240, title: '更新时间',align:'center'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title: '操作',align:'center'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
             ]]
             ,page: true
         });
@@ -41,19 +41,22 @@
             if (layEvent === 'edit') { //修改
                 location.href="{:url('Goods/goodsTypeEdit')}?gtid="+data.gtid;
             }else if(layEvent === 'del'){
-                $.post(
-                    "{:url('Goods/goodsTypeDel')}",
-                    data,
-                    function(msg){
-                        if(msg.code ==1){
-                            layer.msg(msg.font);
-                            location.href="{:url('Goods/goodsTypeList')}";
-                        }else{
-                            layer.msg(msg.font, {icon: 5});
-                        }
-                    },'json'
-                )
-                return false;
+                layer.confirm("确认删除分类【<font style='color: red'>"+data.gtname+"</font>】吗？", function(index){
+                    $.post(
+                        "{:url('Goods/goodsTypeDel')}",
+                        data,
+                        function(msg){
+                            console.log(msg);
+                            if(msg.code ==1){
+                                layer.msg(msg.font,{icon:msg.code});
+                                // location.href="{:url('Goods/goodsTypeList')}";
+                            }else{
+                                layer.msg(msg.font, {icon: 5});
+                            }
+                        },'json'
+                    )
+                    return false;
+                });
             }
         })
         $('.layui-table').on('click','tr',function(){
