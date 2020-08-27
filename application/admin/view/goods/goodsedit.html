@@ -30,7 +30,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">菜品名称<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="name"  value="{$goods.name}" autocomplete="off" placeholder="请输入菜品名称" class="layui-input">
+                <input type="text" name="name" lay-verify="required" maxlength="15" value="{$goods.name}" autocomplete="off" placeholder="请输入菜品名称" class="layui-input">
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">菜品编号<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="code" value="{$goods.code}" autocomplete="off" placeholder="请输入菜品编号" class="layui-input">
+                <input type="text" name="code" lay-verify="code|int" maxlength="15" value="{$goods.code}" autocomplete="off" placeholder="请输入菜品编号" class="layui-input">
             </div>
         </div>
     </div>
@@ -73,13 +73,13 @@
         <div class="layui-inline">
             <label class="layui-form-label">菜品售价<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="selling_price" value="{$goods.selling_price}" autocomplete="off" placeholder="请输入售价" class="layui-input">
+                <input type="text" name="selling_price" lay-verify="selling_price|required" value="{$goods.selling_price}" autocomplete="off" placeholder="请输入售价" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">菜品原价</label>
             <div class="layui-input-block">
-                <input type="text" name="original_price" value="{$goods.original_price}" autocomplete="off" placeholder="请输入原价" class="layui-input">
+                <input type="text" name="original_price" lay-verify="original_price|int" value="{$goods.original_price}" autocomplete="off" placeholder="请输入原价" class="layui-input">
             </div>
         </div>
 <!--    </div>-->
@@ -87,13 +87,13 @@
         <div class="layui-inline">
             <label class="layui-form-label">会员价</label>
             <div class="layui-input-block">
-                <input type="text" name="member_price" value="{$goods.member_price}" autocomplete="off" placeholder="请输入会员价" class="layui-input">
+                <input type="text" name="member_price" lay-verify="member_price|int" value="{$goods.member_price}" autocomplete="off" placeholder="请输入会员价" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">员工价</label>
             <div class="layui-input-block">
-                <input type="text" name="staff_price" value="{$goods.staff_price}" autocomplete="off" placeholder="请输入员工价" class="layui-input">
+                <input type="text" name="staff_price" lay-verify="staff_price|int" value="{$goods.staff_price}" autocomplete="off" placeholder="请输入员工价" class="layui-input">
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">菜品排序</label>
             <div class="layui-input-block">
-                <input type="text" name="sort" value="{$goods.sort}" autocomplete="off" placeholder="请输入排序值（默认10）" class="layui-input">
+                <input type="text" name="sort" value="{$goods.sort}" lay-verify="sort|int" autocomplete="off" placeholder="请输入排序值（默认10）" class="layui-input">
             </div>
         </div>
     </div>
@@ -121,7 +121,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">库存数量</label>
             <div class="layui-input-block">
-                <input type="text" name="stock"  value="{$goods.stock}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+                <input type="text" name="stock"  value="{$goods.stock}" lay-verify="stock|int" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
             </div>
         </div>
     </div>
@@ -268,15 +268,54 @@
                     info,
                     function(msg){
                         if(msg.code ==1){
-                            layer.msg(msg.font);
-                            location.href="{:url('Goods/goodsList')}";
+                            layer.msg(msg.font, {
+                                icon: msg.code,
+                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                location.href="{:url('Goods/goodsList')}";
+                            });
                         }else{
                             layer.msg(msg.font, {icon: 5});
                         }
                     },'json'
                 )
                 return false;
-            })
+            });
+            /* 验证输入框*/
+            var reg = /^-?\d+$|^(-?\d+)(\.\d+)?$/;
+            form.verify({
+                code: [/^$|^[0-9]{0,5}$/, '菜品编号只能是数字！'],
+                selling_price: [reg, '菜品售价格式有误，请重新输入'],
+                original_price:function(value){
+                    if(value.length){
+                        if(reg.test(value) == 0){
+                            return '菜品原价格式有误，请重新输入';
+                        }
+                    }
+                } ,
+                member_price: function(value){
+                    if(value.length){
+                        if(reg.test(value) == 0){
+                            return '会员价格式有误，请重新输入';
+                        }
+                    }
+                } ,
+                staff_price:function(value){
+                    if(value.length){
+                        if(reg.test(value) == 0){
+                            return '员工价格式有误，请重新输入';
+                        }
+                    }
+                } ,
+                stock:function(value){
+                    if(value.length){
+                        if(reg.test(value) == 0){
+                            return '库存格式有误，请重新输入';
+                        }
+                    }
+                } ,
+                sort: [/^$|^[0-9]{0,5}$/, '排序值只能是数字最大99999！'],
+            });
         });
     })
 

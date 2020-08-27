@@ -28,7 +28,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">商户名称</label>
             <div class="layui-input-inline">
-                <input type="tel" name="company_name" value="{$data.company_name}" autocomplete="off" class="layui-input">
+                <input type="tel" name="company_name" lay-verify="required" maxlength="15" value="{$data.company_name}" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">联系人</label>
             <div class="layui-input-inline">
-                <input type="tel" name="uname" value="{$data.uname}" autocomplete="off" class="layui-input">
+                <input type="tel" name="uname" lay-verify="required" maxlength="15" value="{$data.uname}" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">联系电话</label>
             <div class="layui-input-inline">
-                <input type="tel" name="utel" value="{$data.utel}" autocomplete="off" class="layui-input">
+                <input type="tel" name="utel" lay-verify="phone" value="{$data.utel}" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
@@ -52,31 +52,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">联系地址</label>
             <div class="layui-input-inline">
-                <input type="tel" name="address" value="{$data.address}" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">小程序appid</label>
-            <div class="layui-input-inline">
-                <input type="tel" name="mini_appid" value="{$data.mini_appid}" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">小程序密钥</label>
-            <div class="layui-input-inline">
-                <input type="tel" name="mini_appsecret" value="{$data.mini_appsecret}" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">设备号</label>
-            <div class="layui-input-inline">
-                <input type="tel" name="termNo" value="{$data.termNo}" autocomplete="off" class="layui-input">
+                <input type="tel" name="address" lay-verify="required" maxlength="50" value="{$data.address}" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
@@ -87,6 +63,26 @@
                 <input type="tel" name="merId" value="{$data.merId}" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">设备号</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="termNo" value="{$data.termNo}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">小程序appid</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="mini_appid" value="{$data.mini_appid}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">小程序密钥</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="mini_appsecret" value="{$data.mini_appsecret}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
@@ -95,8 +91,6 @@
                 <input type="tel" name="gz_appid" value="{$data.gz_appid}" autocomplete="off" class="layui-input">
             </div>
         </div>
-    </div>
-    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">公众号密钥</label>
             <div class="layui-input-inline">

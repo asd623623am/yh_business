@@ -12,7 +12,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">分类名称<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="gtname"  autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+                <input type="text" name="gtname" lay-verify="required" maxlength="10" autocomplete="off" placeholder="请输入门店名称" class="layui-input">
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">排序值</label>
             <div class="layui-input-block">
-                <input type="text" name="sort"  autocomplete="off" placeholder="请输入排序值(默认10)" class="layui-input">
+                <input type="text" name="sort" lay-verify="sort|int"  autocomplete="off" placeholder="请输入排序值(默认10)" class="layui-input">
             </div>
         </div>
     </div>
@@ -47,17 +47,26 @@
                     info,
                     function(msg){
                         if(msg.code ==1){
-                            layer.msg(msg.font);
-                            location.href="{:url('Goods/goodsTypeList')}";
+                            layer.msg(msg.font, {
+                                icon: msg.code,
+                                time: 300 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                location.href="{:url('Goods/goodsTypeList')}";
+                            });
                         }else{
                             layer.msg(msg.font, {icon: 5});
                         }
                     },'json'
-                )
+                ).error(function(xhr, status, info){layer.msg('操作失败')});
                 return false;
             })
             $('#up').click(function(){
                 location.href="{:url('Goods/goodsTypeList')}";
+            });
+
+            /* 验证输入框*/
+            form.verify({
+                sort: [/^$|^[0-9]{0,5}$/, '只能是数字且范围0~99999！']
             });
         });
     })

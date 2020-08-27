@@ -50,7 +50,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">库存数量</label>
             <div class="layui-input-block">
-                <input type="text" name="stock"  value="{$goods.stock}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
+                <input type="text" name="stock" lay-verify="stock|int" value="{$goods.stock}" autocomplete="off" placeholder="请输入库存数量" class="layui-input">
             </div>
         </div>
     </div>
@@ -80,8 +80,12 @@
                     info,
                     function(msg){
                         if(msg.code ==1){
-                            layer.msg(msg.font);
-                            location.href="{:url('Goods/goodsStockList')}";
+                            layer.msg(msg.font, {
+                                icon: msg.code,
+                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                location.href="{:url('Goods/goodsStockList')}";
+                            });
                         }else{
                             layer.msg(msg.font, {icon: 5});
                         }
@@ -91,6 +95,12 @@
             });
             $('#up').click(function(){
                 location.href="{:url('Goods/goodsStockList')}";
+            });
+
+            /* 验证输入框*/
+            var reg = /^-?\d+$|^(-?\d+)(\.\d+)?$/;
+            form.verify({
+                stock: [reg, '库存只能是数字最大99999！'],
             });
         });
     })

@@ -12,7 +12,7 @@
         <div class="layui-inline" style="display:none">
             <label class="layui-form-label">门店名称<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="storeid" value="{$store.storeid}"  autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+                <input type="text" name="storeid" value="{$store.storeid}" autocomplete="off" placeholder="请输入门店名称" class="layui-input">
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">门店名称<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="name" value="{$store.name}"  autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+                <input type="text" name="name" value="{$store.name}" lay-verify="required" maxlength="15" autocomplete="off" placeholder="请输入门店名称" class="layui-input">
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">门店地址<span style="color: red;">*</span></label>
         <div class="layui-input-block">
-            <input type="text" name="address" value="{$store.address}"  autocomplete="off" placeholder="请输入门店地址" class="layui-input">
+            <input type="text" name="address" value="{$store.address}" lay-verify="required" maxlength="50" lay-verify="address|required" autocomplete="off" placeholder="请输入门店地址" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -61,28 +61,27 @@
         <div class="layui-inline">
             <label class="layui-form-label">联系人<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="user_name" value="{$store.user_name}" autocomplete="off" placeholder="请输入联系人" class="layui-input">
+                <input type="text" name="user_name" value="{$store.user_name}" lay-verify="required" maxlength="15" autocomplete="off"  placeholder="请输入联系人" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">联系方式<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="user_tel" value="{$store.user_tel}" autocomplete="off" placeholder="请输入联系方式" class="layui-input">
+                <input type="text" name="user_tel" value="{$store.user_tel}" lay-verify="phone" autocomplete="off" placeholder="请输入联系方式" class="layui-input">
             </div>
         </div>
-
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">登录账号<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="account" value="{$store.account}" disabled="disabled" autocomplete="off" placeholder="请输入登录账号" class="layui-input">
+                <input type="text" name="account" value="{$store.account}" lay-verify="required" maxlength="20" disabled="disabled" autocomplete="off" placeholder="请输入登录账号" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">登录密码<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="passwords" value="{$store.password}" disabled="disabled" autocomplete="off" placeholder="请输入登录密码" class="layui-input">
+                <input type="text" name="passwords" value="{$store.password}" lay-verify="required" maxlength="20" disabled="disabled" autocomplete="off" placeholder="请输入登录密码" class="layui-input">
             </div>
         </div>
     </div>
@@ -174,8 +173,12 @@
                     info,
                     function(msg){
                         if(msg.code ==1){
-                            layer.msg(msg.font);
-                            location.href="{:url('Store/storeList')}";
+                            layer.msg(msg.font, {
+                                icon: msg.code,
+                                time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                location.href="{:url('Store/storeList')}";
+                            });
                         }else{
                             layer.msg(msg.font, {icon: 5});
                         }
@@ -183,6 +186,7 @@
                 )
                 return false;
             })
+            form.render();
         });
     })
 
