@@ -253,5 +253,86 @@ class Xmorder extends Common
 			fail('您还不是已支付订单！');
 		}
 		win('退款成功');
+		exit;
+		$app = Db::table('system')->select();
+    		if (!empty($app)) {
+
+
+    			$secret = $app[0]['mini_appsecret'];
+    			$termNo = $app[0]['termNo'];
+    			$merId = $app[0]['merId'];
+
+    			$result['pay_fee']=str_replace('.', '', $result['pay_fee']);
+    			$lens = strlen($result['pay_fee']);
+    			// $data['deposit_money']=sprintf("%012d", $data);//生成12位数，不足前面补0   
+    			if ($lens < 12) {
+    				for ($i=0; $i < 12-$lens ; $i++) { 
+    					$result['pay_fee'] = substr_replace(0, $result['pay_fee'], 1, 0);
+    				}
+				}
+    			$time = date('YmdHis',time());
+    			$arr = [
+    				'orgNo'	=> '2166',
+    				'charset'	=> 'UTF-8',
+    				'termNo'	=> $termNo,
+    				'termType'	=> 'KCWMP',
+    				'txtTime'	=> $time,
+    				'signType'	=> 'MD5',
+    				
+    				'transNo'	=> $result['order_sn'],
+    				'merId'		=> $merId,
+    				'amt'		=> intval($result['pay_fee']),
+    				'payType'	=> 1
+    			];
+
+
+    			$signdata = [
+    				'orgNo'	=>'2166',
+    				'amt'	=> intval($result['pay_fee']),
+    				'termNo'=> $termNo,
+    				'merId'	=> $merId,
+    				'transNo'	=> $result['order_sn'],
+    				'txtTime'	=> $time
+    			];
+    			$sign = $this->appgetSign($signdata,$secret);
+    			$arr['signValue']=strtoupper($sign);
+    			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
+    			$res = $this->sendpostss($url,$arr);
+    			if ($res['returnCode'] == 0000) {
+    				$where = [
+    				    'id' => $id
+    				];
+    				$newData = [
+    					'pay_status'	=> 2,
+    				];
+    				$infos = model('Orders')->where($where)->setField($newData);
+    				if ($infos) {
+    					win('退款成功');		
+    				} else {
+    					fail('退款失败');
+    				}
+    			} else {
+    				fail($res['returnMsg']);
+    			}
+    		} else {
+    			fail('请您去配置微信小程序参数');
+    		}
+
+		win('退款成功');
 	}
+
+	public function appgetSign($data,$secret)
+    {
+    	header('Content-type: text/html; charset=utf-8');
+    	
+        // 对数组的值按key排序
+        ksort($data);
+        // 生成url的形式
+        $param = http_build_query($data);
+        $str = urldecode($param); //解码
+        $params = $str.$secret;
+        // 生成sign
+        $sign = md5($params);
+        return $sign;
+    }
 }
