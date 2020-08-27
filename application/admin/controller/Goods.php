@@ -238,7 +238,7 @@ class Goods extends Common{
                 fail('添加失败');
             }
         }else{
-            $gtData = model('goodsType')->where(['storeid'=>$storeid])->select();
+            $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
             $gstData = model('goodsSpecType')->where(['storeid'=>$storeid])->select();
             $this->assign('gtData',$gtData);
             $this->assign('gstData',$gstData);

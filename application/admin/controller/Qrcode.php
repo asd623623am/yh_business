@@ -31,9 +31,10 @@ class Qrcode extends Common{
             }
             $data = model('qrcode')->where($where)->select()->toArray();
             foreach ($data as &$val){
-
-                $logoData = explode('/',$val['gz_qrcode']);
-                $val['gzlogo'] = $logoData[1];
+                if(isset($val['gz_qrcode']) && !empty($val['gz_qrcode'])){
+                    $logoData = explode('/',$val['gz_qrcode']);
+                    $val['gzlogo'] = $logoData[1];
+                }
             }
             $count = model('qrcode')->where($where)->count();
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];

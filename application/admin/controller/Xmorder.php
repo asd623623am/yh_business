@@ -268,7 +268,7 @@ class Xmorder extends Common
 			fail('您还不是已支付订单！');
 		}
 		win('退款成功');
-		exit;
+        exit;
 		$app = Db::table('system')->select();
     		if (!empty($app)) {
 
@@ -312,7 +312,7 @@ class Xmorder extends Common
     			$sign = $this->appgetSign($signdata,$secret);
     			$arr['signValue']=strtoupper($sign);
     			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
-    			$res = $this->sendpostss($url,$arr);
+    			$res = request_post($url,$arr);
     			if ($res['returnCode'] == 0000) {
     				$where = [
     				    'id' => $id
