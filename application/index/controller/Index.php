@@ -1303,6 +1303,13 @@ class Index extends Controller
             /* @todo 添加错误日志*/
         }
         exit();
-    }
+	}
+	
+	public function getInfoData()
+	{
+		$data = input();
+		$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
+		$this->sendpostss($url,$data);
+	}
 
 }
