@@ -73,6 +73,7 @@ class Xmorder extends Common
 				$where['storeid'] = $admin['storeid'];
 			}
 			$where['status'] = 1;
+			$where['order_status'] = array('neq',0);
 			$order = [];
 			if($data['order_fee_type'] != 1){
 				$order['pay_fee'] = 'desc';
@@ -107,6 +108,20 @@ class Xmorder extends Common
 					$res[$k]['pay_status'] = '已付款';
 				} else if($v['pay_status'] == 3){
 					$res[$k]['pay_status'] = '已退款';
+				}
+
+				if($v['order_status'] == 0){
+					$res[$k]['order_status'] = '订单无效';
+				} else if($v['order_status'] == 1){
+					$res[$k]['order_status'] = '订单确认';
+				} else if($v['order_status'] == 2){
+					$res[$k]['order_status'] = '订单取消';
+				} else if($v['order_status'] == 3){
+					$res[$k]['order_status'] = '订单无效';
+				} else if($v['order_status'] == 4){
+					$res[$k]['order_status'] = '订单退货';
+				} else if($v['order_status'] == 5){
+					$res[$k]['order_status'] = '订单完成';
 				}
 			}
 

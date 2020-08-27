@@ -1308,8 +1308,25 @@ class Index extends Controller
 	public function getInfoData()
 	{
 		$data = input();
+		file_put_contents('./a3.log',\json_encode($data));
 		$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
 		$this->sendpostss($url,$data);
+		exit;
+		
+
+		$token = 'M16kxQCL9KGNyOU5';
+		$array = array( $token, $data['timestamp'], $data['nonce']);
+		sort($array, SORT_STRING);
+		$str = implode($array);
+		$ress = sha1($str);
+		if( $ress == $data['signature'] ){
+			echo $data['echostr'];exit;
+		}else{
+			return null;
+		}
+
+
+		
 	}
 
 }
