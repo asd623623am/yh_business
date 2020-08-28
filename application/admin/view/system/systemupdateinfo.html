@@ -86,6 +86,27 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
+            <input type="hidden" value="{$data.gz_bg_img}" id="logos" name="gz_bg_img">
+            <label class="layui-form-label">公众号图片</label>
+            <button type="button" class="layui-btn" id="myloads">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+            <img src="" id="imagess">
+            <a href="javascript:;" id='delimgs'></a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">图片Url</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="gz_bg_url" value="{$data.gz_bg_url}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
             <label class="layui-form-label">公众号appid</label>
             <div class="layui-input-inline">
                 <input type="tel" name="gz_appid" value="{$data.gz_appid}" autocomplete="off" class="layui-input">
@@ -98,7 +119,6 @@
             </div>
         </div>
     </div>
-
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
@@ -121,7 +141,13 @@
             $('#images').attr('src',url);
             $('#images').attr('width','100');
             $('#images').attr('height','100');
+            var srcss = $('#logos').val();
+            var urls = '__PUBLIC__/'+srcss;
             $('#delimg').text('删除图片');
+            $('#imagess').attr('src',urls);
+            $('#imagess').attr('width','100');
+            $('#imagess').attr('height','100');
+            $('#delimgs').text('删除图片');
 
             //文件上传
             var uploadInst = upload.render({
@@ -143,6 +169,25 @@
                     //请求异常回调
                 }
             });
+            //文件上传
+            var uploadInst = upload.render({
+                elem: '#myloads' //绑定元素
+                ,url: '{:url("System/systemUpload")}' //上传接口
+                ,done: function(res){
+                    //上传完毕回调
+                    layer.msg(res.font,{icon:res.code});
+                    if(res.code==1){
+                        $('#logos').val(res.src);
+                        var url = '__PUBLIC__/'+res.src;
+                        $('#imagess').attr('src',url);
+                        $('#imagess').attr('width','100');
+                        $('#imagess').attr('height','100');
+                        $('#delimgs').text('删除图片');
+                    }
+                },error: function(){
+                    //请求异常回调
+                }
+            });
 
             $('#delimg').click(function(){
                 $('#images').attr('src','');
@@ -150,6 +195,13 @@
                 $('#images').attr('height','');
                 $('#logo').val('');
                 $('#delimg').text('');
+            });
+            $('#delimgs').click(function(){
+                $('#imagess').attr('src','');
+                $('#imagess').attr('width','');
+                $('#imagess').attr('height','');
+                $('#logos').val('');
+                $('#delimgs').text('');
             });
 
             $('#up').click(function(){
@@ -160,36 +212,29 @@
             form.on('submit(*)',function(data){
 
                 layer.confirm('您确认修改吗？', function(index){
-                        if(data.field.company_name.length>12){
-                             layer.msg('公司名称长度不能大于十二位',{icon:2});
-                            return false;    
-                        }                
-                       $.post(
-                               "{:url('System/systemUpdate')}",
-                               data.field,
-                               function(msg){
+                    if(data.field.company_name.length>12){
+                        layer.msg('公司名称长度不能大于十二位',{icon:2});
+                        return false;
+                    }
+                   $.post("{:url('System/systemUpdate')}",
+                       data.field,
+                       function(msg){
+                           if(msg.code==1){
+                               layer.msg(msg.font, {
+                                 icon: msg.code,
+                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                               }, function(){
+                                 location.href="{:url('System/systemList')}";
+                               });
+                           } else {
+                               layer.msg(msg.font,{icon:msg.code});
+                           }
 
-                                   if(msg.code==1){
-                                       layer.msg(msg.font, {
-                                         icon: msg.code,
-                                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                                       }, function(){
-                                         location.href="{:url('System/systemList')}";
-                                       });   
-                                   } else {
-                                       layer.msg(msg.font,{icon:msg.code});
-                                   }
-
-
-                               },'json'
-                       )
-                       
-
+                       },'json'
+                   )
                 });
                 return false;
-               
             })
         });
     })
-
 </script>

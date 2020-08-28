@@ -185,6 +185,8 @@ class System extends Common
 			'merId'		=> $data['merId'],
             'gz_appid'	=> $data['gz_appid'],
             'gz_appsecret'	=> $data['gz_appsecret'],
+            'gz_bg_img'	=> $data['gz_bg_img'],
+            'gz_bg_url'	=> $data['gz_bg_url'],
             'update_time'	=> time(),
         ];
 
