@@ -22,16 +22,27 @@
             <img src="" id="images">
             <a href="javascript:;" id='delimg'></a>
         </div>
-
     </div>
-
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否打包</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="is_charge" id="is_charge" value="{$storeInfo.is_charge}"  lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">打包费(元)</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="packing_fee" id="packing_fee" value="{$storeInfo.packing_fee}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">简介内容</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入内容" name='content' class="layui-textarea"></textarea>
+          <textarea placeholder="请输入内容" name='content' value="{$storeInfo.content}" class="layui-textarea"></textarea>
         </div>
-      </div>
-
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="*">立即添加</button>
@@ -44,7 +55,13 @@
             var form = layui.form;
             var layer = layui.layer;
             var upload = layui.upload;
-           
+
+            //设置打包费默认选中状态
+            var is_charge = $('#is_charge').val();
+            if(is_charge == 1){
+                $('#is_charge').attr('checked',true);
+            }
+
             var uploads = upload.render({
               elem: '#myload'
               ,url: '{:url("Brand/bannerUpload")}'
@@ -103,6 +120,7 @@
                 )
                 return false;
             })
+            form.render();
         });
     })
 
