@@ -194,7 +194,6 @@
             //设置规格选中默认值
             var gstids = $('#gstids').val();
             gstList= gstids.split(',');
-            console.log(gstList);
             var storeid = $('#getStoreid').val();
             $(document).ready(function(){
                 $.post("{:url('Goods/getGoodsSpecTypeList')}",
