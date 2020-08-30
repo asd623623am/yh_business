@@ -266,9 +266,10 @@ class Qrcode extends Common{
                 'storeid' => $sotrid,
                 'tnumber' => $tnumber
             ];
+
             $data = [
-                'expireSeconds' => 86400,
-                'action_name' => 'QR_SCENE',
+                'expire_seconds' => 86400,
+                'action_name' => 'QR_STR_SCENE',//目前为临时二维码
                 'action_info' => $scene
             ];
             $ret = request_post($tiUrl,json_encode($data));
@@ -278,9 +279,9 @@ class Qrcode extends Common{
             }
             //通过ticket换取二维码
             $ticket = $ret['ticket'];
-            $longtime = 86400;
+            $expire_seconds = $ret['expire_seconds'];
             $qrcodeUrl = $ret['url'];
-            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$longtime.'&url='.$qrcodeUrl;
+            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$expire_seconds.'&url='.$qrcodeUrl;
             $reqrUrl = $this->updateImg($qrUrl,$tnumber,$storeName);
             return $reqrUrl;
         }

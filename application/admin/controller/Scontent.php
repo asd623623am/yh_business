@@ -63,6 +63,14 @@ class Scontent extends Common
             }
         } else {
             $storeInfo = Db::table('xm_store_content')->where($where)->find();
+            if(empty($storeInfo)){
+                $storeInfo = [
+                    'img'       => '',
+                    'is_charge'   => 0,
+                    'packing_fee'   => 0,
+                    'content'   => '',
+                ];
+            }
             $this->assign('storeInfo',$storeInfo);
             return view();
         }

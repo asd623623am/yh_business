@@ -96,11 +96,40 @@
                     )
                 });
             }else if(layEvent == 'download'){
-                var img = $('#testImg').attr("src");
-                var alink = document.createElement("a");
-                alink.href = img;
-                alink.download = data.gzlogo;
-                alink.click();
+
+                //获取下载图片名称（可自定义）
+                var downloadName = data.gzlogo;
+                // 获取要下载的图片
+                var img = document.getElementById('testImg');
+                var url = img.src;
+
+                const tag = document.createElement('a');
+                //图片下载时的名称，注意：名称中不能有半角点，否则下载时后缀名会错误
+                tag.setAttribute('download',downloadName.replace(/\./g,'.'));
+                const image = new Image();
+                //设置图片的url，添加时间戳，防止浏览器缓存图片
+                image.src = url+'?time='+new Date().getTime();
+                //设置crossOrigin属性，否则图片跨域会报错
+                image.setAttribute('crossOrigin','Anonymous');
+                //图片未加载完成时会报错
+                image.onload = ()=>{
+                    tag.href = getImageDataURL(image);
+                    tag.click();
+                }
+                function getImageDataURL(image){
+                    //创建画布
+                    const  canvas = document.createElement('canvas');
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    const ctx = canvas.getContext('2d');
+                    //以图片为背景裁剪画布
+                    ctx.drawImage(image,0,0,image.width,image.height);
+                    //获取图片后缀名
+                    const extension = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();
+                    //如果图片没有后缀则默认png
+                    return canvas.toDataURL('image/'+extension,1);
+
+                }
             }
         })
 
