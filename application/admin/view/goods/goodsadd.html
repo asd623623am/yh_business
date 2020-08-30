@@ -47,17 +47,11 @@
             </select>
         </div>
     </div>
+    <input type="text"id="getStoreid" name="getStoreid" value="{$goods.storeid}"  style="display: none">
     <div class="layui-form-item">
-        <label class="layui-form-label">菜品规格</label>
-        <div class="layui-input-inline" >
-            <select name="gstids" id="gstids"  multiple="multiple" lay-filter="test222" >
-                <option value="" >请选择规格</option>
-                {volist name="gstData" id='gstData'}
-                <option value="{$gstData.gstid}">{$gstData.gstname}</option>
-                {/volist}
-            </select>
+        <label class="layui-form-label">请选择规格</label>
+        <div class="layui-input-block" id="tag_ids2" >
         </div>
-        <button type="button" style="display: none" class="layui-btn layui-btn-normal" id="get-val">获取选中值</button>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
@@ -127,12 +121,33 @@
     </div>
     <script>
         $(function(){
-            layui.use(['form','layer','upload','element','jquery' ], function(){
+            layui.use(['form','layer','upload','element','laydate','selectM','element','jquery'], function(){
                 var form = layui.form;
                 var layer = layui.layer;
                 var upload = layui.upload;
                 var $ = layui.jquery;
+                var selectM = layui.selectM;
                 multiSelect = function() {};
+                var storeid = $('#getStoreid').val();
+                $(document).ready(function(){
+                    $.post("{:url('Goods/getGoodsSpecTypeList')}",
+                        {storeid:storeid},
+                        function(msg){
+                            if(msg.code ==1){
+                                var tagIns2 = selectM({
+                                    elem: '#tag_ids2'//元素容器【必填】
+                                    ,data: msg.font//候选数据【必填】
+                                    ,selected: []//默认值
+                                    ,max : 6//最多选中个数，默认5
+                                    ,name: 'tag2'//input的name 不设置与选择器相同(去#.)
+                                    ,delimiter: ','//值的分隔符
+                                    ,width:495
+                                    ,field: {idName:'gstid',titleName:'gstname'}//候选项数据的键名
+                                });
+                                arr = msg.font
+                            }
+                        },'json');
+                });
                 var uploads = upload.render({
                     elem: '#addZmImg'
                     ,url: '{:url("Brand/bannerUpload")}'
@@ -163,16 +178,7 @@
                     }
                 });
                 form.on('submit(*)',function(data){
-                    //获取所有规格，多个以逗号分隔,如"1,2,3"
-                    var gstids = '';
-                    $('select[multiple] option:selected').each(function() {
-                        if(gstids.length == 0){
-                            gstids = $(this).val();
-                        }else{
-                            gstids += "," + $(this).val();
-                        }
-                    });
-                    data.field.gstids = gstids;
+                    data.field.gstids = data.field.tag2;
                     var info = data.field;
                     console.log(info);
                     $.post(
@@ -182,7 +188,7 @@
                             if(msg.code ==1){
                                 layer.msg(msg.font, {
                                     icon: msg.code,
-                                    time: 300 //2秒关闭（如果不配置，默认是3秒）
+                                    time: 500 //2秒关闭（如果不配置，默认是3秒）
                                 }, function(){
                                     location.href="{:url('Goods/goodsList')}";
                                 });

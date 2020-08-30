@@ -240,6 +240,10 @@ class Goods extends Common{
         }else{
             $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
             $gstData = model('goodsSpecType')->where(['storeid'=>$storeid])->select();
+            $goods = [
+                'storeid'=>$storeid
+            ];
+            $this->assign('goods',$goods);
             $this->assign('gtData',$gtData);
             $this->assign('gstData',$gstData);
             return view();

@@ -40,6 +40,7 @@
         layui.use(['form','layer',], function(){
             var form = layui.form;
             var layer = layui.layer;
+            multiSelect = function() {};
             form.on('submit(*)',function(data){
                 var info = data.field;
                 $.post(
@@ -49,7 +50,7 @@
                         if(msg.code ==1){
                             layer.msg(msg.font, {
                                 icon: msg.code,
-                                time: 300 //2秒关闭（如果不配置，默认是3秒）
+                                time: 500 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
                                 location.href="{:url('Goods/goodsTypeList')}";
                             });
@@ -57,7 +58,7 @@
                             layer.msg(msg.font, {icon: 5});
                         }
                     },'json'
-                ).error(function(xhr, status, info){layer.msg('操作失败')});
+                )
                 return false;
             })
             $('#up').click(function(){
@@ -68,6 +69,7 @@
             form.verify({
                 sort: [/^$|^[0-9]{0,5}$/, '只能是数字且范围0~99999！']
             });
+            form.render();
         });
     })
 
