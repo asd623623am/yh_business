@@ -218,10 +218,11 @@ class Xmorder extends Common
 		$this->assign('order',$order);
 		//菜品信息
 		$goodWhere = [
-			'order_id'	=> $data['orderid']
+			'order_id'	=> $data['order_sn']
 		];
 		$goods  = model('Xmordergoods')->where($goodWhere)->select()->toArray();
 		$goodData = [];
+		
 		if(!empty($goods)){
 			foreach($goods as $k=>$v){
 
