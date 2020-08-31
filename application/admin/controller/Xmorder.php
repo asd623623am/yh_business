@@ -314,13 +314,12 @@ class Xmorder extends Common
     			$arr['signValue']=strtoupper($sign);
     			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
 				$res = $this->sendpostss($url,$arr);
-				dump($res);exit;
     			if ($res['returnCode'] == 0000) {
     				$where = [
     				    'id' => $id
     				];
     				$newData = [
-    					'pay_status'	=> 2,
+    					'pay_status'	=> 3,
     				];
     				$infos = model('Xmorder')->where($where)->setField($newData);
     				if ($infos) {
