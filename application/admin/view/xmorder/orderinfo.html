@@ -91,6 +91,9 @@
                         function (msg) {
                             if (msg.code == 1) {
                                 layer.msg(msg.font,{icon:msg.code});
+                                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
                             } else {
                                 layer.msg(msg.font,{icon:msg.code});
                             }
