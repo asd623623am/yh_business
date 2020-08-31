@@ -267,12 +267,12 @@ class Xmorder extends Common
 		if($result['pay_status'] != 2){
 			fail('您还不是已支付订单！');
 		}
-		win('退款成功');
-        exit;
 		$app = Db::table('system')->select();
     		if (!empty($app)) {
 
-
+				if(empty($app[0]['mini_appsecret']) || empty($app[0]['termNo']) || empty($app[0]['merId'])){
+					
+				}
     			$secret = $app[0]['mini_appsecret'];
     			$termNo = $app[0]['termNo'];
     			$merId = $app[0]['merId'];
@@ -320,7 +320,7 @@ class Xmorder extends Common
     				$newData = [
     					'pay_status'	=> 2,
     				];
-    				$infos = model('Orders')->where($where)->setField($newData);
+    				$infos = model('Xmorder')->where($where)->setField($newData);
     				if ($infos) {
     					win('退款成功');		
     				} else {

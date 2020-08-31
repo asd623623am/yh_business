@@ -128,9 +128,10 @@ class Store extends Common
                     $model->save($admin_insert);
                     $admin_id = $model -> getLastInsID();
                     if($admin_id){
+                        $role_ids = model('Role')->where(['type'=>4])->find()->toArray();
                         $roleinsert = [
                             'admin_id'  => $admin_id,
-                            'role_id'   => 18
+                            'role_id'   => $role_ids['role_id']
                         ];
                         $adminres = model('AdminRole')->insert($roleinsert);
                         if($adminres){
@@ -206,8 +207,13 @@ class Store extends Common
             $where = ['storeid' => $postData['storeid']];
             $res = model('Store')->save($delDate,$where);
             if ($res) {
-                $this -> addLog('删除门店信息');
-                win('删除成功');
+                $reslut = model('Admin')->where($where)->delete();
+                if($reslut){
+                    $this -> addLog('删除门店信息');
+                    win('删除成功');
+                } else {
+                    fail('删除失败');
+                }
             } else {
                 fail('删除失败');
             }
