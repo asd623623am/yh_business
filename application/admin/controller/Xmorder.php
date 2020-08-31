@@ -288,10 +288,10 @@ class Xmorder extends Common
 				}
     			$time = date('YmdHis',time());
     			$arr = [
-    				'orgNo'	=> '2166',
+    				'orgNo'	=> '2111',
     				'charset'	=> 'UTF-8',
     				'termNo'	=> $termNo,
-    				'termType'	=> 'KCWMP',
+    				'termType'	=> 'XMWPFB',
     				'txtTime'	=> $time,
     				'signType'	=> 'MD5',
     				
