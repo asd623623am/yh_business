@@ -315,9 +315,6 @@ class Xmorder extends Common
     			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
 				$res = $this->sendpostss($url,$arr);
     			if ($res['returnCode'] == 0000) {
-    				$where = [
-    				    'id' => $id
-    				];
     				$newData = [
     					'pay_status'	=> 3,
     				];
