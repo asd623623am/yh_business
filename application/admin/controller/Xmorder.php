@@ -175,6 +175,7 @@ class Xmorder extends Common
 			fail('请求失败！');
 		}
 		$result = $result->toArray();
+
 		$order = [];
 		if($result['order_type'] == 1){
 			$order['order_type'] = '堂食';
@@ -218,7 +219,7 @@ class Xmorder extends Common
 		$this->assign('order',$order);
 		//菜品信息
 		$goodWhere = [
-			'order_id'	=> $data['orderid']
+			'order_id'	=> $result['order_sn']
 		];
 		$goods  = model('Xmordergoods')->where($goodWhere)->select()->toArray();
 		$goodData = [];
