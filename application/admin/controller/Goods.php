@@ -260,7 +260,7 @@ class Goods extends Common{
             $postData = input('post.');
             if(!empty($postData)){
                 $editData = [];
-                \app\admin\model\Goods::isVerificationField($postData,$editData);
+                $editData = \app\admin\model\Goods::isVerificationField($postData,$editData);
                 $editData = \app\admin\model\Goods::isNoVerificationField($postData,$editData);
                 $where = ['gid'=>$postData['gid']];
                 $res = model('goods')->save($editData,$where);
