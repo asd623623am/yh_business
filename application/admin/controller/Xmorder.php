@@ -241,7 +241,7 @@ class Xmorder extends Common
 				];
 			}
 		}
-
+		dump($goodData);exit;
 		$this->assign('page',$data['page']);
 		$this->assign('goods',$goodData);
 		return view();
