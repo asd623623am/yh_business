@@ -90,10 +90,14 @@
                         {order_no:order},
                         function (msg) {
                             if (msg.code == 1) {
-                                layer.msg(msg.font,{icon:msg.code});
-                                var page = $('#page').val();
-                                localStorage.setItem('page',page);
-                                window.history.back();
+                                layer.msg(msg.font, {
+                                    icon: msg.code,
+                                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                    var page = $('#page').val();
+                                    localStorage.setItem('page',page);
+                                    window.history.back();
+                                });
                             } else {
                                 layer.msg(msg.font,{icon:msg.code});
                             }
