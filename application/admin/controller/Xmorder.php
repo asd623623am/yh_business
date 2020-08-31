@@ -303,7 +303,7 @@ class Xmorder extends Common
 
 
     			$signdata = [
-    				'orgNo'	=>'2166',
+    				'orgNo'	=>'2111',
     				'amt'	=> intval($result['pay_fee']),
     				'termNo'=> $termNo,
     				'merId'	=> $merId,
