@@ -152,53 +152,52 @@ class Goods extends Common{
             }
             $gtData = Db::table("xm_goods_type")->where(['status'=>1])->select();
             if(empty($gtData)){
-               fail("商品分类加载失败");
-            }
-            if(!empty($getData['gtid'])){
-                $where['gtid'] = $getData['gtid'];
+                $data = [];
+                $count = 0;
             }else{
-                $gtidArr = array_column($gtData,'gtid');
-                $where['gtid'] = ['in',$gtidArr];
-            }
-            $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
-            if(!empty($data)){
-                foreach ($data as &$val){
-                    $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
-                    $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
-                    $val['is_special'] = "否";
-                    if($val['is_special'] == 1){
-                        $val['is_special'] = "是";
-                    }
-                    //菜品上架状态 0：已下架1：待审核2：已上架
-                    $val['groundin'] = '已下架';
-                    if($val['is_grounding'] == 1){
-                        $val['groundin'] = '待审核';
-                    }elseif ($val['is_grounding'] == 1){
-                        $val['groundin'] = '已上架';
-                    }
-                    //商品图片默认显示第一张
-                    if(!empty($val['img'])){
-                        $img = explode(',',$val['img']);
-                        $val['img'] = $img[0];
-                    }
-                    $val['gtname'] = '';
-                    foreach ($gtData as $gtval){
-                        if($gtval['gtid'] == $val['gtid']){
-                            $val['gtname'] = $gtval['gtname'];
+                if(!empty($getData['gtid'])){
+                    $where['gtid'] = $getData['gtid'];
+                }else{
+                    $gtidArr = array_column($gtData,'gtid');
+                    $where['gtid'] = ['in',$gtidArr];
+                }
+                $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
+                if(!empty($data)){
+                    foreach ($data as &$val){
+                        $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
+                        $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
+                        $val['is_special'] = "否";
+                        if($val['is_special'] == 1){
+                            $val['is_special'] = "是";
+                        }
+                        //菜品上架状态 0：已下架1：待审核2：已上架
+                        $val['groundin'] = '已下架';
+                        if($val['is_grounding'] == 1){
+                            $val['groundin'] = '待审核';
+                        }elseif ($val['is_grounding'] == 1){
+                            $val['groundin'] = '已上架';
+                        }
+                        //商品图片默认显示第一张
+                        if(!empty($val['img'])){
+                            $img = explode(',',$val['img']);
+                            $val['img'] = $img[0];
+                        }
+                        $val['gtname'] = '';
+                        foreach ($gtData as $gtval){
+                            if($gtval['gtid'] == $val['gtid']){
+                                $val['gtname'] = $gtval['gtname'];
+                            }
                         }
                     }
+                    unset($val);
                 }
-                unset($val);
+                $count=Db::table("xm_goods")->where($where)->count();
             }
-            $count=Db::table("xm_goods")->where($where)->count();
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
         }else{
             $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
-            if(empty($gtData)){
-                fail("菜品分类信息有误");
-            }
             $this->assign('gtData',$gtData);
             return view();
         }
@@ -434,51 +433,50 @@ class Goods extends Common{
             }
             $gtData = Db::table("xm_goods_type")->where(['status'=>1])->select();
             if(empty($gtData)){
-                fail("商品分类加载失败");
-            }
-            if(!empty($getData['gtid'])){
-                $where['gtid'] = $getData['gtid'];
+                $data = [];
+                $count = 0;
             }else{
-                $gtidArr = array_column($gtData,'gtid');
-                $where['gtid'] = ['in',$gtidArr];
-            }
-            $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
-            if(!empty($data)){
-                foreach ($data as &$val){
-                    $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
-                    $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
-                    $val["check_time"]=date("Y-m-d H:i:s",$val["check_time"]);
+                if(!empty($getData['gtid'])){
+                    $where['gtid'] = $getData['gtid'];
+                }else{
+                    $gtidArr = array_column($gtData,'gtid');
+                    $where['gtid'] = ['in',$gtidArr];
+                }
+                $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
+                if(!empty($data)){
+                    foreach ($data as &$val){
+                        $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
+                        $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
+                        $val["check_time"]=date("Y-m-d H:i:s",$val["check_time"]);
 
-                    //是否开启库存，0：否1：是
-                    if($val['is_open_stock'] == 0){
-                        $val['open_stock'] = '<font color="#FF0000">否</font>';
-                    }else{
-                        $val['open_stock'] = '是';
-                    }
-                    //是否售罄，0：否1：是
-                    if($val['is_selling_fragrance'] == 0){
-                        $val['is_selling'] = '否';
-                    }else{
-                        $val['is_selling'] = '<font color="#FF0000">是</font>';
-                    }
-                    $val['gtname'] = '';
-                    foreach ($gtData as $gtval){
-                        if($gtval['gtid'] == $val['gtid']){
-                            $val['gtname'] = $gtval['gtname'];
+                        //是否开启库存，0：否1：是
+                        if($val['is_open_stock'] == 0){
+                            $val['open_stock'] = '<font color="#FF0000">否</font>';
+                        }else{
+                            $val['open_stock'] = '是';
+                        }
+                        //是否售罄，0：否1：是
+                        if($val['is_selling_fragrance'] == 0){
+                            $val['is_selling'] = '否';
+                        }else{
+                            $val['is_selling'] = '<font color="#FF0000">是</font>';
+                        }
+                        $val['gtname'] = '';
+                        foreach ($gtData as $gtval){
+                            if($gtval['gtid'] == $val['gtid']){
+                                $val['gtname'] = $gtval['gtname'];
+                            }
                         }
                     }
+                    unset($val);
                 }
-                unset($val);
+                $count=Db::table("xm_goods")->where($where)->count();
             }
-            $count=Db::table("xm_goods")->where($where)->count();
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
         }else{
             $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
-            if(empty($gtData)){
-                fail("菜品分类信息有误");
-            }
             $this->assign('gtData',$gtData);
             return view();
         }

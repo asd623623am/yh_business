@@ -32,13 +32,6 @@ class Goodstrial extends Common
                 $where['name'] = $input['name'];
             }
             $where['status'] = 1;
-            $type = Db::table("xm_goods_type")->where(['status'=>1])->select();
-            if(!empty($input['gitid'])){
-                $where['gtid'] = $input['gitid'];
-            }else{
-                $gtidArr = array_column($type,'gtid');
-                $where['gtid'] = ['in',$gtidArr];
-            }
             $data=Db::table("xm_goods")->where($where)->page($page,$limit)->select();
             $temp = [];
             foreach($data as $k=>$v){
