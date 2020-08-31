@@ -31,6 +31,9 @@ class Goodstrial extends Common
             if(!empty($input['name'])){
                 $where['name'] = $input['name'];
             }
+            if($input['is_grounding'] != null){
+                $where['is_grounding'] = $input['is_grounding'];
+            }
             $where['status'] = 1;
             $data=Db::table("xm_goods")->where($where)->page($page,$limit)->select();
             $temp = [];
@@ -56,7 +59,7 @@ class Goodstrial extends Common
                 }
                 $is_grounding = '';
                 if($v['is_grounding'] == 0){
-                    $is_grounding = '已下架';
+                    $is_grounding = '未上架';
                 } else if($v['is_grounding'] == 1){
                     $is_grounding = '待审核';
                 } else if($v['is_grounding'] == 2){
@@ -65,6 +68,8 @@ class Goodstrial extends Common
                     } else {
                         $is_grounding = '售罄';
                     }
+                } else if($v['is_grounding'] == 3){
+                    $is_grounding = '已拒绝';
                 }
 
                 $temp[] = [
@@ -105,9 +110,14 @@ class Goodstrial extends Common
                 'is_grounding'  => 2,
                 'update_time'   => time()
             ];
-        } else {
+        } else if($input['type'] == 2){
             $update = [
                 'is_grounding'  => 0,
+                'update_time'   => time()
+            ];
+        } else if($input['type'] == 3){
+            $update = [
+                'is_grounding'  => 3,
                 'update_time'   => time()
             ];
         }
