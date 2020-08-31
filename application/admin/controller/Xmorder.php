@@ -312,7 +312,8 @@ class Xmorder extends Common
     			$sign = $this->appgetSign($signdata,$secret);
     			$arr['signValue']=strtoupper($sign);
     			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
-    			$res = request_post($url,$arr);
+				$res = request_post($url,$arr);
+				dump($res);exit;
     			if ($res['returnCode'] == 0000) {
     				$where = [
     				    'id' => $id
