@@ -34,6 +34,7 @@ class Goodstrial extends Common
             $where['status'] = 1;
             $data=Db::table("xm_goods")->where($where)->page($page,$limit)->select();
             $temp = [];
+            $type = Db::table('xm_goods_type')->where(['status'=>1])->select();
             foreach($data as $k=>$v){
                 $img = '';
                 if($v['img'] != null){
