@@ -22,9 +22,13 @@ class Qrcode extends Common{
      * date: 2020/8/12 10:53
      */
     public function qrcodeList(){
+        $storeid = getStoreid();
         if( request() -> isAjax() ){
             $where = [];
             $where['status'] = 0;
+            if($storeid != 0){
+                $where['storeid'] = $storeid;
+            }
             $getData = input('get.');
             if(!empty($getData['storename'])){
                 $where['storename'] = $getData['storename'];

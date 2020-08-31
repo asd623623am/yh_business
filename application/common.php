@@ -309,7 +309,7 @@ function request_post($url = '', $param = ''){
         return false;
     }
     $postUrl = $url;
-    $curlPost = @json_encode($param);
+    $curlPost = $param;
     $ch = curl_init(); //初始化curl
     curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
     curl_setopt($ch, CURLOPT_POST, true); //post提交方式

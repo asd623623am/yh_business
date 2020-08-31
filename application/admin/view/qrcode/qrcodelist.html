@@ -43,7 +43,7 @@
                     ,{field:'tnumber', width:150, title: '桌台号'}
                     ,{field:'gzlogo', width:150, title: '公众号图片名称'}
                     ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
-                    ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 25px;" src="__QRCODE__/{{d.mini_qrcode}}"></div>'}
+                    // ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 25px;" src="__QRCODE__/{{d.mini_qrcode}}"></div>'}
                     ,{field:'create_time',width:200, title: '创建时间'}
                     ,{field:'update_time',width:200, title: '更新时间'}
                     ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
@@ -97,39 +97,68 @@
                 });
             }else if(layEvent == 'download'){
 
-                //获取下载图片名称（可自定义）
+
+                // 生成一个 a 标签
                 var downloadName = data.gzlogo;
                 // 获取要下载的图片
                 var img = document.getElementById('testImg');
-                var url = img.src;
-
-                const tag = document.createElement('a');
-                //图片下载时的名称，注意：名称中不能有半角点，否则下载时后缀名会错误
-                tag.setAttribute('download',downloadName.replace(/\./g,'.'));
+                var src = img.src;
+                const a = document.createElement("a");
+                a.download = downloadName || "图片";
+                a.style.display = "none";
                 const image = new Image();
-                //设置图片的url，添加时间戳，防止浏览器缓存图片
-                image.src = url+'?time='+new Date().getTime();
-                //设置crossOrigin属性，否则图片跨域会报错
-                image.setAttribute('crossOrigin','Anonymous');
-                //图片未加载完成时会报错
-                image.onload = ()=>{
-                    tag.href = getImageDataURL(image);
-                    tag.click();
-                }
-                function getImageDataURL(image){
-                    //创建画布
-                    const  canvas = document.createElement('canvas');
+                image.src = src + "?v=" + Math.random();
+                image.crossOrigin = "*";
+                image.onload = () => {
+                    const base64 = getBase64Images(image);
+                    a.href = base64;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+                function getBase64Images(image) {
+                    const canvas = document.createElement("canvas");
                     canvas.width = image.width;
                     canvas.height = image.height;
-                    const ctx = canvas.getContext('2d');
-                    //以图片为背景裁剪画布
-                    ctx.drawImage(image,0,0,image.width,image.height);
-                    //获取图片后缀名
-                    const extension = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();
-                    //如果图片没有后缀则默认png
-                    return canvas.toDataURL('image/'+extension,1);
-
+                    const context = canvas.getContext("2d");
+                    context.drawImage(image, 0, 0, image.width, image.height);
+                    const url = canvas.toDataURL("image/png", 0);
+                    return url;
                 }
+
+                // //获取下载图片名称（可自定义）
+                // var downloadName = data.gzlogo;
+                // // 获取要下载的图片
+                // var img = document.getElementById('testImg');
+                // var url = img.src;
+                //
+                // const tag = document.createElement('a');
+                // //图片下载时的名称，注意：名称中不能有半角点，否则下载时后缀名会错误
+                // tag.setAttribute('download',downloadName.replace(/\./g,'.'));
+                // const image = new Image();
+                // //设置图片的url，添加时间戳，防止浏览器缓存图片
+                // image.src = url+'?time='+new Date().getTime();
+                // //设置crossOrigin属性，否则图片跨域会报错
+                // image.setAttribute('crossOrigin','Anonymous');
+                // //图片未加载完成时会报错
+                // image.onload = ()=>{
+                //     tag.href = getImageDataURL(image);
+                //     tag.click();
+                // }
+                // function getImageDataURL(image){
+                //     //创建画布
+                //     const  canvas = document.createElement('canvas');
+                //     canvas.width = image.width;
+                //     canvas.height = image.height;
+                //     const ctx = canvas.getContext('2d');
+                //     //以图片为背景裁剪画布
+                //     ctx.drawImage(image,0,0,image.width,image.height);
+                //     //获取图片后缀名
+                //     const extension = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();
+                //     //如果图片没有后缀则默认png
+                //     return canvas.toDataURL('image/'+extension,1);
+                //
+                // }
             }
         })
 
