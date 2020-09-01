@@ -276,13 +276,13 @@ class Goods extends Common{
                 $where = ['gid'=>$postData['gid']];
                 $res = model('goods')->save($editData,$where);
                 if(!empty($postData['tag2'])){
-                    $gbsCount = model('goodsBingSpec')->where(['goodsid'=>$postData['gid']])->count();
+                    $gbsCount = model('goodsBingSpec')->where(['goodsid'=>$postData['gid'],'storeid'=>$storeid])->count();
                     if($gbsCount>0){
                         $gbsData = [
                             'gstids'=>$postData['tag2'],
                             'update_time'=>time()
                         ];
-                        model('goodsBingSpec')->save($gbsData,['goodsid'=>$postData['gid']]);
+                        model('goodsBingSpec')->save($gbsData,['goodsid'=>$postData['gid'],'storeid'=>$storeid]);
                     }else{
                         $gbsData = [
                             'storeid'=>$storeid,
@@ -293,6 +293,8 @@ class Goods extends Common{
                         ];
                         model('goodsBingSpec')->save($gbsData);
                     }
+                }else{
+                    model('goodsBingSpec')->where(['goodsid'=>$postData['gid'],'storeid'=>$storeid])->delete();
                 }
                 if ($res) {
                     $this -> addLog('修改菜品信息');
