@@ -1326,11 +1326,13 @@ class Index extends Controller
 			}
 			// 	exit;
 		} else {
-		$this->responseMsg();
-		// 	file_put_contents('./a3.log','789');
-		// 	$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
-		// 	$this->sendpostss($url,$data);
-		// 	exit;
+			// $res = file_get_contents('php://input');
+			// file_put_contents('./a3.log',\json_encode($postStr));
+			// $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+			file_put_contents('./a3.log','789');
+			$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
+			$this->sendpostss($url,$data);
+			exit;
 		}
 	}
 
@@ -1345,7 +1347,6 @@ public function responseMsg()
 		//接收用户端（客户）发送过来的XML数据
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 		file_put_contents('./a3.log',\json_encode($postStr));
-		exit;
 		//extract post data
 		//判断XML数据是否为空
 		if (!empty($postStr)){
