@@ -1312,19 +1312,20 @@ class Index extends Controller
 		$data = input();
 		file_put_contents('./a3.log',\json_encode($data));
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
-
 			$token = 'M16kxQCL9KGNyOU5';
 			$array = array( $token, $data['timestamp'], $data['nonce']);
 			sort($array, SORT_STRING);
 			$str = implode($array);
 			$ress = sha1($str);
 			if( $ress == $data['signature'] ){
+				file_put_contents('./a3.log','4567');
 				echo $data['echostr'];exit;
 			}else{
 				return null;
 			}
 			exit;
 		} else {
+			file_put_contents('./a3.log','789');
 			$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
 			$this->sendpostss($url,$data);
 			exit;
