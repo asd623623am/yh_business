@@ -1309,27 +1309,84 @@ class Index extends Controller
 	
 	public function getInfoData()
 	{
-		$data = input();
-		file_put_contents('./a3.log',\json_encode($data));
-		if($_SERVER['REQUEST_METHOD'] == 'GET'){
-			$token = 'M16kxQCL9KGNyOU5';
-			$array = array( $token, $data['timestamp'], $data['nonce']);
-			sort($array, SORT_STRING);
-			$str = implode($array);
-			$ress = sha1($str);
-			if( $ress == $data['signature'] ){
-				file_put_contents('./a3.log','4567');
-				echo $data['echostr'];exit;
-			}else{
-				return null;
-			}
-			exit;
-		} else {
-			file_put_contents('./a3.log','789');
-			$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
-			$this->sendpostss($url,$data);
-			exit;
-		}
+
+		$this->responseMsg();
+		// $data = input();
+		// file_put_contents('./a3.log',\json_encode($data));
+		// if($_SERVER['REQUEST_METHOD'] == 'GET'){
+		// 	$token = 'M16kxQCL9KGNyOU5';
+		// 	$array = array( $token, $data['timestamp'], $data['nonce']);
+		// 	sort($array, SORT_STRING);
+		// 	$str = implode($array);
+		// 	$ress = sha1($str);
+		// 	if( $ress == $data['signature'] ){
+		// 		file_put_contents('./a3.log','4567');
+		// 		echo $data['echostr'];exit;
+		// 	}else{
+		// 		return null;
+		// 	}
+		// 	exit;
+		// } else {
+		// 	file_put_contents('./a3.log','789');
+		// 	$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
+		// 	$this->sendpostss($url,$data);
+		// 	exit;
+		// }
 	}
+
+public function responseMsg()
+{
+		//get post data, May be due to the different environments
+		//接收用户端（客户）发送过来的XML数据
+		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+		file_put_contents('./a3.log',\json_encode($postStr));
+		exit;
+		//extract post data
+		//判断XML数据是否为空
+		if (!empty($postStr)){
+		/* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
+		the best way is to check the validity of xml by yourself */
+		libxml_disable_entity_loader(true);
+		//通过simplexml进行xml解析 PHP中有两大类可以完成对XML的解析，1.PHP的Dom模型2.通过simplexml模型
+		$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+		//手机端
+		$fromUsername = $postObj->FromUserName;
+		//微信公众平台
+		$toUsername = $postObj->ToUserName;
+		//接收用户发送的关键词
+		$keyword = trim($postObj->Content);
+		//时间戳
+		$time = time();
+		//文本发送模板
+		$textTpl = "<xml>
+		<ToUserName><![CDATA[%s]]></ToUserName>
+		<FromUserName><![CDATA[%s]]></FromUserName>
+		<CreateTime>%s</CreateTime>
+		<MsgType><![CDATA[%s]]></MsgType>
+		<Content><![CDATA[%s]]></Content>
+		<FuncFlag>0</FuncFlag>
+		</xml>";
+		//判断用户发送关键词是否为空
+		if(!empty( $keyword ))
+		{
+		//回复类型，如果为"text",代表文本类型
+		$msgType = "text";
+		//回复内容
+		$contentStr = "Welcome to wechat world!";
+		//格式化字符串（对xml进行格式化操作，把里面相关的变量格式化成字符串）
+		$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+		//把XML数据返回给手机端
+		echo $resultStr;
+		}
+		//如果用户发送的关键词为空，则返回下列字符串
+		else{
+		echo "Input something...";
+		}
+
+		}else {
+				echo "";
+				exit;
+			}
+		}
 
 }
