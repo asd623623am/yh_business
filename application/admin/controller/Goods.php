@@ -20,7 +20,9 @@ class Goods extends Common{
     public function goodsTypeList(){
 
         $storeid = getStoreid();
-        $where = ['storeid'=>$storeid];
+        if($storeid != 0){
+            $where = ['storeid'=>$storeid];
+        }
         $where['status'] = 1;
         if( request() -> isAjax() ){
             $page=input('get.page');
@@ -145,12 +147,16 @@ class Goods extends Common{
 
         $storeid = getStoreid();
         if( request() -> isAjax() ){
-            $where = ['storeid'=>$storeid];
+            if($storeid != 0){
+                $where = ['storeid'=>$storeid];
+                $gtWhere = ['storeid'=>$storeid];
+            }
             $getData = input('get.');
             if(!empty($getData['gname'])){
                 $where['name'] = $getData['gname'];
             }
-            $gtData = Db::table("xm_goods_type")->where(['status'=>1])->select();
+            $gtWhere['status'] = 1;
+            $gtData = Db::table("xm_goods_type")->where($gtWhere)->select();
             if(empty($gtData)){
                 $data = [];
                 $count = 0;
@@ -209,7 +215,7 @@ class Goods extends Common{
                 $name = 'jichang';
             }
             $this->assign('name',$name);
-
+            $this->assign('storeid',$storeid);
             return view();
         }
 
@@ -582,7 +588,9 @@ class Goods extends Common{
 
         $storeid = getStoreid();
         if( request() -> isAjax() ){
-            $where = ['storeid'=>$storeid];
+            if($storeid != 0){
+                $where = ['storeid'=>$storeid];
+            }
             $getData = input('get.');
             if(!empty($getData['gstname'])){
                 $where['gstname'] = $getData['gstname'];

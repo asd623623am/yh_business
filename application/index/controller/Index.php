@@ -1300,8 +1300,10 @@ class Index extends Controller
         ];
         $reSave = model('system')->save($savaData,$where);
         if($reSave == false){
+            echo "token刷新失败";
             /* @todo 添加错误日志*/
         }
+        echo "token刷新成功";
         exit();
 	}
 	

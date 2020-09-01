@@ -18,6 +18,7 @@
         <input type="text" name="gname" required  placeholder="请输入菜品名称" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+    <input type="text" id="storeid" name="storeid" value="{$storeid}" style="display: none" class="layui-input">
 </div>
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" data-type="goodsAdd">添加菜品</button>
@@ -31,8 +32,10 @@
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">审核</a>
     {/if}
     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="down">下架</a>
+{if condition="$storeid!=0"}
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+{/if}
 </script>
 <script>
     layui.use(['table','layer','upload','form'], function(){
