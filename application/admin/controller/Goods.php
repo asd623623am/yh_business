@@ -174,8 +174,10 @@ class Goods extends Common{
                         $val['groundin'] = '已下架';
                         if($val['is_grounding'] == 1){
                             $val['groundin'] = '待审核';
-                        }elseif ($val['is_grounding'] == 1){
+                        }elseif ($val['is_grounding'] == 2){
                             $val['groundin'] = '已上架';
+                        } else if($val['is_grounding'] == 3){
+                            $val['groundin'] = '已拒绝';
                         }
                         //商品图片默认显示第一张
                         if(!empty($val['img'])){
@@ -199,6 +201,15 @@ class Goods extends Common{
         }else{
             $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
             $this->assign('gtData',$gtData);
+            $admin = session('admin');
+            $name = '';
+            if($admin['admin_type'] == 3){
+                $name = 'shangjia';
+            } else {
+                $name = 'jichang';
+            }
+            $this->assign('name',$name);
+
             return view();
         }
 
@@ -363,8 +374,13 @@ class Goods extends Common{
 
         $postData = input('post.');
         if(isset($postData['gid'])&&!empty($postData['gid'])){
+            $admin = session('admin');
+            if($admin['admin_type'] == 3){
+                $saveData = ['is_grounding'=>1];
+            } else {
+                $saveData = ['is_grounding'=>2];
+            }
             $where = ['gid' => $postData['gid']];
-            $saveData = ['is_grounding'=>1];
             //设置菜品信息待审核状态
             $ret = model('goods')->save($saveData,$where);
             if($ret){
