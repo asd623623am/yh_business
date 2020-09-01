@@ -223,6 +223,36 @@ class Store extends Common
     }
 
     /**
+     * 批量删除门店信息
+     */
+    public function StoreDels()
+    {
+        $postData = input('post.');
+        if(!empty($postData)){
+            $storeid = [];
+            foreach($postData['data'] as $k=>$v){
+                $storeid[] = $v['storeid'];
+            }
+            $delDate = ['status' => 0];
+            $where = [
+                'storeid'   => array('in',$storeid)
+            ];
+            $res = model('Store')->save($delDate,$where);
+            if ($res) {
+                $reslut = model('Admin')->where($where)->delete();
+                if($reslut){
+                    $this -> addLog('删除门店信息');
+                    win('删除成功');
+                } else {
+                    fail('删除失败');
+                }
+            } else {
+                fail('删除失败');
+            }
+        }
+        $this->postTips();
+    }
+    /**
      * Notes: 处理数据格式
      * Class: processDara
      * user: bingwoo
