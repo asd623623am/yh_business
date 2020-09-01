@@ -1323,7 +1323,7 @@ class Index extends Controller
 			}else{
 				return null;
 			}
-
+			exit;
 		} else {
 			$url = 'https://possji.com:8088/yinheorder/wxpublic/verifytoken';
 			$this->sendpostss($url,$data);
