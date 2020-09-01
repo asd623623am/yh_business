@@ -472,7 +472,7 @@ class Goods extends Common{
                         $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                         $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
                         $val["check_time"]=date("Y-m-d H:i:s",$val["check_time"]);
-
+                        $val['stock'] = intval($val['stock']);
                         //是否开启库存，0：否1：是
                         if($val['is_open_stock'] == 0){
                             $val['open_stock'] = '<font color="#FF0000">否</font>';
