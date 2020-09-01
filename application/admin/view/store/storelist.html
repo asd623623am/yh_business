@@ -26,6 +26,8 @@
 </div>
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
+    <button class="layui-btn " id='downloadModel' lay-submit lay-filter="*">下载模板</button>
+    <button class="layui-btn layui-btn-normal" id='importExcel' lay-submit lay-filter="*">批量导入</button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
@@ -35,9 +37,9 @@
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-      <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
     </div>
-  </script>
+</script>
 <script>
     layui.use(['table','layer',], function(){
         var table = layui.table;
@@ -63,7 +65,25 @@
                 // localStorage.clear();
             }
         });
+        //添加门店
         $('#submit').click(function(){
+            location.href="{:url('Store/storeAdd')}";
+        })
+        //下载模板
+        $('#downloadModel').click(function(){
+            $.post(
+                '{:url("PHPExcel/downloadStoreModel")}',
+                function(msg){
+                    var url = msg.font;
+                    var elemIF = document.createElement("iframe");
+                    elemIF.src = url;
+                    elemIF.style.display = "none";
+                    document.body.appendChild(elemIF);
+                },'json'
+            )
+        })
+        //批量导入
+        $('#importExcel').click(function(){
             location.href="{:url('Store/storeAdd')}";
         })
         //删除和修改
@@ -96,51 +116,40 @@
                 });
             }
         })
-
-
         //监听头工具栏事件
-table.on('toolbar(test)', function(obj){
+        table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
-            ,data = checkStatus.data; //获取选中的数据
+                ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
-            case 'add':
-                layer.msg('添加');
-            break;
-            case 'update':
-                if(data.length === 0){
-                layer.msg('请选择一行');
-                } else if(data.length > 1){
-                layer.msg('只能同时编辑一个');
-                } else {
-                layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
-                }
-            break;
-            case 'getCheckData':
-                if(data.length === 0){
-                layer.msg('请选择您要删除的数据');
-                } else {
-                    
-                    layer.confirm('确认批量删除', function(index){
-                    $.post(
-                            '{:url("Store/StoreDels")}',
-                            {data:data},
-                            function(msg){
-                                
-                                layer.msg(msg.font,{icon:msg.code});
-                                 if(msg.code==1){
-                                 table.reload('test');
-                                 }
-                            
-                                
-                            },'json'
-                    )
-                });
+                case 'add':
+                    layer.msg('添加');
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+                    }
+                    break;
+                case 'getCheckData':
+                    if(data.length === 0){
+                        layer.msg('请选择您要删除的数据');
+                    } else {
 
-
-                //     console.log(data);
-                // layer.msg('删除');
-                }
-            break;
+                        layer.confirm('确认批量删除', function(index){
+                            $.post('{:url("Store/StoreDels")}',
+                                {data:data},function(msg){
+                                    layer.msg(msg.font,{icon:msg.code});
+                                    if(msg.code==1){
+                                        table.reload('test');
+                                    }
+                                },'json'
+                            )
+                        });
+                    }
+                    break;
             };
         });
 
@@ -154,7 +163,7 @@ table.on('toolbar(test)', function(obj){
                 ,toolbar: '#toolbarDemo'
                 ,defaultToolbar: []
                 ,cols: [[
-                {type: 'checkbox',}
+                    {type: 'checkbox',}
                     ,{field:'storeid', width:80, title: '序号', sort: true},
                     ,{field:'store_no', width:100, title: '门店编号',}
                     ,{field:'name', width:200, title: '门店名称'}

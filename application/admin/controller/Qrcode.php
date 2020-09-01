@@ -185,8 +185,6 @@ class Qrcode extends Common{
      */
     public function downloadQrocde(){
 
-
-
         $postData = input('post.');
         $qrcodeData = model('qrcode')->field('gz_qrcode')->where(['qid'=>$postData['qid']])->find()->toArray();
         header("Content-type:text/html;charset=utf-8");
@@ -265,16 +263,17 @@ class Qrcode extends Common{
         if($token){
 
             $tiUrl = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$token;
+            $scene_str = $sotrid.','.$tnumber;
             $scene = [
-                'scene_id' => '1234',
-                'storeid' => $sotrid,
-                'tnumber' => $tnumber
+                'scene_str'=>$scene_str
             ];
-
+            $action_info = [
+                'scene'=>$scene
+            ];
             $data = [
                 'expire_seconds' => 86400,
                 'action_name' => 'QR_STR_SCENE',//目前为临时二维码
-                'action_info' => $scene
+                'action_info' => $action_info
             ];
             $ret = request_post($tiUrl,json_encode($data));
             $ret = @json_decode($ret,true);
