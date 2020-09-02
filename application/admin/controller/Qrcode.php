@@ -56,6 +56,7 @@ class Qrcode extends Common{
      * date: 2020/8/12 10:55
      */
     public function qrcodeAdd(){
+        $storeid = getStoreid();
         if(check()){
             $postData = input('post.');
             if(empty($postData)){
@@ -89,8 +90,13 @@ class Qrcode extends Common{
             }
 
         }else{
-            $storeData = model('store')->where(['status'=>1])->field('storeid,name')->select()->toArray();
+            if($storeid != 0){
+                $where['storeid'] = $storeid;
+            }
+            $where['status'] = 1;
+            $storeData = model('store')->where($where)->field('storeid,name')->select()->toArray();
             $this->assign('storeData',$storeData);
+            $this->assign('storeid',$storeid);
             return view();
         }
 
