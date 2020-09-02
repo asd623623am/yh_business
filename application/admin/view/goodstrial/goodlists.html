@@ -42,8 +42,8 @@
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="pos">详情</a>
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">上架</a>
-    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="down">下架</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">通过</a>
+    <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="down">下架</a> -->
     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="nos">拒绝</a>
 </script>
 <script src="__STATIC__/public.js"></script>
@@ -148,7 +148,7 @@
                 ,{field:'member_price',width:100, title: '会员价'}
                 ,{field:'staff_price',width:100, title: '员工价'}
                 ,{field:'is_grounding',width:100, title: '商品状态'}
-                ,{field:'right', width:200,toolbar: '#barDemo', title:'操作',fixed:'right'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed:'right'}
             ]],
             done: function () {
                 $("[data-field='gid']").css('display','none');

@@ -185,6 +185,12 @@ class Goods extends Common{
                         } else if($val['is_grounding'] == 3){
                             $val['groundin'] = '已拒绝';
                         }
+
+                        if($val['status'] == 1){
+                            $val['status'] = '已删除';
+                        } else {
+                            $val['status'] = '正常';
+                        }
                         //商品图片默认显示第一张
                         if(!empty($val['img'])){
                             $img = explode(',',$val['img']);
@@ -372,6 +378,28 @@ class Goods extends Common{
         }else{
             fail('菜品信息有误');
         }
+    }
+
+    public function goodsDels()
+    {
+        $postData = input('post.');
+        if(!empty($postData)){
+            $gid = [];
+            foreach($postData['data'] as $k=>$v){
+                $gid[] = $v['gid'];
+            }
+            $delDate = ['status' => 1];
+            $where = [
+                'gid'   => array('in',$gid)
+            ];
+            $res = model('goods')->save($delDate,$where);
+            if ($res) {
+               win('批量删除成功！');
+            } else {
+                fail('批量删除失败');
+            }
+        }
+        fail('批量删除失败！');
     }
 
     /**
