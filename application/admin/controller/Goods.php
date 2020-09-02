@@ -588,6 +588,7 @@ class Goods extends Common{
 
         $storeid = getStoreid();
         if( request() -> isAjax() ){
+            $where = [];
             if($storeid != 0){
                 $where = ['storeid'=>$storeid];
             }
