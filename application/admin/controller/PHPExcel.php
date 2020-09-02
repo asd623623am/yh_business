@@ -183,4 +183,164 @@ class PHPExcel extends Common{
           } 
     }
 
+
+    public function goodsupload()
+    {
+        if(request()->isPost()){
+            $file = request()->file('file');        // 获取表单提交过来的文件  
+            $error = $_FILES['file']['error'];  // 如果$_FILES['file']['error']>0,表示文件上传失败  
+            if(!$error){  
+              $dir = ROOT_PATH . 'public' . DS . 'upload';
+           
+              // 验证文件并移动到框架应用根目录/public/uploads/ 目录下
+              $info = $file->validate(['size'=>3145728,'ext'=>'xls,xlsx,csv'])->rule('uniqid')->move($dir);  
+              /*判断是否符合验证*/  
+              if($info){    //  符合类型  
+                $file_type = $info->getExtension();  
+                $filename = $dir. DS .$info->getSaveName();
+                // $filename = 'E:\PHPserver\wwwroot\default\aliyun_1805\public\upload\5ee87c7f0c9be.xlsx';
+                Vendor("PHPExcel.IOFactory");
+                 $extension = strtolower( pathinfo($filename, PATHINFO_EXTENSION) );
+                if ($extension =='xlsx') {
+                    $objReader = new \PHPExcel_Reader_Excel2007();
+                    $objExcel = $objReader ->load($filename);
+    
+                } else if ($extension =='xls') {
+    
+                    $objReader = new \PHPExcel_Reader_Excel5();
+                    $objExcel = $objReader->load($filename);
+    
+    
+                }
+    
+                $excel_array=$objExcel->getsheet(0)->toArray();   //转换为数组格式
+                $title = $excel_array[0];
+                array_shift($excel_array);
+    
+                $arr = [];
+                foreach ($excel_array as $k => $v) {
+                    if($v[0] != null && $v[1] != null){
+                        $arr[] =array_combine($title,$v);	
+                    }
+                }
+
+                $admin = session('admin');
+
+                $data = [];
+                foreach ($arr as $key => $value) {
+                    if (!isset($value['菜品名称'])) {
+                        return fail('缺少菜品名称标题');
+                    }
+    
+                    if (!array_key_exists('菜品编号',$value)) {
+                        return fail('缺少菜品编号标题');
+                    }
+                    if (!array_key_exists('菜品售价',$value)) {
+                        return fail('缺少菜品售价标题');
+                    }
+    
+                    if (!array_key_exists("菜品原价",$value))
+                    {
+                      return fail('缺少菜品原价标题');
+                    }
+                    
+                    if (!array_key_exists('会员价',$value)) {
+                        return fail('缺少会员价标题');
+                    }
+                    if (!array_key_exists('员工价',$value)) {
+                        return fail('缺少员工价标题');
+                    }
+                    if (!array_key_exists('特色菜品',$value)) {
+                        return fail('缺少特色菜品标题');
+                    }
+                    if (!array_key_exists('菜品介绍',$value)) {
+                        return fail('缺少菜品介绍标题');
+                    }
+                    if (!array_key_exists('分类',$value)) {
+                        return fail('缺少分类标题');
+                    }
+                    $where = [
+                        'storeid'   => $admin['storeid'],
+                        'gtname'    => $value['分类'],
+                        'status'    => 1
+                    ];
+
+                    $res = model('GoodsType')->where($where)->find();
+                    $gtid = '';
+                    if($res == null){
+                        $wheres = [
+                            'storeid'   => $admin['storeid'],
+                            'status'    => 1
+                        ];
+                        $reslut = model('GoodsType')->where($where)->find();
+                        if($reslut == null){
+                            fail('您的菜品名称：'.$value['菜品名称'].' 菜品编号：'.$value['菜品编号'].'的分类有问题');
+                        } else {
+                            $gtid = $reslut->gtid;
+                        }
+                    } else {
+                        $gtid = $res->gtid;
+                    }
+
+                    $is_special = 0;
+                    if($value['特色菜品'] == null ){
+                        $is_special = 0;
+                    } else if($value['特色菜品'] == '否'){
+                        $is_special = 0;
+                    } else {
+                        $is_special = 1;
+                    }
+
+                    $insert = [
+                        'storeid'   => $admin['storeid'],
+                        'gtid'      => $gtid,
+                        'name'      => $value['菜品名称'],
+                        'code'      => $value['菜品编号'],
+                        'original_price'    => $value['菜品原价'],
+                        'selling_price'     => $value['菜品售价'],
+                        'member_price'      => $value['会员价'],
+                        'staff_price'       => $value['员工价'],
+                        'is_special'        => $is_special,
+                        'is_show'           => 1,
+                        'is_grounding'      => 0,
+                        'is_selling_fragrance'  => 0,
+                        'is_open_stock'     => 0,
+                        'stock'             => 0,
+                        'trade_description' => $value['菜品介绍'],
+                        'status'            => 1,
+                        'check_time'		=> time(),
+                        'create_time'		=> time(),
+                        'update_time'		=> time(),
+                    ];
+                    $gid = model('goods') -> insertGetId( $insert );
+                    if($gid<1){
+                        fail('导入失败');
+                    }
+
+                    $gbsData = [];
+                    $gbsData['storeid'] = $admin['storeid'];
+                    $gbsData['goodsid'] = $gid;
+                    $gbsData['gstids'] = $gtid;
+                    $gbsData['update_time'] = time();
+                    $gbsData['create_time'] = time();
+                    $ret = model('goodsBingSpec')->save($gbsData);
+                    if(!$ret){
+                        fail('添加失败');
+                    }
+                    
+
+                }
+                $this -> addLog('批量导入了菜品');
+                win('导入成功');
+              } else{ //  不符合类型业务  
+                $this->error('请选择上传3MB内的excel表格文件...');  
+                //echo $file->getError();  
+              }  
+            }else{  
+              $this->error('请选择需要上传的文件...');  
+            }  
+    
+          }
+    }
+
 }

@@ -21,8 +21,13 @@
     <input type="text" id="storeid" name="storeid" value="{$storeid}" style="display: none" class="layui-input">
 </div>
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
-    <button class="layui-btn layui-btn-normal" data-type="goodsAdd">添加菜品</button>
+    <button class="layui-btn layui-btn-normal" data-type="goodsAdd" id="goodsAdds">添加菜品</button>
+
+    <button type="button" class="layui-btn  layui-btn-normal" id="myload" style="">
+        <i class="layui-icon">&#xe67c;</i>导入Excel表
+    </button>
 </div>
+
 <table class="layui-hide" id="test" lay-filter="testdd"></table>
 <script type="text/html" id="barDemo">
 <!--    <a class="layui-btn layui-btn-xs" lay-event="sel">查看</a>-->
@@ -50,6 +55,25 @@
         var layer = layui.layer;
         var upload = layui.upload;
         var form = layui.form;
+
+         //文件上传
+         var uploadInst = upload.render({
+            elem: '#myload' //绑定元素
+            ,url: '{:url("PHPExcel/goodsupload")}' //上传接口
+            ,exts: 'xls|xlsx|xlsm|xlt|xltx|xltm'
+            ,done: function(res){
+                //上传完毕回调
+                //console.log(msg);
+                layer.msg(res.font,{icon:res.code});
+                if(res.code==1){
+                  table.reload('test');
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+
         //自动点击.
         $(document).ready(function(){
             $("#sousuo").trigger("click");
@@ -219,7 +243,7 @@ table.on('toolbar(testdd)', function(obj){
             $(this).css('background','#ccc').siblings().css('background','#fff');
         });
         //跳转页面
-        $('.demoTable .layui-btn').on('click', function(){
+        $('#goodsAdds').on('click', function(){
             location.href="{:url('Goods/goodsAdd')}";
         });
     });
