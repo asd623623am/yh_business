@@ -20,7 +20,7 @@ class PHPExcel extends Common{
     public function downloadStoreModel(){
 
         //系统域名
-        $realm_name = 'business.com';
+        $realm_name = 'airscan.yinheyun.com.cn';
         //文件名称
         $fieldname = '门店模板.xlsx';
         //图片地址
