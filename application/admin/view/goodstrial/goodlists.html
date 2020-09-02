@@ -46,6 +46,12 @@
     <!-- <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="down">下架</a> -->
     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="nos">拒绝</a>
 </script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="downloadModel">批量通过</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="getCheckData">批量拒绝</button>
+    </div>
+</script>
 <script src="__STATIC__/public.js"></script>
 <script>
     layui.use(['table','layer','element','upload','form','laydate'], function(){
@@ -129,6 +135,63 @@
                 });
             }
         })
+
+
+                //监听头工具栏事件
+                table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'add':
+                    layer.msg('添加');
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+                    }
+                    break;
+                case 'getCheckData':
+                    if(data.length === 0){
+                        layer.msg('请选择您要拒绝的数据');
+                    } else {
+
+                        layer.confirm('确认批量拒绝？', function(index){
+                            $.post('{:url("Goodstrial/goodstrialUps")}',
+                                {data:data,type:3},function(msg){
+                                    layer.msg(msg.font,{icon:msg.code});
+                                    if(msg.code==1){
+                                        table.reload('test');
+                                    }
+                                },'json'
+                            )
+                        });
+                    }
+                    break;
+                case 'downloadModel'://批量通过
+                if(data.length === 0){
+                        layer.msg('请选择您要通过的数据');
+                    } else {
+
+                        layer.confirm('确认批量通过？', function(index){
+                            $.post('{:url("Goodstrial/goodstrialUps")}',
+                                {data:data,type:2},function(msg){
+                                    layer.msg(msg.font,{icon:msg.code});
+                                    if(msg.code==1){
+                                        table.reload('test');
+                                    }
+                                },'json'
+                            )
+                        });
+                    }
+                    break;
+            };
+        });
+
+
         form.on('submit(*)', function(data){
           table.render({
               elem: '#test'
@@ -136,8 +199,11 @@
               ,where:data.field
               ,limit:10
               ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,toolbar: '#toolbarDemo'
+              ,defaultToolbar: []
               ,cols: [[
-              {field:'gid', width:100, title: 'gid'}
+              {type: 'checkbox',}
+              ,{field:'gid', width:100, title: 'gid'}
                 ,{width:100, title: '序号',type:'numbers'}
                 ,{field:'gtname',width:150, title: '菜品类别',align:'center'}
                 ,{field:'name',width:200, title: '菜名'}

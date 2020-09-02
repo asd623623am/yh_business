@@ -113,7 +113,8 @@
                     return false;
                 })
             }else if(layEvent === 'up'){
-                layer.confirm("确认上架菜品【<font style='color: red'>"+data.name+"</font>】吗？", function(index){
+                // 确认上架菜品【<font style='color: red'>"+data.name+"</font>】吗？
+                layer.confirm("确认提交审核吗？", function(index){
                     $.post(
                         "{:url('Goods/goodsUp')}",
                         data,

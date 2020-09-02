@@ -133,6 +133,50 @@ class Goodstrial extends Common
         }
     }
 
+    public function goodstrialUps()
+    {
+        $input = input();
+        if(empty($input['type']) || empty($input['data'])){
+            fail('缺少参数，非法操作！');
+        }
+        $update = [];
+        if($input['type'] == 2){
+            $update = [
+                'is_grounding'  => 2,
+                'update_time'   => time()
+            ];
+        } else if($input['type'] == 3){
+            $update = [
+                'is_grounding'  => 3,
+                'update_time'   => time()
+            ];
+        }
+
+        $gid = [];
+        foreach($input['data'] as $k=>$v){
+            $gid[] = $v['gid'];
+        }
+
+        $where = [
+            'gid'   => array('in',$gid)
+        ];
+        $res = model('goods')->save($update,$where);
+        if($input['type'] ==2){
+            if ($res) {
+                win('批量通过成功！');
+             } else {
+                 fail('批量通过失败');
+             }
+        } else if($input['type'] == 3){
+            if ($res) {
+                win('批量拒绝成功！');
+             } else {
+                 fail('批量拒绝失败');
+             }
+        }
+        
+    }
+
     public function goodInfo()
     {
         $data = input();
