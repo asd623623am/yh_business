@@ -35,7 +35,7 @@ class Goodstrial extends Common
                 $where['is_grounding'] = $input['is_grounding'];
             }
             $where['status'] = 1;
-            $data=Db::table("xm_goods")->where($where)->page($page,$limit)->select();
+            $data=Db::table("xm_goods")->where($where)->page($page,$limit)->order('update_time','desc')->select();
             $temp = [];
             $type = Db::table('xm_goods_type')->where(['status'=>1])->select();
             foreach($data as $k=>$v){
