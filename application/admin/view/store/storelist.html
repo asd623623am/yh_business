@@ -26,8 +26,8 @@
 </div>
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
-    <button class="layui-btn " id='downloadModel' lay-submit lay-filter="*">下载模板</button>
-    <button type="button" class="layui-btn" id="myload" style="background-color:#1E9FFF">
+<!--    <button class="layui-btn " id='downloadModel' lay-submit lay-filter="*">下载模板</button>-->
+    <button type="button" class="layui-btn  layui-btn-normal" id="myload" style="">
         <i class="layui-icon">&#xe67c;</i>导入Excel表
     </button>
 </div>
@@ -39,7 +39,11 @@
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
+<!--        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="importExcel">-->
+<!--            <i class="layui-icon">&#xe67c;</i>导入Excel表-->
+<!--        </button>-->
+        <button class="layui-btn layui-btn-sm" lay-event="downloadModel">下载模板</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="getCheckData">批量删除</button>
     </div>
 </script>
 <script>
@@ -48,8 +52,6 @@
         var layer = layui.layer;
         var form = layui.form;
         var upload = layui.upload;
-
-
 
         //文件上传
         var uploadInst = upload.render({
@@ -91,25 +93,6 @@
         });
         //添加门店
         $('#submit').click(function(){
-            location.href="{:url('Store/storeAdd')}";
-        })
-        //下载模板
-        $('#downloadModel').click(function(){
-            $.post(
-                '{:url("PHPExcel/downloadStoreModel")}',
-                function(msg){
-                    var url = msg.font;
-                    var elemIF = document.createElement("iframe");
-                    elemIF.src = url;
-                    elemIF.style.display = "none";
-                    document.body.appendChild(elemIF);
-                },'json'
-            )
-        })
-        //批量导入
-        $('#importExcel').click(function(){
-            alert(123);
-            return false;
             location.href="{:url('Store/storeAdd')}";
         })
         //删除和修改
@@ -175,6 +158,16 @@
                             )
                         });
                     }
+                    break;
+                case 'downloadModel'://下载模板
+                    $.post('{:url("PHPExcel/downloadStoreModel")}',function(msg){
+                        var url = msg.font;
+                        var elemIF = document.createElement("iframe");
+                        elemIF.src = url;
+                        elemIF.style.display = "none";
+                        document.body.appendChild(elemIF);
+                        layer.msg("模板下载成功",{icon:1});
+                    },'json');
                     break;
             };
         });
