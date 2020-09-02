@@ -45,6 +45,7 @@ class Qrcode extends Common{
             echo json_encode($info);
             exit;
         }else{
+            $this->assign('storeid',$storeid);
             return view();
         }
     }

@@ -227,25 +227,22 @@
                 <div style="font-weight: bold;font-size: 20px">&nbsp;今日有效订单（个）</div>
                 <div class="left-count "><em id='pay_counts'>{$orderNum}</em></div>
             </div>
-<!--            <div class="right"><img src="__IMG__/1.2.png" alt=""></div>-->
         </div>
+        <input type="text" id="storeid" value="{$storeid}" style="display: none">
         <div class="countHu-house">
             <div class="left">
-                <div style="font-weight: bold;font-size: 20px">&nbsp;开通店铺数量（个）</div>
+                <div style="font-weight: bold;font-size: 20px" id="threeContent">&nbsp;开通店铺数量（个）</div>
                 <div class="left-count"><em id='home_num'>{$storeNum}</em></div>
             </div>
-<!--            <div class="right"><img src="__IMG__/1.1.png" alt=""></div>-->
         </div>
         <div class="countHu-dingdan">
             <div class="left">
                 <div style="font-weight: bold;font-size: 20px">&nbsp;已有商品数量（个）</div>
                 <div class="left-count"><em id='order_no' >{$goodsNum}</em></div>
             </div>
-<!--            <div class="left"><img src="__IMG__/1.2.png" alt=""></div>-->
         </div>
     </div>
     <div class="char">
-        <!-- <div id="container" style="max-width:400px;height:300px"></div> -->
         <div>
             <div class="char-title char1">
                 <div class="char-title-left">
@@ -261,20 +258,6 @@
             </div>
             <div id="container1"></div>
         </div>
-<!--        <div>-->
-<!--            <div class="char-title char2">-->
-<!--                <div class="char-title-left">-->
-<!--                    <i></i>-->
-<!--                    <em>交易笔数</em>-->
-<!--                </div>-->
-<!--                <div class="char-title-right">-->
-<!--                    <b v='w'>本周</b>-->
-<!--                    <b class="active" v='m'>本月</b>-->
-<!--                    <b v='y'>本年</b>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div id="container2"></div>-->
-<!--        </div>-->
     </div>
 
 </form>
@@ -282,32 +265,12 @@
     layui.use(['form', 'layer', 'upload'], function () {
         var form = layui.form;
         var layer = layui.layer;
-        // $.post(
-        //     "{:url('Index/indexData')}",
-        //     function (msg) {
-        //         if (msg.code == 0) {
-        //             var data = msg.data;
-        //             $('#home_num').text(data.home_num);
-        //             $('#order_no').text(data.order_no);
-        //             $('#pay_count').text(data.pay_count);
-        //             $('#count').text(data.count);
-        //         }
-        //     }, 'json'
-        // );
-        // $('#submet').click(function () {
-        //     $.post(
-        //         "{:url('Index/indexSend')}",
-        //         function (msg) {
-        //             if (msg.code == 1) {
-        //                 layer.msg(msg.font, { icon: msg.code });
-        //             } else {
-        //                 layer.msg(msg.font, { icon: msg.code });
-        //             }
-        //         }, 'json'
-        //     )
-        //     return false;
-        // });
     })
+
+    var storeid = $('#storeid').val();
+    if(storeid>0){
+        $('#threeContent').html('商品种类数量(个)');
+    }
 
     $('.char1 b').on('click', function () {
         $(this).addClass('active').siblings().removeClass('active')
@@ -316,32 +279,9 @@
         console.log(11)
 
     })
-    // $('.char2 b').on('click', function () {
-    //     $(this).addClass('active').siblings().removeClass('active')
-    //     var val = $(this).attr('v');
-    //     pajax(val);
-    //     console.log(22)
-    //
-    // })
     let content = [{ categories: '1', data: 1000 }, { categories: '2', data: 1000 }, { categories: '3', data: 1000 }]
-
-    // var pval = $('.char2 .active').attr('v');
-    // pajax(pval);
-
     var mval1 = $('.char1 .active').attr('v');
     majax(mval1);
-    // function pajax(vals) {
-    //     $.post(
-    //         "{:url('Index/payNumber')}",
-    //         {data:vals},
-    //         function (msg) {
-    //             if (msg.code == 0) {
-    //                 ex2(msg.data.a,msg.data.b)
-    //             }
-    //         }, 'json'
-    //     )
-    //     return false;
-    // }
 
     function majax(vals)
     {

@@ -52,9 +52,7 @@
 
 
 <div class="search-table layui-form">
-    <div class="layui-inline tempsTest"> <!--  支付时间-->
-  	    <input type="text" placeholder='时间' class="layui-input" name="pay_time" id="test1">
-	</div>
+
      <div class="layui-inline tempsTest">
         <select name="order_status"  id="order_status" >
             <option value="" >订单状态</option>
@@ -81,16 +79,7 @@
         </select>
     </div>
 
-     <!-- 付款金钱 -->
-      <div class="layui-inline tempsTest">
-        <div class="layui-input-inline" style="width: 100px;">
-          <input type="text" name="price_min" placeholder="￥金钱" autocomplete="off" class="layui-input">
-        </div>
-        -
-        <div class="layui-input-inline" style="width: 100px;">
-          <input type="text" name="price_max" placeholder="￥金钱" autocomplete="off" class="layui-input">
-        </div>
-      </div>
+
             
       <div class="layui-inline tempsTest">
         <select name="order_type"  id="order_type" >
@@ -109,11 +98,23 @@
             <option value="3">已退款</option>
         </select>
     </div>
-
+    <div class="layui-inline tempsTest"> <!--  支付时间-->
+        <input type="text" placeholder='支付时间' class="layui-input" name="pay_time" id="test1">
+    </div>
     
     <div class="layui-inline tempsTest"> <!-- 注意：这一层元素并不是必须的 -->
     	<input type="text" placeholder='下单时间' name="create_time" class="layui-input" id="test2">
   	</div>
+    <!-- 付款金钱 -->
+    <div class="layui-inline tempsTest">
+        <div class="layui-input-inline" style="width: 100px;">
+            <input type="text" name="price_min" placeholder="￥金钱" autocomplete="off" class="layui-input">
+        </div>
+        -
+        <div class="layui-input-inline" style="width: 100px;">
+            <input type="text" name="price_max" placeholder="￥金钱" autocomplete="off" class="layui-input">
+        </div>
+    </div>
   	<button type="button" value='1' id='create_time' class="layui-btn layui-btn-xs">↓</button>
     <div class="layui-input-inline tempsTest" style="width: 100px;">
       <input type="text" name="pay_fee" placeholder="订单金额"  autocomplete="off" class="layui-input">
@@ -253,6 +254,7 @@
                 ,{field:'pay_id',width:150, title: '支付方式',align:'center'}
                 ,{field:'pay_status',width:150, title: '支付状态',align:'center'}
                 ,{field:'order_status',width:150, title: '订单状态',align:'center'}
+                ,{field:'invoice_status',width:150, title: '开票状态',align:'center'}
                 ,{field:'right', width:100,toolbar: '#barDemo', title:'操作',align:'center',fixed:'right'}
             ]],
             done: function () {

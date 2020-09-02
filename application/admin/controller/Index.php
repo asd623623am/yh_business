@@ -10,10 +10,19 @@ class Index extends Common{
     protected $app;
 
     public function index(){
+
+        $storeid = getStoreid();
         //获取商户基础信息
         $system_info = model('System')->field('company_logo,company_name,utel,address')->find();
         //获取今日有效订单数量
         $where = [];
+        $goodsWhere = [];
+        $goodsTypeWhere = [];
+        if($storeid >0){
+            $where['storeid'] = $storeid;
+            $goodsWhere['storeid'] = $storeid;
+            $goodsTypeWhere['storeid'] = $storeid;
+        }
         $where['order_status'] = 5;
         $where['shipping_status'] = 2;
         $where['pay_status'] = 2;
@@ -21,10 +30,14 @@ class Index extends Common{
         $orderData = model('Xmorder')->where($where)->select()->toArray();
         $amountTotal = array_sum(array_column($orderData, 'pay_fee'));
         //获取开业门店数量和商品数量
-        $storeWhere = [];
-        $storeWhere['status'] = 1;
-        $storeNum = model('store')->where($storeWhere)->count();
-        $goodsWhere = [];
+        if($storeid>0){
+            $goodsTypeWhere['status'] = 1;
+            $storeNum = model('goods_type')->where($goodsTypeWhere)->count();
+        }else{
+            $storeWhere = [];
+            $storeWhere['status'] = 1;
+            $storeNum = model('store')->where($storeWhere)->count();
+        }
         $goodsWhere['status'] = 1;
         $goodsWhere['is_grounding'] = 2;
         $goodsNum = model('goods')->where($goodsWhere)->count();
@@ -32,6 +45,7 @@ class Index extends Common{
         $this->assign('amountTotal',$amountTotal);
         $this->assign('orderNum',count($orderData));
         $this->assign('storeNum',$storeNum);
+        $this->assign('storeid',$storeid);
         $this->assign('goodsNum',$goodsNum);
         return view();
     }

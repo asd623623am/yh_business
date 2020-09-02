@@ -123,6 +123,12 @@ class Xmorder extends Common
 				} else if($v['order_status'] == 5){
 					$res[$k]['order_status'] = '订单完成';
 				}
+
+				if($v['order_status'] == 0){
+                    $res[$k]['invoice_status'] = '未开发票';
+                }else{
+                    $res[$k]['invoice_status'] = '已开发票';
+                }
 			}
 
 			$info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];

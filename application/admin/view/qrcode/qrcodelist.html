@@ -9,13 +9,14 @@
         <a><cite> 二维码列表</cite></a>
     </span>
 </blockquote>
-<div class="search-table layui-form">
+<input type="text" value="{$storeid}" id="storeid" style="display: none">
+<div class="search-table layui-form" id="storename">
     <div class="layui-input-inline">
-        <input type="text" name="storename" required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
+        <input type="text" name="storename"  required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
-<div class="layui-btn-group demoTable" style="margin-top: 10px">
+<div class="layui-btn-group demoTable" style="margin-top: 10px" id="storebut">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -30,6 +31,10 @@
         var layer = layui.layer;
         var form = layui.form;
         var ids = 0;
+        var storeid = $('#storeid').val();
+        if(storeid >0){
+            $('#storename').hide();
+        }
         form.on('submit(*)', function(data){
             table.render({
                 elem: '#test'
