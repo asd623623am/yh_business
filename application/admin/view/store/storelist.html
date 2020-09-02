@@ -27,7 +27,9 @@
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
     <button class="layui-btn " id='downloadModel' lay-submit lay-filter="*">下载模板</button>
-    <button class="layui-btn layui-btn-normal" id='importExcel' lay-submit lay-filter="*">批量导入</button>
+    <button type="button" class="layui-btn" id="myload" style="background-color:#1E9FFF">
+        <i class="layui-icon">&#xe67c;</i>导入Excel表
+    </button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
@@ -41,10 +43,32 @@
     </div>
 </script>
 <script>
-    layui.use(['table','layer',], function(){
+    layui.use(['table','layer','upload'], function(){
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
+        var upload = layui.upload;
+
+
+
+        //文件上传
+        var uploadInst = upload.render({
+            elem: '#myload' //绑定元素
+            ,url: '{:url("PHPExcel/storeupload")}' //上传接口
+            ,exts: 'xls|xlsx|xlsm|xlt|xltx|xltm'
+            ,done: function(res){
+                //上传完毕回调
+                //console.log(msg);
+                layer.msg(res.font,{icon:res.code});
+                if(res.code==1){
+                  table.reload('test');
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+
         var ids = 0;
         //自动点击.
         $(document).ready(function(){
@@ -84,6 +108,8 @@
         })
         //批量导入
         $('#importExcel').click(function(){
+            alert(123);
+            return false;
             location.href="{:url('Store/storeAdd')}";
         })
         //删除和修改
