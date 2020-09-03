@@ -23,12 +23,21 @@ class Storeprint extends Common
      */
     public function storePrintList(){
 
+        $admin = session('admin');
         if( request() -> isAjax() ){
             $getData = input('get.');
             $where = [];
+            if($admin['admin_type'] == 3){
+                $where['storeid'] = $admin['storeid'];   
+            } else {
+                if(!empty($getData['store'])){
+                    $where['storeid'] = $getData['store'];
+                }
+            }
             if(!empty($getData['device_no'])){
                 $where['device_no'] = $getData['device_no'];
             }
+            
             $data = model('store_print')->where($where)->select()->toArray();
             if(!empty($data)){
                 foreach ($data as &$val){
@@ -44,6 +53,17 @@ class Storeprint extends Common
             echo json_encode($info);
             exit;
         }else{
+           
+            $is_display = 0;
+            if($admin['admin_type'] == 3){
+                $is_display = 2; //2是上架权限
+            } else {
+                $is_display = 1; //1是机场权限
+            }
+
+            $xm_store = Db::table('xm_store')->where(['status'=>1])->select();
+            $this->assign('store',$xm_store);
+            $this->assign('is_display',$is_display);
             return view();
         }
     }

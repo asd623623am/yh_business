@@ -16,6 +16,15 @@
     <div class="layui-input-inline">
         <input type="text" name="device_no" required  placeholder="请输入设备编号" autocomplete="off" class="layui-input">
     </div>
+    <input type="text" value="{$is_display}" hidden id="displays">
+    <div class="layui-inline tempsTest" id="mendian" style="display: none;">
+        <select name="store"  id="store" >
+            <option value="" >选择门店</option>
+            {volist name="store" id='store'}
+                <option value="{$store.storeid}">{$store.name}</option>
+              {/volist}
+        </select>
+    </div>
     <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
@@ -32,6 +41,12 @@
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
+
+        var displays = $('#displays').val();
+        if(displays == 1){
+            $('#mendian').show();
+        }
+
         var ids = 0;
         //自动点击.
         $(document).ready(function(){
