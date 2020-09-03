@@ -186,7 +186,7 @@ class Goods extends Common{
                             $val['groundin'] = '已拒绝';
                         }
 
-                        if($val['status'] == 1){
+                        if($val['status'] == 2){
                             $val['status'] = '已删除';
                         } else {
                             $val['status'] = '正常';
@@ -369,7 +369,7 @@ class Goods extends Common{
         if(isset($postData['gid'])&&!empty($postData['gid'])){
             $where = ['gid' => $postData['gid']];
             //设置菜品信息为隐藏，不展示
-            $ret = model('goods')->save(['status'=>1],$where);
+            $ret = model('goods')->save(['status'=>2],$where);
             if($ret){
                 win('删除菜品'.$postData['name'].'成功');
             }else{
@@ -388,7 +388,7 @@ class Goods extends Common{
             foreach($postData['data'] as $k=>$v){
                 $gid[] = $v['gid'];
             }
-            $delDate = ['status' => 1];
+            $delDate = ['status' => 2];
             $where = [
                 'gid'   => array('in',$gid)
             ];

@@ -245,6 +245,10 @@ class Common extends Controller
                 if ($v['node_name'] == '系统管理') {
                     $temp['9'] = $v;
                 }
+
+                if ($v['node_name'] == '打印机管理') {
+                    $temp['10'] = $v;
+                }
             }
             ksort($temp);
             $return['menu'] = $temp;

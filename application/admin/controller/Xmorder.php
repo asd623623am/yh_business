@@ -381,4 +381,172 @@ class Xmorder extends Common
 		curl_close($curl);
 		return @json_decode($output, true);
 	}
+
+	public function excel()
+	{
+		$admin = session('admin');
+		$is_display = 0;
+		if($admin['admin_type'] == 3){
+			$is_display = 2; //2是上架权限
+		} else {
+			$is_display = 1; //1是机场权限
+		}
+
+		$data = model('Store')->select()->toArray();
+		$this->assign('data',$data);
+		$this->assign('is_display',$is_display);
+		return view();
+	}
+
+	   /**
+     * 导出数据报表.
+     * @return [type] [description]
+     */
+    public function exportExcelData()
+    {
+            $datas = input();
+            
+            if (empty($datas)) {
+                fail('非法操作此页面');
+			}
+			$where = [];
+			   $admins = session('admin');
+				if($admins['admin_type'] != 3){
+					$where['storeid'] = $datas['store'];
+				} else {
+					$where['storeid'] = $admins['storeid'];
+				}
+				$where['pay_status'] = 2;
+				$where['status'] = 1;
+				$start = $datas['start_at'].' 00:00:00';
+				$end = $datas['end_at'].' 23:59:59';
+			   //查出数据.
+			   $newdata = model('Xmorder')->where($where)->whereTime('pay_time','between',[$start,$end])->select()->toArray();
+				$moneys = 0;
+			   //给缴费时间的时间戳转换成时间.
+			   $num = 1;
+               foreach ($newdata as $ks => $vs) {
+				   $newdata[$ks]['pay_time'] = date('Y-m-d H:i:s',$vs['pay_time']);
+				   $newdata[$ks]['pay_fee'] = sprintf("%1\$.2f", $vs['pay_fee']);
+				   $moneys += $vs['pay_fee'];
+				   $newdata[$ks]['number'] = $num++;
+					$newdata[$ks]['order_sn'] = ' '.$vs['order_sn'];
+					$newdata[$ks]['pay_trans_no'] = ' '.$vs['pay_trans_no'];
+				   if($vs['pay_id'] == 1){ 
+					   $newdata[$ks]['pay_id'] = '微信支付';
+				   }
+			   }
+			   $moneys=sprintf("%1\$.2f", $moneys);
+
+			   if(!empty($newdata)){
+				$cumulative = [
+					'number'	=> '',
+					'order_sn'	=> '',
+					'pay_trans_no'	=> '',
+					'goods_amount'	=> '',
+					'pay_id'			=> '',
+					'pay_fee'		=> '总计金额：'.$moneys,
+					'pay_time'		=> ''
+				];
+	
+				array_push($newdata,$cumulative);
+			   }
+			   
+			   $xlsData = $newdata;
+			  
+            // $newdata = json_decode($data['data'],true);
+               // 文件名和文件类型
+               // $fileName = $data['fileName'];
+           
+               $fileName = $datas['fileName'];
+			   if($fileName==""){$fileName=time();}//如果没有给名称 默认为当前时间戳
+
+               // 模拟获取数据
+               // $xlsData = self::getData();
+               // $xlsData = $this->dataData();
+
+               Vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
+                       Vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
+                       Vendor('PHPExcel.PHPExcel.Writer.Excel2007');
+                       $objExcel = new \PHPExcel();
+                       //set document Property
+                       $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+                
+                       $objActSheet = $objExcel->getActiveSheet();
+                       $objActSheet->getStyle('1')->getFont()->setBold(true);
+                       $objActSheet->getStyle('2')->getFont()->setBold(true);
+                       $objExcel->getActiveSheet()->getStyle(1)->getFont()->setSize(20);
+                       // $objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->      //设置全局默认的字体大小
+                       //   $objExcel->getActiveSheet()->getStyle('A1:A2')->getFont()->setSize(20)->setARGB('#FF0000');
+
+					   $datas['tableName'] = $datas['tableName'].'('.$datas['start_at'].'---'.$datas['end_at'].')';
+                       $objActSheet->setTitle($datas['tableName']);//设置sheet工作表名称
+                       $key = ord("A");
+                       $letter =explode(',',"A,B,C,D,E,F,G,H");
+                       // $letter =explode(',',"A,B,C,D,E,F,G,H,I,J");
+                       // $arrHeader = array('姓名','公司','公司地址','邮箱','电话','职位','行业应用','会员角色','是否验证');
+                       $arrHeader = array('序号','订单号','交易号','商品数量','支付方式','支付时间','订单金额');
+
+                       //合并单元格
+                       $objExcel->getActiveSheet()->mergeCells('A1:P1');
+
+                       //设置水平居中
+                       $objExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                       //填充标题
+                            $objActSheet->setCellValue($letter[0].'1',$datas['tableName']);
+                       
+                       //填充表头信息
+                       $lenth =  count($arrHeader);
+                       for($i = 0;$i < $lenth;$i++) {
+                           $objActSheet->setCellValue("$letter[$i]2","$arrHeader[$i]");
+
+                       };
+
+
+                       //填充表格信息
+                       foreach($xlsData as $k=>$v){
+                           $k +=3;
+                           $objActSheet->setCellValue('A'.$k,$v['number']);
+                           $objActSheet->setCellValue('B'.$k, $v['order_sn']);
+                           $objActSheet->setCellValue('C'.$k, $v['pay_trans_no']);
+                           $objActSheet->setCellValue('D'.$k, $v['goods_amount']);
+                           $objActSheet->setCellValue('E'.$k, $v['pay_id']);
+                           $objActSheet->setCellValue('F'.$k, $v['pay_time']);
+                           $objActSheet->setCellValue('G'.$k, $v['pay_fee']);
+                           // 表格高度
+                           $objActSheet->getRowDimension($k)->setRowHeight(20);
+                       }
+                
+                       $width = array(10,15,20,25,30);
+                       //设置表格的宽度
+                       $objActSheet->getColumnDimension('A')->setWidth($width[1]);
+                       $objActSheet->getColumnDimension('B')->setWidth($width[3]);
+                       $objActSheet->getColumnDimension('C')->setWidth($width[3]);
+                       $objActSheet->getColumnDimension('D')->setWidth($width[1]);
+                       $objActSheet->getColumnDimension('E')->setWidth($width[1]);
+                       $objActSheet->getColumnDimension('F')->setWidth($width[4]);
+                       $objActSheet->getColumnDimension('G')->setWidth($width[1]);
+                    //    $objActSheet->getColumnDimension('H')->setWidth($width[1]);
+                    //    $objActSheet->getColumnDimension('I')->setWidth($width[1]);
+                       // $objActSheet->getColumnDimension('K')->setWidth($width[1]);
+                       // $objActSheet->getColumnDimension('L')->setWidth($width[1]);
+                       // $objActSheet->getColumnDimension('M')->setWidth($width[1]);
+                       // $objActSheet->getColumnDimension('N')->setWidth($width[1]);
+                       // $objActSheet->getColumnDimension('O')->setWidth($width[1]);
+                       // $objActSheet->getColumnDimension('P')->setWidth($width[1]);
+                
+                
+                       $outfile = $fileName.".xlsx";
+                       ob_end_clean();
+                       header("Content-Type: application/force-download");
+                       header("Content-Type: application/octet-stream");
+                       header("Content-Type: application/download");
+                       header('Content-Disposition:inline;filename="'.$outfile.'"');
+                       header("Content-Transfer-Encoding: binary");
+                       header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+                       header("Pragma: no-cache");
+                       $objWriter->save('php://output');
+
+    }
 }

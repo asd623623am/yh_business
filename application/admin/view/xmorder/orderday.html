@@ -134,6 +134,7 @@
                placeholder="请输入订单号" class="layui-input" style="width: 200px"/>
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+    <button class="layui-btn tempsTest" lay-submit id='excel' lay-filter="*">打印订单</button>
 </div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
@@ -156,6 +157,10 @@
             $('#order').show();
         }
         form.render('select');
+        $('#excel').click(function(){
+            location.href="{:url('Xmorder/excel')}";
+          return false;
+        });
         $('#create_time').click(function(){
         	var create_time = $('#create_time').val();
         	if (create_time == 1) {
