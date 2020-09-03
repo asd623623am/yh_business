@@ -33,6 +33,8 @@ class Goodstrial extends Common
             }
             if($input['is_grounding'] != null){
                 $where['is_grounding'] = $input['is_grounding'];
+            } else {
+                $where['is_grounding'] = 1;
             }
             $where['status'] = 1;
             $data=Db::table("xm_goods")->where($where)->page($page,$limit)->order('update_time','desc')->select();
@@ -59,15 +61,16 @@ class Goodstrial extends Common
                 }
                 $is_grounding = '';
                 if($v['is_grounding'] == 0){
-                    $is_grounding = '未上架';
+                    $is_grounding = '已创建';
                 } else if($v['is_grounding'] == 1){
                     $is_grounding = '待审核';
                 } else if($v['is_grounding'] == 2){
-                    if($v['is_selling_fragrance'] == 0){
-                        $is_grounding = '在售';
-                    } else {
-                        $is_grounding = '售罄';
-                    }
+                    $is_grounding = '在售';
+                    // if($v['is_selling_fragrance'] == 0){
+                    //     $is_grounding = '在售';
+                    // } else {
+                    //     $is_grounding = '售罄';
+                    // }
                 } else if($v['is_grounding'] == 3){
                     $is_grounding = '已拒绝';
                 }
