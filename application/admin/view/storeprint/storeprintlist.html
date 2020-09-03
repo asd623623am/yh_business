@@ -97,36 +97,60 @@
                 });
             }
         })
+        // form.on('submit(*)', function(data){
+        //     table.render({
+        //         elem: '#test'
+        //         ,url:"{:url('Storeprint/storePrintList')}"
+        //         ,where:data.field
+        //         ,limit:10
+        //         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        //         ,cols: [[
+        //             {field:'spid', width:80, title: '序号', sort: true},
+        //             ,{field:'device_no', width:150, title: '打印机编号'}
+        //             ,{field:'device_appid', width:150, title: '设备id'}
+        //             ,{field:'device_appkey', width:200, title: '设备key'}
+        //             ,{field:'print_url',width:150, title: '打印地址'}
+        //             ,{field:'create_time',width:180, title: '创建时间',align:'center'}
+        //             ,{field:'update_time',width:180, title: '修改时间',align:'center'}
+        //             ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+        //         ]],
+        //         done: function () {
+        //             // $("[data-field='home_id']").css('display','none');
+        //             $('.layui-table').on('click','tr',function(){
+        //                 $(this).css('background','#ccc').siblings().css('background','#fff');
+        //             });
+        //         },page: true
+        //     });
+        // });
+
         form.on('submit(*)', function(data){
-            table.render({
-                elem: '#test'
-                ,url:"{:url('Storeprint/storePrintList')}"
-                ,where:data.field
-                ,limit:10
-                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                ,cols: [[
-                    {field:'spid', width:80, title: '序号', sort: true},
-                    // ,{field:'type', width:150, title: '打印机类型',}
-                    ,{field:'device_no', width:150, title: '打印机编号'}
-                    ,{field:'device_appid', width:150, title: '设备id'}
-                    ,{field:'device_appkey', width:200, title: '设备key'}
-                    ,{field:'print_url',width:150, title: '打印地址'}
-                    ,{field:'create_time',width:180, title: '创建时间',align:'center'}
-                    ,{field:'update_time',width:180, title: '修改时间',align:'center'}
-                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
-                ]],
-                done: function () {
-                    $("[data-field='home_id']").css('display','none');
-                    $('.layui-table').on('click','tr',function(){
-                        $(this).css('background','#ccc').siblings().css('background','#fff');
-                    });
-                },page: true
-            });
+          table.render({
+              elem: '#test'
+              ,url:"{:url('Storeprint/storePrintList')}"
+              ,where:data.field
+              ,limit:10
+              // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+              ,cols: [[
+              {field:'spid', width:100, title: '序号',sort:true}
+                ,{field:'device_no', width:200, title: '打印机编号'}
+                ,{field:'device_appid',width:130, title: '设备ID'}
+                ,{field:'device_appkey',width:200, title: '设备key'}
+                ,{field:'print_url',width:200, title: '打印地址'}
+                ,{field:'create_time',width:200, title: '创建时间',align:'center'}
+                ,{field:'update_time',width:200, title: '修改时间',align:'center'}
+                ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',align:'center'}
+            ]],
+            done: function () {
+                $("[data-field='orderid']").css('display','none');
+                $('.layui-table').on('click','tr',function(){
+                    $(this).css('background','#ccc').siblings().css('background','#fff');
+                });
+            },page: true
+          });
         });
 
         $('.layui-table').on('click','tr',function(){
             $(this).css('background','#ccc').siblings().css('background','#fff');
         });
-        form.render();
     });
 </script>
