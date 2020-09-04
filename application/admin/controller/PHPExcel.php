@@ -140,23 +140,29 @@ class PHPExcel extends Common{
                         $insert['update_time'] = time();
                         $insert['status'] = 1;
                         $store_id = model('Store')->insertGetId($insert);
-                        if(!$store_id){
-                            fail('全部导入失败，请检查导入内容');
+                        if($store_id<1){
+                            fail('导入失败，请检查门店名称为：'.$value['门店名称'].'！以上数据导入成功！');
                         }
-
+                        $salt = $this->make_password(5);
+                        $pwd = $this->createPwd($value['登录密码'],$salt);
                         $admin_insert = [
                             'admin_type'    =>3,
                             'admin_name'    =>$value['登录账号'],
-                            'admin_pwd'     =>$value['登录密码'],
+                            'admin_pwd'     =>$pwd,
+                            'salt'          => $salt,
+                            'admin_time'    => time(),
                             'admin_tel'     =>'',
                             'storeid'       => $store_id
                         ];
-                        $model = model('Admin');
-                        $model->save($admin_insert);
-                        $admin_id = $model -> getLastInsID();
 
-                        if(!$admin_id){
-                            fail('全部导入失败，请检查导入内容');
+
+ 
+                        $models = model('Admin');
+
+                        $admin_id = $models -> insertGetId($admin_insert);
+        
+                        if($admin_id<1){
+                            fail('导入失败，请检查导入内容');
                         }
 
                         $role_ids = model('Role')->where(['type'=>4])->find()->toArray();
@@ -166,7 +172,7 @@ class PHPExcel extends Common{
                         ];
                         $adminres = model('AdminRole')->insert($roleinsert);
                         if(!$adminres){
-                            fail('全部导入失败，请检查导入内容');
+                            fail('全部导入失败，请检查导入内容1');
                         }
                     }
                 }
@@ -344,4 +350,32 @@ class PHPExcel extends Common{
           }
     }
 
+
+
+    function make_password( $length = 8 )
+    {
+        // 密码字符集，可任意添加你需要的字符
+        $chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
+        'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 
+        't', 'u', 'v', 'w', 'x', 'y','z', 'A', 'B', 'C', 'D', 
+        'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L','M', 'N', 'O', 
+        'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z', 
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', 
+        '@','#', '$', '%', '^', '&', '*', '(', ')', '-', '_', 
+        '[', ']', '{', '}', '<', '>', '~', '`', '+', '=', ',', 
+        '.', ';', ':', '/', '?', '|');
+        // 在 $chars 中随机取 $length 个数组元素键名
+        $keys = array_rand($chars, $length); 
+        $password = '';
+        for($i = 0; $i < $length; $i++)
+        {
+            // 将 $length 个数组元素连接成字符串
+            $password .= $chars[$keys[$i]];
+        }
+        return $password;
+    }
+    //生成密码
+    function createPwd($pwd,$salt){
+        return md5(md5($pwd).md5($salt).'shop');
+    }
 }
