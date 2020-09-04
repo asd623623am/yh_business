@@ -17,16 +17,20 @@
        
        {volist name="goods" id='goods'}
        <div style="margin-top: 20px;">
+        <div style="width: 200px;">
            <span style="font-size: 20px;">{$goods.goods_name}</span>
-           <span style="margin-left: 40%;">x<span>{$goods.goods_number}</span></span>
-            <span style="margin-left: 5%; color: gray;">￥{$goods.original_price}</span>
-            <span style="margin-left: 10%; color: red;">￥{$goods.selling_price}</span>
-            <div>
+        </div>
+        <div>
+           <div style="float:left; margin-left: 40%;">x<span>{$goods.goods_number}</span></div>
+            <div style="float: left; margin-left: 5%; color: gray; width: 100px;">￥{$goods.original_price}</div>
+            <div style="float: left; margin-left: 10%; color: red;">￥{$goods.selling_price}</div>
+            <div style="clear: both;">
             {volist name="goods.son" id='son'}
                 <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">{$son.gsname}</button>
             {/volist}
             </div>
-       </div>
+        </div>
+        </div>
        {/volist}
 
        <!-- <div style="margin-top: 20px;">
@@ -35,11 +39,11 @@
             <span style="margin-left: 5%; color: gray;">￥32</span>
             <span style="margin-left: 10%; color: red;">￥24</span>
         </div> -->
-        <div style="margin-left: 65%; margin-top: 20%;">
+        <div style="margin-left: 61%; margin-top: 10%;">
             <span style="font-size: 20px;">小计：</span>
             <span style="margin-left:20px; color: red;">￥{$order.receivables}</span>
         </div>
-        <div>
+        <div style="margin-top: 10%;">
             <h2>备注</h2>
             <span style="color: gray;">{$order.remark}</span>
         </div>
