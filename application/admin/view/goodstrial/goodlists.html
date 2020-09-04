@@ -135,9 +135,8 @@
             }
         })
 
-
-                //监听头工具栏事件
-                table.on('toolbar(test)', function(obj){
+        //监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
                 ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
@@ -189,7 +188,6 @@
                     break;
             };
         });
-
 
         form.on('submit(*)', function(data){
           table.render({

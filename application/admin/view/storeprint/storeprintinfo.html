@@ -8,6 +8,15 @@
     <legend>打印机基础信息设置</legend>
 </fieldset>
 <form class="layui-form" >
+    <input type="text" id="sstoreid" value="{$storeid}" style="display: none" >
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" id="app">
+            <select name="storeid" id="storeid" lay-verify="required" disabled="disabled" lay-search="">
+                <option value="{$print.storeid}">{$print.name}</option>
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item" style="display: none">
         <div class="layui-inline">
             <label class="layui-form-label">打印机id<span style="color: red;">*</span></label>
@@ -60,8 +69,18 @@
             $('#up').click(function(){
                 window.history.back();
             });
+
+            //设置选择门店默认值
+            var storevalue = $('#storevalue').val();
+            $('#storeid').val(storevalue);
+            //商户查看隐藏门店搜索框
+            var sstoreid = $('#sstoreid').val();
+            if(sstoreid != 0){
+                $("#storeids").hide();
+            }
+            form.render();
         });
-        form.render();
+
     })
 
 </script>

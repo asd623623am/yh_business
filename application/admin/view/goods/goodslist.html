@@ -6,6 +6,14 @@
 </blockquote>
 
 <div class="search-table layui-form">
+    <div class="layui-input-inline tempsTest" id="searchstore">
+        <select name="storeids"  id="search-store" lay-search="">
+            <option value="">请选择门店</option>
+            {volist name="storeData" id='storeData'}
+            <option value="{$storeData.storeid}">{$storeData.name}</option>
+            {/volist}
+        </select>
+    </div>
     <div class="layui-input-inline tempsTest">
         <select name="gtid"  id="search-district" lay-search="">
             <option value="">请选择菜品分类</option>
@@ -32,9 +40,9 @@
 <script type="text/html" id="barDemo">
 <!--    <a class="layui-btn layui-btn-xs" lay-event="sel">查看</a>-->
 {if condition="$name=='jichang'"}
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">上传</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">上架</a>
     {else/}
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">审核</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="up">申请上架</a>
     {/if}
     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="down">下架</a>
 {if condition="$storeid!=0"}
@@ -89,8 +97,10 @@
             }
         });
 
-        
-
+        var storeid = $('#storeid').val();
+        if(storeid != 0){
+            $("#searchstore").hide();
+        }
         table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -107,8 +117,12 @@
                         data,
                         function(msg){
                             if(msg.code ==1){
-                                layer.msg(msg.font);
-                                // location.href="{:url('Goods/goodsList')}";
+                                layer.msg(msg.font, {
+                                    icon: msg.code,
+                                    time: 500 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                    location.href="{:url('Goods/goodsList')}";
+                                });
                             }else{
                                 layer.msg(msg.font, {icon: 5});
                             }
@@ -140,8 +154,12 @@
                         data,
                         function(msg){
                             if(msg.code ==1){
-                                layer.msg(msg.font);
-                                location.href="{:url('Goods/goodsList')}";
+                                layer.msg(msg.font, {
+                                    icon: msg.code,
+                                    time: 500 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                    location.href="{:url('Goods/goodsList')}";
+                                });
                             }else{
                                 layer.msg(msg.font, {icon: 5});
                             }
@@ -155,8 +173,12 @@
                     data,
                     function(msg){
                         if(msg.code ==1){
-                            layer.msg(msg.font);
-                            location.href="{:url('Goods/goodsList')}";
+                            layer.msg(msg.font, {
+                                icon: msg.code,
+                                time: 500 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                location.href="{:url('Goods/goodsList')}";
+                            });
                         }else{
                             layer.msg(msg.font, {icon: 5});
                         }
@@ -168,7 +190,7 @@
         });
 
         //监听头工具栏事件
-table.on('toolbar(testdd)', function(obj){
+        table.on('toolbar(testdd)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
             ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
@@ -190,29 +212,20 @@ table.on('toolbar(testdd)', function(obj){
                 } else {
                     
                     layer.confirm('确认批量删除', function(index){
-                    $.post(
-                            '{:url("Goods/goodsDels")}',
-                            {data:data},
-                            function(msg){
-                                
-                                layer.msg(msg.font,{icon:msg.code});
-                                 if(msg.code==1){
-                                 table.reload('test');
-                                 }
-                            
-                                
-                            },'json'
+                    $.post('{:url("Goods/goodsDels")}',
+                        {data:data},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                             if(msg.code==1){
+                             table.reload('test');
+                             }
+                        },'json'
                     )
                 });
-
-
-                //     console.log(data);
-                // layer.msg('删除');
                 }
             break;
             };
         });
-
 
         form.on('submit(*)', function(data){
             table.render({
@@ -225,7 +238,9 @@ table.on('toolbar(testdd)', function(obj){
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
                 {type: 'checkbox',},
-                    {field:'gid', width:80, title: 'ID',}
+                    {field:'gid', width:10, title: 'gid',}
+                    ,{width:60, title: '序号',type:'numbers'}
+                    ,{field:'storename', width:150 , title: '门店名称'}
                     ,{field:'gtname', width:150 , title: '菜品类别'}
                     ,{field:'name', width:150 , title: '菜品名称'}
                     ,{field:'img', width:100 , title: '菜品图片',templet:'<div><img style="height: 25px;" src="__PUBLIC__/{{d.img}}"></div>'}
@@ -236,11 +251,20 @@ table.on('toolbar(testdd)', function(obj){
                     ,{field:'staff_price', width:100, title: '员工价'}
                     ,{field:'is_special', width:100, title: '特色菜品',align:'center'}
                     ,{field:'groundin', width:100, title: '菜品状态',align:'center'}
-                    ,{field:'sort', width:100, title: '排序值',align:'center'}
-                    ,{field:'status', width:100, title: '是否删除',align:'center'}
-                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
-                ]]
-                ,page: true
+                    // ,{field:'sort', width:100, title: '排序值',align:'center'}
+                    // ,{field:'status', width:100, title: '是否删除',align:'center'}
+                    ,{field:'right', width:220,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
+                ]],
+                done: function () {
+                    var storeid = $('#storeid').val();
+                    if(storeid != 0){
+                        $("[data-field='storename']").css('display','none');
+                    }
+                    $("[data-field='gid']").css('display','none');
+                    $('.layui-table').on('click','tr',function(){
+                        $(this).css('background','#ccc').siblings().css('background','#fff');
+                    });
+                },page: true
             });
         });
         form.render();

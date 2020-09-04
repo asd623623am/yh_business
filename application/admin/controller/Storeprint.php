@@ -37,11 +37,19 @@ class Storeprint extends Common
             if(!empty($getData['device_no'])){
                 $where['device_no'] = $getData['device_no'];
             }
-            
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $snData = [];
+            if(!empty($storeData)){
+                $snData = array_column($storeData,'name','storeid');
+            }
             $data = model('store_print')->where($where)->select()->toArray();
             if(!empty($data)){
                 foreach ($data as &$val){
                     $val['type']='GPS打印机';
+                    $val['storename'] = '';
+                    if(isset($snData)){
+                        $val['storename'] = $snData[$val['storeid']];
+                    }
                 }
                 unset($val);
                 $count = model('store_print')->where($where)->count();
@@ -54,13 +62,11 @@ class Storeprint extends Common
             exit;
         }else{
            
-            $is_display = 0;
             if($admin['admin_type'] == 3){
                 $is_display = 2; //2是上架权限
             } else {
                 $is_display = 1; //1是机场权限
             }
-
             $xm_store = Db::table('xm_store')->where(['status'=>1])->select();
             $this->assign('store',$xm_store);
             $this->assign('is_display',$is_display);
@@ -81,7 +87,10 @@ class Storeprint extends Common
             $spid = $postData['spid'];
             $storePrintData = model('store_print')->where(['spid'=>$spid])->find();
             if(!empty($storePrintData)){
+                $storeData = model('store')->field('name')->where(['storeid'=>$storePrintData['storeid']])->find();
+                $storePrintData['name'] = $storeData['name'];
                 $this->assign('print',$storePrintData);
+                $this->assign('storeid',getStoreid());
                 return  view();
             }
             $this->getTips();
@@ -104,7 +113,11 @@ class Storeprint extends Common
             }
             $saveData = \app\admin\model\StorePrint::isVerifField($dataPost);
             $saveData['type'] = 1;
-            $saveData['storeid'] = $storeid;
+            if($storeid == 0){
+                $saveData['storeid'] = $dataPost['storeid'];
+            }else{
+                $saveData['storeid'] = $storeid;
+            }
             $res = model('store_print')->save($saveData);
             if($res){
                 $this->addLog('添加打印机');
@@ -113,6 +126,9 @@ class Storeprint extends Common
                 fail('添加失败');
             }
         }else{
+            $stroreData = model('store')->field('storeid,name')->select()->toArray();
+            $this->assign('storeData',$stroreData);
+            $this->assign('storeid',$storeid);
             return view();
         }
 
@@ -131,6 +147,12 @@ class Storeprint extends Common
                 $insert = \app\admin\model\StorePrint::isVerifField($postData);
                 $insert['update_time'] = time();
                 $where = ['spid' => $postData['spid']];
+                $storeid = getStoreid();
+                if($storeid == 0){
+                    $insert['storeid'] = $postData['storeid'];
+                }else{
+                    $insert['storeid'] = $storeid;
+                }
                 $res = model('store_print')->save($insert,$where);
                 if ($res) {
                     $this -> addLog('修改打印机信息');
@@ -152,7 +174,10 @@ class Storeprint extends Common
             if(empty($storePrintData)){
                 $this->fail('获取打印机信息失败！');
             }
+            $stroreData = model('store')->field('storeid,name')->select()->toArray();
+            $this->assign('storeData',$stroreData);
             $this->assign('print',$storePrintData);
+            $this->assign('storeid',getStoreid());
             return view();
         }
     }

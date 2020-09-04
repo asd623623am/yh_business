@@ -233,20 +233,19 @@ class Common extends Controller
                 if ($v['node_name'] == '二维码管理') {
                     $temp['6'] = $v;
                 }
-                if($v['node_name'] == '店铺设置'){
+                if ($v['node_name'] == '打印机管理') {
                     $temp['7'] = $v;
                 }
-                if ($v['node_name'] == '权限管理') {
+                if($v['node_name'] == '店铺设置'){
                     $temp['8'] = $v;
-                    $son = $temp[8]['son'];
+                }
+                if ($v['node_name'] == '权限管理') {
+                    $temp['9'] = $v;
+                    $son = $temp[9]['son'];
                     $key = array_column($son, 'node_id');
-                    array_multisort($key, SORT_ASC, $temp[8]['son']);
+                    array_multisort($key, SORT_ASC, $temp[9]['son']);
                 }
                 if ($v['node_name'] == '系统管理') {
-                    $temp['9'] = $v;
-                }
-
-                if ($v['node_name'] == '打印机管理') {
                     $temp['10'] = $v;
                 }
             }

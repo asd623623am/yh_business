@@ -146,16 +146,24 @@ class Goods extends Common{
     public function goodsList(){
 
         $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        $snData = [];
+        if(!empty($storeData)){
+            $snData = array_column($storeData,'name','storeid');
+        }
+        if($storeid != 0){
+            $where = ['storeid'=>$storeid];
+            $gtWhere = ['storeid'=>$storeid];
+        }
+        $gtWhere['status'] = 1;
         if( request() -> isAjax() ){
-            if($storeid != 0){
-                $where = ['storeid'=>$storeid];
-                $gtWhere = ['storeid'=>$storeid];
-            }
             $getData = input('get.');
             if(!empty($getData['gname'])){
                 $where['name'] = $getData['gname'];
             }
-            $gtWhere['status'] = 1;
+            if(!empty($getData['storeids'])){
+                $where['storeid'] = $getData['storeids'];
+            }
             $gtData = Db::table("xm_goods_type")->where($gtWhere)->select();
             if(empty($gtData)){
                 $data = [];
@@ -167,9 +175,15 @@ class Goods extends Common{
                     $gtidArr = array_column($gtData,'gtid');
                     $where['gtid'] = ['in',$gtidArr];
                 }
+                $where['status'] = 1;
                 $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
                 if(!empty($data)){
                     foreach ($data as &$val){
+
+                        $val['storename'] = '';
+                        if(isset($snData)){
+                            $val['storename'] = $snData[$val['storeid']];
+                        }
                         $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                         $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
                         $val['is_special'] = "否";
@@ -211,10 +225,9 @@ class Goods extends Common{
             echo json_encode($info);
             exit;
         }else{
-            $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
+            $gtData = model('goodsType')->where($gtWhere)->select();
             $this->assign('gtData',$gtData);
             $admin = session('admin');
-            $name = '';
             if($admin['admin_type'] == 3){
                 $name = 'shangjia';
             } else {
@@ -222,6 +235,7 @@ class Goods extends Common{
             }
             $this->assign('name',$name);
             $this->assign('storeid',$storeid);
+            $this->assign('storeData',$storeData);
             return view();
         }
 
@@ -365,7 +379,7 @@ class Goods extends Common{
      * user: bingwoo
      */
     public function goodsDel(){
-        $postData = input('get.');
+        $postData = input('post.');
         if(isset($postData['gid'])&&!empty($postData['gid'])){
             $where = ['gid' => $postData['gid']];
             //设置菜品信息为隐藏，不展示
