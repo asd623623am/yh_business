@@ -95,6 +95,7 @@ class PHPExcel extends Common{
 
                     $where = [
                         'name'	=> $value['门店名称'],
+                        'status'    => 1
                     ];
                     $info = model('Store')->where($where)->find();
                     if (!empty($info)) {
