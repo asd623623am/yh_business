@@ -53,7 +53,8 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-      <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
+      <button class="layui-btn layui-btn-sm" lay-event="downloadModel">下载模板</button>
+      <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="getCheckData">批量删除</button>
     </div>
   </script>
 
@@ -97,10 +98,6 @@
             }
         });
 
-        var storeid = $('#storeid').val();
-        if(storeid != 0){
-            $("#searchstore").hide();
-        }
         table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -210,7 +207,6 @@
                 if(data.length === 0){
                 layer.msg('请选择您要删除的数据');
                 } else {
-                    
                     layer.confirm('确认批量删除', function(index){
                     $.post('{:url("Goods/goodsDels")}',
                         {data:data},
@@ -223,8 +219,19 @@
                     )
                 });
                 }
-            break;
+                break;
+            case 'downloadModel'://下载模板
+                $.post('{:url("PHPExcel/downloadGoodsModel")}',function(msg){
+                    var url = msg.font;
+                    var elemIF = document.createElement("iframe");
+                    elemIF.src = url;
+                    elemIF.style.display = "none";
+                    document.body.appendChild(elemIF);
+                    layer.msg("模板下载成功",{icon:1});
+                },'json');
+                break;
             };
+
         });
 
         form.on('submit(*)', function(data){
@@ -258,6 +265,7 @@
                 done: function () {
                     var storeid = $('#storeid').val();
                     if(storeid != 0){
+                        $("#searchstore").hide();
                         $("[data-field='storename']").css('display','none');
                     }
                     $("[data-field='gid']").css('display','none');

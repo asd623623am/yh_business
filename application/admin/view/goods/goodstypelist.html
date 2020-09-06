@@ -4,11 +4,24 @@
         <a><cite> 分类列表</cite></a>
     </span>
 </blockquote>
-<div class="layui-form-item">
+<div class="search-table layui-form">
+    <div class="layui-input-inline tempsTest" id="searchstore">
+        <select name="storeids"  id="search-store" lay-search="">
+            <option value="">请选择门店</option>
+            {volist name="storeData" id='storeData'}
+            <option value="{$storeData.storeid}">{$storeData.name}</option>
+            {/volist}
+        </select>
+    </div>
+    <div class="layui-input-inline tempsTest">
+        <input type="text" name="gtname" required  placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+    </div>
+    <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
 </div>
-<div class="layui-btn-group demoTable" >
+<div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" data-type="goodsTypeAdd">添加类别</button>
 </div>
+<input type="text" id="storeid" name="storeid" value="{$storeid}" style="display: none" class="layui-input">
 <table class="layui-hide" id="test" lay-filter="testdd"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -19,21 +32,52 @@
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
-        table.render({
-            elem: '#test'
-            ,url:"{:url('Goods/goodsTypeList')}"
-            ,limit:10
-            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            ,cols: [[
-                {field:'gtid', width:80, title: 'ID',}
-                ,{field:'gtname', width:280 , title: '商品分类名称'}
-                ,{field:'gcount', width:150, title: '商品数量'}
-                ,{field:'sort', width:150, title: '排序'}
-                ,{field:'create_time', width:240, title: '创建时间',align:'center'}
-                ,{field:'update_time', width:240, title: '更新时间',align:'center'}
-                ,{field:'right', width:150,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
-            ]]
-            ,page: true
+
+
+        //自动点击.
+        $(document).ready(function(){
+            $("#sousuo").trigger("click");
+            ids = 1;
+            if(ids == 1){
+                var page = localStorage.getItem('page');
+                table.reload('test', {
+                    page: {
+                        curr: page //重新从第 1 页开始
+                    }
+                }); //只重载数据
+                localStorage.clear();
+            }
+        });
+        form.on('submit(*)', function(data){
+            table.render({
+                elem: '#test'
+                ,url:"{:url('Goods/goodsTypeList')}"
+                ,limit:10
+                ,where:data.field
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[
+                    {field:'gtid', width:80, title: 'gtid',}
+                    ,{width:60, title: '序号',type:'numbers'}
+                    ,{field:'storename', width:250 , title: '门店名称'}
+                    ,{field:'gtname', width:250 , title: '商品分类名称'}
+                    ,{field:'gcount', width:120, title: '商品数量'}
+                    ,{field:'sort', width:100, title: '排序'}
+                    ,{field:'create_time', width:200, title: '创建时间',align:'center'}
+                    ,{field:'update_time', width:200, title: '更新时间',align:'center'}
+                    ,{field:'right', width:150,toolbar: '#barDemo', title: '操作',align:'center'}
+                ]],
+                done: function () {
+                    var storeid = $('#storeid').val();
+                    if(storeid != 0){
+                        $("#searchstore").hide();
+                        $("[data-field='storename']").css('display','none');
+                    }
+                    $("[data-field='gtid']").css('display','none');
+                    $('.layui-table').on('click','tr',function(){
+                        $(this).css('background','#ccc').siblings().css('background','#fff');
+                    });
+                },page: true
+            });
         });
         table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据

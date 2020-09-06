@@ -8,6 +8,17 @@
     <legend>修改菜品分类</legend>
 </fieldset>
 <form class="layui-form">
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" id="app">
+            <select name="storeid" id="storeid" lay-verify="required" lay-search="">
+                <option value="" >请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item" style="display: none">
         <div class="layui-inline" >
             <label class="layui-form-label">分类id<span style="color: red;">*</span></label>
@@ -39,6 +50,8 @@
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
+    <input type="text" id="gtstoreidval" value="{$gt.storeid}" style="display: none">
+    <input type="text" id="storeidval" value="{$storeidval}" style="display: none">
 </form>
 
 <!-- 示例-970 -->
@@ -48,6 +61,16 @@
         layui.use(['form','layer',], function(){
             var form = layui.form;
             var layer = layui.layer;
+
+            //商户隐藏门店选择
+            var storeidval = $("#storeidval").val();
+            if(storeidval != 0){
+                $("#storeids").hide();
+            }
+            //设置默认值
+            var gtstoreidval = $("#gtstoreidval").val();
+            $("#storeid").val(gtstoreidval);
+
             form.on('submit(*)',function(data){
                 var info = data.field;
                 $.post(

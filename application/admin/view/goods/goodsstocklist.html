@@ -5,8 +5,16 @@
     </span>
 </blockquote>
 <div class="search-table layui-form">
+    <div class="layui-input-inline tempsTest" id="searchstore">
+        <select name="storeids"  id="storeids" lay-filter="demo" lay-search="">
+            <option value="">请选择门店</option>
+            {volist name="storeData" id='storeData'}
+            <option value="{$storeData.storeid}">{$storeData.name}</option>
+            {/volist}
+        </select>
+    </div>
     <div class="layui-inline tempsTest">
-        <select name="gtid"  id="search-district" lay-search="">
+        <select name="gtid"  id="gtid" lay-search="">
             <option value="">请选择菜品分类</option>
             {volist name="gtData" id='gtData'}
             <option value="{$gtData.gtid}">{$gtData.gtname}</option>
@@ -17,6 +25,7 @@
         <input type="text" name="gname" required  placeholder="请输入菜品名称" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+    <input type="text" id="storeid" name="storeid" value="{$storeid}" style="display: none" class="layui-input">
 </div>
 <table class="layui-hide" id="test" lay-filter="testdd"></table>
 <script type="text/html" id="barDemo">
@@ -37,20 +46,31 @@
                 ,limit:10
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
-                    {field:'gid', width:80, title: 'ID',}
-                    ,{field:'name', width:200 , title: '菜品名称'}
+                    {field:'gid', width:80, title: 'gid',}
+                    ,{width:60, title: '序号',type:'numbers'}
+                    ,{field:'storename', width:150 , title: '门店名称'}
                     ,{field:'gtname', width:180 , title: '菜品类别'}
+                    ,{field:'name', width:200 , title: '菜品名称'}
                     ,{field:'open_stock', width:120, title: '是否开启库存',align:'center'}
                     ,{field:'stock', width:110, title: '菜品库存'}
                     ,{field:'is_selling', width:110, title: '是否售罄',align:'center'}
                     ,{field:'check_time', width:180, title: '盘点时间',align:'center'}
                     ,{field:'update_time', width:180, title: '更新时间',align:'center'}
-                    ,{field:'right', width:120,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
-                ]]
-                ,page: true
+                    ,{field:'right', width:120,toolbar: '#barDemo', title: '操作',align:'center'}
+                ]],
+                done: function () {
+                    var storeid = $('#storeid').val();
+                    if(storeid != 0){
+                        $("#searchstore").hide();
+                        $("[data-field='storename']").css('display','none');
+                    }
+                    $("[data-field='gid']").css('display','none');
+                    $('.layui-table').on('click','tr',function(){
+                        $(this).css('background','#ccc').siblings().css('background','#fff');
+                    });
+                },page: true
             });
         });
-        form.render();
         //自动点击.
         $(document).ready(function(){
             $("#sousuo").trigger("click");
@@ -92,9 +112,35 @@
         $('.layui-table').on('click','tr',function(){
             $(this).css('background','#ccc').siblings().css('background','#fff');
         });
+
+        //选择门店事件
+        form.on('select(demo)', function(data){
+            //门店选择-》获取分类是数据
+            $.post('{:url("Goods/getStoreGoodsType")}',
+                {storeid:data.value,type:1},
+                function(ret){
+                console.log(ret);
+                    if(ret.data.length == 0){
+                        //清空分类下拉框
+                        $('#gtid').children().first().nextAll().remove();
+                        $('#gtid').append('<option value=""></option>');
+                        form.render('select');
+                        return false;
+                    }else{
+                        //分类赋值
+                        $('#gtid').children().first().nextAll().remove();
+                        for(var i=0;i<ret.data.length;i++){
+                            $('#gtid').append('<option value="'+ret.data[i].gtid+'#'+ret.data[i].gtname+'">'+ret.data[i].gtname+'</option>');
+                        }
+                        form.render('select');
+                        return false;
+                    }
+                },'json');
+        });
         //跳转页面
         $('.demoTable .layui-btn').on('click', function(){
             location.href="{:url('Goods/goodsAdd')}";
         });
+        form.render();
     });
 </script>
