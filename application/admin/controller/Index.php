@@ -22,6 +22,13 @@ class Index extends Common{
             $where['storeid'] = $storeid;
             $goodsWhere['storeid'] = $storeid;
             $goodsTypeWhere['storeid'] = $storeid;
+            $storeData = model('store')->where(['storeid'=>$storeid])->find();
+            if(!empty($storeData)){
+                $system_info['company_logo'] = $storeData['logo'];
+                $system_info['company_name' ] = $storeData['name'];
+                $system_info['utel'] = $storeData['user_tel'];
+                $system_info['address'] = $storeData['address'];
+            }
         }
         $where['order_status'] = 5;
         $where['shipping_status'] = 2;
@@ -41,6 +48,7 @@ class Index extends Common{
         $goodsWhere['status'] = 1;
         $goodsWhere['is_grounding'] = 2;
         $goodsNum = model('goods')->where($goodsWhere)->count();
+
         $this->assign('systemInfo',$system_info);
         $this->assign('amountTotal',$amountTotal);
         $this->assign('orderNum',count($orderData));
