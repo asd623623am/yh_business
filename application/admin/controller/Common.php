@@ -48,7 +48,7 @@ class Common extends Controller
             '四期',
             '四期商业',
         ];
-        dump($menu);exit;
+        // dump($menu);exit;
         $this->assign('area',$area);
         $this -> assign('images',$img['company_logo']);
         $this -> assign('AllMenu' , $menu );
@@ -101,7 +101,7 @@ class Common extends Controller
                 admin_id = ' . $admin_info['admin_id'];
 
             $menu = model('admin')->query($sql);
-            dump($menu);exit;
+            // dump($menu);exit;
 
             if (!empty($menu)) {
                 $new = [];
@@ -155,7 +155,7 @@ class Common extends Controller
                 'menu' => $new,
                 'power_list' => $power_list
             ];
-            dump($return);exit;
+            // dump($return);exit;
             # 把用户的左侧菜单和权限列表存入session
             // session( 'power' , $return );
 
