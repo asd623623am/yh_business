@@ -22,7 +22,6 @@ class Common extends Controller
 
         ################## 根据管理员的类型 ，获取管理员的权限
         $admin_info = session('admin');
-
         if( $admin_info['admin_type'] == 1 ){
             $new = $this -> _getAllMenu();
         }else{
@@ -49,7 +48,7 @@ class Common extends Controller
             '四期',
             '四期商业',
         ];
-        dump($menu);exit;
+        // dump($menu);exit;
         $this->assign('area',$area);
         $this -> assign('images',$img['company_logo']);
         $this -> assign('AllMenu' , $menu );
@@ -82,7 +81,6 @@ class Common extends Controller
      * @param $admin_info
      */
     public function _getAdminMenu( $admin_info ){
-
         # 为了防止每次都查询数据库，把后台权限放到session，下一次使用的时候直接从session读取
         if( !session('?power') ) {
 //            echo 'sql';
@@ -157,9 +155,9 @@ class Common extends Controller
                 'menu' => $new,
                 'power_list' => $power_list
             ];
-            dump($return);exit;
+            // dump($return);exit;
             # 把用户的左侧菜单和权限列表存入session
-            session( 'power' , $return );
+            // session( 'power' , $return );
 
             return $return;
         }else{

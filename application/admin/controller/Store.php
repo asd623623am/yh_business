@@ -205,12 +205,26 @@ class Store extends Common
         if(!empty($postData)){
             $delDate = ['status' => 0];
             $where = ['storeid' => $postData['storeid']];
+            
             $res = model('Store')->save($delDate,$where);
             if ($res) {
+                $admin = model('Admin')->where($where)->select()->toArray();
+                $delId = [];
+                foreach($admin as $k=>$v){
+                    $delId[] = $v['admin_id'];
+                }
                 $reslut = model('Admin')->where($where)->delete();
                 if($reslut){
-                    $this -> addLog('删除门店信息');
-                    win('删除成功');
+                    $wheres = [
+                        'admin_id'  => array('in',$delId)
+                    ];
+                    $ress = model('AdminRole')->where($wheres)->delete();
+                    if($ress){
+                        $this -> addLog('删除门店信息');
+                        win('删除成功');
+                    } else {
+                        fail('删除失败');
+                    }
                 } else {
                     fail('删除失败');
                 }
@@ -239,10 +253,27 @@ class Store extends Common
             ];
             $res = model('Store')->save($delDate,$where);
             if ($res) {
+
+                $admin = model('Admin')->where($where)->select()->toArray();
+            
+                $delId = [];
+                foreach($admin as $k=>$v){
+                    $delId[] = $v['admin_id'];
+                }
+
                 $reslut = model('Admin')->where($where)->delete();
                 if($reslut){
-                    $this -> addLog('删除门店信息');
-                    win('删除成功');
+                    $wheres = [
+                        'admin_id'  => array('in',$delId)
+                    ];
+                    $ress = model('AdminRole')->where($wheres)->delete();
+                    if($ress){
+                        $this -> addLog('删除门店信息');
+                        win('删除成功');
+                    } else {
+                        fail('删除失败');
+                    }
+                    
                 } else {
                     fail('删除失败');
                 }
