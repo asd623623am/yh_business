@@ -25,6 +25,11 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     <a class="layui-btn layui-btn-xs" lay-event="download">下载</a>
 </script>
+<script type="text/html" id="toolbarDemo">
+<!--    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="batchadd">批量添加</button>-->
+    <button class="layui-btn layui-btn-sm" lay-event="batchdownload">批量下载</button>
+    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchdetele">批量删除</button>
+</script>
 <script>
     layui.use(['table','layer',], function(){
         var table = layui.table;
@@ -35,15 +40,19 @@
         if(storeid >0){
             $('#storename').hide();
         }
+
         form.on('submit(*)', function(data){
             table.render({
                 elem: '#test'
                 ,url:"{:url('Qrcode/qrcodeList')}"
+                ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,defaultToolbar: ['filter', 'exports', 'print']
                 ,where:data.field
                 ,limit:10
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
-                    {field:'qid', width:80, title: '序号', sort: true},
+                    {type:'checkbox'}
+                    ,{field:'qid', width:80, title: '序号', sort: true},
                     ,{field:'storename', width:200, title: '门店名称'}
                     ,{field:'tnumber', width:150, title: '桌台号'}
                     ,{field:'stoer_no', width:150, title: '唯一标识'}
@@ -103,7 +112,6 @@
                 });
             }else if(layEvent == 'download'){
 
-
                 // 生成一个 a 标签
                 var downloadName = data.gzlogo;
                 // 获取要下载的图片
@@ -131,46 +139,82 @@
                     const url = canvas.toDataURL("image/png", 0);
                     return url;
                 }
-
-                // //获取下载图片名称（可自定义）
-                // var downloadName = data.gzlogo;
-                // // 获取要下载的图片
-                // var img = document.getElementById('testImg');
-                // var url = img.src;
-                //
-                // const tag = document.createElement('a');
-                // //图片下载时的名称，注意：名称中不能有半角点，否则下载时后缀名会错误
-                // tag.setAttribute('download',downloadName.replace(/\./g,'.'));
-                // const image = new Image();
-                // //设置图片的url，添加时间戳，防止浏览器缓存图片
-                // image.src = url+'?time='+new Date().getTime();
-                // //设置crossOrigin属性，否则图片跨域会报错
-                // image.setAttribute('crossOrigin','Anonymous');
-                // //图片未加载完成时会报错
-                // image.onload = ()=>{
-                //     tag.href = getImageDataURL(image);
-                //     tag.click();
-                // }
-                // function getImageDataURL(image){
-                //     //创建画布
-                //     const  canvas = document.createElement('canvas');
-                //     canvas.width = image.width;
-                //     canvas.height = image.height;
-                //     const ctx = canvas.getContext('2d');
-                //     //以图片为背景裁剪画布
-                //     ctx.drawImage(image,0,0,image.width,image.height);
-                //     //获取图片后缀名
-                //     const extension = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();
-                //     //如果图片没有后缀则默认png
-                //     return canvas.toDataURL('image/'+extension,1);
-                //
-                // }
             }
         })
 
         $('.layui-table').on('click','tr',function(){
             $(this).css('background','#ccc').siblings().css('background','#fff');
         });
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'batchdetele':
+                    if(data.length === 0){
+                        layer.msg('请选择您要删除的数据');
+                    } else {
+                        layer.confirm('确认批量删除', function(index){
+                            $.post('{:url("Qrcode/batchDelete")}',
+                                {data:data},
+                                function(msg){
+                                    layer.msg(msg.font,{icon:msg.code});
+                                    if(msg.code==1){
+                                        table.reload('test');
+                                    }
+                                },'json'
+                            )
+                        });
+                    }
+                    break;
+                case 'batchdownload':
+                    if(data.length === 0){
+                        layer.msg('请选择您要操作的数据');
+                    } else {
+                        if(data.length > 50){
+                            layer.msg('最大打印50张');
+                        }else{
+                            for (var i=0;data.length;i++){
+                                downloadImg(data[i]);
+                            }
+                        }
+                        console.log(data);
+                    }
+                    break;
+            };
+        });
+        function downloadImg(data) {
+            // 生成一个 a 标签
+            var downloadName = data.gzlogo;
+            //获取要下载的图片
+            var img = document.getElementById('testImg');
+            var src = img.src;
+            const a = document.createElement("a");
+            a.download = downloadName || "图片";
+            a.style.display = "none";
+            const image = new Image();
+            image.src = src + "?v=" + Math.random();
+            image.crossOrigin = "*";
+            image.onload = () => {
+                const base64 = getBase64Images(image);
+                a.href = base64;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+            function getBase64Images(image) {
+                const canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+                const context = canvas.getContext("2d");
+                context.drawImage(image, 0, 0, image.width, image.height);
+                const url = canvas.toDataURL("image/png", 0);
+                return url;
+            }
+
+        }
         form.render();
     });
+
 </script>

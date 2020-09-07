@@ -342,4 +342,34 @@ class Qrcode extends Common{
     private function getTips(){
         exit('二维码信息有误');
     }
+
+
+    /**
+     * Notes: 批量删除
+     * Class: batchDelete
+     * user: bingwoo
+     * date: 2020/9/7 18:19
+     */
+    public function batchDelete(){
+
+        $postData = input('post.');
+        if(!empty($postData)){
+            $qidData = [];
+            foreach ($postData as $val){
+                $qidData = array_column($val,'qid');
+            }
+            $where['qid'] = ['in',$qidData];
+            $qrcodeModel = new \app\admin\model\Qrcode();
+            $qrcodeModel->startTrans();
+            $delRet = $qrcodeModel->where($where)->delete();
+            if($delRet){
+                $qrcodeModel->commit();
+                win('删除成功');
+            }else{
+                $qrcodeModel->rollback();
+                fail('删除失败');
+            }
+        }
+        fail('删除失败');
+    }
 }
