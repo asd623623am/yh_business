@@ -261,7 +261,13 @@ class PHPExcel extends Common{
                 }
 
                 $admin = session('admin');
-
+                $storeids = session('storeids');
+                if($storeids == null){
+                    fail('操作有误，请重新上传！');
+                }
+                if($admin['admin_type'] != 3){
+                    $admin['storeid'] = $storeids;
+                }
                 $data = [];
                 foreach ($arr as $key => $value) {
                     if (!isset($value['菜品名称'])) {
@@ -367,6 +373,7 @@ class PHPExcel extends Common{
 
                 }
                 $this -> addLog('批量导入了菜品');
+                session('storeids',null);
                 win('导入成功');
               } else{ //  不符合类型业务  
                 $this->error('请选择上传3MB内的excel表格文件...');  

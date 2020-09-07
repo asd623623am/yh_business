@@ -1020,5 +1020,21 @@ class Goods extends Common{
         echo json_encode($info);exit;
     }
 
-
+    public function excelUps()
+    {
+        if(check()){
+            $postData = input('post.');
+            session('storeids',null);
+            if(empty($postData['data'])){
+                fail('非法请求！请选择门店！');
+            }
+            session('storeids',$postData['data']); 
+            win('OK');
+        }else {
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $this->assign('storeData',$storeData);
+            return view();
+        }
+        
+    }
 }
