@@ -8,11 +8,22 @@
     <legend>菜品分类添加</legend>
 </fieldset>
 <form class="layui-form">
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" id="app">
+            <select name="storeid" id="storeid" lay-verify="required" lay-search="">
+                <option value="" >请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">分类名称<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="gtname" lay-verify="required" maxlength="10" autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+                <input type="text" name="gtname" lay-verify="required" maxlength="10" autocomplete="off" placeholder="请输入分类名称" class="layui-input">
             </div>
         </div>
     </div>
@@ -31,6 +42,7 @@
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
+    <input type="text" id="storeidval" value="{$storeidval}" style="display: none">
 </form>
 
 <!-- 示例-970 -->
@@ -65,6 +77,11 @@
                 location.href="{:url('Goods/goodsTypeList')}";
             });
 
+            var storeidval = $("#storeidval").val();
+            if(storeidval != 0){
+                $("#storeids").hide();
+                $("#storeid").val(storeidval);
+            }
             /* 验证输入框*/
             form.verify({
                 sort: [/^$|^[0-9]{0,5}$/, '只能是数字且范围0~99999！']

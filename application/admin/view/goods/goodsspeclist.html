@@ -5,10 +5,19 @@
     </span>
 </blockquote>
 <div class="search-table layui-form">
+    <div class="layui-input-inline tempsTest" id="searchstore">
+        <select name="storeids"  id="search-store" lay-search="">
+            <option value="">请选择门店</option>
+            {volist name="storeData" id='storeData'}
+            <option value="{$storeData.storeid}">{$storeData.name}</option>
+            {/volist}
+        </select>
+    </div>
     <div class="layui-input-inline tempsTest">
         <input type="text" name="gstname" required  placeholder="请输入规格名称" autocomplete="off" class="layui-input">
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+    <input type="text" id="storeid" name="storeid" value="{$storeid}" style="display: none" class="layui-input">
 </div>
 <div class="layui-btn-group demoTable" style="margin-top: 10px">
     <button class="layui-btn layui-btn-normal" data-type="goodsSpecAdd">添加规格</button>
@@ -68,13 +77,25 @@
                 ,limit:10
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
-                    {field:'gstid', width:80, title: 'ID',}
+                    {field:'gstid', width:10, title: 'gstid',}
+                    ,{width:60, title: '序号',type:'numbers'}
+                    ,{field:'storename', width:150 , title: '门店名称'}
                     ,{field:'gstname', width:200 , title: '规格名称'}
-                    ,{field:'gsname', width:600 , title: '规格内容'}
+                    ,{field:'gsname', width:400 , title: '规格内容'}
                     ,{field:'ismorename', width:200, title: '单/多选',align:'center'}
-                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center',fixed:'right'}
-                ]]
-                ,page: true
+                    ,{field:'right', width:200,toolbar: '#barDemo', title: '操作',align:'center'}
+                ]],
+                done: function () {
+                    var storeid = $('#storeid').val();
+                    if(storeid != 0){
+                        $("#searchstore").hide();
+                        $("[data-field='storename']").css('display','none');
+                    }
+                    $("[data-field='gstid']").css('display','none');
+                    $('.layui-table').on('click','tr',function(){
+                        $(this).css('background','#ccc').siblings().css('background','#fff');
+                    });
+                },page: true
             });
         });
 

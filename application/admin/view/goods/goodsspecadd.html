@@ -8,6 +8,17 @@
     <legend>添加规格</legend>
 </fieldset>
 <form class="layui-form">
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" >
+            <select name="storeid" id="storeid" lay-verify="required" lay-filter="demo" lay-search="">
+                <option value="" >请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">规格名称<span style="color: red;">*</span></label>
@@ -34,6 +45,8 @@
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
+    <!--    登陆者所属门店-->
+    <input type="text"id="storeval" name="storeval" value="{$storeid}"  style="display: none">
 </form>
 
 <script>
@@ -43,6 +56,11 @@
             var layer = layui.layer;
             var laydate = layui.laydate;
             var upload = layui.upload;
+            var storeval = $("#storeval").val();
+            if(storeval != 0) {
+                $("#storeids").hide();
+                $("#storeid").val(storeid);
+            }
             var uploads = upload.render({
                 elem: '#test2'
                 ,url: '{:url("Brand/bannerUpload")}'

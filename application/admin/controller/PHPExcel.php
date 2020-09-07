@@ -28,6 +28,12 @@ class PHPExcel extends Common{
         win($url);
     }
 
+    /**
+     * Notes: 导入门店
+     * Class: storeupload
+     * user: bingwoo
+     * date: 2020/9/4 14:41
+     */
     public function storeupload()
     {
         if(request()->isPost()){
@@ -190,7 +196,30 @@ class PHPExcel extends Common{
           } 
     }
 
+    /**
+     * Notes: 下载门店模板
+     * Class: downloadModel
+     * user: bingwoo
+     * date: 2020/9/1 13:55
+     */
+    public function downloadGoodsModel(){
 
+        //系统域名
+//        $realm_name = 'business.com';
+        $realm_name = 'airscan.yinheyun.com.cn';
+        //文件名称
+        $fieldname = '菜品模板.xlsx';
+        //图片地址
+        $url = 'http://'.$realm_name.'/PHPExcel/'.$fieldname;
+        win($url);
+    }
+
+    /**
+     * Notes: 导入商品
+     * Class: goodsupload
+     * user: bingwoo
+     * date: 2020/9/4 14:42
+     */
     public function goodsupload()
     {
         if(request()->isPost()){
@@ -349,8 +378,6 @@ class PHPExcel extends Common{
     
           }
     }
-
-
 
     function make_password( $length = 8 )
     {

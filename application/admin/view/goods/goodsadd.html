@@ -8,6 +8,17 @@
     <legend>菜品添加</legend>
 </fieldset>
 <form class="layui-form">
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" >
+            <select name="storeid" id="storeid" lay-verify="required" lay-filter="demo" lay-search="">
+                <option value="" >请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">菜品图片</label>
@@ -47,7 +58,6 @@
             </select>
         </div>
     </div>
-    <input type="text"id="getStoreid" name="getStoreid" value="{$goods.storeid}"  style="display: none">
     <div class="layui-form-item">
         <label class="layui-form-label">请选择规格</label>
         <div class="layui-input-block" id="tag_ids2" >
@@ -119,7 +129,12 @@
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
+<!--    商品所属门店-->
+    <input type="text"id="getStoreid" name="getStoreid" value="{$goods.storeid}"  style="display: none">
+<!--    登陆者所属门店-->
+    <input type="text"id="storeval" name="storeval" value="{$storeid}"  style="display: none">
     <script>
+        var ids = 0;
         $(function(){
             layui.use(['form','layer','upload','element','laydate','selectM','element','jquery'], function(){
                 var form = layui.form;
@@ -128,8 +143,11 @@
                 var $ = layui.jquery;
                 var selectM = layui.selectM;
                 multiSelect = function() {};
-                var storeid = $('#getStoreid').val();
-                $(document).ready(function(){
+
+                var storeval = $("#storeval").val();
+                var storeid = $("#getStoreid").val();
+                if(storeval != 0){
+                    $("#storeid").val(storeid);
                     $.post("{:url('Goods/getGoodsSpecTypeList')}",
                         {storeid:storeid},
                         function(msg){
@@ -144,10 +162,27 @@
                                     ,width:495
                                     ,field: {idName:'gstid',titleName:'gstname'}//候选项数据的键名
                                 });
-                                arr = msg.font
                             }
                         },'json');
-                });
+                    $("#storeids").hide();
+                }else{
+                    if(ids == 0){
+                        var tagIns2 = selectM({
+                            elem: '#tag_ids2'//元素容器【必填】
+                            ,data: []//候选数据【必填】
+                            ,selected: []//默认值
+                            ,max : 6//最多选中个数，默认5
+                            ,name: 'tag2'//input的name 不设置与选择器相同(去#.)
+                            ,delimiter: ','//值的分隔符
+                            ,width:495
+                            ,field: {idName:'gstid',titleName:'gstname'}//候选项数据的键名
+                        });
+                    }
+                    //清空分类下拉框
+                    $('#gtid').children().first().nextAll().remove();
+                    $('#gtid').append('<option value=""></option>');
+                }
+
                 var uploads = upload.render({
                     elem: '#addZmImg'
                     ,url: '{:url("Brand/bannerUpload")}'
@@ -238,6 +273,61 @@
                     } ,
                     sort: [/^$|^[0-9]{0,5}$/, '排序值只能是数字最大99999！'],
                 });
+
+                //选择门店事件
+                form.on('select(demo)', function(data){
+                    if(data.value){
+                        //门店选择-》获取分类是数据
+                        $.post('{:url("Goods/getStoreGoodsType")}',
+                            {storeid:data.value},
+                            function( ret ){
+                                if(ret.data.length == 0){
+                                    //清空分类下拉框
+                                    $('#gtid').children().first().nextAll().remove();
+                                    $('#gtid').append('<option value=""></option>');
+
+                                }else{
+                                    //分类赋值
+                                    $('#gtid').children().first().nextAll().remove();
+                                    for(var i=0;i<ret.data.length;i++){
+                                        $('#gtid').append('<option value="'+ret.data[i].gtid+'">'+ret.data[i].gtname+'</option>');
+                                        // form.render('select');
+                                    }
+                                }
+                                form.render('select');
+                                return false;
+                        },'json');
+
+                        //门店选择-》获取规格
+                        $.post("{:url('Goods/getGoodsSpecTypeList')}",
+                            {storeid:data.value},
+                            function(msg){
+                                $("#tag_ids2").children().first().nextAll().remove();
+                                tagIns2 = selectM({
+                                    elem: '#tag_ids2'//元素容器【必填】
+                                    ,data: msg.font//候选数据【必填】
+                                    ,selected: []//默认值
+                                    ,max : 6//最多选中个数，默认5
+                                    ,name: 'tag2'//input的name 不设置与选择器相同(去#.)
+                                    ,delimiter: ','//值的分隔符
+                                    ,width:495
+                                    ,field: {idName:'gstid',titleName:'gstname'}//候选项数据的键名
+                                });
+                                tagIns2.render();
+                            },'json');
+
+                    }else{
+                        //清空分类下拉框
+                        $('#gtid').children().first().nextAll().remove();
+                        $('#gtid').append('<option value=""></option>');
+                        form.render('select');
+                        return false;
+                        //清空商品规格
+                    }
+                });
+
+                form.render('select');
+                return false;
             });
         })
     </script>

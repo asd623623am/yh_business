@@ -23,18 +23,44 @@ class Goods extends Common{
         if($storeid != 0){
             $where = ['storeid'=>$storeid];
         }
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        $snData = [];
+        if(!empty($storeData)){
+            $snData = array_column($storeData,'name','storeid');
+        }
         $where['status'] = 1;
         if( request() -> isAjax() ){
-            $page=input('get.page');
+            $getData = input('get.');
+            $page = $getData['page'];
             if(empty($page)){
                 exit('非法操作此页面');
             }
-            $limit=input('get.limit');
+            $limit = $getData['limit'];
             if(empty($limit)){
                 exit('非法操作此页面');
             }
+
+            if(!empty($getData['gtname'])){
+                $where['gtname'] = $getData['gtname'];
+            }
+            if($storeid == 0){
+                if(!empty($getData['storeids'])){
+                    $where['storeid'] = $getData['storeids'];
+                }
+            }else{
+                $where['storeid'] = $storeid;
+            }
             $data=Db::table("xm_goods_type")->where($where)->page($page,$limit)->select();
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $snData = [];
+            if(!empty($storeData)){
+                $snData = array_column($storeData,'name','storeid');
+            }
             foreach ($data as &$val){
+                $val['storename'] = '';
+                if(isset($snData[$val['storeid']])){
+                    $val['storename'] = $snData[$val['storeid']];
+                }
                 $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                 $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
                 $gcount = Db::table("xm_goods")->where(['gtid'=>$val['gtid'],'status'=>1])->count();
@@ -46,6 +72,8 @@ class Goods extends Common{
             echo json_encode($info);
             exit;
         }else{
+            $this->assign('storeid',$storeid);
+            $this->assign('storeData',$storeData);
             return view();
         }
     }
@@ -57,15 +85,20 @@ class Goods extends Common{
     public function goodsTypeAdd(){
 
         $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
         if(check()){
             $postData = input('post.');
             $insert = [
-                'storeid' => $storeid,
                 'gtname' => $postData['gtname'],
                 'sort' => empty($postData['sort'])?10:$postData['sort'],
                 'create_time' => time(),
                 'update_time' => time(),
             ];
+            if($storeid == 0){
+                $insert['storeid'] = $postData['storeid'];
+            }else{
+                $insert['storeid'] = $storeid;
+            }
             $ret = model('goodsType')->save($insert);
             if($ret){
                 $this -> addLog('添加商品分类信息');
@@ -74,6 +107,8 @@ class Goods extends Common{
                 fail('添加失败');
             }
         }else{
+            $this->assign('storeData',$storeData);
+            $this->assign('storeidval',$storeid);
             return view();
         }
     }
@@ -83,6 +118,8 @@ class Goods extends Common{
      * @user: bingwoo
      */
     public function goodsTypeEdit(){
+        $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
@@ -91,6 +128,11 @@ class Goods extends Common{
                     $edit['gtname'] = $postData['gtname'];
                     $edit['sort'] = $postData['sort'];
                     $edit['update_time'] = time();
+                    if($storeid == 0){
+                        $edit['storeid'] = $postData['storeid'];
+                    }else{
+                        $edit['storeid'] = $storeid;
+                    }
                     $res = model('goodsType')->save($edit,$where);
                     if ($res) {
                         $this -> addLog('修改菜品分类信息');
@@ -109,8 +151,10 @@ class Goods extends Common{
                     'gtid'=>$gtid
                 ];
             }
-            $gtData = model('goodsType')->field('gtid,gtname,sort')->where($where)->find();
+            $gtData = model('goodsType')->field('storeid,gtid,gtname,sort')->where($where)->find();
             $this->assign('gt',$gtData);
+            $this->assign('storeData',$storeData);
+            $this->assign('storeidval',$storeid);
             return view();
         }
     }
@@ -181,7 +225,7 @@ class Goods extends Common{
                     foreach ($data as &$val){
 
                         $val['storename'] = '';
-                        if(isset($snData)){
+                        if(isset($snData[$val['storeid']])){
                             $val['storename'] = $snData[$val['storeid']];
                         }
                         $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
@@ -248,12 +292,17 @@ class Goods extends Common{
     public function goodsAdd(){
 
         $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
         if(check()){
             $postData = input('post.');
             /* 验证商品必传信息*/
             $insert = [];
             $insert = \app\admin\model\Goods::isVerificationField($postData,$insert);
-            $insert['storeid'] = $storeid;
+            if(!empty($postData)){
+                $insert['storeid'] = $postData['storeid'];
+            }else{
+                $insert['storeid'] = $storeid;
+            }
             $insert['check_time'] = time();
             $insert['create_time'] = time();
             $insert['update_time'] = time();
@@ -274,7 +323,13 @@ class Goods extends Common{
                 fail('添加失败');
             }
         }else{
-            $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
+
+            $gtWhere = [];
+            $gtWhere['status'] = 1;
+            if($storeid != 0){
+                $gtWhere['storeid'] = $storeid;
+            }
+            $gtData = model('goodsType')->where($gtWhere)->select();
             $gstData = model('goodsSpecType')->where(['storeid'=>$storeid])->select();
             $goods = [
                 'storeid'=>$storeid
@@ -282,6 +337,8 @@ class Goods extends Common{
             $this->assign('goods',$goods);
             $this->assign('gtData',$gtData);
             $this->assign('gstData',$gstData);
+            $this->assign('storeData',$storeData);
+            $this->assign('storeid',$storeid);
             return view();
         }
     }
@@ -370,7 +427,7 @@ class Goods extends Common{
      */
     public function getGoodsSpecTypeList(){
         $postData = input('post.');
-        $gstData = model('goodsSpecType')->where(['storeid'=>$postData['storeid']])->select()->toArray();
+        $gstData = model('goodsSpecType')->where(['storeid'=>$postData['storeid'],'status'=>0])->select()->toArray();
         win($gstData);
     }
 
@@ -394,6 +451,12 @@ class Goods extends Common{
         }
     }
 
+    /**
+     * Notes: 批量删除
+     * Class: goodsDels
+     * user: bingwoo
+     * date: 2020/9/4 13:41
+     */
     public function goodsDels()
     {
         $postData = input('post.');
@@ -555,13 +618,28 @@ class Goods extends Common{
     public function goodsStockList(){
 
         $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        $snData = [];
+        if(!empty($storeData)){
+            $snData = array_column($storeData,'name','storeid');
+        }
         if( request() -> isAjax() ){
-            $where = ['storeid'=>$storeid,'status'=>1];
+
             $getData = input('get.');
+            $gtwheres['status'] = 1;
+            if($storeid != 0 ){
+                $where['storeid'] = $storeid;
+                $gtwheres['storeid'] = $storeid;
+            }else{
+                if(!empty($getData['storeids'])){
+                    $where['storeid'] = $getData['storeids'];
+                }
+            }
+            $where['status'] = 1;
             if(!empty($getData['gname'])){
                 $where['name'] = $getData['gname'];
             }
-            $gtData = Db::table("xm_goods_type")->where(['status'=>1])->select();
+            $gtData = Db::table("xm_goods_type")->where($gtwheres)->select();
             if(empty($gtData)){
                 $data = [];
                 $count = 0;
@@ -575,6 +653,10 @@ class Goods extends Common{
                 $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
                 if(!empty($data)){
                     foreach ($data as &$val){
+                        $val['storename'] = '';
+                        if(isset($snData[$val['storeid']])){
+                            $val['storename'] = $snData[$val['storeid']];
+                        }
                         $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                         $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
                         $val["check_time"]=date("Y-m-d H:i:s",$val["check_time"]);
@@ -606,8 +688,14 @@ class Goods extends Common{
             echo json_encode($info);
             exit;
         }else{
-            $gtData = model('goodsType')->where(['storeid'=>$storeid,'status'=>1])->select();
+            if($storeid != 0 ){
+                $gtwhere['storeid'] = $storeid;
+            }
+            $gtwhere['status'] = 1;
+            $gtData = model('goodsType')->where($gtwhere)->select();
             $this->assign('gtData',$gtData);
+            $this->assign('storeid',$storeid);
+            $this->assign('storeData',$storeData);
             return view();
         }
     }
@@ -693,12 +781,21 @@ class Goods extends Common{
     public function goodsSpecList(){
 
         $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        $snData = [];
+        if(!empty($storeData)){
+            $snData = array_column($storeData,'name','storeid');
+        }
         if( request() -> isAjax() ){
+            $getData = input('get.');
             $where = [];
             if($storeid != 0){
-                $where = ['storeid'=>$storeid];
+                $where['storeid'] = $storeid;
+            }else{
+                if(!empty($getData['storeids'])){
+                    $where['storeid'] = $getData['storeids'];
+                }
             }
-            $getData = input('get.');
             if(!empty($getData['gstname'])){
                 $where['gstname'] = $getData['gstname'];
             }
@@ -706,6 +803,10 @@ class Goods extends Common{
             $data=Db::table("xm_goods_spec_type")->where($where)->page($getData['page'],$getData['limit'])->select();
             if(!empty($data)){
                 foreach ($data as &$val){
+                    $val['storename'] = '';
+                    if(isset($snData[$val['storeid']])){
+                        $val['storename'] = $snData[$val['storeid']];
+                    }
                     $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                     $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
                     $gsData = model('goodsSpec')->where(['gstid'=>$val['gstid']])->column('gsname');
@@ -728,6 +829,8 @@ class Goods extends Common{
                 $gstv['$gsData'] = implode(',',$gsData);
             }
             $this->assign('gsData',$gstData);
+            $this->assign('storeid',$storeid);
+            $this->assign('storeData',$storeData);
             return view();
         }
     }
@@ -749,11 +852,15 @@ class Goods extends Common{
             }
             //添加商品规格分类信息
             $istData = [
-                'storeid'=>$storeid,
                 'gstname'=>$postData['gsname'],
                 'create_time'=>time(),
                 'update_time'=>time(),
             ];
+            if($storeid == 0){
+                $istData['storeid'] = $postData['storeid'];
+            }else{
+                $istData['storeid'] = $storeid;
+            }
             if (isset($postData['is_more'])){
                 $istData['is_more'] = 1;
             }
@@ -783,6 +890,9 @@ class Goods extends Common{
                 fail('添加失败');
             }
         }else{
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $this->assign('storeData',$storeData);
+            $this->assign('storeid',$storeid);
             return view();
         }
 
@@ -794,6 +904,7 @@ class Goods extends Common{
      */
     public function goodsSpecEdit(){
 
+        $storeid = getStoreid();
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
@@ -804,6 +915,13 @@ class Goods extends Common{
                 $editData['is_more'] = 0;
                 if(isset($postData['is_more'])){
                     $editData['is_more'] = 1;
+                }
+                if($storeid == 0){
+                    if(!empty($postData['storeid'])){
+                        $editData['storeid'] = $postData['storeid'];
+                    }
+                }else{
+                    $editData['storeid'] = $storeid;
                 }
                 $where = ['gstid'=>$postData['gstid']];
                 //1：修改规格更新时间
@@ -849,6 +967,9 @@ class Goods extends Common{
             $gsData = model('goodsSpec')->where(['gstid'=>$gstid])->column('gsname');
             $gstData['gsname'] = implode(',',$gsData);
             $this->assign('spec',$gstData);
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $this->assign('storeData',$storeData);
+            $this->assign('storeidval',$storeid);
             return view();
         }
     }
@@ -875,4 +996,29 @@ class Goods extends Common{
             fail('规格'.$postData['gstname'].'信息有误');
         }
     }
+
+    /**
+     * Notes: 获取门店商品分类
+     * Class: getStoreGoodsType
+     * user: bingwoo
+     * date: 2020/9/4 15:39
+     */
+    public function getStoreGoodsType(){
+
+        $postData = input('post.');
+        $gtData = [];
+        if(!empty($postData['storeid'])){
+            $where = [];
+            $where['status'] = 1;
+            $where['storeid'] = $postData['storeid'];
+            $gtData = model('goodsType')->where($where)->select()->toArray();
+        }
+        if(isset($postData['type']) && empty($postData['storeid'])){
+            $gtData = model('goodsType')->where(['status'=>1])->select()->toArray();
+        }
+        $info=['code'=>0,'msg'=>'','data'=>$gtData];
+        echo json_encode($info);exit;
+    }
+
+
 }
