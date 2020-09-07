@@ -434,13 +434,52 @@ class Goods extends Common{
             //设置菜品信息待审核状态
             $ret = model('goods')->save($saveData,$where);
             if($ret){
-                win($postData['name'].'上架申请成功');
+                if($admin['admin_type'] == 3){
+                    win($postData['name'].'上架申请成功');
+                } else {
+                    win($postData['name'].'上架成功');
+                }
             }else{
-                fail($postData['name'].'上架申请失败');
+                fail($postData['name'].'操作失败');
             }
         }else{
             fail('菜品信息有误');
         }
+    }
+
+    public function goodsUps()
+    {
+        $postData = input('post.');
+        if(!empty($postData['data'])){
+            $admin = session('admin');
+            if($admin['admin_type'] == 3){
+                $saveData = ['is_grounding'=>1];
+            } else {
+                $saveData = ['is_grounding'=>2];
+            }
+
+            $gid = [];
+            foreach($postData['data'] as $k=>$v){
+                if(!empty($v['gid'])){
+                    $gid[] = $v['gid'];
+                }
+            }
+            $where = [
+                'gid'   => array('in',$gid)
+            ];
+            $ret = model('goods')->save($saveData,$where);
+            if($ret){
+                if($admin['admin_type'] == 3){
+                    win('批量上架申请成功');
+                } else {
+                    win('批量上架成功');
+                }
+                
+            }else{
+                fail('批量上操作失败');
+            }
+        }
+        fail('菜品信息有误！');
     }
 
     /**
@@ -458,6 +497,31 @@ class Goods extends Common{
                 win($postData['name'].'下架成功');
             }else{
                 fail($postData['name'].'下架失败');
+            }
+        }else{
+            fail('菜品信息有误');
+        }
+    }
+
+    public function goodsDowns()
+    {
+        $postData = input('post.');
+        if(!empty($postData['data'])){
+            $gid = [];
+            foreach($postData['data'] as $k=>$v){
+                if(!empty($v['gid'])){
+                    $gid[] = $v['gid'];
+                }
+            }
+            $where = [
+                'gid'   => array('in',$gid)
+            ];
+            //设置菜品信息已下架状态
+            $ret = model('goods')->save(['is_grounding'=>0],$where);
+            if($ret){
+                win('批量下架成功');
+            }else{
+                fail('批量下架失败');
             }
         }else{
             fail('菜品信息有误');
@@ -638,6 +702,7 @@ class Goods extends Common{
             if(!empty($getData['gstname'])){
                 $where['gstname'] = $getData['gstname'];
             }
+            $where['status'] = 0;
             $data=Db::table("xm_goods_spec_type")->where($where)->page($getData['page'],$getData['limit'])->select();
             if(!empty($data)){
                 foreach ($data as &$val){
@@ -796,8 +861,11 @@ class Goods extends Common{
         $postData = input('post.');
         if(isset($postData['gstid'])&&!empty($postData['gstid'])){
             $where = ['gstid' => $postData['gstid']];
-            $retGs = model('goodsSpec')->where($where)->delete();
-            $retGst = model('goodsSpecType')->where($where)->delete();
+            $update = [
+                'status'    => 1
+            ];
+            $retGs = model('goodsSpec')->where($where)->setField($update);
+            $retGst = model('goodsSpecType')->where($where)->setField($update);
             if($retGs && $retGst){
                 win('删除规格'.$postData['gsname'].'成功');
             }else{

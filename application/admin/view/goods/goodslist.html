@@ -54,6 +54,13 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
       <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量删除</button>
+      {if condition="$name=='jichang'"}
+        <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="upp">批量上架</a>
+        <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="downp">批量下架</a>
+      {else/}
+      <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="upp">批量申请上架</a>
+      <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="downp">批量下架</a>
+      {/if}
     </div>
   </script>
 
@@ -121,7 +128,7 @@
                                     icon: msg.code,
                                     time: 500 //2秒关闭（如果不配置，默认是3秒）
                                 }, function(){
-                                    location.href="{:url('Goods/goodsList')}";
+                                    table.reload('test');
                                 });
                             }else{
                                 layer.msg(msg.font, {icon: 5});
@@ -138,8 +145,8 @@
                         data,
                         function(msg){
                             if(msg.code ==1){
-                                layer.msg(msg.font);
-                                location.href="{:url('Goods/goodsList')}"
+                                layer.msg(msg.font,{icon:msg.code});
+                                table.reload('test');
                             }else{
                                 layer.msg(msg.font, {icon: 5});
                             }
@@ -158,7 +165,7 @@
                                     icon: msg.code,
                                     time: 500 //2秒关闭（如果不配置，默认是3秒）
                                 }, function(){
-                                    location.href="{:url('Goods/goodsList')}";
+                                    table.reload('test');
                                 });
                             }else{
                                 layer.msg(msg.font, {icon: 5});
@@ -177,7 +184,7 @@
                                 icon: msg.code,
                                 time: 500 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                location.href="{:url('Goods/goodsList')}";
+                                table.reload('test');
                             });
                         }else{
                             layer.msg(msg.font, {icon: 5});
@@ -213,6 +220,42 @@
                     
                     layer.confirm('确认批量删除', function(index){
                     $.post('{:url("Goods/goodsDels")}',
+                        {data:data},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                             if(msg.code==1){
+                             table.reload('test');
+                             }
+                        },'json'
+                    )
+                });
+                }
+            break;
+            case 'upp':
+            if(data.length === 0){
+                layer.msg('请选择您要操作的数据');
+                } else {
+                    
+                    layer.confirm('确认批量操作吗？', function(index){
+                    $.post('{:url("Goods/goodsUps")}',
+                        {data:data},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                             if(msg.code==1){
+                             table.reload('test');
+                             }
+                        },'json'
+                    )
+                });
+                }
+            break;
+            case 'downp':
+            if(data.length === 0){
+                layer.msg('请选择您要操作的数据');
+                } else {
+                    
+                    layer.confirm('确认批量操作吗？', function(index){
+                    $.post('{:url("Goods/goodsDowns")}',
                         {data:data},
                         function(msg){
                             layer.msg(msg.font,{icon:msg.code});

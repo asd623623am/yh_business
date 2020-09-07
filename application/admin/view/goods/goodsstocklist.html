@@ -78,7 +78,8 @@
                         function(msg){
                             if(msg.code ==1){
                                 layer.msg(msg.font);
-                                location.href="{:url('Goods/goodsStockList')}";
+                                table.reload('test');
+                                // location.href="{:url('Goods/goodsStockList')}";
                             }else{
                                 layer.msg(msg.font, {icon: 5});
                             }

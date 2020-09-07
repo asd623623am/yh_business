@@ -46,8 +46,16 @@ class Member extends Common
 		        		$where['card'] = $tel;
 		        	}
 		        }
-		        $dataInfo = model('Member')->where($where)->page($page,$limit)->select()->toArray();
-		       $count=model('Member')->where($where)->count();
+				$dataInfo = model('Member')->where($where)->page($page,$limit)->select()->toArray();
+				foreach($dataInfo as $k=>$v){
+					if($v['is_type'] == 1){
+						$dataInfo[$k]['is_type'] = '潜在会员';
+					} else {
+						$dataInfo[$k]['is_type'] = '会员';
+					}
+				}
+
+		       	$count=model('Member')->where($where)->count();
 		        $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$dataInfo];
 		        echo json_encode($info);
 		        exit;
@@ -79,6 +87,12 @@ class Member extends Common
     	}
 
 		$arr = $info->toArray();
+		if($arr['is_type'] == 1){
+			$arr['is_type'] = '潜在会员';
+		} else {
+			$arr['is_type'] = '会员';
+		}
+		// dump($arr);exit;
 		$this->assign('uid',$data['uid']);
     	$this->assign('arr',$arr);
     	$this->assign('page',$data['page']);

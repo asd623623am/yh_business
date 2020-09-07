@@ -71,14 +71,17 @@
               ,cols: [[
                 {field:'uid', width:200, title: '会员ID'}
                 ,{width:100, title: '序号',type:'numbers'}
-                ,{field:'card',width:200, title: '会员卡号'}
+                ,{field:'wx_img',width:100, title: '微信头像',align:"center",templet:'<div><img style="height: 25px"  src="{{d.wx_img}}"></div>'}
+                ,{field:'wx_name',width:150, title: '微信昵称'}
+                ,{field:'is_type',width:100, title: '用户类型'}
                 ,{field:'name',width:100, title: '姓名'}
+                ,{field:'card',width:200, title: '会员卡号'}
+                ,{field:'phone',width:150, title: '手机号'}
+                ,{field:'balance',width:100, title: '储值余额'}
                 ,{field:'grid',width:100, title: '会员等级'}
                 ,{field:'discount',width:150, title: '折扣'}
                 ,{field:'pay_money',width:100, title: '消费金额'}
                 ,{field:'points',width:100, title: '积分'}
-                ,{field:'balance',width:100, title: '储值余额'}
-                ,{field:'phone',width:150, title: '手机号'}
                 ,{field:'right', width:150,toolbar: '#barDemo', title:'消费账单',align:'center',fixed: 'right'}
             ]],
             done: function () {
