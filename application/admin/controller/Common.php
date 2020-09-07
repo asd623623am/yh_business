@@ -157,6 +157,7 @@ class Common extends Controller
                 'menu' => $new,
                 'power_list' => $power_list
             ];
+            dump($return);exit;
             # 把用户的左侧菜单和权限列表存入session
             session( 'power' , $return );
 
