@@ -267,6 +267,7 @@ class Xmorder extends Common
 		];
 
 		$result = model('Xmorder')->where($where)->find();
+		
 		if($result== null){
 			fail('没有找到您的订单！');
 		}
@@ -274,8 +275,20 @@ class Xmorder extends Common
 		if($result['pay_status'] != 2){
 			fail('您还不是已支付订单！');
 		}
+
+		$qutorder = [];
+		$qutorder['order_sn'] = $result['order_sn'];
+		$qutorder['pay_fee'] = $result['pay_fee'];
+		$qutorder['gz_openid'] = $result['gz_openid'];
 		$app = Db::table('system')->select();
-    		if (!empty($app)) {
+		$storeWheres = [
+			'storeid'	=> $result['storeid']
+		];
+		$storeData = Db::table('xm_store')->where($storeWheres)->find();
+		$qutorder['name'] = $storeData['name'];
+
+
+		if (!empty($app)) {
 
 				if(empty($app[0]['mini_appsecret']) || empty($app[0]['termNo']) || empty($app[0]['merId'])){
 					
@@ -326,6 +339,8 @@ class Xmorder extends Common
     				];
     				$infos = model('Xmorder')->where($where)->setField($newData);
     				if ($infos) {
+						$qutorder['gz_token'] = $app[0]['gz_token'];
+						$this->doSend($qutorder);
     					win('退款成功');		
     				} else {
     					fail('退款失败');
@@ -548,5 +563,74 @@ class Xmorder extends Common
                        header("Pragma: no-cache");
                        $objWriter->save('php://output');
 
+	}
+	
+
+	      /**
+     * 发送自定义的模板消息
+     * @param $touser
+     * @param $template_id
+     * @param $url
+     * @param $data
+     * @param string $topcolor
+     * @return bool
+     */
+    public function doSend($datas)
+    {
+		$accessToken = $datas['gz_token'];
+        $data = [
+                'keyword2'      => [
+                        'value'     => $datas['pay_fee'].'元',
+                        'color'     => '#173177'
+                ],
+                'keyword1'      => [
+                        'value'     => $datas['order_sn'],
+                        'color'     => '#173177'
+                ],
+                'remark'      => [
+                        'value'     => '感谢您的使用。',
+                        'color'     => '#173177'
+                ],
+                'first'      => [
+                        'value'     => '机场--'.$datas['name'],
+                        'color'     => '#173177'
+                ],
+        ];
+         $template = [
+            "touser" => $datas['gz_openid'],
+            "template_id" => "XfYvkPO8lkbmNCn3g1aVagcv8i4xrTU8F3a3KBlN2kA",
+            "topcolor" => "#FF0000",
+            "data"      => $data
+        ];
+
+        $json_template = json_encode($template);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
+        return $this->request_post($url, urldecode($json_template));
+
+
+	}
+	
+	        /**
+     * 发送post请求
+     * @param string $url
+     * @param string $param
+     * @return bool|mixed
+     */
+    function request_post($url = '', $param = '')
+    {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+        $postUrl = $url;
+        $curlPost = $param;
+        $ch = curl_init(); //初始化curl
+        curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
+        curl_setopt($ch, CURLOPT_HEADER, 0); //设置header
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_POST, 1); //post提交方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        $data = curl_exec($ch); //运行curl
+        curl_close($ch);
+        return $data;
     }
 }
