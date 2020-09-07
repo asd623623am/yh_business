@@ -219,6 +219,9 @@ class Goods extends Common{
                     $gtidArr = array_column($gtData,'gtid');
                     $where['gtid'] = ['in',$gtidArr];
                 }
+                if($getData['is_grounding']!= null){
+                    $where['is_grounding'] = $getData['is_grounding'];
+                }
                 $where['status'] = 1;
                 $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
                 if(!empty($data)){
@@ -239,7 +242,7 @@ class Goods extends Common{
                         if($val['is_grounding'] == 1){
                             $val['groundin'] = '待审核';
                         }elseif ($val['is_grounding'] == 2){
-                            $val['groundin'] = '已上架';
+                            $val['groundin'] = '在售';
                         } else if($val['is_grounding'] == 3){
                             $val['groundin'] = '已拒绝';
                         }
