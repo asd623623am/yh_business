@@ -256,7 +256,6 @@
             if(data.length === 0){
                 layer.msg('请选择您要操作的数据');
                 } else {
-                    
                     layer.confirm('确认批量操作吗？', function(index){
                     $.post('{:url("Goods/goodsDowns")}',
                         {data:data},

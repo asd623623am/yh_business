@@ -73,11 +73,16 @@ class Qrcode extends Common{
             //生成公众号二维码
             $retQrcode = $this->getQrcodeInfo($postData['storeid'],$postData['tnumber'],$postData['storename']);
             /*@todo 生成小程序二维码和公众号二维码*/
+
+            $str = 'YH_'.date('His') . str_pad(mt_rand(1, 999999), 5, '0', STR_PAD_LEFT);
+
+
             $insData = [
                 'storeid' => $postData['storeid'],
                 'storename' => $postData['storename'],
                 'tnumber' => $postData['tnumber'],
                 'gz_qrcode' => $retQrcode,
+                'stoer_no'  => $str,
                 'mini_qrcode' => '',
                 'create_time' => time(),
                 'update_time' => time(),

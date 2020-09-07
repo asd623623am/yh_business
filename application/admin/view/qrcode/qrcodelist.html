@@ -46,12 +46,13 @@
                     {field:'qid', width:80, title: '序号', sort: true},
                     ,{field:'storename', width:200, title: '门店名称'}
                     ,{field:'tnumber', width:150, title: '桌台号'}
+                    ,{field:'stoer_no', width:150, title: '唯一标识'}
                     ,{field:'gzlogo', width:150, title: '公众号图片名称'}
                     ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
                     // ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 25px;" src="__QRCODE__/{{d.mini_qrcode}}"></div>'}
                     ,{field:'create_time',width:200, title: '创建时间'}
                     ,{field:'update_time',width:200, title: '更新时间'}
-                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
+                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
                 ]],
                 done: function () {
                     $("[data-field='gzlogo']").css('display','none');
