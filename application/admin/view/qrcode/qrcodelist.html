@@ -5,9 +5,9 @@
     </span>
 </blockquote>
 
-
+<input type="text" value="{$s_type}" hidden id="s_type">
 <div class="search-table layui-form">
-    <div class="layui-input-inline tempsTest" id="searchstore">
+    <div class="layui-input-inline tempsTest" id="searchstore" style="display: none;">
         <select name="storeids"  id="search-store" lay-search="">
             <option value="">请选择门店</option>
             {volist name="storeData" id='storeData'}
@@ -50,8 +50,10 @@
         var form = layui.form;
         
   
-            
-
+        var s_type = $('#s_type').val();
+        if(s_type == 1){
+            $('#searchstore').show();
+        }
         //自动点击.
         $(document).ready(function(){
             $("#sousuo").trigger("click");
