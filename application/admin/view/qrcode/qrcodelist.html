@@ -1,61 +1,56 @@
-<style type="text/css">
-    .marginTs{
-        margin-top: 30px;
-    }
-</style>
 <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
-        <a href='#'>二维码管理</a>
-        <a><cite> 二维码列表</cite></a>
+        <a href='#'>商品管理</a>
+        <a><cite> 商品列表</cite></a>
     </span>
 </blockquote>
-<input type="text" value="{$s_type}" id='s_type' hidden>
-<div class="search-table layui-form" id="storename">
-    <div class="layui-input-inline">
-        <div class="layui-input-inline tempsTest" id="searchstore" style="display: none;">
-            <select name="storeid"  id="search-store" lay-search="">
-                <option value="">请选择门店</option>
-                {volist name="storeData" id='storeData'}
-                <option value="{$storeData.storeid}">{$storeData.name}</option>
-                {/volist}
-            </select>
-        </div>
-        <div class="layui-input-inline tempsTest">
-            <input type="text" name="sn" required  placeholder="请输入唯一标识" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-input-inline tempsTest">
-            <input type="text" name="tnumber" required  placeholder="请输入桌号" autocomplete="off" class="layui-input">
-        </div>
-        <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
+
+
+<div class="search-table layui-form">
+    <div class="layui-input-inline tempsTest" id="searchstore">
+        <select name="storeids"  id="search-store" lay-search="">
+            <option value="">请选择门店</option>
+            {volist name="storeData" id='storeData'}
+            <option value="{$storeData.storeid}">{$storeData.name}</option>
+            {/volist}
+        </select>
     </div>
+    <div class="layui-input-inline tempsTest">
+        <input type="text" name="sn" required  placeholder="请输入唯一标识" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-input-inline tempsTest">
+        <input type="text" name="tnumber" required  placeholder="请输入桌号" autocomplete="off" class="layui-input">
+    </div>
+    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
 
 
-<div class="layui-btn-group demoTable" style="margin-top: 10px" id="storebut">
-    <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
+<div class="layui-btn-group demoTable" style="margin-top: 10px">
+    <button class="layui-btn layui-btn-normal" data-type="goodsAdd" id="goodsAdds">立即添加</button>
 </div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<table class="layui-hide" id="test" lay-filter="testdd"></table>
 <script type="text/html" id="barDemo">
+
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     <a class="layui-btn layui-btn-xs" lay-event="download">下载</a>
 </script>
 <script type="text/html" id="toolbarDemo">
-<!--    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="batchadd">批量添加</button>-->
-    <button class="layui-btn layui-btn-sm" lay-event="batchdownload">批量下载</button>
-    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchdetele">批量删除</button>
-</script>
+        <button class="layui-btn layui-btn-sm" lay-event="batchdownload">批量下载</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchdetele">批量删除</button>
+    </script>
+
+
 <script>
-    layui.use(['table','layer',], function(){
+    layui.use(['table','layer','upload','form'], function(){
         var table = layui.table;
         var layer = layui.layer;
+        var upload = layui.upload;
         var form = layui.form;
-        var ids = 0;
-        var storeid = $('#s_type').val();
-        if(storeid == 1){
-            $('#searchstore').show();
-        }
-
+        
+  
+            
 
         //自动点击.
         $(document).ready(function(){
@@ -71,11 +66,11 @@
                 localStorage.clear();
             }
         });
-        $('#submit').click(function(){
-            location.href="{:url('Qrcode/qrcodeAdd')}";
-        })
-        //删除、修改、下载
-        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+
+
+
+
+        table.on('tool(testdd)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if(layEvent === 'edit'){
@@ -126,16 +121,12 @@
                     return url;
                 }
             }
-        })
-
-        $('.layui-table').on('click','tr',function(){
-            $(this).css('background','#ccc').siblings().css('background','#fff');
         });
 
         //监听头工具栏事件
-        table.on('toolbar(test)', function(obj){
+        table.on('toolbar(testdd)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
-                ,data = checkStatus.data; //获取选中的数据
+            ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'batchdetele':
                     if(data.length === 0){
@@ -169,69 +160,8 @@
                     }
                     break;
             };
+       
         });
-        function downloadImg(data) {
-            // 生成一个 a 标签
-            var downloadName = data.gzlogo;
-            //获取要下载的图片
-            var img = document.getElementById('testImg');
-            var src = img.src;
-            const a = document.createElement("a");
-            a.download = downloadName || "图片";
-            a.style.display = "none";
-            const image = new Image();
-            image.src = src + "?v=" + Math.random();
-            image.crossOrigin = "*";
-            image.onload = () => {
-                const base64 = getBase64Images(image);
-                a.href = base64;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            };
-            function getBase64Images(image) {
-                const canvas = document.createElement("canvas");
-                canvas.width = image.width;
-                canvas.height = image.height;
-                const context = canvas.getContext("2d");
-                context.drawImage(image, 0, 0, image.width, image.height);
-                const url = canvas.toDataURL("image/png", 0);
-                return url;
-            }
-
-        }
-
-        // form.on('submit(*)', function(data){
-        //     table.render({
-        //         elem: '#test'
-        //         ,url:"{:url('Qrcode/qrcodeList')}"
-        //         ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-        //         ,defaultToolbar: [] 
-        //         // ,defaultToolbar: ['filter', 'exports', 'print']
-        //         ,where:data.field
-        //         ,limit:10
-        //         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-        //         ,cols: [[
-        //             {type:'checkbox'}
-        //             ,{field:'qid', width:80, title: '序号', sort: true},
-        //             ,{field:'storename', width:300, title: '门店名称'}
-        //             ,{field:'tnumber', width:150, title: '桌台号'}
-        //             ,{field:'stoer_no', width:150, title: '唯一标识'}
-        //             // ,{field:'gzlogo', width:150, title: '公众号图片名称'}
-        //             ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
-        //             ,{field:'create_time',width:200, title: '创建时间'}
-        //             ,{field:'update_time',width:200, title: '更新时间'}
-        //             ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
-        //         ]],
-        //         done: function () {
-        //             // $("[data-field='gzlogo']").css('display','none');
-        //             $('.layui-table').on('click','tr',function(){
-        //                 $(this).css('background','#ccc').siblings().css('background','#fff');
-        //             });
-        //         },page: true
-        //     });
-        // });
-
 
         form.on('submit(*)', function(data){
             table.render({
@@ -243,17 +173,20 @@
                 ,limit:10
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
+
                 {type: 'checkbox',},
-                ,{field:'qid', width:80, title: '序号', sort: true},
-                    ,{field:'storename', width:300, title: '门店名称'}
-                    ,{field:'tnumber', width:150, title: '桌台号'}
-                    ,{field:'stoer_no', width:150, title: '唯一标识'}
-                    ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
-                    ,{field:'create_time',width:200, title: '创建时间'}
-                    ,{field:'update_time',width:200, title: '更新时间'}
-                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+                    {field:'qid', width:100, title: '序号',}
+                    // ,{width:60, title: '序号',type:'numbers'}
+                    ,{field:'storename', width:200 , title: '门店名称'}
+                    ,{field:'tnumber', width:150 , title: '桌台号'}
+                    ,{field:'stoer_no', width:300 , title: '唯一标识'}
+                    ,{field:'gz_qrcode', width:200, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
+                    ,{field:'create_time', width:200, title: '创建时间'}
+                    ,{field:'update_time', width:200, title: '更新时间'}
+                    ,{field:'right', width:220,toolbar: '#barDemo', title: '操作',align:'center'}
                 ]],
-                done: function () {                    
+                done: function () {
+                    
                     $('.layui-table').on('click','tr',function(){
                         $(this).css('background','#ccc').siblings().css('background','#fff');
                     });
@@ -261,6 +194,13 @@
             });
         });
         form.render();
+        $('.layui-table').on('click','tr',function(){
+            $(this).css('background','#ccc').siblings().css('background','#fff');
+        });
+        //跳转页面
+        $('#goodsAdds').on('click', function(){
+            location.href="{:url('Qrcode/qrcodeAdd')}";
+        });
+        form.render();
     });
-
 </script>

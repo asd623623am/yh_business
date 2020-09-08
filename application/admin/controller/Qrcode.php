@@ -22,17 +22,21 @@ class Qrcode extends Common{
      * date: 2020/8/12 10:53
      */
     public function qrcodeList(){
+        $storeid = getStoreid();
         $admin = session('admin');
         if( request() -> isAjax() ){
-            $getData = input('get.');
             $where = [];
             $where['status'] = 0;
+            $getData = input('get.');
+            
+
 
             if($admin['admin_type'] == 3){
                 $where['storeid'] = $admin['storeid'];
             } else {
-                if(!empty($getData['storeid'])){
-                    $where['storeid'] = $getData['storeid'];
+
+                if(!empty($getData['storeids'])){
+                    $where['storeid'] = $getData['storeids'];
                 }
             }
             if(!empty($getData['sn'])){
@@ -53,6 +57,7 @@ class Qrcode extends Common{
             echo json_encode($info);
             exit;
         }else{
+            
             $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
             $this->assign('storeData',$storeData);
             if($admin['admin_type'] == 3){

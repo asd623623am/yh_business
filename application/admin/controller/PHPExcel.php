@@ -269,7 +269,6 @@ class PHPExcel extends Common{
                     $admin['storeid'] = $storeids;
                 }
                 
-                
                 $data = [];
                 foreach ($arr as $key => $value) {
                     if (!isset($value['菜品名称'])) {
@@ -334,7 +333,21 @@ class PHPExcel extends Common{
                     } else {
                         $is_special = 1;
                     }
-
+                    if($value['菜品原价'] == null){
+                        $value['菜品原价'] = '';
+                    }
+                    if($value['会员价'] == null){
+                        $value['会员价'] = '';
+                    }
+                    if($value['员工价'] == null){
+                        $value['员工价'] = '';
+                    }
+                    if($value['特色菜品'] == null){
+                        $value['特色菜品'] = '';
+                    }
+                    if($value['菜品介绍'] == null){
+                        $value['菜品介绍'] = '';
+                    }
                     $insert = [
                         'storeid'   => $admin['storeid'],
                         'gtid'      => $gtid,

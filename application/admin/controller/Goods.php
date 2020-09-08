@@ -223,7 +223,7 @@ class Goods extends Common{
                     $where['is_grounding'] = $getData['is_grounding'];
                 }
                 $where['status'] = 1;
-                $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->select();
+                $data=Db::table("xm_goods")->where($where)->page($getData['page'],$getData['limit'])->order('gid','desc')->select();
                 if(!empty($data)){
                     foreach ($data as &$val){
 
@@ -239,12 +239,16 @@ class Goods extends Common{
                         }
                         //菜品上架状态 0：已下架1：待审核2：已上架
                         $val['groundin'] = '已创建';
-                        if($val['is_grounding'] == 1){
+                        if($val['is_grounding'] == 0){
+                            $val['groundin'] = '已下架';
+                        }elseif ($val['is_grounding'] == 1){
                             $val['groundin'] = '待审核';
-                        }elseif ($val['is_grounding'] == 2){
+                        } else if($val['is_grounding'] == 2){
                             $val['groundin'] = '在售';
                         } else if($val['is_grounding'] == 3){
                             $val['groundin'] = '已拒绝';
+                        } else if($val['is_grounding'] == 4){
+                            $val['groundin'] = '已创建';
                         }
 
                         if($val['status'] == 2){
@@ -360,6 +364,20 @@ class Goods extends Common{
                 $editData = \app\admin\model\Goods::isVerificationField($postData,$editData);
                 $editData = \app\admin\model\Goods::isNoVerificationField($postData,$editData);
                 $where = ['gid'=>$postData['gid']];
+                if(isset($postData['is_special'])){
+                    $editData['is_special'] = 1;
+                } else {
+                    $editData['is_special'] = 0;
+                }
+                if(isset($postData['is_open_stock'])){
+                    $editData['is_open_stock'] = 1;
+                } else {
+                    $editData['is_open_stock'] = 0;
+
+                }
+                if(isset($postData['stock'])){
+                    $editData['stock'] = 0;
+                }
                 $res = model('goods')->save($editData,$where);
                 if(!empty($postData['tag2'])){
                     $gbsCount = model('goodsBingSpec')->where(['goodsid'=>$postData['gid'],'storeid'=>$storeid])->count();

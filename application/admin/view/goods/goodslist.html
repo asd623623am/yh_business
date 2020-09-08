@@ -15,7 +15,7 @@
         </select>
     </div>
     <div class="layui-input-inline tempsTest">
-        <select name="gtid"  id="search-district" lay-search="">
+        <select name="gtid" lay-search="">
             <option value="">请选择菜品分类</option>
             {volist name="gtData" id='gtData'}
             <option value="{$gtData.gtid}">{$gtData.gtname}</option>
@@ -24,7 +24,7 @@
     </div>
     <div class="layui-input-inline tempsTest">
         <select name="is_grounding"  id="is_grounding" lay-search="">
-            <option value="">请选择菜品分类</option>
+            <option value="">请选择菜品状态</option>
             <option value="0">已下架</option>
             <option value="1">待审核</option>
             <option value="2">在售</option>

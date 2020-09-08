@@ -110,7 +110,7 @@
                 //拼接弹窗信息
                 var strMsg = '确定删除门店【<font style="color: red">';
                 strMsg = strMsg.concat(data.name);
-                strMsg = strMsg.concat('</font>】吗?');
+                strMsg = strMsg.concat('</font>】吗?商家相关的商品信息都会删除!');
                 layer.confirm(strMsg, function(index){
                     $.post(
                         '{:url("Store/StoreDel")}',
