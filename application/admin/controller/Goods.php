@@ -238,7 +238,7 @@ class Goods extends Common{
                             $val['is_special'] = "是";
                         }
                         //菜品上架状态 0：已下架1：待审核2：已上架
-                        $val['groundin'] = '已下架';
+                        $val['groundin'] = '已创建';
                         if($val['is_grounding'] == 1){
                             $val['groundin'] = '待审核';
                         }elseif ($val['is_grounding'] == 2){

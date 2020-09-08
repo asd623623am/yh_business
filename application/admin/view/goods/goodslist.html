@@ -86,9 +86,12 @@
             if(quan == 'jichang'){
                 location.href="{:url('Goods/excelUps')}";
                 return false;
-            } else {
-                //文件上传
-                var uploadInst = upload.render({
+            }
+        })
+       
+
+   //文件上传
+   var uploadInst = upload.render({
                     elem: '#myload' //绑定元素
                     ,url: '{:url("PHPExcel/goodsupload")}' //上传接口
                     ,exts: 'xls|xlsx|xlsm|xlt|xltx|xltm'
@@ -104,9 +107,8 @@
                         //请求异常回调
                     }
                 });
-            }
-        })
-       
+            
+
         //自动点击.
         $(document).ready(function(){
             $("#sousuo").trigger("click");

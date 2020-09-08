@@ -9,13 +9,28 @@
         <a><cite> 二维码列表</cite></a>
     </span>
 </blockquote>
-<input type="text" value="{$storeid}" id="storeid" style="display: none">
+<input type="text" value="{$s_type}" id='s_type' hidden>
 <div class="search-table layui-form" id="storename">
     <div class="layui-input-inline">
-        <input type="text" name="storename"  required  placeholder="请输门店名称" autocomplete="off" class="layui-input">
+        <div class="layui-input-inline tempsTest" id="searchstore" style="display: none;">
+            <select name="storeid"  id="search-store" lay-search="">
+                <option value="">请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+        <div class="layui-input-inline tempsTest">
+            <input type="text" name="sn" required  placeholder="请输入唯一标识" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline tempsTest">
+            <input type="text" name="tnumber" required  placeholder="请输入桌号" autocomplete="off" class="layui-input">
+        </div>
+        <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
     </div>
-    <button class="layui-btn" id="sousuo" lay-submit lay-filter="*">搜索</button>
 </div>
+
+
 <div class="layui-btn-group demoTable" style="margin-top: 10px" id="storebut">
     <button class="layui-btn layui-btn-normal" id='submit' lay-submit lay-filter="*">立即添加</button>
 </div>
@@ -36,41 +51,12 @@
         var layer = layui.layer;
         var form = layui.form;
         var ids = 0;
-        var storeid = $('#storeid').val();
-        if(storeid >0){
-            $('#storename').hide();
+        var storeid = $('#s_type').val();
+        if(storeid == 1){
+            $('#searchstore').show();
         }
 
-        form.on('submit(*)', function(data){
-            table.render({
-                elem: '#test'
-                ,url:"{:url('Qrcode/qrcodeList')}"
-                ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-                ,defaultToolbar: ['filter', 'exports', 'print']
-                ,where:data.field
-                ,limit:10
-                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                ,cols: [[
-                    {type:'checkbox'}
-                    ,{field:'qid', width:80, title: '序号', sort: true},
-                    ,{field:'storename', width:200, title: '门店名称'}
-                    ,{field:'tnumber', width:150, title: '桌台号'}
-                    ,{field:'stoer_no', width:150, title: '唯一标识'}
-                    ,{field:'gzlogo', width:150, title: '公众号图片名称'}
-                    ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
-                    // ,{field:'mini_qrcode',width:150, title: '小程序二维码',templet:'<div><img style="height: 25px;" src="__QRCODE__/{{d.mini_qrcode}}"></div>'}
-                    ,{field:'create_time',width:200, title: '创建时间'}
-                    ,{field:'update_time',width:200, title: '更新时间'}
-                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
-                ]],
-                done: function () {
-                    $("[data-field='gzlogo']").css('display','none');
-                    $('.layui-table').on('click','tr',function(){
-                        $(this).css('background','#ccc').siblings().css('background','#fff');
-                    });
-                },page: true
-            });
-        });
+
         //自动点击.
         $(document).ready(function(){
             $("#sousuo").trigger("click");
@@ -214,6 +200,66 @@
             }
 
         }
+
+        // form.on('submit(*)', function(data){
+        //     table.render({
+        //         elem: '#test'
+        //         ,url:"{:url('Qrcode/qrcodeList')}"
+        //         ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+        //         ,defaultToolbar: [] 
+        //         // ,defaultToolbar: ['filter', 'exports', 'print']
+        //         ,where:data.field
+        //         ,limit:10
+        //         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        //         ,cols: [[
+        //             {type:'checkbox'}
+        //             ,{field:'qid', width:80, title: '序号', sort: true},
+        //             ,{field:'storename', width:300, title: '门店名称'}
+        //             ,{field:'tnumber', width:150, title: '桌台号'}
+        //             ,{field:'stoer_no', width:150, title: '唯一标识'}
+        //             // ,{field:'gzlogo', width:150, title: '公众号图片名称'}
+        //             ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
+        //             ,{field:'create_time',width:200, title: '创建时间'}
+        //             ,{field:'update_time',width:200, title: '更新时间'}
+        //             ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+        //         ]],
+        //         done: function () {
+        //             // $("[data-field='gzlogo']").css('display','none');
+        //             $('.layui-table').on('click','tr',function(){
+        //                 $(this).css('background','#ccc').siblings().css('background','#fff');
+        //             });
+        //         },page: true
+        //     });
+        // });
+
+
+        form.on('submit(*)', function(data){
+            table.render({
+                elem: '#test'
+                ,url:"{:url('Qrcode/qrcodeList')}"
+                ,where:data.field
+                ,toolbar: '#toolbarDemo'
+                ,defaultToolbar: [] 
+                ,limit:10
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[
+                {type: 'checkbox',},
+                ,{field:'qid', width:80, title: '序号', sort: true},
+                    ,{field:'storename', width:300, title: '门店名称'}
+                    ,{field:'tnumber', width:150, title: '桌台号'}
+                    ,{field:'stoer_no', width:150, title: '唯一标识'}
+                    ,{field:'gz_qrcode',width:150, title: '公众号二维码',templet:'<div><img id="testImg" style="height: 25px;" src="__QRCODE__/{{d.gz_qrcode}}"></div>'}
+                    ,{field:'create_time',width:200, title: '创建时间'}
+                    ,{field:'update_time',width:200, title: '更新时间'}
+                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
+                ]],
+                done: function () {                    
+                    $('.layui-table').on('click','tr',function(){
+                        $(this).css('background','#ccc').siblings().css('background','#fff');
+                    });
+                },page: true
+            });
+        });
         form.render();
     });
 

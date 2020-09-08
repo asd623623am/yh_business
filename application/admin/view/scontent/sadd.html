@@ -17,6 +17,9 @@
             </button>
         </div>
     </div>
+
+    <input type="text" value="{$storeInfo.img}" hidden id='imgs'>
+
     <div class="layui-form-item layui-form-text">
         <div class="layui-input-block">
             <img src="" id="images">
@@ -41,7 +44,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">简介内容</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入内容" name='content' value="{$storeInfo.content}" class="layui-textarea"></textarea>
+          <textarea placeholder="请输入内容" name='content' class="layui-textarea">{$storeInfo.content}</textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -61,6 +64,15 @@
             var is_charge = $('#is_charge').val();
             if(is_charge == 1){
                 $('#is_charge').attr('checked',true);
+            }
+
+            var imgs = $('#imgs').val();
+            if(imgs != ''){
+                var urlss = '__PUBLIC__/'+imgs;
+                   $('#images').attr('src',urlss);
+                   $('#images').attr('width','100');
+                   $('#images').attr('height','100');
+                   $('#delimg').text('删除图片');
             }
 
             var uploads = upload.render({

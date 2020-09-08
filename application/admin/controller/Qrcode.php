@@ -22,16 +22,24 @@ class Qrcode extends Common{
      * date: 2020/8/12 10:53
      */
     public function qrcodeList(){
-        $storeid = getStoreid();
+        $admin = session('admin');
         if( request() -> isAjax() ){
+            $getData = input('get.');
             $where = [];
             $where['status'] = 0;
-            if($storeid != 0){
-                $where['storeid'] = $storeid;
+
+            if($admin['admin_type'] == 3){
+                $where['storeid'] = $admin['storeid'];
+            } else {
+                if(!empty($getData['storeid'])){
+                    $where['storeid'] = $getData['storeid'];
+                }
             }
-            $getData = input('get.');
-            if(!empty($getData['storename'])){
-                $where['storename'] = $getData['storename'];
+            if(!empty($getData['sn'])){
+                $where['stoer_no'] = $getData['sn'];
+            }
+            if(!empty($getData['tnumber'])){
+                $where['tnumber'] = $getData['tnumber'];
             }
             $data = model('qrcode')->where($where)->select()->toArray();
             foreach ($data as &$val){
@@ -45,7 +53,14 @@ class Qrcode extends Common{
             echo json_encode($info);
             exit;
         }else{
-            $this->assign('storeid',$storeid);
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $this->assign('storeData',$storeData);
+            if($admin['admin_type'] == 3){
+                $s_type = 2;
+            } else {
+                $s_type = 1;
+            }
+            $this->assign('s_type',$s_type);
             return view();
         }
     }

@@ -208,6 +208,29 @@ class Store extends Common
             
             $res = model('Store')->save($delDate,$where);
             if ($res) {
+
+                 ###删除商品
+                 $gdel = [
+                    'status'    => 2
+                ];
+                model('Goods')->save($gdel,$where);
+                
+                // ###删除规格
+                $sdel = [
+                    'status'    => 1
+                ];
+
+                model('GoodsBingSpec')->where($where)->delete();
+                //分类
+                model('GoodsSpecType')->save($sdel,$where);
+                $tdel = [
+                    'status'    => 2
+                ];
+                model('GoodsType')->save($tdel,$where);
+
+
+
+
                 $admin = model('Admin')->where($where)->select()->toArray();
                 $delId = [];
                 foreach($admin as $k=>$v){
@@ -253,6 +276,28 @@ class Store extends Common
             ];
             $res = model('Store')->save($delDate,$where);
             if ($res) {
+
+
+                ###删除商品
+                $gdel = [
+                    'status'    => 2
+                ];
+                model('Goods')->save($gdel,$where);
+                
+                // ###删除规格
+                $sdel = [
+                    'status'    => 1
+                ];
+
+                model('GoodsBingSpec')->where($where)->delete();
+                //分类
+                model('GoodsSpecType')->save($sdel,$where);
+                $tdel = [
+                    'status'    => 2
+                ];
+                model('GoodsType')->save($tdel,$where);
+
+
 
                 $admin = model('Admin')->where($where)->select()->toArray();
             

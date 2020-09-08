@@ -262,12 +262,14 @@ class PHPExcel extends Common{
 
                 $admin = session('admin');
                 $storeids = session('storeids');
-                if($storeids == null){
-                    fail('操作有误，请重新上传！');
-                }
                 if($admin['admin_type'] != 3){
+                    if($storeids == null){
+                        fail('操作有误，请重新上传！');
+                    }
                     $admin['storeid'] = $storeids;
                 }
+                
+                
                 $data = [];
                 foreach ($arr as $key => $value) {
                     if (!isset($value['菜品名称'])) {
