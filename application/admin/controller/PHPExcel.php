@@ -359,7 +359,7 @@ class PHPExcel extends Common{
                         'staff_price'       => $value['员工价'],
                         'is_special'        => $is_special,
                         'is_show'           => 1,
-                        'is_grounding'      => 0,
+                        'is_grounding'      => 4,
                         'is_selling_fragrance'  => 0,
                         'is_open_stock'     => 0,
                         'stock'             => 0,
