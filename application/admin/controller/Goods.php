@@ -233,9 +233,11 @@ class Goods extends Common{
                         }
                         $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                         $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
-                        $val['is_special'] = "否";
-                        if($val['is_special'] == 1){
-                            $val['is_special'] = "是";
+                        if($val['is_special'] == 0){
+                            $val['is_special'] = "否";
+                        } else if($val['is_special'] == 1){
+                        $val['is_special'] = "是";
+
                         }
                         //菜品上架状态 0：已下架1：待审核2：已上架
                         $val['groundin'] = '已创建';
@@ -375,9 +377,8 @@ class Goods extends Common{
                     $editData['is_open_stock'] = 0;
 
                 }
-                if(isset($postData['stock'])){
-                    $editData['stock'] = 0;
-                }
+               $editData['stock'] = $postData['stock'];
+ 
                 $res = model('goods')->save($editData,$where);
                 if(!empty($postData['tag2'])){
                     $gbsCount = model('goodsBingSpec')->where(['goodsid'=>$postData['gid'],'storeid'=>$storeid])->count();
