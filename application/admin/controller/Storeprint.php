@@ -34,6 +34,7 @@ class Storeprint extends Common
                     $where['storeid'] = $getData['store'];
                 }
             }
+            
             if(!empty($getData['device_no'])){
                 $where['device_no'] = $getData['device_no'];
             }
@@ -45,10 +46,17 @@ class Storeprint extends Common
             $data = model('store_print')->where($where)->select()->toArray();
             if(!empty($data)){
                 foreach ($data as &$val){
-                    $val['type']='GPS打印机';
+                    $val['type'] ='GPS打印机';
                     $val['storename'] = '';
                     if(isset($snData)){
-                        $val['storename'] = $snData[$val['storeid']];
+
+                        if(isset($snData[$val['storeid']])){
+                            $val['storename'] = $snData[$val['storeid']];
+                        } else {
+                            $val['storename'] = '';
+                        }
+
+                        
                     }
                 }
                 unset($val);

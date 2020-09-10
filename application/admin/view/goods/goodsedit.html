@@ -20,6 +20,13 @@
         <label class="layui-form-label">菜品图片</label>
         <button type="button" class="layui-btn" id="addZmImg"><i class="layui-icon">&#xe67c;</i>上传图片</button>
     </div>
+    <input type="text" id='logoval' hidden value="{$goods.img}">
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+            <img src="" id="images" style="height: 50px;">
+            <a href="javascript:;" id='delimg'></a>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-inline" style="margin-left: 100px;">
             <input type="hidden" id="logo" name="img">
@@ -214,6 +221,10 @@
                         }
                     },'json');
             });
+            var logoval = $('#logoval').val();
+            if(logoval !== ''){
+                $('#images').attr('src','__PUBLIC__/'+logoval);
+            }
 
             var uploads = upload.render({
                 elem: '#addZmImg'
@@ -234,6 +245,7 @@
                 },allDone: function(obj){ //当文件全部被提交后，才触发
                 },done: function(res){
                     if(res.code==1){
+                        $('#images').hide();
                         var strLen = $('#logo').val();
                         if(strLen.length == 0){
 

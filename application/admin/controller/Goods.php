@@ -167,7 +167,7 @@ class Goods extends Common{
 
         $postData = input('post.');
         if(isset($postData['gtid'])&&!empty($postData['gtid'])){
-            $count = model('goods')->where(['gtid'=>$postData['gtid']])->count();
+            $count = model('goods')->where(['gtid'=>$postData['gtid'],'status'=>1])->count();
             if($count>0){
                 fail('该分类下存在商品，请先删除后在次尝试');
             }
@@ -433,6 +433,7 @@ class Goods extends Common{
             }
             $gstData = model('goodsSpecType')->where(['storeid'=>$gData['storeid']])->select()->toArray();
             $gsbData = model('goodsBingSpec')->where(['goodsid'=>$gData['gid']])->find();
+
             $this->assign('gtData',$gtData);
             $this->assign('goods',$gData);
             $this->assign('gstData',$gstData);
