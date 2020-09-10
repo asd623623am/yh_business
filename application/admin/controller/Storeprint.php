@@ -64,7 +64,6 @@ class Storeprint extends Common
                 $data = [];
                 $count = 0;
             }
-            dump($data);exit;
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
