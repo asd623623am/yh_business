@@ -427,48 +427,131 @@ class Xmorder extends Common
 			$where = [];
 			   $admins = session('admin');
 				if($admins['admin_type'] != 3){
+					if(!empty($datas['store'])){
 					$where['storeid'] = $datas['store'];
+					}
 				} else {
 					$where['storeid'] = $admins['storeid'];
 				}
-				$where['pay_status'] = 2;
+				$where['pay_status'] = $datas['pay_status'];
 				$where['status'] = 1;
 				$start = $datas['start_at'].' 00:00:00';
 				$end = $datas['end_at'].' 23:59:59';
-			   //查出数据.
-			   $newdata = model('Xmorder')->where($where)->whereTime('pay_time','between',[$start,$end])->select()->toArray();
-				$moneys = 0;
-			   //给缴费时间的时间戳转换成时间.
-			   $num = 1;
-               foreach ($newdata as $ks => $vs) {
-				   $newdata[$ks]['pay_time'] = date('Y-m-d H:i:s',$vs['pay_time']);
-				   $newdata[$ks]['pay_fee'] = sprintf("%1\$.2f", $vs['pay_fee']);
-				   $moneys += $vs['pay_fee'];
-				   $newdata[$ks]['number'] = $num++;
-					$newdata[$ks]['order_sn'] = ' '.$vs['order_sn'];
-					$newdata[$ks]['pay_trans_no'] = ' '.$vs['pay_trans_no'];
-				   if($vs['pay_id'] == 1){ 
-					   $newdata[$ks]['pay_id'] = '微信支付';
-				   }
-			   }
-			   $moneys=sprintf("%1\$.2f", $moneys);
+				if(isset($where['storeid'])){
+					##打印一个门店
 
-			   if(!empty($newdata)){
-				$cumulative = [
-					'number'	=> '',
-					'order_sn'	=> '',
-					'pay_trans_no'	=> '',
-					'goods_amount'	=> '',
-					'pay_id'			=> '',
-					'pay_fee'		=> '总计金额：'.$moneys,
-					'pay_time'		=> ''
-				];
-	
-				array_push($newdata,$cumulative);
-			   }
-			   
+					 //查出数据.
+					 $swhere = [
+						 'storeid'	=> $where['storeid']
+					 ];
+					 $storenames = model('Store')->where($swhere)->find()->toArray();
+					 $newdata = model('Xmorder')->where($where)->whereTime('pay_time','between',[$start,$end])->select()->toArray();
+					 $moneys = 0;
+					//给缴费时间的时间戳转换成时间.
+					$num = 1;
+					foreach ($newdata as $ks => $vs) {
+						$newdata[$ks]['sname'] = $storenames['name'];
+						$newdata[$ks]['pay_time'] = date('Y-m-d H:i:s',$vs['pay_time']);
+						$newdata[$ks]['pay_fee'] = sprintf("%1\$.2f", $vs['pay_fee']);
+						$moneys += $vs['pay_fee'];
+						$newdata[$ks]['number'] = $num++;
+						 $newdata[$ks]['order_sn'] = ' '.$vs['order_sn'];
+						 $newdata[$ks]['pay_trans_no'] = ' '.$vs['pay_trans_no'];
+						if($vs['pay_id'] == 1){ 
+							$newdata[$ks]['pay_id'] = '微信支付';
+						}
+					}
+					$moneys=sprintf("%1\$.2f", $moneys);
+	 
+					if(!empty($newdata)){
+					 $cumulative = [
+						 'number'	=> '',
+						 'order_sn'	=> '',
+						 'pay_trans_no'	=> '',
+						 'goods_amount'	=> '',
+						 'pay_id'			=> '',
+						 'pay_fee'		=> '总计金额：'.$moneys,
+						 'pay_time'		=> '',
+						 'sname'		=> ''
+					 ];
+		 
+					 array_push($newdata,$cumulative);
+					}
+
+				} else {
+					####全部打印
+					$moneycount = 0;
+					$storedata = model('Store')->where(['status'=>1])->select()->toArray();
+					if(!empty($storedata)){
+						$temp = [];
+						foreach($storedata as $k=>$v){
+							$where['storeid'] = $v['storeid'];
+							$newdata = model('Xmorder')->where($where)->whereTime('pay_time','between',[$start,$end])->select()->toArray();
+							if(!empty($newdata)){
+
+
+								$moneys = 0;
+								//给缴费时间的时间戳转换成时间.
+								$num = 1;
+								foreach ($newdata as $ks => $vs) {
+									$newdata[$ks]['sname'] = $v['name'];
+									$newdata[$ks]['pay_time'] = date('Y-m-d H:i:s',$vs['pay_time']);
+									$newdata[$ks]['pay_fee'] = sprintf("%1\$.2f", $vs['pay_fee']);
+									$moneys += $vs['pay_fee'];
+									$newdata[$ks]['number'] = $num++;
+									 $newdata[$ks]['order_sn'] = ' '.$vs['order_sn'];
+									 $newdata[$ks]['pay_trans_no'] = ' '.$vs['pay_trans_no'];
+									if($vs['pay_id'] == 1){ 
+										$newdata[$ks]['pay_id'] = '微信支付';
+									}
+								}
+								$moneys=sprintf("%1\$.2f", $moneys);
+								$moneycount += $moneys;
+								if(!empty($newdata)){
+								 $cumulative = [
+									 'number'	=> '',
+									 'order_sn'	=> '',
+									 'pay_trans_no'	=> '',
+									 'goods_amount'	=> '',
+									 'pay_id'			=> '',
+									 'pay_fee'		=> '商家总计：'.$moneys,
+									 'pay_time'		=> '',
+									 'sname'		=> ''
+								 ];
+					 
+								 array_push($newdata,$cumulative);
+								}
+
+								$temp[] = $newdata;
+							}
+						}
+					}
+
+					$result = array_reduce($temp, function ($result, $value) {
+						return array_merge($result, array_values($value));
+					}, array());
+
+					if(!empty($result)){
+						$cumulatives = [
+							'number'	=> '',
+							'order_sn'	=> '',
+							'pay_trans_no'	=> '',
+							'goods_amount'	=> '',
+							'pay_id'			=> '',
+							'pay_fee'		=> '总计金额：'.sprintf("%1\$.2f", $moneycount),
+							'pay_time'		=> '',
+							'sname'		=> ''
+						];
+			
+						array_push($result,$cumulatives);
+					   }
+
+
+					$newdata = $result;
+
+				}			  
+				
 			   $xlsData = $newdata;
-			  
             // $newdata = json_decode($data['data'],true);
                // 文件名和文件类型
                // $fileName = $data['fileName'];
@@ -500,7 +583,7 @@ class Xmorder extends Common
                        $letter =explode(',',"A,B,C,D,E,F,G,H");
                        // $letter =explode(',',"A,B,C,D,E,F,G,H,I,J");
                        // $arrHeader = array('姓名','公司','公司地址','邮箱','电话','职位','行业应用','会员角色','是否验证');
-                       $arrHeader = array('序号','订单号','交易号','商品数量','支付方式','支付时间','订单金额');
+                       $arrHeader = array('序号','订单号','交易号','商品数量','支付方式','支付时间','订单金额',"门店名称");
 
                        //合并单元格
                        $objExcel->getActiveSheet()->mergeCells('A1:P1');
@@ -518,7 +601,6 @@ class Xmorder extends Common
 
                        };
 
-
                        //填充表格信息
                        foreach($xlsData as $k=>$v){
                            $k +=3;
@@ -529,6 +611,7 @@ class Xmorder extends Common
                            $objActSheet->setCellValue('E'.$k, $v['pay_id']);
                            $objActSheet->setCellValue('F'.$k, $v['pay_time']);
                            $objActSheet->setCellValue('G'.$k, $v['pay_fee']);
+                           $objActSheet->setCellValue('H'.$k, $v['sname']);
                            // 表格高度
                            $objActSheet->getRowDimension($k)->setRowHeight(20);
                        }
@@ -541,7 +624,8 @@ class Xmorder extends Common
                        $objActSheet->getColumnDimension('D')->setWidth($width[1]);
                        $objActSheet->getColumnDimension('E')->setWidth($width[1]);
                        $objActSheet->getColumnDimension('F')->setWidth($width[4]);
-                       $objActSheet->getColumnDimension('G')->setWidth($width[1]);
+                       $objActSheet->getColumnDimension('G')->setWidth($width[3]);
+                       $objActSheet->getColumnDimension('H')->setWidth($width[4]);
                     //    $objActSheet->getColumnDimension('H')->setWidth($width[1]);
                     //    $objActSheet->getColumnDimension('I')->setWidth($width[1]);
                        // $objActSheet->getColumnDimension('K')->setWidth($width[1]);
