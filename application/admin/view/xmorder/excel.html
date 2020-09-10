@@ -91,6 +91,7 @@
             	$('#up').click(function(){
             	    location.href="{:url('Xmorder/orderDay')}";
             	});
+                form.render();
             //监听提交
             form.on('submit(*)',function(data){
             	var newtemp = data.field;
