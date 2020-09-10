@@ -356,7 +356,7 @@ class PHPExcel extends Common{
                         'original_price'    => $value['菜品原价'],
                         'selling_price'     => $value['菜品售价'],
                         'member_price'      => $value['会员价'],
-                        'staff_price'       => $value['员工价'],
+                        'staff_price'       => $value['员工价']?$value['员工价']:$value['菜品售价'],
                         'is_special'        => $is_special,
                         'is_show'           => 1,
                         'is_grounding'      => 4,
