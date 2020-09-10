@@ -34,6 +34,7 @@ class Storeprint extends Common
                     $where['storeid'] = $getData['store'];
                 }
             }
+            dump($where);exit;
             if(!empty($getData['device_no'])){
                 $where['device_no'] = $getData['device_no'];
             }
