@@ -50,12 +50,12 @@ class Storeprint extends Common
                     if(isset($snData)){
 
                         if(isset($snData[$val['storeid']])){
-                            echo '123';exit;
+                            $val['storename'] = $snData[$val['storeid']];
                         } else {
-                            echo '456';exit;
+                            $val['storename'] = '';
                         }
 
-                        $val['storename'] = $snData[$val['storeid']];
+                        
                     }
                 }
                 unset($val);
