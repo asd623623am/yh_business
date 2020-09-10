@@ -57,6 +57,12 @@ class Goods extends Model{
                     $saveData[$val] = $data[$val];
                 }
             }
+            /* 员工价个默认为售价*/
+            if($val == 'staff_price'){
+                if($data[$val] == ''){
+                    $saveData['staff_price'] = $data['selling_price'];
+                }
+            }
         }
         return $saveData;
     }

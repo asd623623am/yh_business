@@ -356,7 +356,7 @@ class PHPExcel extends Common{
                         'original_price'    => $value['菜品原价'],
                         'selling_price'     => $value['菜品售价'],
                         'member_price'      => $value['会员价'],
-                        'staff_price'       => $value['员工价'],
+                        'staff_price'       => $value['员工价']?$value['员工价']:$value['菜品售价'],
                         'is_special'        => $is_special,
                         'is_show'           => 1,
                         'is_grounding'      => 4,
@@ -374,16 +374,16 @@ class PHPExcel extends Common{
                         fail('导入失败');
                     }
 
-                    $gbsData = [];
-                    $gbsData['storeid'] = $admin['storeid'];
-                    $gbsData['goodsid'] = $gid;
-                    $gbsData['gstids'] = $gtid;
-                    $gbsData['update_time'] = time();
-                    $gbsData['create_time'] = time();
-                    $ret = model('goodsBingSpec')->save($gbsData);
-                    if(!$ret){
-                        fail('添加失败');
-                    }
+//                    $gbsData = [];
+//                    $gbsData['storeid'] = $admin['storeid'];
+//                    $gbsData['goodsid'] = $gid;
+//                    $gbsData['gstids'] = $gtid;
+//                    $gbsData['update_time'] = time();
+//                    $gbsData['create_time'] = time();
+//                    $ret = model('goodsBingSpec')->save($gbsData);
+//                    if(!$ret){
+//                        fail('添加失败');
+//                    }
                     
 
                 }
