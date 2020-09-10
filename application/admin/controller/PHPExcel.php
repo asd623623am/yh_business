@@ -374,16 +374,16 @@ class PHPExcel extends Common{
                         fail('导入失败');
                     }
 
-                    $gbsData = [];
-                    $gbsData['storeid'] = $admin['storeid'];
-                    $gbsData['goodsid'] = $gid;
-                    $gbsData['gstids'] = $gtid;
-                    $gbsData['update_time'] = time();
-                    $gbsData['create_time'] = time();
-                    $ret = model('goodsBingSpec')->save($gbsData);
-                    if(!$ret){
-                        fail('添加失败');
-                    }
+//                    $gbsData = [];
+//                    $gbsData['storeid'] = $admin['storeid'];
+//                    $gbsData['goodsid'] = $gid;
+//                    $gbsData['gstids'] = $gtid;
+//                    $gbsData['update_time'] = time();
+//                    $gbsData['create_time'] = time();
+//                    $ret = model('goodsBingSpec')->save($gbsData);
+//                    if(!$ret){
+//                        fail('添加失败');
+//                    }
                     
 
                 }
