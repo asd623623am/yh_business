@@ -43,10 +43,9 @@ class Storeprint extends Common
                 $snData = array_column($storeData,'name','storeid');
             }
             $data = model('store_print')->where($where)->select()->toArray();
-            dump($data);exit;
             if(!empty($data)){
                 foreach ($data as &$val){
-                    $val['type']='GPS打印机';
+                    $val['type'] ='GPS打印机';
                     $val['storename'] = '';
                     if(isset($snData)){
                         $val['storename'] = $snData[$val['storeid']];
@@ -58,6 +57,7 @@ class Storeprint extends Common
                 $data = [];
                 $count = 0;
             }
+            dump($data);exit;
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
