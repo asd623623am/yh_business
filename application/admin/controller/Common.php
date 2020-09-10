@@ -152,10 +152,13 @@ class Common extends Controller
                 if ($v['node_name'] == '基本情况') {
                     $temp[0] = $v;
                 }
-                if ($v['node_name'] == '菜品管理') {
+                if($v['node_name'] == '门店管理'){
                     $temp[1] = $v;
+                }
+                if ($v['node_name'] == '菜品管理') {
+                    $temp[2] = $v;
                     $sontemp = [];
-                    $son = $temp[1]['son'];
+                    $son = $temp[2]['son'];
                     foreach ($son as $kk => $vv) {
 
                         if ($vv['node_name'] == '菜品类别') {
@@ -172,26 +175,37 @@ class Common extends Controller
                         }
                     }
                     ksort($sontemp);
-                    $temp[1]['son'] = $sontemp;
+                    $temp[2]['son'] = $sontemp;
                 }
-                if ($v['node_name'] == '订单管理') {
-                    $temp[2] = $v;
-                }
-                if ($v['node_name'] == '会员管理') {
+                if($v['node_name'] == '上架审核'){
                     $temp[3] = $v;
                 }
-                if ($v['node_name'] == '二维码管理') {
+                if ($v['node_name'] == '订单管理') {
                     $temp[4] = $v;
                 }
-                if ($v['node_name'] == '打印机管理') {
+                if ($v['node_name'] == '会员管理') {
                     $temp[5] = $v;
                 }
-                if ($v['node_name'] == '店铺设置') {
+                if ($v['node_name'] == '二维码管理') {
                     $temp[6] = $v;
                 }
-                if ($v['node_name'] == '权限管理') {
+                if ($v['node_name'] == '打印机管理') {
                     $temp[7] = $v;
                 }
+                if($v['node_name'] == '店铺设置'){
+                    $temp[8] = $v;
+                }
+                if ($v['node_name'] == '权限管理') {
+                    $temp[9] = $v;
+                    $son = $temp[9]['son'];
+                    $key = array_column($son, 'node_id');
+                    array_multisort($key, SORT_ASC, $temp[9]['son']);
+                }
+                if ($v['node_name'] == '系统管理') {
+                    $temp[10] = $v;
+                }
+
+
             }
             ksort($temp);
             $return = [
