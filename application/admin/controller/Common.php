@@ -101,8 +101,6 @@ class Common extends Controller
                 admin_id = ' . $admin_info['admin_id'];
 
             $menu = model('admin')->query($sql);
-            // dump($menu);exit;
-
             if (!empty($menu)) {
                 $new = [];
                 $power_list = [];
@@ -117,11 +115,10 @@ class Common extends Controller
             } else {
                 $new = [];
             }
-
             $roles = model('admin_role')->where(['admin_id'=>$admin_info['admin_id']])->find()->toArray();
             $ro =model('Role')->where(['role_id'=>$roles['role_id']])->find()->toArray();
             $temp = [];
-            #判断管理员 是有物业权限还是供暖权限
+            // #判断管理员 是有物业权限还是供暖权限
             // foreach ($new as $k => $v) {
             //     if ($v['node_name'] == '缴费创建') {
             //         if ($ro['type'] == 1) {
@@ -151,11 +148,38 @@ class Common extends Controller
             //     }
             // }
             
+            foreach($new as $k=>$v){
+                if ($v['node_name'] == '基本情况') {
+                    $temp[0] = $v;
+                }
+                if ($v['node_name'] == '菜品管理') {
+                    $temp[1] = $v;
+                }
+                if ($v['node_name'] == '订单管理') {
+                    $temp[2] = $v;
+                }
+                if ($v['node_name'] == '会员管理') {
+                    $temp[3] = $v;
+                }
+                if ($v['node_name'] == '二维码管理') {
+                    $temp[4] = $v;
+                }
+                if ($v['node_name'] == '打印机管理') {
+                    $temp[5] = $v;
+                }
+                if ($v['node_name'] == '店铺设置') {
+                    $temp[6] = $v;
+                }
+                if ($v['node_name'] == '权限管理') {
+                    $temp[7] = $v;
+                }
+            }
+            ksort($temp);
             $return = [
-                'menu' => $new,
+                // 'menu' => $new,
+                'menu' => $temp,
                 'power_list' => $power_list
             ];
-            // dump($return);exit;
             # 把用户的左侧菜单和权限列表存入session
             // session( 'power' , $return );
 
