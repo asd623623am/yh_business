@@ -15,10 +15,11 @@
 
     <input type="text" hidden id='is_parent' value="{$is_display}">
       <div class="layui-form-item" id='is_display' style="display: none;">
-          <label class="layui-form-label">请选择门店</label>
+          <label class="layui-form-label">请选择门店<span style="color: red;">*</span></label>
           <div class="layui-input-block">
             <select name="store">
             <option value="">请选择门店</option>
+            <option value="">全部门店</option>
             {volist name="data" id='datas'}
             <option value="{$datas.storeid}">{$datas.name}</option>
             {/volist}
