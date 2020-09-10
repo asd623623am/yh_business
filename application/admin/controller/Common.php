@@ -154,6 +154,25 @@ class Common extends Controller
                 }
                 if ($v['node_name'] == '菜品管理') {
                     $temp[1] = $v;
+                    $sontemp = [];
+                    $son = $temp[1]['son'];
+                    foreach ($son as $kk => $vv) {
+
+                        if ($vv['node_name'] == '菜品类别') {
+                            $sontemp[0] = $vv;
+                        }
+                        if ($vv['node_name'] == '规格信息') {
+                            $sontemp[1] = $vv;
+                        }
+                        if ($vv['node_name'] == '菜品信息') {
+                            $sontemp[2] = $vv;
+                        }
+                        if ($vv['node_name'] == '菜品库存') {
+                            $sontemp[3] = $vv;
+                        }
+                    }
+                    ksort($sontemp);
+                    $temp[1]['son'] = $sontemp;
                 }
                 if ($v['node_name'] == '订单管理') {
                     $temp[2] = $v;
@@ -244,6 +263,25 @@ class Common extends Controller
                 }
                 if($v['node_name'] == '菜品管理'){
                     $temp['2'] = $v;
+                    $sontemp = [];
+                    $son = $temp[2]['son'];
+                    foreach ($son as $kk => $vv) {
+
+                        if ($vv['node_name'] == '菜品类别') {
+                            $sontemp[0] = $vv;
+                        }
+                        if ($vv['node_name'] == '规格信息') {
+                            $sontemp[1] = $vv;
+                        }
+                        if ($vv['node_name'] == '菜品信息') {
+                            $sontemp[2] = $vv;
+                        }
+                        if ($vv['node_name'] == '菜品库存') {
+                            $sontemp[3] = $vv;
+                        }
+                    }
+                    ksort($sontemp);
+                    $temp[2]['son'] = $sontemp;
                 }
                 if($v['node_name'] == '上架审核'){
                     $temp['3'] = $v;
