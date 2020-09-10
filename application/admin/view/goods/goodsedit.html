@@ -283,7 +283,7 @@
             /* 验证输入框*/
             var reg = /^-?\d+$|^(-?\d+)(\.\d+)?$/;
             form.verify({
-                code: [/^$|^[0-9]{0,5}$/, '菜品编号只能是数字！'],
+                code: [/^$|^[0-9]{0,15}$/, '菜品编号只能是数字！'],
                 selling_price: [reg, '菜品售价格式有误，请重新输入'],
                 original_price:function(value){
                     if(value.length){
