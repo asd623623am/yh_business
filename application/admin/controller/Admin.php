@@ -153,7 +153,31 @@ class Admin extends Common
         }
 
         $admin = session('admin');
-        $admin_info = model('Admin')->where(['pid'=>$admin['admin_id']])->page($p, $page_num)->select();
+        $admin_info = model('Admin')->where(['pid'=>$admin['admin_id']])->page($p, $page_num)->select()->toArray();
+        if(!empty($admin_info)){
+            foreach($admin_info as $k=>$v){
+                $where = [
+                    'admin_id'  => $v['admin_id']
+                ];
+                $roleId = model('AdminRole')->where($where)->find();
+                if($roleId == null){
+                    $admin_info[$k]['role_name'] = '暂无';
+                } else {
+                    $roleIds = $roleId -> toArray();
+                    $rwhere = [
+                        'role_id'   => $roleIds['role_id']
+                    ];
+                    $roledata = model('Role')->where($rwhere)->find();
+                    if($roledata == null){
+                        $admin_info[$k]['role_name'] = '暂无';
+                    } else {
+                        $roledata = $roledata->toArray();
+                        $admin_info[$k]['role_name'] = $roledata['role_name'];
+                    }
+                }
+                
+            }
+        }
         $count = model('Admin')->where(['pid'=>$admin['admin_id']])->count();
         $info = ['code' => 0, 'msg' => '', 'count' => $count, 'data' => $admin_info];
         echo json_encode($info);
