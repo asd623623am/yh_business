@@ -972,10 +972,14 @@ class Goods extends Common{
                     $editData['storeid'] = $storeid;
                 }
                 $where = ['gstid'=>$postData['gstid']];
+                // dump($where);exit;
                 //1：修改规格更新时间
                 model('goodsSpecType')->save($editData,$where);
                 //2：删除分类下规格信息
-                model('goodsSpec')->where($where)->delete();
+                $updates = [
+                    'status'    => 1
+                ];
+                model('goodsSpec')->save($updates,$where);
                 $insertAll = [];
                 $Econtent = explode("，",$postData['gsname']);
                 $Zcontent = explode("，",$postData['gsname']);
