@@ -208,7 +208,7 @@ class PHPExcel extends Common{
 //        $realm_name = 'business.com';
         $realm_name = 'airscan.yinheyun.com.cn';
         //文件名称
-        $fieldname = '菜品模板.xlsx';
+        $fieldname = '菜品模板1.xlsx';
         //图片地址
         $url = 'http://'.$realm_name.'/PHPExcel/'.$fieldname;
         win($url);
@@ -271,14 +271,14 @@ class PHPExcel extends Common{
                 
                 $data = [];
                 foreach ($arr as $key => $value) {
-                    if (!isset($value['菜品名称'])) {
+                    if (!isset($value['菜品名称（必填）'])) {
                         return fail('缺少菜品名称标题');
                     }
     
-                    if (!array_key_exists('菜品编号',$value)) {
+                    if (!array_key_exists('菜品编号（必填）',$value)) {
                         return fail('缺少菜品编号标题');
                     }
-                    if (!array_key_exists('菜品售价',$value)) {
+                    if (!array_key_exists('菜品售价（必填）',$value)) {
                         return fail('缺少菜品售价标题');
                     }
     
@@ -299,12 +299,12 @@ class PHPExcel extends Common{
                     if (!array_key_exists('菜品介绍',$value)) {
                         return fail('缺少菜品介绍标题');
                     }
-                    if (!array_key_exists('分类',$value)) {
+                    if (!array_key_exists('分类（必填）',$value)) {
                         return fail('缺少分类标题');
                     }
                     $where = [
                         'storeid'   => $admin['storeid'],
-                        'gtname'    => $value['分类'],
+                        'gtname'    => $value['分类（必填）'],
                         'status'    => 1
                     ];
 
@@ -317,7 +317,7 @@ class PHPExcel extends Common{
                         ];
                         $reslut = model('GoodsType')->where($where)->find();
                         if($reslut == null){
-                            fail('您的菜品名称：'.$value['菜品名称'].' 菜品编号：'.$value['菜品编号'].'的分类有问题');
+                            fail('您的菜品名称：'.$value['菜品名称（必填）'].' 菜品编号：'.$value['菜品编号（必填）'].'的分类有问题');
                         } else {
                             $gtid = $reslut->gtid;
                         }
@@ -351,12 +351,12 @@ class PHPExcel extends Common{
                     $insert = [
                         'storeid'   => $admin['storeid'],
                         'gtid'      => $gtid,
-                        'name'      => $value['菜品名称'],
-                        'code'      => $value['菜品编号'],
+                        'name'      => $value['菜品名称（必填）'],
+                        'code'      => $value['菜品编号（必填）'],
                         'original_price'    => $value['菜品原价'],
-                        'selling_price'     => $value['菜品售价'],
+                        'selling_price'     => $value['菜品售价（必填）'],
                         'member_price'      => $value['会员价'],
-                        'staff_price'       => $value['员工价']?$value['员工价']:$value['菜品售价'],
+                        'staff_price'       => $value['员工价']?$value['员工价']:$value['菜品售价（必填）'],
                         'is_special'        => $is_special,
                         'is_show'           => 1,
                         'is_grounding'      => 4,

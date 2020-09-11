@@ -517,6 +517,10 @@ class Goods extends Common{
                 $saveData = ['is_grounding'=>2];
             }
             $where = ['gid' => $postData['gid']];
+            $isS = model('goods')->where($where)->find()->toArray();
+            if($isS['is_grounding'] == 2){
+                win('此商品已上架');
+            }
             //设置菜品信息待审核状态
             $ret = model('goods')->save($saveData,$where);
             if($ret){
