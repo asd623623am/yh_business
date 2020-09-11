@@ -208,6 +208,9 @@ class Goods extends Common{
             if(!empty($getData['storeids'])){
                 $where['storeid'] = $getData['storeids'];
             }
+            if(!empty($getData['code'])){
+                $where['code'] = $getData['code'];
+            }
             $gtData = Db::table("xm_goods_type")->where($gtWhere)->select();
             if(empty($gtData)){
                 $data = [];

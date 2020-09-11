@@ -16,11 +16,14 @@
     </div>
     <div class="layui-input-inline tempsTest">
         <select name="gtid" lay-search="">
-            <option value="">请选择菜品分类</option>
+            <option value="">请选择菜品类别</option>
             {volist name="gtData" id='gtData'}
             <option value="{$gtData.gtid}">{$gtData.gtname}</option>
             {/volist}
         </select>
+    </div>
+    <div class="layui-input-inline tempsTest">
+        <input type="text" name="code" required  placeholder="请输入菜品编号" autocomplete="off" class="layui-input">
     </div>
     <div class="layui-input-inline tempsTest">
         <select name="is_grounding"  id="is_grounding" lay-search="">

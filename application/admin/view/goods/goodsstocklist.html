@@ -15,7 +15,7 @@
     </div>
     <div class="layui-inline tempsTest">
         <select name="gtid"  id="gtid" lay-search="">
-            <option value="">请选择菜品分类</option>
+            <option value="">请选择菜品类别</option>
             {volist name="gtData" id='gtData'}
             <option value="{$gtData.gtid}">{$gtData.gtname}</option>
             {/volist}
@@ -54,7 +54,7 @@
                     ,{field:'open_stock', width:120, title: '是否开启库存',align:'center'}
                     ,{field:'stock', width:110, title: '菜品库存'}
                     ,{field:'is_selling', width:110, title: '是否售罄',align:'center'}
-                    ,{field:'check_time', width:180, title: '盘点时间',align:'center'}
+                    // ,{field:'check_time', width:180, title: '盘点时间',align:'center'}
                     ,{field:'update_time', width:180, title: '更新时间',align:'center'}
                     ,{field:'right', width:120,toolbar: '#barDemo', title: '操作',align:'center'}
                 ]],
