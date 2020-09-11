@@ -386,6 +386,15 @@ class Goods extends Common{
                     $editData['is_open_stock'] = 0;
 
                 }
+
+            $whereSel['gid'] = array('neq',$postData['gid']);
+            $whereSel['code'] = $postData['code'];
+            $whereSel['status'] = 1;
+            $arr = model('goods')->where($whereSel)->select()->toArray();
+            if(!empty($arr)){
+                fail('菜品编号已使用！');
+            }
+
                $editData['stock'] = $postData['stock'];
  
                 $res = model('goods')->save($editData,$where);
