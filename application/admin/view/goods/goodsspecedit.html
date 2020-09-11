@@ -96,21 +96,19 @@
             form.on('submit(*)',function(data){
 
                 var info = data.field;
-
                 var re =/[`~!@#$%^&*_+<>{}.。、?;\/'[\]]/im;
-                if (re.test(info.spec_content))
+                if (re.test(info.gsname))
                 {
                     layer.msg('请使用，分隔不同规格', {icon: 5});
                     return false;
                 } else {
-                    info.spec_content = info.spec_content.replace(/,/ig, '，');
+                    info.gsname = info.gsname.replace(/,/ig, '，');
                 }
 
-                if(info.spec_content.indexOf(" ") > 0 ) { 
+                if(info.gsname.indexOf(" ") > 0 ) { 
                     layer.msg('请使用，分隔不同规格', {icon: 5}) 
                     return false;
                 }
-
 
                 $.post(
                     "{:url('Goods/goodsSpecEdit')}",
