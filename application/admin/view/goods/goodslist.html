@@ -152,8 +152,15 @@
                     return false;
                 })
             }else if(layEvent === 'up'){
+                var quans = $('#quan').val();
+                var str = '';                
+                if(quans == 'jichang'){
+                    str = '确认上架吗？';
+                } else {
+                    str = '确认提交审核吗？';
+                }
                 // 确认上架菜品【<font style='color: red'>"+data.name+"</font>】吗？
-                layer.confirm("确认提交审核吗？", function(index){
+                layer.confirm(str, function(index){
                     $.post(
                         "{:url('Goods/goodsUp')}",
                         data,

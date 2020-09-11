@@ -307,10 +307,19 @@ class Goods extends Common{
             /* 验证商品必传信息*/
             $insert = [];
             $insert = \app\admin\model\Goods::isVerificationField($postData,$insert);
+            $where = [];
             if(!empty($postData)){
                 $insert['storeid'] = $postData['storeid'];
+                $where['storeid'] = $postData['storeid'];
             }else{
                 $insert['storeid'] = $storeid;
+                $where['storeid'] = $storeid;
+            }
+            $where['code'] = $postData['code'];
+            $where['status'] = 1;
+            $arr = model('goods')->where($where)->select()->toArray();
+            if(!empty($arr)){
+                fail('菜品编号已使用！');
             }
             $insert['check_time'] = time();
             $insert['create_time'] = time();

@@ -183,6 +183,7 @@
                 ,defaultToolbar: []
                 ,cols: [[
                     {type: 'checkbox',}
+                    ,{width:100, title: '序号',type:'numbers'}
                     ,{field:'storeid', width:80, title: '序号', sort: true},
                     ,{field:'store_no', width:100, title: '门店编号',}
                     ,{field:'name', width:200, title: '门店名称'}
@@ -194,7 +195,7 @@
                     ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
                 ]],
                 done: function () {
-                    $("[data-field='home_id']").css('display','none');
+                    $("[data-field='storeid']").css('display','none');
                     $('.layui-table').on('click','tr',function(){
                         $(this).css('background','#ccc').siblings().css('background','#fff');
                     });
