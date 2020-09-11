@@ -96,6 +96,22 @@
             form.on('submit(*)',function(data){
 
                 var info = data.field;
+
+                var re =/[`~!@#$%^&*_+<>{}.。、?;\/'[\]]/im;
+                if (re.test(info.spec_content))
+                {
+                    layer.msg('请使用，分隔不同规格', {icon: 5});
+                    return false;
+                } else {
+                    info.spec_content = info.spec_content.replace(/,/ig, '，');
+                }
+
+                if(info.spec_content.indexOf(" ") > 0 ) { 
+                    layer.msg('请使用，分隔不同规格', {icon: 5}) 
+                    return false;
+                }
+
+
                 $.post(
                     "{:url('Goods/goodsSpecEdit')}",
                     info,
