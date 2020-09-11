@@ -152,6 +152,10 @@
                     return false;
                 })
             }else if(layEvent === 'up'){
+                if(data.groundin == '在售'){
+                    layer.msg('此商品已上架！', {icon: 5});
+                    return false;
+                }
                 var quans = $('#quan').val();
                 var str = '';                
                 if(quans == 'jichang'){
