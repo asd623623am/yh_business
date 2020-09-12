@@ -990,9 +990,29 @@ class Goods extends Common{
                 $insert['create_time'] = time();
                 $insert['update_time'] = time();
                 foreach ($spec_content as $val){
-                    $insert['gsname'] = $val;
-                    $insertAll[] = $insert;
+                    $new_where = [
+                        'gstid' => $postData['gstid'],
+                        'gsname'  => $val,
+                    ];
+
+
+                    $res = model('goodsSpec')->where($new_where)->find();
+                    if($res != null){
+                        $updates = [
+                            'status'    => 0
+                        ];
+                        model('goodsSpec')->where($new_where)->setField($updates);
+                    } else {
+                        $insert['gsname'] = $val;
+                        $insertAll[] = $insert;
+                    }
                 }
+                
+                if(empty($insertAll)){
+                    $this -> addLog('修改规格信息');
+                    win('修改成功');
+                }
+
                 //3：添加规格信息
                 $insgs = model('goodsSpec')->insertAll($insertAll);
                 if ($insgs) {
