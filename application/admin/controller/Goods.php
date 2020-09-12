@@ -857,7 +857,7 @@ class Goods extends Common{
                     }
                     $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                     $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
-                    $gsData = model('goodsSpec')->where(['gstid'=>$val['gstid']])->column('gsname');
+                    $gsData = model('goodsSpec')->where(['gstid'=>$val['gstid'],'status'=>0])->column('gsname');
                     $val['gsname'] = implode(",",$gsData);
                     $val['ismorename'] = '单选';
                     if($val['is_more'] == 1){
@@ -972,7 +972,6 @@ class Goods extends Common{
                     $editData['storeid'] = $storeid;
                 }
                 $where = ['gstid'=>$postData['gstid']];
-                // dump($where);exit;
                 //1：修改规格更新时间
                 model('goodsSpecType')->save($editData,$where);
                 //2：删除分类下规格信息
