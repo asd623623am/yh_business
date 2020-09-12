@@ -1015,7 +1015,7 @@ class Goods extends Common{
             if(empty($gstData)){
                 fail("规格信息有误");
             }
-            $gsData = model('goodsSpec')->where(['gstid'=>$gstid])->column('gsname');
+            $gsData = model('goodsSpec')->where(['gstid'=>$gstid,'status'=>0])->column('gsname');
             $gstData['gsname'] = implode(',',$gsData);
             $this->assign('spec',$gstData);
             $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
