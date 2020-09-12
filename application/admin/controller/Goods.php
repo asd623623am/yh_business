@@ -331,7 +331,7 @@ class Goods extends Common{
             $gid = model('goods')->insertGetId($insert);
             /*@todo 后期规格绑定价格在做处理*/
             $gbsData = [];
-            $gbsData['storeid'] = $storeid;
+            $gbsData['storeid'] = $where['storeid'];
             $gbsData['goodsid'] = $gid;
             $gbsData['gstids'] = $postData['gstids'];
             $gbsData['update_time'] = time();
@@ -401,7 +401,10 @@ class Goods extends Common{
                $editData['stock'] = $postData['stock'];
  
                 $res = model('goods')->save($editData,$where);
+                    $stor = model('goods')->where($where)->find()->toArray();
+                    $storeid = $stor['storeid'];
                 if(!empty($postData['tag2'])){
+
                     $gbsCount = model('goodsBingSpec')->where(['goodsid'=>$postData['gid'],'storeid'=>$storeid])->count();
                     if($gbsCount>0){
                         $gbsData = [
