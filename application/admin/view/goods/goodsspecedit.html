@@ -56,6 +56,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">是否必选</label>
+        <div class="layui-input-block">
+            <input type="checkbox" value="{$spec.is_must}" id='is_must' name="is_must" lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
@@ -88,6 +94,12 @@
             var is_more = $('#is_more').val();
             if(is_more == 1){
                 $('#is_more').attr('checked',true);
+            }
+
+            //设置是否必选
+            var is_must = $('#is_must').val();
+            if(is_must == 1){
+                $('#is_must').attr('checked',true);
             }
             //执行一个laydate实例
             laydate.render({

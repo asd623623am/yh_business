@@ -866,6 +866,11 @@ class Goods extends Common{
                     if($val['is_more'] == 1){
                         $val['ismorename'] = '多选';
                     }
+                    $val['ismustname'] = '否';
+                    if($val['is_must'] == 1){
+                        $val['ismustname'] = '是';
+                    }
+
                 }
                 unset($val);
             }
@@ -915,6 +920,11 @@ class Goods extends Common{
             if (isset($postData['is_more'])){
                 $istData['is_more'] = 1;
             }
+
+            if(isset($postData['is_must'])){
+                $istData['is_must'] = 1;
+            }
+
             $gstId = model('goodsSpecType')->insertGetId($istData);
             //添加商品规格信息
             $insert['gstid'] = $gstId;
@@ -966,6 +976,10 @@ class Goods extends Common{
                 $editData['is_more'] = 0;
                 if(isset($postData['is_more'])){
                     $editData['is_more'] = 1;
+                }
+                $editData['is_must'] = 0;
+                if(isset($postData['is_must'])){
+                    $editData['is_must'] = 1;
                 }
                 if($storeid == 0){
                     if(!empty($postData['storeid'])){

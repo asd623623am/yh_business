@@ -205,6 +205,7 @@
             var gstids = $('#gstids').val();
             gstList= gstids.split(',');
             var storeid = $('#getStoreid').val();
+
             $(document).ready(function(){
                 $.post("{:url('Goods/getGoodsSpecTypeList')}",
                     {storeid:storeid},
