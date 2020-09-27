@@ -96,9 +96,12 @@
             }else if(layEvent == 'download'){
 
                 var downloadName = data.gzlogo;
+                var url = window.location.protocol+"//"+window.location.host;;
                 var date = getNowFormatDate();
-                // var src = 'http://business.com/qrcode/'+ date + '/' + data.gzlogo;
-                var src = 'http://airscan.yinheyun.com.cn/qrcode/'+ date + '/' + data.gzlogo;
+                var src = url+'/qrcode/'+data.gz_qrcode;
+                // var src = 'http://airscan.yinheyun.com.cn/qrcode/'+ date + '/' + data.gzlogo;
+                // console.log(src);
+                // return false;
                 // console.log(url);
                 // // 生成一个 a 标签
                 // var downloadName = data.gzlogo;
@@ -159,7 +162,7 @@
                         if(data.length > 50){
                             layer.msg('最大打印50张');
                         }else{
-                            for (var i=0;data.length;i++){
+                            for (var i=0;i<data.length;i++){
                                 downloadImg(data[i]);
                             }
                         }
@@ -223,6 +226,46 @@
             }
             var currentdate = year + seperator1 + month + seperator1 + strDate;
             return currentdate;
+        }
+
+
+        function downloadImg(data) {
+            var downloadName = data.gzlogo;
+                var url = window.location.protocol+"//"+window.location.host;;
+                var date = getNowFormatDate();
+                var src = url+'/qrcode/'+data.gz_qrcode;
+                // var src = 'http://airscan.yinheyun.com.cn/qrcode/'+ date + '/' + data.gzlogo;
+                // console.log(src);
+                // return false;
+                // console.log(url);
+                // // 生成一个 a 标签
+                // var downloadName = data.gzlogo;
+                // // 获取要下载的图片
+                // var img = document.getElementById('testImg');
+                // var src = img.src;
+                const a = document.createElement("a");
+                a.download = downloadName || "图片";
+                a.style.display = "none";
+                const image = new Image();
+                image.src = src + "?v=" + Math.random();
+                image.crossOrigin = "*";
+                image.onload = () => {
+                    const base64 = getBase64Images(image);
+                    a.href = base64;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+                function getBase64Images(image) {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    const context = canvas.getContext("2d");
+                    context.drawImage(image, 0, 0, image.width, image.height);
+                    const url = canvas.toDataURL("image/png", 0);
+                    return url;
+                }
+
         }
     });
 </script>

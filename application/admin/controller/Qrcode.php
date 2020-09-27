@@ -30,7 +30,6 @@ class Qrcode extends Common{
             $getData = input('get.');
             
 
-
             if($admin['admin_type'] == 3){
                 $where['storeid'] = $admin['storeid'];
             } else {
@@ -45,7 +44,7 @@ class Qrcode extends Common{
             if(!empty($getData['tnumber'])){
                 $where['tnumber'] = $getData['tnumber'];
             }
-            $data = model('qrcode')->where($where)->select()->toArray();
+            $data = model('qrcode')->where($where)->page($getData['page'],$getData['limit'])->select()->toArray();
             foreach ($data as &$val){
                 if(isset($val['gz_qrcode']) && !empty($val['gz_qrcode'])){
                     $logoData = explode('/',$val['gz_qrcode']);
