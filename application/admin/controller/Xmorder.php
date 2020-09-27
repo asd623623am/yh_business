@@ -99,9 +99,10 @@ class Xmorder extends Common
 				if($v['pay_id'] == 1 ){
 					$res[$k]['pay_id'] = '微信支付';
 				}
-
-				if($v['is_new'] == 1){
+				$res[$k]['is_new_type'] = 0;
+				if($v['is_new'] == 1 && $v['pay_status'] == 2){
 					$res[$k]['order_sn'] = '<span style="color:red">'.$v['order_sn'].'</span>';
+					$res[$k]['is_new_type'] = 1;
 				}
 
 				if($v['pay_status'] == 0){
@@ -132,7 +133,9 @@ class Xmorder extends Common
                     $res[$k]['invoice_status'] = '已开发票';
                 }else{
                     $res[$k]['invoice_status'] = '未开发票';
-                }
+				}
+				
+				$res[$k]['pay_time'] = date('Y-m-d H:i:s',$v['pay_time']);
 			}
 
 			$info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
@@ -175,6 +178,20 @@ class Xmorder extends Common
 			fail('请求失败！');
 		}
 
+		if(empty($data['is_new_type'])){
+			fail('非法请求！');
+		}
+
+		if($data['is_new_type'] == 1){
+			$update = [
+				'is_new' => 2,
+				'update_time'	=> time()
+			];
+			$info = model('Xmorder')->where(['orderid'	=> $data['orderid']])->setField($update);
+			if(!$info){
+				fail('请求失败，请重新请求！');
+			}
+		}
 		$where = [
 			'orderid'	=> $data['orderid'],
 			'status'	=> 1

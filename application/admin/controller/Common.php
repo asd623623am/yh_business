@@ -48,7 +48,14 @@ class Common extends Controller
             '四期',
             '四期商业',
         ];
+        $xwhere = [
+            'status'    => 1,
+            'is_new'    => 1,
+            'pay_status' => 2
+        ];
+        $order_count = model('Xmorder')->where($xwhere)->count();
         // dump($menu);exit;
+        $this->assign('order_count',$order_count);
         $this->assign('area',$area);
         $this -> assign('images',$img['company_logo']);
         $this -> assign('AllMenu' , $menu );
