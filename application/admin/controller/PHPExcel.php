@@ -105,7 +105,7 @@ class PHPExcel extends Common{
                     ];
                     $info = model('Store')->where($where)->find();
                     if (!empty($info)) {
-                        fail('有门店名称已存在了！请仔细检查！');
+                        fail($value['门店名称'].'门店名称已存在了！请仔细检查！此门店以上信息已经导入成功，请删除以上信息，如果此门店第一条数据不用删除！');
                     } else {
 
                         $admin_where = [
@@ -113,7 +113,7 @@ class PHPExcel extends Common{
                         ];
                         $res = model('Admin')->where($admin_where)->select()->toArray();
                         if(!empty($res)){
-                            fail('登录账号已被用！请仔细检查并更换登录账号！');
+                            fail($value['门店名称'].'登录账号已被用！请仔细检查并更换登录账号！此门店以上信息已经导入成功，请删除以上信息，如果此门店第一条数据不用删除！');
                         }
 
                         
@@ -147,7 +147,7 @@ class PHPExcel extends Common{
                         $insert['status'] = 1;
                         $store_id = model('Store')->insertGetId($insert);
                         if($store_id<1){
-                            fail('导入失败，请检查门店名称为：'.$value['门店名称'].'！以上数据导入成功！');
+                            fail('导入失败，请检查门店名称为：'.$value['门店名称'].'此门店以上信息已经导入成功，请删除以上信息，如果此门店第一条数据不用删除！');
                         }
                         $salt = $this->make_password(5);
                         $pwd = $this->createPwd($value['登录密码'],$salt);
@@ -161,14 +161,13 @@ class PHPExcel extends Common{
                             'storeid'       => $store_id
                         ];
 
-
  
                         $models = model('Admin');
 
                         $admin_id = $models -> insertGetId($admin_insert);
         
                         if($admin_id<1){
-                            fail('导入失败，请检查导入内容');
+                            fail($value['门店名称'].'导入失败，请联系工作人员！');
                         }
 
                         $role_ids = model('Role')->where(['type'=>4])->find()->toArray();
@@ -178,7 +177,7 @@ class PHPExcel extends Common{
                         ];
                         $adminres = model('AdminRole')->insert($roleinsert);
                         if(!$adminres){
-                            fail('全部导入失败，请检查导入内容1');
+                            fail($value['门店名称'].'导入失败，请联系工作人员！');
                         }
                     }
                 }
