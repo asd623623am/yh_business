@@ -100,6 +100,10 @@ class Xmorder extends Common
 					$res[$k]['pay_id'] = '微信支付';
 				}
 
+				if($v['is_new'] == 1){
+					$res[$k]['order_sn'] = '<span style="color:red">'.$v['order_sn'].'</span>';
+				}
+
 				if($v['pay_status'] == 0){
 					$res[$k]['pay_status'] = '未付款';
 				} else if($v['pay_status'] == 1){
