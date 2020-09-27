@@ -95,11 +95,16 @@
                 });
             }else if(layEvent == 'download'){
 
-                // 生成一个 a 标签
                 var downloadName = data.gzlogo;
-                // 获取要下载的图片
-                var img = document.getElementById('testImg');
-                var src = img.src;
+                var date = getNowFormatDate();
+                // var src = 'http://business.com/qrcode/'+ date + '/' + data.gzlogo;
+                var src = 'http://airscan.yinheyun.com.cn/qrcode/'+ date + '/' + data.gzlogo;
+                // console.log(url);
+                // // 生成一个 a 标签
+                // var downloadName = data.gzlogo;
+                // // 获取要下载的图片
+                // var img = document.getElementById('testImg');
+                // var src = img.src;
                 const a = document.createElement("a");
                 a.download = downloadName || "图片";
                 a.style.display = "none";
@@ -204,5 +209,20 @@
             location.href="{:url('Qrcode/qrcodeAdd')}";
         });
         form.render();
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = year + seperator1 + month + seperator1 + strDate;
+            return currentdate;
+        }
     });
 </script>
