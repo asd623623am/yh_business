@@ -18,13 +18,12 @@ class PHPExcel extends Common{
      * date: 2020/9/1 13:55
      */
     public function downloadStoreModel(){
-
         //系统域名
         $realm_name = 'airscan.yinheyun.com.cn';
         //文件名称
         $fieldname = '门店模板.xlsx';
         //图片地址
-        $url = 'http://'.$realm_name.'/PHPExcel/'.$fieldname;
+        $url = 'http://'.$_SERVER['HTTP_HOST'].'/PHPExcel/'.$fieldname;
         win($url);
     }
 
