@@ -264,13 +264,11 @@
                 }
             break;
             case 'getCheckData':
-            alert(123);
-            return false;
                 if(data.length === 0){
-                layer.msg('请选择您要删除的数据');
+                layer.msg('请选择您要操作的数据');
                 } else {
-                    layer.confirm('确认批量删除', function(index){
-                    $.post('{:url("Goods/goodsDels")}',
+                    layer.confirm('确认批量已读', function(index){
+                    $.post('{:url("Xmorder/updatetype")}',
                         {data:data},
                         function(msg){
                             layer.msg(msg.font,{icon:msg.code});

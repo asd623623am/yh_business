@@ -737,5 +737,28 @@ class Xmorder extends Common
         $data = curl_exec($ch); //运行curl
         curl_close($ch);
         return $data;
-    }
+	}
+	
+
+	public function updatetype()
+	{
+		$data = input();
+		$data = $data['data'];
+		$id = [];
+		foreach($data as $k=>$v){
+			if($v['is_new_type'] == 1){
+				$id[] = $v['orderid'];
+			}
+		}
+		$delDate = ['is_new' => 2];
+		$where = [
+			'orderid'   => array('in',$id)
+		];
+		$res = model('Xmorder')->save($delDate,$where);
+		if ($res) {
+		   win('批量已读成功！');
+		} else {
+			fail('批量已读失败！');
+		}
+	}
 }
