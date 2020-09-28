@@ -134,7 +134,7 @@ class Storeprint extends Common
                 fail('添加失败');
             }
         }else{
-            $stroreData = model('store')->field('storeid,name')->select()->toArray();
+            $stroreData = model('store')->where(['status'=>1])->field('storeid,name')->select()->toArray();
             $this->assign('storeData',$stroreData);
             $this->assign('storeid',$storeid);
             return view();
