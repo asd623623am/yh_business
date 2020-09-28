@@ -30,11 +30,13 @@ class Index extends Common{
                 $system_info['address'] = $storeData['address'];
             }
         }
-        $where['order_status'] = 5;
-        $where['shipping_status'] = 2;
+        // $where['order_status'] = 5;
+        // $where['shipping_status'] = 2;
         $where['pay_status'] = 2;
-        $where['create_time'] = date('Y-m-d',time());
-        $orderData = model('Xmorder')->where($where)->select()->toArray();
+        // $where['create_time'] = date('Y-m-d',time());
+        $start = date('Y-m-d',time()).' 00:00:00';
+		$end = date('Y-m-d',time()).' 23:59:59';
+        $orderData = model('Xmorder')->where($where)->whereTime('create_time','between',[$start,$end])->select()->toArray();
         $amountTotal = array_sum(array_column($orderData, 'pay_fee'));
         //获取开业门店数量和商品数量
         if($storeid>0){
@@ -48,7 +50,6 @@ class Index extends Common{
         $goodsWhere['status'] = 1;
         $goodsWhere['is_grounding'] = 2;
         $goodsNum = model('goods')->where($goodsWhere)->count();
-
         $this->assign('systemInfo',$system_info);
         $this->assign('amountTotal',$amountTotal);
         $this->assign('orderNum',count($orderData));
