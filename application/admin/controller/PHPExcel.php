@@ -21,7 +21,7 @@ class PHPExcel extends Common{
         //系统域名
         $realm_name = 'airscan.yinheyun.com.cn';
         //文件名称
-        $fieldname = '门店模板.xlsx';
+        $fieldname = '门店模板1.xlsx';
         //图片地址
         $url = 'http://'.$_SERVER['HTTP_HOST'].'/PHPExcel/'.$fieldname;
         win($url);
