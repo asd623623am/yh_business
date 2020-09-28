@@ -45,15 +45,15 @@
 </style>
 <blockquote class="layui-elem-quote layui-text">
     <span class="layui-breadcrumb">
-        <a href='#'>缴费管理</a>
-        <a><cite> 物业收费</cite></a>
+        <a href='#'>订单管理</a>
+        <a><cite> 订单列表</cite></a>
     </span>
 </blockquote>
 
 
 <div class="search-table layui-form">
 
-     <div class="layui-inline tempsTest">
+     <!-- <div class="layui-inline tempsTest">
         <select name="order_status"  id="order_status" >
             <option value="" >订单状态</option>
             <option value="0">未确认</option>
@@ -63,19 +63,21 @@
             <option value="4">退货</option>
             <option value="5">已完成</option>
         </select>
-    </div>
+    </div> -->
 
-     <div class="layui-inline tempsTest">
+     <!-- <div class="layui-inline tempsTest">
         <select name="pay_id"  id="pay_id" >
             <option value="" >支付方式</option>
             <option value="1">微信支付</option>
         </select>
-    </div>
+    </div> -->
 
     <div class="layui-inline tempsTest">
         <select name="tnumber"  id="tnumber" >
             <option value="" >桌号</option>
-            <option value="1">1号桌</option>
+             {volist name="tnumber" id='tnumber'}
+                <option value="{$tnumber}">{$tnumber}</option>
+              {/volist}
         </select>
     </div>
 
@@ -93,8 +95,8 @@
         <select name="pay_status"  id="pay_status" >
             <option value="" >支付状态</option>
             <option value="0" >未付款</option>
-            <option value="1">付款中</option>
-            <option value="2">已付款</option>
+            <!-- <option value="1">付款中</option> -->
+            <option value="2" selected>已付款</option>
             <option value="3">已退款</option>
         </select>
     </div>
@@ -128,9 +130,13 @@
               {/volist}
         </select>
     </div>
-    <div class="layui-input-inline tempsTest" id="order" style="display: none;">
+    <div class="layui-input-inline tempsTest" id="order">
         <input value="" type="text" name="order" autocomplete="off"
                placeholder="请输入订单号" class="layui-input" style="width: 200px"/>
+    </div>
+    <div class="layui-input-inline tempsTest" id="order">
+        <input value="" type="text" name="pay_trans_no" autocomplete="off"
+               placeholder="请输入交易号" class="layui-input" style="width: 200px"/>
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
     <button class="layui-btn tempsTest" lay-submit id='excel' lay-filter="*">导出订单(excel)</button>

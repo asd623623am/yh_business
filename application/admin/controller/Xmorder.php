@@ -22,9 +22,9 @@ class Xmorder extends Common
 			}
 			$where = [];
 
-			if ($data['order_status'] != null) {
-				$where['order_status'] = $data['order_status'];
-			}
+			// if ($data['order_status'] != null) {
+			// 	$where['order_status'] = $data['order_status'];
+			// }
 
 			if (!empty($data['pay_id'])) {
 				$where['pay_id'] = $data['pay_id'];
@@ -67,6 +67,9 @@ class Xmorder extends Common
 
 			if(!empty($data['order'])){
 				$where['order_sn'] = $data['order'];
+			}
+			if(!empty($data['pay_trans_no'])){
+				$where['pay_trans_no'] = $data['pay_trans_no'];
 			}
 			$admin = session('admin');
 			if($admin['admin_type'] == 3){
@@ -179,6 +182,24 @@ class Xmorder extends Common
 			} else {
 				$display = 2;
 			}
+
+
+			if($admin['admin_type'] ==1 || $admin['admin_type'] == 2){
+				$res = model('qrcode')->where(['status'=>0])->select()->toArray();
+			} else {
+				$wheres = [
+					'storeid'	=> $admin['storeid'],
+					'status'	=> 0
+				];
+				$res = model('qrcode')->where($wheres)->select()->toArray();
+			}
+
+			$tnumber = [];
+			foreach($res as $k=>$v){
+				$tnumber[] = $v['tnumber'];
+			}
+			$tnumber = array_unique($tnumber);
+			$this->assign('tnumber',$tnumber);
 			$this->assign('select',$select);
 			$this->assign('display',$display);
 	        return view();
@@ -195,7 +216,7 @@ class Xmorder extends Common
 			fail('请求失败！');
 		}
 
-		if(empty($data['is_new_type'])){
+		if($data['is_new_type'] == null){
 			fail('非法请求！');
 		}
 
