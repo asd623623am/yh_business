@@ -80,7 +80,7 @@ class Xmorder extends Common
 			}
 
 			if($data['create_time_type'] != 1){
-				$order['create_time'] = 'desc';
+				$order['pay_time'] = 'desc';
 			}
 			$page=$data['page'];
 	        if(empty($page)){
@@ -89,9 +89,9 @@ class Xmorder extends Common
 	        $limit=$data['limit'];
 	        if(empty($limit)){
 	            exit('非法操作此页面');
-	        }
+			}
 			$count = model('Xmorder')->where($where)->count();
-			$res = model('Xmorder')->where($where)->order($order)->page($page,$limit)->select()->toArray();
+			$res = model('Xmorder')->where($where)->order($order)->page($page,$limit)->order('orderid','desc')->select()->toArray();
 
 			foreach($res as $k=>$v){
 				$res[$k]['content'] = '菜品数量：'.$v['goods_amount'].'<br/>'.'总额：'.$v['pay_fee'];
@@ -99,11 +99,7 @@ class Xmorder extends Common
 				if($v['pay_id'] == 1 ){
 					$res[$k]['pay_id'] = '微信支付';
 				}
-				$res[$k]['is_new_type'] = 0;
-				if($v['is_new'] == 1 && $v['pay_status'] == 2){
-					$res[$k]['order_sn'] = '<span style="color:red">'.$v['order_sn'].'</span>';
-					$res[$k]['is_new_type'] = 1;
-				}
+				
 
 				if($v['pay_status'] == 0){
 					$res[$k]['pay_status'] = '未付款';
@@ -136,6 +132,27 @@ class Xmorder extends Common
 				}
 				
 				$res[$k]['pay_time'] = date('Y-m-d H:i:s',$v['pay_time']);
+				$res[$k]['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
+
+
+				
+
+				if(empty($v['order_sn']) && empty($v['pay_trans_no'])){
+					$res[$k]['order_transNo'] = '';
+				} else {
+					
+					$res[$k]['is_new_type'] = 0;
+					if($v['is_new'] == 1 && $v['pay_status'] == 2){
+						$res[$k]['order_transNo'] = '<span style="color:red">'.$v['order_sn']."<br/>交易号：".$v['pay_trans_no'].'</span>';
+						// $res[$k]['order_sn'] = '<span style="color:red">'.$v['order_sn'].'</span>';
+						$res[$k]['is_new_type'] = 1;
+					} else {
+						$res[$k]['order_transNo'] = $v['order_sn']."<br/>交易号：".$v['pay_trans_no'];
+					}
+
+
+					
+				}
 			}
 
 			$info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
