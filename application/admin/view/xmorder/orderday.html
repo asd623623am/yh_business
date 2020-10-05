@@ -105,7 +105,7 @@
     </div>
     <button type="button" value='1' id='create_time' class="layui-btn layui-btn-xs">↓</button>
     <div class="layui-inline tempsTest"> <!-- 注意：这一层元素并不是必须的 -->
-    	<input type="text" placeholder='下单时间' name="create_time" class="layui-input" id="test2">
+    	<input type="text" placeholder='支付日期' name="create_time" class="layui-input" id="test2">
   	</div>
     <!-- 付款金钱 -->
     <div class="layui-inline tempsTest">
@@ -222,7 +222,7 @@
         //日期选择器
         laydate.render({ 
           elem: '#test2'
-          ,type: 'datetime' //默认，可不填
+          ,type: 'date' //默认，可不填
         });
 
         //删除和修改
@@ -281,7 +281,7 @@
                             layer.msg(msg.font,{icon:msg.code});
                              if(msg.code==1){
                              table.reload('test');
-                             
+
                              $.post('{:url("Xmorder/orderCount")}',
                                 function(msg){
                                     $('#bboobo').text(msg.count);
@@ -370,7 +370,7 @@
                 ,{field:'pay_id',width:150, title: '支付方式',align:'center'}
                 ,{field:'pay_status',width:150, title: '支付状态',align:'center'}
                 ,{field:'pay_time',width:200, title: '支付时间',align:'center'}
-                ,{field:'create_time',width:200, title: '下单时间',align:'center'}
+                ,{field:'create_time',width:200, title: '支付日期',align:'center'}
                 // ,{field:'invoice_status',width:150, title: '开票状态',align:'center'}
                 ,{field:'right', width:100,toolbar: '#barDemo', title:'操作',align:'center'}
             ]],

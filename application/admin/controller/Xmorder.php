@@ -20,6 +20,7 @@ class Xmorder extends Common
 			if (empty($data)) {
 				fail('非法请求');
 			}
+
 			$where = [];
 
 			// if ($data['order_status'] != null) {
@@ -49,10 +50,12 @@ class Xmorder extends Common
 				$where['pay_fee'] = $data['pay_fee'];
 			}
 			if(!empty($data['create_time'])){
-				$newstr = substr($data['create_time'],0,strlen($data['create_time'])-2);
-				$start = $newstr.'00';
-				$end = $newstr.'59';
-				$where['create_time'] = ['between time',[$start,$end]];
+				// $newstr = substr($data['create_time'],0,strlen($data['create_time'])-2);
+				$start = $data['create_time'].' 00:00:00';
+				$end = $data['create_time'].' 23:59:59';
+				// $start = $newstr.'00';
+				// $end = $newstr.'59';
+				$where['pay_time'] = ['between time',[$start,$end]];
 			}
 			if(!empty($data['pay_time'])){
 				$newstrs = substr($data['pay_time'],0,strlen($data['pay_time'])-2);
@@ -135,7 +138,7 @@ class Xmorder extends Common
 				}
 				
 				$res[$k]['pay_time'] = date('Y-m-d H:i:s',$v['pay_time']);
-				$res[$k]['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
+				$res[$k]['create_time'] = date('Y-m-d',$v['pay_time']);
 
 
 				
