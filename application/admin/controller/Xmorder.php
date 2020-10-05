@@ -393,10 +393,14 @@ class Xmorder extends Common
     			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
 				$res = $this->sendpostss($url,$arr);
     			if ($res['returnCode'] == 0000) {
+					$wheres = [
+						'order_sn'	=> $order['order_no'],
+						'status'	=> 1
+					];
     				$newData = [
     					'pay_status'	=> 3,
     				];
-    				$infos = model('Xmorder')->where($where)->setField($newData);
+    				$infos = model('Xmorder')->where($wheres)->setField($newData);
     				if ($infos) {
 						$qutorder['gz_token'] = $app[0]['gz_token'];
 						$this->doSend($qutorder);
