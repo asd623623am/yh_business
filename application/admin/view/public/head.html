@@ -31,8 +31,6 @@
     </ul>
 </div>
 <script>
-    $('#bboobo').text('哈哈哈');
-
     $.post('{:url("Xmorder/orderCount")}',
         function(msg){
             $('#bboobo').text(msg.count);

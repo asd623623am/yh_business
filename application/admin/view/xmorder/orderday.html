@@ -281,7 +281,14 @@
                             layer.msg(msg.font,{icon:msg.code});
                              if(msg.code==1){
                              table.reload('test');
-                             window.location.reload();
+                             
+                             $.post('{:url("Xmorder/orderCount")}',
+                                function(msg){
+                                    $('#bboobo').text(msg.count);
+                                },'json'
+                            )
+
+
                              }
                         },'json'
                     )
