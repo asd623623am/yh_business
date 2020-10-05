@@ -49,7 +49,7 @@ class Common extends Controller
             '四期商业',
         ];
         // dump($menu);exit;
-        $this->assign('order_count',$order_count);
+        // $this->assign('order_count',$order_count);
         $this->assign('area',$area);
         $this -> assign('images',$img['company_logo']);
         $this -> assign('AllMenu' , $menu );
