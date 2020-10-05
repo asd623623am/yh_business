@@ -803,4 +803,18 @@ class Xmorder extends Common
 			fail('批量已读失败！');
 		}
 	}
+
+
+	public function orderCount()
+	{
+		$xwhere = [
+            'status'    => 1,
+            'is_new'    => 1,
+            'pay_status' => 2
+        ];
+		$order_count = model('Xmorder')->where($xwhere)->count();
+		$info = ['code' => 0, 'msg' => '', 'count' => $order_count];
+		echo json_encode($info);
+		exit;
+	}
 }
