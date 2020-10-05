@@ -39,7 +39,11 @@
 
     setInterval(function (){
 
-alert("等待就能看见我")
+        $.post('{:url("Xmorder/orderCount")}',
+        function(msg){
+            $('#bboobo').text(msg.count);
+        },'json'
+    )
 
-},2000)
+},10000)
 </script>
