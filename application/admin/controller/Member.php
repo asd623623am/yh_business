@@ -53,8 +53,10 @@ class Member extends Common
 					} else {
 						$dataInfo[$k]['is_type'] = '会员';
 					}
-				}
 
+					$sdata=Db::table("xm_store")->where(['storeid'=> $v['storeid']])->find();
+					$dataInfo[$k]['s_name'] = $sdata['name'];
+				}
 		       	$count=model('Member')->where($where)->count();
 		        $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$dataInfo];
 		        echo json_encode($info);
