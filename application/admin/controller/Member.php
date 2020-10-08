@@ -102,7 +102,13 @@ class Member extends Common
 		} else {
 			$arr['is_type'] = '会员';
 		}
-		// dump($arr);exit;
+		$oWhere = [
+			'openid' => $arr['wx_openid']
+		];
+
+		$fee = model('Xmorder')->where($oWhere)->sum('pay_fee');
+		$arr['pay_money'] = $fee;
+		
 		$this->assign('uid',$data['uid']);
     	$this->assign('arr',$arr);
     	$this->assign('page',$data['page']);
