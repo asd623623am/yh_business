@@ -345,11 +345,16 @@
         });
 
         form.on('submit(*)', function(data){
-            var neworder = $.getUrlParam('newOrder');
+            // var neworder = $.getUrlParam('newOrder');
+            // if(neworder != null){
+            //     data.field.neworder = 1; //1是新订单
+            // } else {
+            //     data.field.neworder = 2; //2不是新订单
+            // }
+
+            var neworder = localStorage.getItem('newOrder');
             if(neworder != null){
                 data.field.neworder = 1; //1是新订单
-            } else {
-                data.field.neworder = 2; //2不是新订单
             }
             var create_time_type = $('#create_time').val();
             var order_fee_type = $('#order_fee').val();
@@ -395,18 +400,18 @@
         });
 
 
-        (function($){
-            $.getUrlParam
-            = function(name)
-            {
-            var reg
-            = new RegExp("(^|&)"+
-            name +"=([^&]*)(&|$)");
-            var r
-            = window.location.search.substr(1).match(reg);
-            if (r!=null) return unescape(r[2]); return null;
-            }
-            })(jQuery);
+        // (function($){
+        //     $.getUrlParam
+        //     = function(name)
+        //     {
+        //     var reg
+        //     = new RegExp("(^|&)"+
+        //     name +"=([^&]*)(&|$)");
+        //     var r
+        //     = window.location.search.substr(1).match(reg);
+        //     if (r!=null) return unescape(r[2]); return null;
+        //     }
+        //     })(jQuery);
 
 
     });

@@ -31,7 +31,7 @@ class Xmorder extends Common
 				$where['pay_id'] = $data['pay_id'];
 			}
 
-			if($data['neworder'] == 1){
+			if(isset($data['neworder'])){
 				$where['is_new'] = 1;
 			}
 

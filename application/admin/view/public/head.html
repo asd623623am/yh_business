@@ -34,7 +34,8 @@
 <script>
 
     $('#newOrder').click(function(){
-        location.href="{:url('Xmorder/orderDay')}?newOrder=11";
+        localStorage.setItem('newOrder',11);
+        location.href="{:url('Xmorder/orderDay')}";
     })
 
     $.post('{:url("Xmorder/orderCount")}',
