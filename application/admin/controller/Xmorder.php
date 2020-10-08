@@ -291,7 +291,6 @@ class Xmorder extends Common
 		];
 		$goods  = model('Xmordergoods')->where($goodWhere)->select()->toArray();
 		$goodData = [];
-		
 		if(!empty($goods)){
 			foreach($goods as $k=>$v){
 
@@ -301,13 +300,13 @@ class Xmorder extends Common
 					'status'	=> 0
 				];
 				$ass=Db::table("xm_goods_spec")->where($gwhere)->select();
-
 				$goodData[] = [
 					'goods_name'	=> $v['goods_name'],
 					'goods_number'	=> $v['goods_number'],
 					'original_price'	=> $v['original_price'],
 					'selling_price'	=> $v['selling_price'],
-					'son'	=> $ass
+					'son'	=> $ass,
+					'gremark'	=> $v['remark'] //商品
 				];
 			}
 		}
