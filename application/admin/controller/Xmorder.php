@@ -222,7 +222,6 @@ class Xmorder extends Common
 		if(empty($data['orderid'])){
 			fail('请求失败！');
 		}
-		dump($data);exit;
 		if($data['is_new_type'] == null){
 			fail('非法请求！');
 		}

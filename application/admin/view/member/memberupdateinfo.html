@@ -123,7 +123,7 @@
             ]],
             done: function () {
                 $("[data-field='orderid']").css('display','none');
-                // $("[data-field='is_new_type']").css('display','none');
+                $("[data-field='is_new_type']").css('display','none');
                 $('.layui-table').on('click','tr',function(){
                   $(this).css('background','#ccc').siblings().css('background','#fff');
                 });
@@ -139,7 +139,7 @@
 
             if(layEvent === 'detail'){ //查看
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="{:url('Xmorder/orderInfo')}?orderid="+data.orderid+"&page="+pages;
+                location.href="{:url('Xmorder/orderInfo')}?orderid="+data.orderid+"&page="+pages+"&is_new_type="+data.is_new_type;
                 return false;
 
             }
