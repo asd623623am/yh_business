@@ -58,7 +58,8 @@ class Member extends Common
 					$dataInfo[$k]['s_name'] = $sdata['name'];
 
 					$oWhere = [
-						'openid' => $v['wx_openid']
+						'openid' => $v['wx_openid'],
+						'pay_status'	=> 2
 					];
 
 					$fee = model('Xmorder')->where($oWhere)->sum('pay_fee');
