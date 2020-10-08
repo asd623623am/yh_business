@@ -144,7 +144,7 @@ class Member extends Common
 			'pay_status'	=> array('in',[2,3])
 		];
 		$count = model('Xmorder')->where($where)->count();
-		$res = model('Xmorder')->where($where)->page($page,$limit)->select()->toArray();
+		$res = model('Xmorder')->where($where)->page($page,$limit)->order('orderid desc')->select()->toArray();
 
 		foreach($res as $k=>$v){
 			$res[$k]['content'] = '菜品数量：'.$v['goods_amount'].'<br/>'.'总额：'.$v['pay_fee'];
