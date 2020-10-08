@@ -159,6 +159,16 @@ class Member extends Common
 			} else if($v['order_status'] == 5){
 				$res[$k]['order_status'] = '订单完成';
 			}
+
+
+			$res[$k]['is_new_type'] = 0;
+			if($v['is_new'] == 1 && $v['pay_status'] == 2){
+				// $res[$k]['order_transNo'] = '<span style="color:red">'.$v['order_sn']."<br/>交易号：".$v['pay_trans_no'].'</span>';
+				// $res[$k]['order_sn'] = '<span style="color:red">'.$v['order_sn'].'</span>';
+				$res[$k]['is_new_type'] = 1;
+			} else {
+				// $res[$k]['order_transNo'] = $v['order_sn']."<br/>交易号：".$v['pay_trans_no'];
+			}
 		}
 
 
