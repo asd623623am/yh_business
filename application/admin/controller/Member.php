@@ -56,6 +56,14 @@ class Member extends Common
 
 					$sdata=Db::table("xm_store")->where(['storeid'=> $v['storeid']])->find();
 					$dataInfo[$k]['s_name'] = $sdata['name'];
+
+					$oWhere = [
+						'openid' => $v['wx_openid']
+					];
+
+					$fee = model('Xmorder')->where($oWhere)->sum('pay_fee');
+					$dataInfo[$k]['pay_money'] = $fee;
+
 				}
 		       	$count=model('Member')->where($where)->count();
 		        $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$dataInfo];
