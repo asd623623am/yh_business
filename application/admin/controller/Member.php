@@ -104,7 +104,8 @@ class Member extends Common
 			$arr['is_type'] = '会员';
 		}
 		$oWhere = [
-			'openid' => $arr['wx_openid']
+			'openid' => $arr['wx_openid'],
+			'pay_status'	=> 2
 		];
 
 		$fee = model('Xmorder')->where($oWhere)->sum('pay_fee');
@@ -139,7 +140,8 @@ class Member extends Common
 		$where = [
 			'openid' => $dataInfo['wx_openid'],
 			'status'	=>1,
-			'order_status'	=> array('neq',0),
+			// 'order_status'	=> array('neq',0),
+			'pay_status'	=> array('in',[2,3])
 		];
 		$count = model('Xmorder')->where($where)->count();
 		$res = model('Xmorder')->where($where)->page($page,$limit)->select()->toArray();
