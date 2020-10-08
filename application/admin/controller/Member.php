@@ -116,8 +116,13 @@ class Member extends Common
 		}
 		$page = $data['page'];
 		$limit = $data['limit'];
-		$where = [
+
+		$mWhere = [
 			'uid' => $data['uid'],
+		];
+		$dataInfo = model('Member')->where($mWhere)->find()->toArray();
+		$where = [
+			'openid' => $dataInfo['wx_openid'],
 			'status'	=>1,
 			'order_status'	=> array('neq',0),
 		];
