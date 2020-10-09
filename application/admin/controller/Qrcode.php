@@ -303,7 +303,8 @@ class Qrcode extends Common{
             ];
             $data = [
                 'expire_seconds' => 86400,
-                'action_name' => 'QR_STR_SCENE',//目前为临时二维码
+//                'action_name' => 'QR_STR_SCENE',//目前为临时二维码
+                'action_name' => 'QR_LIMIT_SCENE',//永久二维码
                 'action_info' => $action_info
             ];
             $ret = request_post($tiUrl,json_encode($data));
