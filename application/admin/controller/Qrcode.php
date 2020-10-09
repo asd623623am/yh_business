@@ -314,9 +314,10 @@ class Qrcode extends Common{
             }
             //通过ticket换取二维码
             $ticket = $ret['ticket'];
-            $expire_seconds = $ret['expire_seconds'];
+//            $expire_seconds = $ret['expire_seconds'];
             $qrcodeUrl = $ret['url'];
-            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$expire_seconds.'&url='.$qrcodeUrl;
+//            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$expire_seconds.'&url='.$qrcodeUrl;
+            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&url='.$qrcodeUrl;
             $reqrUrl = $this->updateImg($qrUrl,$tnumber,$storeName);
             return $reqrUrl;
         }
