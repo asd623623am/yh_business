@@ -132,7 +132,8 @@
                 if(data.is_grounding == 2){
                     layer.msg("请下架商品【<font style='color: red'>"+data.name+"</font>】再次尝试",{icon: 0});
                 }else{
-                    location.href="{:url('Goods/goodsEdit')}?gid="+data.gid;
+                    var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
+                    location.href="{:url('Goods/goodsEdit')}?gid="+data.gid+"&page="+pages;
                 }
             }else if(layEvent === 'del'){
                 layer.confirm("确认删除菜品【<font style='color: red'>"+data.name+"</font>】吗？", function(index){

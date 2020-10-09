@@ -144,6 +144,7 @@ class Goods extends Common{
             }
         }else{
             $gtid=input('get.gtid');
+            $page=input('get.page');
             if(empty($gtid)){
                 exit('非法操作此页面');
             }else{
@@ -154,6 +155,7 @@ class Goods extends Common{
             $gtData = model('goodsType')->field('storeid,gtid,gtname,sort')->where($where)->find();
             $this->assign('gt',$gtData);
             $this->assign('storeData',$storeData);
+            $this->assign('page',$page);
             $this->assign('storeidval',$storeid);
             return view();
         }
@@ -399,7 +401,6 @@ class Goods extends Common{
             }
 
                $editData['stock'] = $postData['stock'];
- 
                 $res = model('goods')->save($editData,$where);
                     $stor = model('goods')->where($where)->find()->toArray();
                     $storeid = $stor['storeid'];
@@ -435,6 +436,7 @@ class Goods extends Common{
         }
         else{
             $gid=input('get.gid');
+            $page=input('get.page');
             if(empty($gid)){
                 exit('非法操作此页面');
             }else{
@@ -458,6 +460,7 @@ class Goods extends Common{
             $gstData = model('goodsSpecType')->where(['storeid'=>$gData['storeid']])->select()->toArray();
             $gsbData = model('goodsBingSpec')->where(['goodsid'=>$gData['gid']])->find();
 
+            $this->assign('page',$page);
             $this->assign('gtData',$gtData);
             $this->assign('goods',$gData);
             $this->assign('gstData',$gstData);
@@ -780,6 +783,7 @@ class Goods extends Common{
             }
         }else{
             $gid=input('get.gid');
+            $page=input('get.page');
             if(empty($gid)){
                 exit('非法操作此页面');
             }else{
@@ -797,6 +801,7 @@ class Goods extends Common{
             }
             $this->assign('gtData',$gtData);
             $this->assign('goods',$gData);
+            $this->assign('page',$page);
             return view();
         }
     }
@@ -1041,6 +1046,7 @@ class Goods extends Common{
             }
         }else{
             $gstid=input('get.gstid');
+            $page=input('get.page');
             if(empty($gstid)){
                 exit('非法操作此页面');
             }else{
@@ -1058,6 +1064,7 @@ class Goods extends Common{
             $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
             $this->assign('storeData',$storeData);
             $this->assign('storeidval',$storeid);
+            $this->assign('page',$page);
             return view();
         }
     }
