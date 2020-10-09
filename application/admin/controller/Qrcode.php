@@ -291,6 +291,7 @@ class Qrcode extends Common{
 
         $systemInfo = model('system')->find()->toArray();
         $token = $systemInfo['gz_token'];
+        $tnumber = (string)$tnumber;
         if($token){
 
             $tiUrl = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$token;
@@ -303,7 +304,8 @@ class Qrcode extends Common{
             ];
             $data = [
                 'expire_seconds' => 86400,
-                'action_name' => 'QR_STR_SCENE',//目前为临时二维码
+//                'action_name' => 'QR_STR_SCENE',//目前为临时二维码
+                'action_name' => 'QR_LIMIT_STR_SCENE',//永久二维码
                 'action_info' => $action_info
             ];
             $ret = request_post($tiUrl,json_encode($data));
@@ -313,9 +315,10 @@ class Qrcode extends Common{
             }
             //通过ticket换取二维码
             $ticket = $ret['ticket'];
-            $expire_seconds = $ret['expire_seconds'];
+//            $expire_seconds = $ret['expire_seconds'];
             $qrcodeUrl = $ret['url'];
-            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$expire_seconds.'&url='.$qrcodeUrl;
+//            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&expire_seconds='.$expire_seconds.'&url='.$qrcodeUrl;
+            $qrUrl = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket.'&url='.$qrcodeUrl;
             $reqrUrl = $this->updateImg($qrUrl,$tnumber,$storeName);
             return $reqrUrl;
         }
