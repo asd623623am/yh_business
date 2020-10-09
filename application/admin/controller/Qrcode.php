@@ -178,6 +178,7 @@ class Qrcode extends Common{
             }
         }else{
             $qid = input('get.qid');
+            $page = input('get.page');
             if(empty($qid)){
                 $this->getTips();
             }else{
@@ -192,6 +193,7 @@ class Qrcode extends Common{
             $storeData = model('store')->where(['status'=>1])->field('storeid,name')->select()->toArray();
             $this->assign('storeData',$storeData);
             $this->assign('qrcode',$qrcodeData);
+            $this->assign('page',$page);
             return view();
         }
     }

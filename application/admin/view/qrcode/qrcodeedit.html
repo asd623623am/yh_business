@@ -8,6 +8,7 @@
     <legend>门店基础信息设置</legend>
 </fieldset>
 <form class="layui-form">
+<input type="text" id="page" hidden='hidden' value="{$page}">
     <div class="layui-form-item">
         <div class="layui-inline" style="display:none">
             <label class="layui-form-label">二维码id<span style="color: red;">*</span></label>
@@ -62,7 +63,10 @@
             $('#storeid').val(storeid)
 
             $('#up').click(function(){
-                location.href="{:url('Qrcode/qrcodeList')}";
+                // location.href="{:url('Qrcode/qrcodeList')}";
+                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
             });
 
             form.on('submit(*)',function(data){
@@ -78,7 +82,10 @@
                                 icon: msg.code,
                                 time: 1000 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                location.href="{:url('Qrcode/qrcodeList')}";
+                                // location.href="{:url('Qrcode/qrcodeList')}";
+                                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
                             });
                         }else{
                             layer.msg(msg.font, {icon: 5});
