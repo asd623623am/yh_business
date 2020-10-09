@@ -8,6 +8,7 @@
     <legend>菜品添加</legend>
 </fieldset>
 <form class="layui-form">
+<input type="text" id="page" hidden='hidden' value="{$page}">
     <div class="layui-form-item" style="display: none">
         <div class="layui-inline">
             <label class="layui-form-label">菜品id<span style="color: red;">*</span></label>
@@ -84,7 +85,11 @@
                                 icon: msg.code,
                                 time: 1000 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                location.href="{:url('Goods/goodsStockList')}";
+
+                                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
+
                             });
                         }else{
                             layer.msg(msg.font, {icon: 5});
@@ -94,7 +99,9 @@
                 return false;
             });
             $('#up').click(function(){
-                location.href="{:url('Goods/goodsStockList')}";
+                var page = $('#page').val();
+                localStorage.setItem('page',page);
+                window.history.back();
             });
 
             /* 验证输入框*/
