@@ -82,6 +82,10 @@ class Qrcode extends Common{
             if(empty($postData)){
                 exit('非法操作此页面');
             }
+            //只能以大写字母开头，字母和数字组合方式
+            if(!preg_match("/^[A-Z][A-Z0-9]{1,15}$/",$postData['tnumber'])){
+                fail('数据格式有误，请以大写字母开头！<font style="color: red">例如：A1</font>');
+            }
             $where = [];
             $where['storeid'] = $postData['storeid'];
             $where['tnumber'] = $postData['tnumber'];
@@ -137,6 +141,11 @@ class Qrcode extends Common{
 
         if(check()){
             $postData = input('post.');
+            $p = "/[0-9a-zA-Z]{4,23}/";
+            //只能以大写字母开头，字母和数字组合方式
+            if(!preg_match("/^[A-Z][A-Z0-9]{1,15}$/",$postData['tnumber'])){
+                fail('数据格式有误，请以大写字母开头！<font style="color: red">例如：A1</font>');
+            }
             $where = [];
             $where['storeid'] = $postData['storeid'];
             $where['tnumber'] = $postData['tnumber'];
