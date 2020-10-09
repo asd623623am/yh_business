@@ -83,7 +83,7 @@ class Qrcode extends Common{
                 exit('非法操作此页面');
             }
             if(is_numeric($postData['tnumber'])){
-                fail('数据格式有误，请从新输入');
+                fail('数据格式有误，请重新输入！<font style="color: red">例如：A1</font>');
             }
             $where = [];
             $where['storeid'] = $postData['storeid'];
@@ -141,7 +141,7 @@ class Qrcode extends Common{
         if(check()){
             $postData = input('post.');
             if(is_numeric($postData['tnumber'])){
-                fail('数据格式有误，请从新输入');
+                fail('数据格式有误，请重新输入！<font style="color: red">例如：A1</font>');
             }
             $where = [];
             $where['storeid'] = $postData['storeid'];
