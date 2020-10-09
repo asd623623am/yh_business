@@ -8,6 +8,7 @@
     <legend>修改菜品分类</legend>
 </fieldset>
 <form class="layui-form">
+<input type="text" id="page" hidden='hidden' value="{$page}">
     <div class="layui-form-item" id="storeids">
         <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
         <div class="layui-input-inline" id="app">
@@ -82,7 +83,11 @@
                                 icon: msg.code,
                                 time: 1000 //2秒关闭（如果不配置，默认是3秒）
                             }, function(){
-                                location.href="{:url('Goods/goodsTypeList')}";
+
+                                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
+
                             });
                         }else{
                             layer.msg(msg.font, {icon: 5});
@@ -92,7 +97,9 @@
                 return false;
             });
             $('#up').click(function(){
-                location.href="{:url('Goods/goodsTypeList')}";
+                var page = $('#page').val();
+                localStorage.setItem('page',page);
+                window.history.back();
             });
 
             /* 验证输入框*/

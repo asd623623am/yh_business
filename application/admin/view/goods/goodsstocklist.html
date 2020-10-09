@@ -89,7 +89,8 @@
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if (layEvent === 'edit') { //修改
-                location.href="{:url('Goods/goodsStockEdit')}?gid="+data.gid;
+                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
+                location.href="{:url('Goods/goodsStockEdit')}?gid="+data.gid+"&page="+pages;
             }else if(layEvent === 'del'){
                 layer.confirm("确认清零菜品【<font style='color: red'>"+data.name+"</font>】库存吗？", function(index){
                     $.post(
