@@ -82,6 +82,9 @@ class Qrcode extends Common{
             if(empty($postData)){
                 exit('非法操作此页面');
             }
+            if(is_numeric($postData['tnumber'])){
+                fail('数据格式有误，请从新输入');
+            }
             $where = [];
             $where['storeid'] = $postData['storeid'];
             $where['tnumber'] = $postData['tnumber'];
@@ -137,6 +140,9 @@ class Qrcode extends Common{
 
         if(check()){
             $postData = input('post.');
+            if(is_numeric($postData['tnumber'])){
+                fail('数据格式有误，请从新输入');
+            }
             $where = [];
             $where['storeid'] = $postData['storeid'];
             $where['tnumber'] = $postData['tnumber'];
