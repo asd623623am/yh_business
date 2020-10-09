@@ -8,6 +8,7 @@
     <legend>门店基础信息设置</legend>
 </fieldset>
 <form class="layui-form" >
+<input type="text" id="page" hidden='hidden' value="{$page}">
     <div class="layui-form-item">
         <div class="layui-inline" style="display:none">
             <label class="layui-form-label">门店名称<span style="color: red;">*</span></label>
@@ -104,7 +105,10 @@
     $(function(){
         layui.use(['form','layer','upload','laydate','laydate'], function(){
             $('#up').click(function(){
-                window.history.back();
+                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
+
                 // location.href="{:url('Store/storeList')}";
             });
         });

@@ -35,7 +35,7 @@ class Store extends Common
             if(!empty($getData['user_name'])){
                 $where['user_name'] = $getData['user_name'];
             }
-            $data=Db::table("xm_store")->where($where)->select();
+            $data=Db::table("xm_store")->where($where)->page($getData['page'],$getData['limit'])->select();
             foreach ($data as &$val){
                 $val["create_time"]=date("Y-m-d H:i:s",$val["create_time"]);
                 $val["update_time"]=date("Y-m-d H:i:s",$val["update_time"]);
@@ -67,6 +67,7 @@ class Store extends Common
                 $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
                 $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
                 $this->assign('store',$storeData);
+                $this->assign('page',$postData['page']);
                 return  view();
             }
             $this->getTips();
@@ -176,6 +177,7 @@ class Store extends Common
             }
         }else{
             $storeId=input('get.storeid');
+            $page=input('get.page');
             if(empty($storeId)){
                 $this->getTips();
             }else{
@@ -190,6 +192,7 @@ class Store extends Common
             $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
             $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
             $this->assign('store',$storeData);
+            $this->assign('page',$page);
             return view();
         }
     }

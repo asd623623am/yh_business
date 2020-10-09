@@ -103,9 +103,10 @@
 
             if(layEvent === 'detail'){ //查看
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
-                location.href="{:url('Store/storeInfo')}?storeid="+data.storeid;
+                location.href="{:url('Store/storeInfo')}?storeid="+data.storeid+"&page="+pages;
             }else if(layEvent === 'edit'){
-                location.href="{:url('Store/storeEdit')}?storeid="+data.storeid;
+                var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
+                location.href="{:url('Store/storeEdit')}?storeid="+data.storeid+"&page="+pages;
             }else if(layEvent === 'del'){ //删除
                 //拼接弹窗信息
                 var strMsg = '删除商家后，商家相关的数据也会删除！确定删除【<font style="color: red">';
@@ -177,7 +178,7 @@
                 elem: '#test'
                 ,url:"{:url('Store/storeList')}"
                 ,where:data.field
-                ,limit:10
+                ,limit:5
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,toolbar: '#toolbarDemo'
                 ,defaultToolbar: []
