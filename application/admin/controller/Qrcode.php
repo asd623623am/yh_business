@@ -291,6 +291,7 @@ class Qrcode extends Common{
 
         $systemInfo = model('system')->find()->toArray();
         $token = $systemInfo['gz_token'];
+        $tnumber = (string)$tnumber;
         if($token){
 
             $tiUrl = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$token;
