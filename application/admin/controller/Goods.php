@@ -279,6 +279,7 @@ class Goods extends Common{
                 }
                 $count=Db::table("xm_goods")->where($where)->count();
             }
+
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
             echo json_encode($info);
             exit;
@@ -391,9 +392,9 @@ class Goods extends Common{
                     $editData['is_open_stock'] = 0;
 
                 }
-
             $whereSel['gid'] = array('neq',$postData['gid']);
             $whereSel['code'] = $postData['code'];
+            $whereSel['storeid'] = $postData['storeid'];
             $whereSel['status'] = 1;
             $arr = model('goods')->where($whereSel)->select()->toArray();
             if(!empty($arr)){
