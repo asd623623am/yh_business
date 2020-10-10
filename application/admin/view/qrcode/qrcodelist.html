@@ -187,7 +187,7 @@
 
                 {type: 'checkbox',},
                     {field:'qid', width:100, title: '序号',}
-                    // ,{width:60, title: '序号',type:'numbers'}
+                    ,{width:60, title: '序号',type:'numbers'}
                     ,{field:'storename', width:200 , title: '门店名称'}
                     ,{field:'tnumber', width:150 , title: '桌台号'}
                     ,{field:'stoer_no', width:300 , title: '唯一标识'}
@@ -197,7 +197,7 @@
                     ,{field:'right', width:220,toolbar: '#barDemo', title: '操作',align:'center'}
                 ]],
                 done: function () {
-                    
+                    $("[data-field='qid']").css('display','none');
                     $('.layui-table').on('click','tr',function(){
                         $(this).css('background','#ccc').siblings().css('background','#fff');
                     });
