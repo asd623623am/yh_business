@@ -187,13 +187,13 @@
                     ,{width:100, title: '序号',type:'numbers'}
                     ,{field:'storeid', width:80, title: '序号', sort: true},
                     ,{field:'store_no', width:100, title: '门店编号',}
-                    ,{field:'name', width:200, title: '门店名称'}
+                    ,{field:'name', width:260, title: '门店名称'}
                     ,{field:'logo',width:100, title: '门店logo',templet:'<div><img style="height: 25px" src="__PUBLIC__/{{d.logo}}"></div>'}
                     ,{field:'address',width:300, title: '门店地址'}
                     ,{field:'user_name',width:150, title: '联系人'}
                     ,{field:'user_tel',width:150, title: '联系方式'}
                     ,{field:'start_end_time',width:150, title: '经营时间'}
-                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作',fixed: 'right'}
+                    ,{field:'right', width:150,toolbar: '#barDemo', title:'操作'}
                 ]],
                 done: function () {
                     $("[data-field='storeid']").css('display','none');
