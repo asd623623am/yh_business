@@ -125,7 +125,7 @@ class PHPExcel extends Common{
                             $insert['store_no'] = $strno.$storeInfo['storeid'];
                         }
                         $insert['aid'] = 0;
-                        $insert['name'] = $value['门店名称'];
+                        $insert['name'] = '郑州机场商业@'.$value['门店名称'];
                         $insert['address'] = $value['门店地址'];
                         $insert['user_name'] = $value['联系人'];
                         $insert['user_tel'] = $value['联系电话'];

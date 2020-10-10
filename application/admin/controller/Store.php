@@ -114,6 +114,7 @@ class Store extends Common
                 }
                 $insert['create_time'] = time();
                 $insert['update_time'] = time();
+                $insert['name'] = '郑州机场商业@'.$insert['name'];
                 $store_id = model('Store')->insertGetId($insert);
                 /* @todo 添加用户和门店权限绑定*/
                 if($store_id){
@@ -167,6 +168,7 @@ class Store extends Common
             if(!empty($postData)){
                 $insert = $this->processData($postData);
                 $where = ['storeid' => $postData['storeid']];
+                $insert['name'] = '郑州机场商业@'.$insert['name'];
                 $res = model('Store')->save($insert,$where);
                 if ($res) {
                     $this -> addLog('修改门店信息');
@@ -191,6 +193,12 @@ class Store extends Common
             }
             $storeData['start_business_hours'] = date('H:i:s',$storeData['start_business_hours']);
             $storeData['end_business_hours'] = date('H:i:s',$storeData['end_business_hours']);
+            $name = explode('@',$storeData['name']);
+            if(count($name) < 2){
+                $storeData['name'] = $name[0];
+            } else {
+                $storeData['name'] = $name[1];
+            }
             $this->assign('store',$storeData);
             $this->assign('page',$page);
             return view();
