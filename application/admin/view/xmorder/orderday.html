@@ -145,7 +145,9 @@
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="pos">详情</a>
-
+    {if condition = "$pay_status == 2"}
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="repticket">补打</a>
+    {/if}
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -242,16 +244,22 @@
                 var pages = $(".layui-laypage-skip").find("input").val() //当前页码值
                 location.href="{:url('Xmorder/orderInfo')}?orderid="+data.orderid+"&page="+pages+"&is_new_type="+data.is_new_type;
                 return false;
-            } else if (layEvent == 'money') {
+            } else if (layEvent == 'repticket') {
+                //重打小票
+                $.post('{:url("Xmorder/repticket")}',
+                    {data:data},
+                    function(msg){
+                        layer.msg(msg.font,{icon:msg.code});
+                        if(msg.code==1){
+
+                        }else{
+
+                        }
+                    },'json'
+                )
                     
-            } else if (layEvent == 'paytoken') {
-                
             }
         })
-
-
-
-
 
          //监听头工具栏事件
          table.on('toolbar(test)', function(obj){
@@ -287,8 +295,6 @@
                                     $('#bboobo').text(msg.count);
                                 },'json'
                             )
-
-
                              }
                         },'json'
                     )
@@ -345,12 +351,6 @@
         });
 
         form.on('submit(*)', function(data){
-            // var neworder = $.getUrlParam('newOrder');
-            // if(neworder != null){
-            //     data.field.neworder = 1; //1是新订单
-            // } else {
-            //     data.field.neworder = 2; //2不是新订单
-            // }
 
             var neworder = localStorage.getItem('newOrder');
             if(neworder != null){
@@ -366,7 +366,7 @@
               ,url:"{:url('Xmorder/orderDay')}"
               ,where:data.field
               ,toolbar: '#toolbarDemo'
-              ,defaultToolbar: [] 
+              ,defaultToolbar: []
               ,limit:10
               // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
               ,cols: [[
@@ -398,21 +398,6 @@
         $('.layui-table').on('click','tr',function(){
             $(this).css('background','#ccc').siblings().css('background','#fff');
         });
-
-
-        // (function($){
-        //     $.getUrlParam
-        //     = function(name)
-        //     {
-        //     var reg
-        //     = new RegExp("(^|&)"+
-        //     name +"=([^&]*)(&|$)");
-        //     var r
-        //     = window.location.search.substr(1).match(reg);
-        //     if (r!=null) return unescape(r[2]); return null;
-        //     }
-        //     })(jQuery);
-
 
     });
 </script>

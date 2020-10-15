@@ -16,25 +16,16 @@ class Xmorder extends Common
 	{
 		if( request() -> isAjax() ){
 			$data = input();
-
 			if (empty($data)) {
 				fail('非法请求');
 			}
-
 			$where = [];
-
-			// if ($data['order_status'] != null) {
-			// 	$where['order_status'] = $data['order_status'];
-			// }
-
 			if (!empty($data['pay_id'])) {
 				$where['pay_id'] = $data['pay_id'];
 			}
-
 			if(isset($data['neworder'])){
 				$where['is_new'] = 1;
 			}
-
 			if (!empty($data['tnumber'])) {
 				$where['tnumber'] = $data['tnumber'];
 			}
@@ -45,11 +36,9 @@ class Xmorder extends Common
 			if(!empty($data['order_type'])){
 				$where['order_type'] = $data['order_type'];
 			}
-
 			if($data['pay_status'] != null){
 				$where['pay_status'] = $data['pay_status'];
 			}
-
 			if(!empty($data['pay_fee'])){
 				$where['pay_fee'] = $data['pay_fee'];
 			}
@@ -67,11 +56,9 @@ class Xmorder extends Common
 				$ends = $newstrs.'59';
 				$where['pay_time'] = ['between time',[$starts,$ends]];
 			}
-
 			if(!empty($data['store'])){
 				$where['storeid'] = $data['store'];
 			}
-
 			if(!empty($data['order'])){
 				$where['order_sn'] = $data['order'];
 			}
@@ -88,7 +75,6 @@ class Xmorder extends Common
 			if($data['order_fee_type'] != 1){
 				$order['pay_fee'] = 'desc';
 			}
-
 			if($data['create_time_type'] != 1){
 				$order['pay_time'] = 'desc';
 			}
@@ -102,7 +88,6 @@ class Xmorder extends Common
 			}
 			$count = model('Xmorder')->where($where)->count();
 			$res = model('Xmorder')->where($where)->order($order)->page($page,$limit)->order('orderid','desc')->select()->toArray();
-
 			foreach($res as $k=>$v){
 				$res[$k]['content'] = '菜品数量：'.$v['goods_amount'].'<br/>'.'总额：'.$v['pay_fee'];
 
@@ -164,8 +149,8 @@ class Xmorder extends Common
 					
 				}
 			}
-
-			$info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
+            $this->assign('pay_status',$data['pay_status']);
+            $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
 		    echo json_encode($info);
 		    exit;
 
@@ -209,6 +194,7 @@ class Xmorder extends Common
 			$this->assign('tnumber',$tnumber);
 			$this->assign('select',$select);
 			$this->assign('display',$display);
+			$this->assign('pay_status',2);
 	        return view();
 	    }
 	}
@@ -481,7 +467,7 @@ class Xmorder extends Common
 		return view();
 	}
 
-	   /**
+	/**
      * 导出数据报表.
      * @return [type] [description]
      */
@@ -717,8 +703,7 @@ class Xmorder extends Common
 
 	}
 	
-
-	      /**
+	/**
      * 发送自定义的模板消息
      * @param $touser
      * @param $template_id
@@ -762,7 +747,7 @@ class Xmorder extends Common
 
 	}
 	
-	        /**
+	/**
      * 发送post请求
      * @param string $url
      * @param string $param
@@ -822,4 +807,186 @@ class Xmorder extends Common
 		echo json_encode($info);
 		exit;
 	}
+
+    /**
+     * Notes: 重打小票
+     * Class: repTicket
+     * user: bingwoo
+     * date: 2020/10/14 16:23
+     */
+    public function repTicket(){
+
+        $postData = input('post.');
+        if(empty($postData['data'])){
+            fail('订单信息有误，打印失败！');
+        }
+        //订单信息
+        $where = [
+            'order_sn'	=> $postData['data']['order_sn'],
+        ];
+        $orderData = model('Xmorder')->where($where)->find();
+        //菜品信息
+        $goodWhere = [
+            'order_id'	=> $orderData['order_sn'],
+        ];
+        $goodsData  = model('Xmordergoods')->where($goodWhere)->select()->toArray();
+        //获取打印机信息
+        $printWhere = [
+            'storeid'=>$orderData['storeid']
+        ];
+        $printData = model('store_print')->where($printWhere)->select()->toArray();
+        //获取门店名称
+        $storeWhere = [
+            'storeid'=>$orderData['storeid']
+        ];
+        $storeData=Db::table("xm_store")->where($storeWhere)->find();
+        //转换小票信息
+        if(empty($orderData) || empty($goodsData)){
+            fail('订单信息有误，打印失败！');
+        }
+        $tickerData = $this->changeTicketData($orderData,$goodsData,$storeData['name']);
+        //打印小票
+        if(!empty($printData)){
+            foreach ($printData as $pv){
+                $this->printTicker($tickerData,$pv);
+            }
+        }else{
+            fail('未检测到打印机，打印失败！');
+        }
+
+    }
+
+    /**
+     * Notes: 打印小票
+     * Class: printTicker
+     * user: bingwoo
+     * date: 2020/10/14 17:00
+     */
+    public function printTicker($tickerData,$printData){
+
+        $url = 'https://openapi.sunmi.com/v1/printer/pushContent';
+        $time = time();
+        $app_id = '92ea92b8b93044938c3bd4ac0f9a34d1';
+        $app_key = 'b4d5413406154e3cbba5db7d63ae6520';
+        $msn = $printData['device_no'];
+        $temp = [
+            'app_id'    =>  $app_id,
+            'msn'       =>  $msn,
+            'timestamp' =>  $time,
+            'pushId'    => rand(1111,9999),
+            'voiceCnt'  => 0,
+            'voice'     => '',
+            'voiceUrl'  => '',
+            'orderCnt'  =>1,
+            'orderType' => 1,
+            'orderData' => $tickerData
+        ];
+        $sign = $this->getSign($temp,$app_key);
+        $temp['sign'] =$sign;
+        $res_json=$this->request_post_ticket($url,$temp);
+        var_dump($res_json);
+        exit();
+    }
+
+    /**
+     * Notes: 转换打印数据
+     * Class: dumpTicket
+     * user: bingwoo
+     * date: 2020/10/14 17:00
+     */
+    public function changeTicketData($orderData,$goodsData,$storeName){
+
+        ini_set('date.timezone', 'Asia/Shanghai');
+        header("Content-type:text/html;charset=utf-8");
+        $str = "         ".chr(27).chr(33).chr(16)."支付凭证(补打)".chr(27).chr(33).chr(0).chr(0x0A);
+        $str = $str.$storeName.chr(0x0A);
+        $str = $str.chr(0x0A);
+        $str = $str."桌号:".$orderData['tnumber'].chr(0x0A);
+        $str = $str."*******************************".chr(0x0A);
+        $str = $str."就餐人数:".$orderData['usernum'].chr(0x0A);
+        $str = $str."支付时间:".date('Y-m-d',$orderData['pay_time']).chr(0x0A);
+        $str = $str."订单编号:".$orderData['order_sn'].chr(0x0A);
+        $str = $str.chr(0x0A);
+        $str = $str."--------------------------------".chr(0x0A);
+        $str = $str."品项     	单价  数量  小计".chr(0x0A);
+        foreach ($goodsData as $gv){
+            $str = $str.$gv['goods_name']."  ".$gv['selling_price']."   ".$gv['goods_number']."    ".$gv['selling_price']*$gv['goods_number'].chr(0x0A);
+        }
+        $str = $str.chr(0x0A);
+        $str = $str."--------------------------------".chr(0x0A);
+        $str = $str."                   总计金额:".$orderData['goods_fee'].chr(0x0A);
+        $str = $str."备注:".chr(0x0A);
+        $str = $str.$orderData['remark'].chr(0x0A);
+        $str = $str."*****由小码旺铺提供技术支持*****".chr(0x0A);
+        $str = $str."     服务热线:400-992-0818     ".chr(0x0A);
+        $str = $str.chr(0x0A);
+        $str = $str.chr(0x0A);
+        return bin2hex($this->strToUtf8($str));
+    }
+
+    /**
+     * Notes: 获取sign
+     * Class: getSign
+     * user: bingwoo
+     * date: 2020/10/14 19:26
+     */
+    public function getSign($data,$secret) {
+        header('Content-type: text/html; charset=utf-8');
+        // 对数组的值按key排序
+        ksort($data);
+        // 生成url的形式
+        $param = http_build_query($data);
+        $str = urldecode($param); //解码
+        $params = $str.$secret;
+        // 生成sign
+        $sign = strtoupper(md5($params));
+        return $sign;
+    }
+
+    /**
+     * Notes: 转换格式
+     * Class: strToUtf8
+     * user: bingwoo
+     * date: 2020/10/14 19:26
+     */
+    public function strToUtf8($str){
+        $encode = mb_detect_encoding($str, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        if($encode == 'UTF-8'){
+            return $str;
+        }else{
+            return mb_convert_encoding($str, 'UTF-8', $encode);
+        }
+    }
+
+    /**
+     * 发送post请求
+     * @param string $url
+     * @return bool|mixed
+     */
+    public function request_post_ticket($url = '', $param = '')
+    {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+        //模拟表单 key=>value    $headers  http_build_query($curlPost)
+        $headers = array('Content-Type: application/x-www-form-urlencoded');
+        $postUrl = $url;
+        $curlPost=http_build_query($param);
+        echo '<br>';
+        echo $curlPost;
+        $ch = curl_init(); //初始化curl
+        curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);//严格校验2
+        curl_setopt($ch, CURLOPT_HEADER, 0); //设置header
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_POST, 1); //post提交方式
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10000);
+        $data = curl_exec($ch); //运行curl
+        var_dump($data);
+        curl_close($ch);
+        return $data;
+    }
 }
