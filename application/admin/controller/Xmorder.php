@@ -825,6 +825,9 @@ class Xmorder extends Common
             'order_sn'	=> $postData['data']['order_sn'],
         ];
         $orderData = model('Xmorder')->where($where)->find();
+        if($orderData['pay_status'] != 2){
+            fail("支付状态不是已付款，打印失败！");
+        }
         //菜品信息
         $goodWhere = [
             'order_id'	=> $orderData['order_sn'],
