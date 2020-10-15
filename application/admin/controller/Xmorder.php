@@ -852,6 +852,7 @@ class Xmorder extends Common
         if(!empty($printData)){
             foreach ($printData as $pv){
                 $this->printTicker($tickerData,$pv);
+                usleep(1000);
             }
         }else{
             fail('未检测到打印机，打印失败！');
@@ -888,7 +889,6 @@ class Xmorder extends Common
         $temp['sign'] =$sign;
         $res_json=$this->request_post_ticket($url,$temp);
         var_dump($res_json);
-        exit();
     }
 
     /**
@@ -988,7 +988,6 @@ class Xmorder extends Common
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10000);
         $data = curl_exec($ch); //运行curl
-        var_dump($data);
         curl_close($ch);
         return $data;
     }
