@@ -232,7 +232,7 @@ class Xmorder extends Common
 			fail('请求失败！');
 		}
 		$result = $result->toArray();
-
+		// dump($result);exit;
 		$order = [];
 		if($result['order_type'] == 1){
 			$order['order_type'] = '堂食';
@@ -247,7 +247,15 @@ class Xmorder extends Common
 		}
 
 		$order['create_time'] = date('Y-m-d H:i:s',$result['create_time']);
+		$newtime = date('Y-m-d',$result['pay_time']);
+		$newtime = $newtime.' 23:59:59';
 
+		if(strtotime($newtime) < time()){   
+			 $is_pay = 1; //1是可以退款 
+		 }else{   
+			$is_pay = 2;	//2不可以退款
+		 }   
+		$order['is_pay'] = $is_pay;
 		$order['pay_time'] = date('Y-m-d H:i:s',$result['pay_time']);
 
 		if($result['pay_status'] == 0){
@@ -272,7 +280,7 @@ class Xmorder extends Common
 		} else {
 			$order['sname'] = $Store->name;
 		}
-
+		
 		$this->assign('order',$order);
 		//菜品信息
 		$goodWhere = [

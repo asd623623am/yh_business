@@ -62,12 +62,13 @@
         
     </div>
  
-
+<span id='is_pay'>{$order.is_pay}</span>
 <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
             <button type="reset" id='refund' class="layui-btn  layui-btn-normal" style="display: none;">退款</button>
         </div>
+        <span style="margin-left: 9%;color:red;display: none;" id='title'>仅限当日23:59:59之前可进行退款操作</span>
     </div>
 <script>
     layui.use(['table','layer','upload','form'], function(){
@@ -78,10 +79,16 @@
         var status = $('#status').text();
         if(status == '已付款'){
             $('#refund').attr('style','display:inline;');
+            $('#title').show();
         } else {
             $('#refund').attr('style','display:none;');
+            $('#title').hide();
         }
-
+        //1不可以退款
+        var is_pay = $('#is_pay').text();
+        if(is_pay == 1){
+            $("#refund").addClass("layui-btn-disabled");
+        }
         $('#up').click(function(){
             var page = $('#page').val();
                     localStorage.setItem('page',page);
@@ -89,6 +96,9 @@
         });
 
         $('#refund').click(function(){
+            if(is_pay == 1){
+                return false;
+            }
             var order = $('#order').val();
             $.post(
                         "{:url('Xmorder/refund')}",
