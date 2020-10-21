@@ -48,8 +48,8 @@
         var layer = layui.layer;
         var upload = layui.upload;
         var form = layui.form;
-        
-  
+
+
         var s_type = $('#s_type').val();
         if(s_type == 1){
             $('#searchstore').show();
@@ -163,15 +163,16 @@
                         if(data.length > 50){
                             layer.msg('最大打印50张');
                         }else{
-                            for (var i=0;i<data.length;i++){
-                                downloadImg(data[i]);
-                            }
+                            packageImages(data);
+                            // for (var i=0;i<data.length;i++){
+                            //     downloadImg(data[i]);
+                            // }
                         }
                         console.log(data);
                     }
                     break;
             };
-       
+
         });
 
         form.on('submit(*)', function(data){
@@ -180,7 +181,7 @@
                 ,url:"{:url('Qrcode/qrcodeList')}"
                 ,where:data.field
                 ,toolbar: '#toolbarDemo'
-                ,defaultToolbar: [] 
+                ,defaultToolbar: []
                 ,limit:10
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[
@@ -231,7 +232,7 @@
 
 
         function downloadImg(data) {
-            var downloadName = data.gzlogo;
+                var downloadName = data.gzlogo;
                 var url = window.location.protocol+"//"+window.location.host;;
                 var date = getNowFormatDate();
                 var src = url+'/qrcode/'+data.gz_qrcode;
@@ -268,5 +269,66 @@
                 }
 
         }
+
+        function packageImages(data) {
+            $('#status').text('处理中。。。。。');
+            var url = window.location.protocol+"//"+window.location.host;
+            var imgsSrc = [];
+            var imgBase64 = [];
+            var imageSuffix = [];//图片后缀
+            var zip = new JSZip();
+            zip.file("readme.txt", "案件详情资料\n");
+            var img = zip.folder("images");
+
+            for (var i = 0; i < data.length; i++) {
+                var src = url+'/qrcode/'+data[i].gz_qrcode;
+                var suffix = src.substring(src.lastIndexOf("."));
+                imageSuffix.push(suffix);
+                getBase64(src).then(function (base64) {
+                    imgBase64.push(base64.substring(22));
+                }, function (err) {
+                    console.log(err);//打印异常信息
+                });
+            }
+            function tt(){
+                setTimeout(function(){
+                    if(data.length == imgBase64.length){
+                        for(var i=0;i<data.length;i++){
+                            img.file(data[i].gz_qrcode, imgBase64[i], {base64: true});
+                        }
+                        var content = zip.generate({type:"blob"});
+                        saveAs(content, "lin-export.zip");
+                        $('#status').text('处理完成。。。。。');
+
+                    }else{
+                        $('#status').text('已完成：'+imgBase64.length+'/'+data.length);
+                        tt();
+                    }
+                },100);
+            }
+            tt();
+        }
+        function getBase64(img){
+            function getBase64Image(img) {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                var dataURL = canvas.toDataURL();
+                return dataURL;
+            }
+            var image = new Image();
+            image.crossOrigin = 'Anonymous';
+            image.src = img;
+            var deferred=$.Deferred();
+            if(img){
+                image.onload =function (){
+                    deferred.resolve(getBase64Image(image));//将base64传给done上传处理
+                }
+                return deferred.promise();//问题要让onload完成后再return sessionStorage['imgTest']
+            }
+        }
+
     });
 </script>

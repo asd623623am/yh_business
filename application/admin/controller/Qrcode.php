@@ -230,7 +230,7 @@ class Qrcode extends Common{
         $postData = input('post.');
         $qrcodeData = model('qrcode')->field('gz_qrcode')->where(['qid'=>$postData['qid']])->find()->toArray();
         header("Content-type:text/html;charset=utf-8");
-        $file_name = 'GZ_'.$postData['storename'].'('.$postData['tnumber'].')'.'.jpg';
+        $file_name = 'GZ_'.$postData['storename'].'('.$postData['tnumber'].')'.'.png';
         $filepath = ROOT_PATH . 'public' . DS . 'qrcode'.'/'.$qrcodeData['gz_qrcode'];
         //判断文件是否存在
         if(!file_exists($filepath)){
@@ -356,12 +356,12 @@ class Qrcode extends Common{
         ob_end_clean();
         $folder = ROOT_PATH . 'public' . DS . 'qrcode'.'/'.date("Y-m-d");
         is_dir($folder) OR mkdir($folder, 0777, true);
-        $localImage = $folder.'/'.'GZ_'.$storeName.'('.$tnumber.')'.'.jpg'; //存到本地的图片地址名字:门店名称+桌台号
+        $localImage = $folder.'/'.'GZ_'.$storeName.'('.$tnumber.')'.'.png'; //存到本地的图片地址名字:门店名称+桌台号
         $fp = fopen($localImage, 'a');// fopen() 函数打开文件或者 URL
         $ret = fwrite($fp, $img);//内容写入文件
         fclose($fp);//关闭文件
         if($ret){
-            return date("Y-m-d").'/'.'GZ_'.$storeName.'('.$tnumber.')'.'.jpg';
+            return date("Y-m-d").'/'.'GZ_'.$storeName.'('.$tnumber.')'.'.png';
         }
         die;
     }
