@@ -1,4 +1,6 @@
 <?php
+
+use think\Request;
 use third\aliyun\SignatureHelper;
 use third\email\PHPMailer;
 //生成盐值
@@ -39,15 +41,11 @@ function fail($font){
     exit;
 }
 
-
-
 //正确
 function win($font){
     echo json_encode(['font'=>$font,'code'=>1]);
     exit;
 }
-
-
 
 //发送手机短信
 function sendSms($tel,$code) {
@@ -106,7 +104,6 @@ function sendSms($tel,$code) {
 
     return $content;
 }
-
 
 //发送邮箱
 function sendEM($qq,$content){
@@ -182,15 +179,12 @@ function sendEM($qq,$content){
     }
 }
 
-
 //随机生成发送的验证码
 function createCode(){
     $str="0123456789102133131231232143112";
     return substr(str_shuffle($str),rand(0,21),6);
 
 }
-
-
 
 //递归查询分类信息
 function getIndexCateInfo($Info,$pid=0){
@@ -268,7 +262,6 @@ function showOrderStatus( $order_status ){
     }
 
 }
-
 
 function showOrderOperate( $order_status ,$order_no){
     switch( $order_status ){
@@ -360,9 +353,66 @@ function getStoreid(){
     return $loginInfo['storeid'];
 }
 
+/**
+ * 成功返回结果
+ * @param  string $msg  [description]
+ * @param  array  $data [description]
+ * @return [type]       [description]
+ */
+function successMsg(string $msg = '',array $data = [], $count = 0)
+{
+    if($data){
+        return json([
+            'code' => 1,
+            'msg'  => $msg,
+            'count'=>$count,
+            'data' => $data
+        ]);
+    }else{
+        return json([
+            'code' => 1,
+            'msg'  => $msg,
+        ]);
+    }
+}
 
+/**
+ * 错误返回结果
+ * @param  string $msg  [description]
+ * @return [type]       [description]
+ */
+function failMsg(string $msg = '')
+{
+    return json([
+        'code' => -1,
+        'msg'  => $msg,
+    ]);
+}
 
+/**
+ * Notes: 根据登录账号名称获取账号所属门店id
+ * Class: getStoreidByName
+ * user: bingwoo
+ * date: 2020/10/20 13:48
+ */
+function getStoreidByName($name){
+    $loginInfo = session($name);
+    return $loginInfo['storeid'];
+}
 
+/**
+ * Notes: 验证字段
+ * Class: verifColumn
+ * user: bingwoo
+ * date: 2020/10/20 13:57
+ */
+function verifColumn($vericolumn,$postData){
 
-
+    foreach ($vericolumn as $v){
+        if(!isset($postData[$v])){
+            echo json_encode(['status'=>-1,'msg'=>'字段['.$v.']必传']);
+            exit;
+        }
+    }
+}
 

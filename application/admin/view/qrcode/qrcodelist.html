@@ -164,11 +164,7 @@
                             layer.msg('最大打印50张');
                         }else{
                             packageImages(data);
-                            // for (var i=0;i<data.length;i++){
-                            //     downloadImg(data[i]);
-                            // }
                         }
-                        console.log(data);
                     }
                     break;
             };
@@ -230,56 +226,15 @@
             return currentdate;
         }
 
-
-        function downloadImg(data) {
-                var downloadName = data.gzlogo;
-                var url = window.location.protocol+"//"+window.location.host;;
-                var date = getNowFormatDate();
-                var src = url+'/qrcode/'+data.gz_qrcode;
-                // var src = 'http://airscan.yinheyun.com.cn/qrcode/'+ date + '/' + data.gzlogo;
-                // console.log(src);
-                // return false;
-                // console.log(url);
-                // // 生成一个 a 标签
-                // var downloadName = data.gzlogo;
-                // // 获取要下载的图片
-                // var img = document.getElementById('testImg');
-                // var src = img.src;
-                const a = document.createElement("a");
-                a.download = downloadName || "图片";
-                a.style.display = "none";
-                const image = new Image();
-                image.src = src + "?v=" + Math.random();
-                image.crossOrigin = "*";
-                image.onload = () => {
-                    const base64 = getBase64Images(image);
-                    a.href = base64;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                };
-                function getBase64Images(image) {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    const context = canvas.getContext("2d");
-                    context.drawImage(image, 0, 0, image.width, image.height);
-                    const url = canvas.toDataURL("image/png", 0);
-                    return url;
-                }
-
-        }
-
+        //批量下载图片并打包成zip
         function packageImages(data) {
             $('#status').text('处理中。。。。。');
-            var url = window.location.protocol+"//"+window.location.host;
+            var url = window.location.protocol+"//"+window.location.host;//图片路径
             var imgsSrc = [];
             var imgBase64 = [];
             var imageSuffix = [];//图片后缀
             var zip = new JSZip();
-            zip.file("readme.txt", "案件详情资料\n");
-            var img = zip.folder("images");
-
+            var img = zip.folder("点餐二维码");//解压后文件名称
             for (var i = 0; i < data.length; i++) {
                 var src = url+'/qrcode/'+data[i].gz_qrcode;
                 var suffix = src.substring(src.lastIndexOf("."));
@@ -294,10 +249,12 @@
                 setTimeout(function(){
                     if(data.length == imgBase64.length){
                         for(var i=0;i<data.length;i++){
-                            img.file(data[i].gz_qrcode, imgBase64[i], {base64: true});
+                            //图片名称data[i].gz_qrcode
+                            img.file(data[i].gz_qrcode+".png", imgBase64[i], {base64: true});
+                            // img.file('GZ_'+data[i].storename+'('+data[i].storename+')'+'.png', imgBase64[i], {base64: true});
                         }
                         var content = zip.generate({type:"blob"});
-                        saveAs(content, "lin-export.zip");
+                        saveAs(content, "点餐二维码.zip");
                         $('#status').text('处理完成。。。。。');
 
                     }else{
@@ -308,6 +265,7 @@
             }
             tt();
         }
+        //设置图片信息
         function getBase64(img){
             function getBase64Image(img) {
                 var canvas = document.createElement("canvas");
