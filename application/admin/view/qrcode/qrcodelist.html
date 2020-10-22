@@ -250,8 +250,8 @@
                     if(data.length == imgBase64.length){
                         for(var i=0;i<data.length;i++){
                             //图片名称data[i].gz_qrcode
-                            img.file(data[i].gz_qrcode+".png", imgBase64[i], {base64: true});
-                            // img.file('GZ_'+data[i].storename+'('+data[i].storename+')'+'.png', imgBase64[i], {base64: true});
+                            // img.file(data[i].gz_qrcode, imgBase64[i], {base64: true});
+                            img.file("GZ_"+data[i].storename+"("+data[i].tnumber+")"+".png", imgBase64[i], {base64: true});
                         }
                         var content = zip.generate({type:"blob"});
                         saveAs(content, "点餐二维码.zip");
