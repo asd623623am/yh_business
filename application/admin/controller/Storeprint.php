@@ -43,7 +43,7 @@ class Storeprint extends Common
             if(!empty($storeData)){
                 $snData = array_column($storeData,'name','storeid');
             }
-            $data = model('store_print')->where($where)->select()->toArray();
+            $data = model('store_print')->where($where)->page($getData['page'],10)->select()->toArray();
             if(!empty($data)){
                 foreach ($data as &$val){
                     $val['type'] ='GPS打印机';
