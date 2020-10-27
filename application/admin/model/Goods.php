@@ -56,6 +56,10 @@ class Goods extends Model{
                 }else{
                     $saveData[$val] = $data[$val];
                 }
+            }else{
+                if($val == 'member_price' || $val == 'original_price' || $val == 'staff_price'){
+                    $saveData[$val] = 0;
+                }
             }
             /* 员工价个默认为售价*/
             // if($val == 'staff_price'){
