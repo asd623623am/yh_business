@@ -1,6 +1,7 @@
 <?php
 namespace  app\index\controller;
 use think\Controller;
+use think\Db;
 use think\Request;
 
 /**
@@ -220,7 +221,7 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);;
+        $storeid = getStoreidByKey($getData['access-token']);
         $data = [
             'order_day'=>0,
             'order_count'=>0,
@@ -257,6 +258,199 @@ class Xmorder extends Controller{
             $data['order_month'] = $order_month;
         }
         return successMsg('',$data);
+    }
+
+    /**
+     * Notes: 退款
+     * Class: refundOrder
+     * user: bingwoo
+     * date: 2020/10/29 9:49
+     */
+    public function refund(){
+
+        if(Request::instance()->isPost() == false){
+            return failMsg('请求方式有误');
+        }
+        $getData = input('get.');
+            $verifData = ['access-token','order_no'];
+        verifColumn($verifData,$getData);
+        getStoreidByKey($getData['access-token']);
+        $where = [
+            'order_sn'	=> $getData['order_no'],
+            'status'	=> 1
+        ];
+        $result = model('Xmorder')->where($where)->find();
+        if(empty($result)){
+            return failMsg('没有找到您的订单！');
+        }
+        $result = $result->toArray();
+        if($result['pay_status'] != 2){
+            return failMsg('您还不是已支付订单！');
+        }
+        $qutorder = [];
+        $qutorder['order_sn'] = $result['order_sn'];
+        $qutorder['pay_fee'] = $result['pay_fee'];
+        $qutorder['gz_openid'] = $result['gz_openid'];
+        $app = model('system')->select();
+        $storeWheres = [
+            'storeid'	=> $result['storeid']
+        ];
+        $storeData = model('store')->where($storeWheres)->find();
+        $qutorder['name'] = $storeData['name'];
+        if (!empty($app)) {
+            if(empty($app[0]['mini_appsecret']) || empty($app[0]['termNo']) || empty($app[0]['merId'])){
+
+            }
+            $secret = $app[0]['mini_appsecret'];
+            $termNo = $app[0]['termNo'];
+            $merId = $app[0]['merId'];
+
+            $result['pay_fee']=str_replace('.', '', $result['pay_fee']);
+            $lens = strlen($result['pay_fee']);
+            // $data['deposit_money']=sprintf("%012d", $data);//生成12位数，不足前面补0
+            if ($lens < 12) {
+                for ($i=0; $i < 12-$lens ; $i++) {
+                    $result['pay_fee'] = substr_replace(0, $result['pay_fee'], 1, 0);
+                }
+            }
+            $time = date('YmdHis',time());
+            $arr = [
+                'orgNo'	=> '2111',
+                'charset'	=> 'UTF-8',
+                'termNo'	=> $termNo,
+                'termType'	=> 'XMWPFB',
+                'txtTime'	=> $time,
+                'signType'	=> 'MD5',
+                'transNo'	=> $result['order_sn'],
+                'merId'		=> $merId,
+                'amt'		=> intval($result['pay_fee']),
+                'payType'	=> 1
+            ];
+            $signdata = [
+                'orgNo'	=>'2111',
+                'amt'	=> intval($result['pay_fee']),
+                'termNo'=> $termNo,
+                'merId'	=> $merId,
+                'transNo'	=> $result['order_sn'],
+                'txtTime'	=> $time
+            ];
+            $sign = $this->appgetSign($signdata,$secret);
+            $arr['signValue']=strtoupper($sign);
+            $url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
+            $res = $this->sendpostss($url,$arr);
+            if ($res['returnCode'] == 0000) {
+                $wheres = [
+                    'order_sn'	=> $getData['order_no'],
+                    'status'	=> 1
+                ];
+                $newData = [
+                    'pay_status'	=> 3,
+                ];
+                $infos = model('Xmorder')->where($wheres)->setField($newData);
+                if ($infos) {
+                    $qutorder['gz_token'] = $app[0]['gz_token'];
+                    $this->doSend($qutorder);
+                    return successMsg('退款成功');
+                } else {
+                    return failMsg('退款失败');
+                }
+            } else {
+                return failMsg($res['returnMsg']);
+            }
+        } else {
+            return failMsg('请您去配置微信小程序参数');
+        }
+        return successMsg('退款成功');
+    }
+
+    /**
+     * Notes: 获取密钥
+     * Class: appgetSign
+     * user: bingwoo
+     * date: 2020/10/29 10:12
+     */
+    public function appgetSign($data,$secret){
+
+        header('Content-type: text/html; charset=utf-8');
+        // 对数组的值按key排序
+        ksort($data);
+        // 生成url的形式
+        $param = http_build_query($data);
+        $str = urldecode($param); //解码
+        $params = $str.$secret;
+        // 生成sign
+        $sign = md5($params);
+        return $sign;
+    }
+
+    /**
+     * Notes: 发送post formdata请求
+     * Class: sendpostss
+     * user: bingwoo
+     * date: 2020/10/29 10:13
+     */
+    public function sendpostss($url,array $data){
+
+        $data = @json_encode($data);
+        $headers = [
+            'Content-Type: application/json;charset=utf-8',
+            'Content-Length: ' . strlen($data)
+        ];
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 8);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return @json_decode($output, true);
+    }
+
+    /**
+     * 发送自定义的模板消息
+     * @param $touser
+     * @param $template_id
+     * @param $url
+     * @param $data
+     * @param string $topcolor
+     * @return bool
+     */
+    public function doSend($datas){
+
+        $accessToken = $datas['gz_token'];
+        $data = [
+            'keyword2'      => [
+                'value'     => $datas['pay_fee'].'元',
+                'color'     => '#173177'
+            ],
+            'keyword1'      => [
+                'value'     => $datas['order_sn'],
+                'color'     => '#173177'
+            ],
+            'remark'      => [
+                'value'     => '感谢您的使用。',
+                'color'     => '#173177'
+            ],
+            'first'      => [
+                'value'     => '机场--'.$datas['name'],
+                'color'     => '#173177'
+            ],
+        ];
+        $template = [
+            "touser" => $datas['gz_openid'],
+            "template_id" => "XfYvkPO8lkbmNCn3g1aVagcv8i4xrTU8F3a3KBlN2kA",
+            "topcolor" => "#FF0000",
+            "data"      => $data
+        ];
+        $json_template = json_encode($template);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
+        return $this->request_post($url, urldecode($json_template));
+
+
     }
 
 }
