@@ -1428,7 +1428,7 @@ class Index extends Controller
         if($order_day){
             $data['order_day'] = $order_day;
         }
-        $data['image'] = $host_url.'/image/move_menu_image.png';
+        $data['image'] = $host_url.'/image/index_img.jpg';
         $goodsManager = [
             'id'=>'goods_manager',
             'name'=>'菜品管理',
@@ -1437,25 +1437,25 @@ class Index extends Controller
                     'id'=>'goods_type',
                     'name'=>'菜品类别',
                     'url'=>'/admin/dishesCategory/index',
-                    'image'=>$host_url.'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/goods_type.png',
                 ],
                 [
                     'id'=>'goods_spec',
                     'name'=>'规格信息',
                     'url'=>'/admin/specifications/index',
-                    'image'=>$host_url.'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/spec_info.png',
                 ],
                 [
                     'id'=>'goods_data',
                     'name'=>'菜品信息',
                     'url'=>'/admin/foodInformation/index',
-                    'image'=>$host_url.'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/goods_info.png',
                 ],
                 [
                     'id'=>'goods_stock',
                     'name'=>'库存管理',
                     'url'=>'/admin/stock/index',
-                    'image'=>$host_url.'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/stock_manager.png',
                 ],
             ]
         ];
@@ -1467,7 +1467,7 @@ class Index extends Controller
                     'id'=>'member_data',
                     'name'=>'会员列表',
                     'url'=>'/admin/membershipList/index',
-                    'image'=>$host_url.'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/user_manager.png',
                 ]
             ]
         ];
@@ -1479,7 +1479,7 @@ class Index extends Controller
                     'id'=>'store_data',
                     'name'=>'店铺设置',
                     'url'=>'/admin/shopSettings/index',
-                    'image'=>$host_url.'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/store_info.png',
                 ]
             ]
         ];

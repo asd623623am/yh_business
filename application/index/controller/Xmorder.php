@@ -242,6 +242,8 @@ class Xmorder extends Controller{
         if($order_day){
             $data['order_day'] = $order_day;
         }
+        $host_url = 'https://airscan.yinheyun.com.cn';
+        $data['image'] = $host_url.'/image/index_img.jpg';
         //有效订单
         $data['order_count'] = model('xmorder')->where(['storeid'=>$storeid,'pay_status'=>2])->
             where('pay_time', 'between time', [$morningTime, $nightTime])->count();
