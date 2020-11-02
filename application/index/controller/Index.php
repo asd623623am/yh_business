@@ -1428,6 +1428,7 @@ class Index extends Controller
         if($order_day){
             $data['order_day'] = $order_day;
         }
+        $data['image'] = $host_url.'/image/move_menu_image.png';
         $goodsManager = [
             'id'=>'goods_manager',
             'name'=>'菜品管理',
