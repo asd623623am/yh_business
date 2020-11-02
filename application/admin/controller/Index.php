@@ -595,11 +595,14 @@ class Index extends Common{
         if (empty($data)) {
             fail('非法操作');
         }
-
+        $storeid = getStoreid();
         $where = [];
 //        $where['order_status'] = 5;
 //        $where['shipping_status'] = 2;
         $where['pay_status'] = 2;
+        if($storeid >0){
+            $where['storeid'] = $storeid;
+        }
         $newtemp = [];
         $categories = [];
         $datas = [];
