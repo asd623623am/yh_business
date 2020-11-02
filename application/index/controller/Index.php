@@ -1405,11 +1405,10 @@ class Index extends Controller
      */
     public function getMeunManagerList(){
 
-
-        if(Request::instance()->isPost() == false){
+        if(Request::instance()->isGet() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('post.');
+        $postData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
         $loginInfo = session($postData['access-token']);
