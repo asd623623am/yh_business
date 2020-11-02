@@ -1408,6 +1408,7 @@ class Index extends Controller
         if(Request::instance()->isGet() == false){
             return failMsg('请求方式有误');
         }
+        $host_url = 'https://airscan.yinheyun.com.cn';
         $postData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
@@ -1435,25 +1436,25 @@ class Index extends Controller
                     'id'=>'goods_type',
                     'name'=>'菜品类别',
                     'url'=>'/admin/dishesCategory/index',
-                    'image'=>'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/move_menu_image.png',
                 ],
                 [
                     'id'=>'goods_spec',
                     'name'=>'规格信息',
                     'url'=>'/admin/specifications/index',
-                    'image'=>'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/move_menu_image.png',
                 ],
                 [
                     'id'=>'goods_data',
                     'name'=>'菜品信息',
                     'url'=>'/admin/foodInformation/index',
-                    'image'=>'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/move_menu_image.png',
                 ],
                 [
                     'id'=>'goods_stock',
                     'name'=>'库存管理',
                     'url'=>'/admin/stock/index',
-                    'image'=>'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/move_menu_image.png',
                 ],
             ]
         ];
@@ -1465,7 +1466,7 @@ class Index extends Controller
                     'id'=>'member_data',
                     'name'=>'会员列表',
                     'url'=>'/admin/membershipList/index',
-                    'image'=>'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/move_menu_image.png',
                 ]
             ]
         ];
@@ -1477,7 +1478,7 @@ class Index extends Controller
                     'id'=>'store_data',
                     'name'=>'店铺设置',
                     'url'=>'/admin/shopSettings/index',
-                    'image'=>'/image/move_menu_image.png',
+                    'image'=>$host_url.'/image/move_menu_image.png',
                 ]
             ]
         ];
