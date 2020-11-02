@@ -42,8 +42,8 @@ class Login extends Controller{
             return failMsg('账号或密码错误');
         }else{
             //存储session信息
-            $data['access-token'] = md5($postData['admin_name']);
-            session($data['access-token'],$admin_info);
+            $data['access_token'] = md5($postData['admin_name']);
+            session($data['access_token'],$admin_info);
             return successMsg('登陆成功',$data);
         }
     }
