@@ -597,8 +597,8 @@ class Index extends Common{
         }
 
         $where = [];
-        $where['order_status'] = 5;
-        $where['shipping_status'] = 2;
+//        $where['order_status'] = 5;
+//        $where['shipping_status'] = 2;
         $where['pay_status'] = 2;
         $newtemp = [];
         $categories = [];
