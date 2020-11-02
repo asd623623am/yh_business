@@ -361,19 +361,12 @@ function getStoreid(){
  */
 function successMsg(string $msg = '',array $data = [], $count = 0)
 {
-    if($data){
-        return json([
-            'code' => 1,
-            'msg'  => $msg,
-            'count'=>$count,
-            'data' => $data
-        ]);
-    }else{
-        return json([
-            'code' => 1,
-            'msg'  => $msg,
-        ]);
-    }
+    return json([
+        'code' => 1,
+        'msg'  => $msg,
+        'count'=>$count,
+        'data' => $data
+    ]);
 }
 
 /**
@@ -395,8 +388,12 @@ function failMsg(string $msg = '')
  * user: bingwoo
  * date: 2020/10/20 13:48
  */
-function getStoreidByName($name){
-    $loginInfo = session($name);
+function getStoreidByKey($key){
+    $loginInfo = session($key);
+    if(empty($loginInfo)){
+        echo json_encode(['status'=>-1,'msg'=>'请登录']);
+        exit;
+    }
     return $loginInfo['storeid'];
 }
 

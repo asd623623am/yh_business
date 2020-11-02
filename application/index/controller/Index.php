@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
+use think\Request;
+
 class Index extends Controller
 {
 	/**
@@ -1341,8 +1343,8 @@ class Index extends Controller
 		
 	}
 
-public function responseMsg()
-{
+    public function responseMsg(){
+
 		//get post data, May be due to the different environments
 		//接收用户端（客户）发送过来的XML数据
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
@@ -1393,6 +1395,98 @@ public function responseMsg()
 				echo "";
 				exit;
 			}
-		}
+    }
+
+    /**
+     * Notes: 获取后台管理菜单
+     * Class: getMeunManagerList
+     * user: bingwoo
+     * date: 2020/10/21 16:36
+     */
+    public function getMeunManagerList(){
+
+        if(Request::instance()->isGet() == false){
+            return failMsg('请求方式有误');
+        }
+        $host_url = 'https://airscan.yinheyun.com.cn';
+        $postData = input('get.');
+        $verifData = ['access-token'];
+        verifColumn($verifData,$postData);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
+        //获取当日零点的时间戳
+        $y = date("Y");
+        $m = date("m");
+        $d = date("d");
+        //获取当日开始时间和结束时间
+        $morningTime= mktime(0,0,0,$m,$d,$y);
+        $nightTime = $morningTime+86400;
+        //今日营业额
+        $data['order_day'] = 0;
+        $order_day = model('xmorder')->where(['storeid'=>$storeid,'pay_status'=>2])->
+        where('pay_time', 'between time', [$morningTime, $nightTime])->sum('pay_fee');
+        if($order_day){
+            $data['order_day'] = $order_day;
+        }
+        $data['image'] = $host_url.'/image/move_menu_image.png';
+        $goodsManager = [
+            'id'=>'goods_manager',
+            'name'=>'菜品管理',
+            'list'=>[
+                [
+                    'id'=>'goods_type',
+                    'name'=>'菜品类别',
+                    'url'=>'/admin/dishesCategory/index',
+                    'image'=>$host_url.'/image/move_menu_image.png',
+                ],
+                [
+                    'id'=>'goods_spec',
+                    'name'=>'规格信息',
+                    'url'=>'/admin/specifications/index',
+                    'image'=>$host_url.'/image/move_menu_image.png',
+                ],
+                [
+                    'id'=>'goods_data',
+                    'name'=>'菜品信息',
+                    'url'=>'/admin/foodInformation/index',
+                    'image'=>$host_url.'/image/move_menu_image.png',
+                ],
+                [
+                    'id'=>'goods_stock',
+                    'name'=>'库存管理',
+                    'url'=>'/admin/stock/index',
+                    'image'=>$host_url.'/image/move_menu_image.png',
+                ],
+            ]
+        ];
+        $memberManager = [
+            'id'=>'member_manager',
+            'name'=>'会员管理',
+            'list'=>[
+                [
+                    'id'=>'member_data',
+                    'name'=>'会员列表',
+                    'url'=>'/admin/membershipList/index',
+                    'image'=>$host_url.'/image/move_menu_image.png',
+                ]
+            ]
+        ];
+        $otherManager = [
+            'id'=>'other_manager',
+            'name'=>'其他',
+            'list'=>[
+                [
+                    'id'=>'store_data',
+                    'name'=>'店铺设置',
+                    'url'=>'/admin/shopSettings/index',
+                    'image'=>$host_url.'/image/move_menu_image.png',
+                ]
+            ]
+        ];
+        $data['layout'][] =  $goodsManager;
+        $data['layout'][] =  $memberManager;
+        $data['layout'][] =  $otherManager;
+        return successMsg('',$data);
+    }
 
 }
