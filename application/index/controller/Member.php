@@ -123,7 +123,7 @@ class Member extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $getData = input('get.');
+        $getData = input('post.');
         //验证字段
         $verifData = ['access-token','uid'];
         verifColumn($verifData,$getData);

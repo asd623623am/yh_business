@@ -55,7 +55,7 @@ class Goodstype extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gtname'];
         verifColumn($verifData,$postData);
@@ -90,7 +90,7 @@ class Goodstype extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gtid','gtname','sort'];
         verifColumn($verifData,$postData);
@@ -127,7 +127,7 @@ class Goodstype extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gtid'];
         verifColumn($verifData,$postData);

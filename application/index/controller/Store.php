@@ -54,7 +54,7 @@ class Store extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','is_charge'];
         verifColumn($verifData,$postData);

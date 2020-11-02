@@ -133,7 +133,7 @@ class Goods extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         $verifData = ['access-token','gtid','name','code','selling_price'];
         verifColumn($verifData,$postData);
         $storeid = getStoreidByKey($postData['access-token']);
@@ -180,7 +180,7 @@ class Goods extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         $verifData = ['access-token','gid','gtid','name','code','selling_price'];
         verifColumn($verifData,$postData);
         $storeid = getStoreidByKey($postData['access-token']);
@@ -236,7 +236,7 @@ class Goods extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         $verifData = ['access-token','gid'];
         verifColumn($verifData,$postData);
         getStoreidByKey($postData['access-token']);
@@ -261,7 +261,7 @@ class Goods extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gid','is_grounding'];
         verifColumn($verifData,$postData);
@@ -294,7 +294,7 @@ class Goods extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gid','is_open_stock','stock'];
         verifColumn($verifData,$postData);
@@ -332,7 +332,7 @@ class Goods extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gid'];
         verifColumn($verifData,$postData);

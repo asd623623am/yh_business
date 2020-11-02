@@ -1409,7 +1409,7 @@ class Index extends Controller
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
         $loginInfo = session($postData['access-token']);

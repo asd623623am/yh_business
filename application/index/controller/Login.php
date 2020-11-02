@@ -56,7 +56,7 @@ class Login extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证传递字段
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
@@ -79,7 +79,7 @@ class Login extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证传递字段
         $verifData = ['admin_name'];
         verifColumn($verifData,$postData);

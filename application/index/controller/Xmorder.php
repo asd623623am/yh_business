@@ -46,7 +46,7 @@ class Xmorder extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData= input('get.');
+        $postData= input('post.');
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
         getStoreidByKey($postData['access-token']);
@@ -271,7 +271,7 @@ class Xmorder extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $getData = input('get.');
+        $getData = input('post.');
             $verifData = ['access-token','order_no'];
         verifColumn($verifData,$getData);
         getStoreidByKey($getData['access-token']);

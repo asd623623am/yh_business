@@ -87,7 +87,7 @@ class Goodsspec extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gstname','gsname'];
         verifColumn($verifData,$postData);
@@ -151,7 +151,7 @@ class Goodsspec extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gstid','gstname','gsname'];
         verifColumn($verifData,$postData);
@@ -234,7 +234,7 @@ class Goodsspec extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData = input('get.');
+        $postData = input('post.');
         //验证字段
         $verifData = ['access-token','gstid'];
         verifColumn($verifData,$postData);
