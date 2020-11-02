@@ -118,7 +118,16 @@ class Store extends Common
                 $store_id = model('Store')->insertGetId($insert);
                 /* @todo 添加用户和门店权限绑定*/
                 if($store_id){
-
+                    //设置门店默认值
+                    $update = [
+                        'storeid'  => $store_id,
+                        'img'       => '',
+                        'packing_fee'   => 0,
+                        'is_charge'   => 1,
+                        'content'   => '',
+                        'ctime'     => time()
+                    ];
+                    Db::table('xm_store_content')->insertGetId($update);
                     $admin_insert = [
                         'admin_type'    =>3,
                         'admin_name'    =>$data['account'],
