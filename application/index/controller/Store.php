@@ -97,25 +97,37 @@ class Store extends Controller{
      */
     public function uploadImg(){
 
-        $postData = input('post.');
-        //验证字段
-        $verifData = ['access-token'];
-        verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
-        $file = $_FILES['file'];//得到传输的数据
-        if(empty($file)){
-            exit('非法操作此页面');
+        date_default_timezone_set("Asia/Shanghai"); //设置时区
+        if(is_uploaded_file($_FILES['file']['tmp_name'])) {
+            //把文件转存到你希望的目录（不要使用copy函数）
+            $uploaded_file=$_FILES['file']['tmp_name'];
+            //我们给每个用户动态的创建一个文件夹
+            $date = date('Ymd',time());
+            $user_path=ROOT_PATH . 'public' . DS . 'uploads/images/'.$date;
+            //判断该用户文件夹是否已经有这个文件夹
+            if(!file_exists($user_path)) {
+                //mkdir($user_path);
+                mkdir($user_path,0777,true);
+            }
+
+            //$move_to_file=$user_path."/".$_FILES['file']['name'];
+            $file_true_name=$_FILES['file']['name'];
+            $fielName = time().rand(1,1000)."-".date("Y-m-d").substr($file_true_name,strrpos($file_true_name,"."));
+            $move_to_file=$user_path."/".$fielName;//strrops($file_true,".")查找“.”在字符串中最后一次出现的位置
+            if(move_uploaded_file($uploaded_file,iconv("utf-8","gb2312",$move_to_file))) {
+                echo $fielName."**上传成功".date("Y-m-d H:i:sa");
+
+            } else {
+                echo "上传失败".date("Y-m-d H:i:sa");
+
+            }
+        } else {
+            echo "上传失败".date("Y-m-d H:i:sa");
         }
-        //动到框架应用根目录/public/uploads/ 目录下
-        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
-        if($info){
-            // 成功上传后 获取上传信息
-            return successMsg('上传成功',$info);
-        }else{
-            // 上传失败获取错误信息
-            return failMsg('上传失败');
-        }
+
     }
+
+
 
 
 }
