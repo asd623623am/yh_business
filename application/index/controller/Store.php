@@ -38,6 +38,7 @@ class Store extends Controller{
             $scData = model('storecontent')->where(['storeid'=>0])->find();
             if(!empty($scData)){
                 $data = $scData->toArray();
+                $data['img'] = 'https://'.$_SERVER['SERVER_NAME'].'/uploads/images/'.$data['img'];
             }
         }
         return successMsg('',$data);
@@ -115,7 +116,7 @@ class Store extends Controller{
             $fielName = time().rand(1,1000)."-".date("Y-m-d").substr($file_true_name,strrpos($file_true_name,"."));
             $move_to_file=$user_path."/".$fielName;//strrops($file_true,".")查找“.”在字符串中最后一次出现的位置
             if(move_uploaded_file($uploaded_file,iconv("utf-8","gb2312",$move_to_file))) {
-                echo $fielName."**上传成功".date("Y-m-d H:i:sa");
+                echo $date.'/'.$fielName."**上传成功".date("Y-m-d H:i:sa");
 
             } else {
                 echo "上传失败".date("Y-m-d H:i:sa");
