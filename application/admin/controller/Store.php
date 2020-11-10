@@ -96,6 +96,7 @@ class Store extends Common
                 fail('登录账号已被用，请更换登录账号！');
             }
             ##########
+            $data['name'] = trim($data['name']);
             $where = [
                 'name'	=> $data['name'],
             ];
@@ -356,7 +357,7 @@ class Store extends Common
      */
     private function processData($postData){
         $insert = [
-            'name'		=> $postData['name'],
+            'name'		=> trim($postData['name']),
             'address'	=> $postData['address'],
             'user_name'	=> $postData['user_name'],
             'user_tel'	=> (int)$postData['user_tel'],

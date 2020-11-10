@@ -270,7 +270,7 @@
                     } ,
                     stock:function(value){
                         if(value.length){
-                            if(reg.test(value) == 0){
+                            if(reg.test(value) == 0 || value < 0){
                                 return '库存格式有误，请重新输入';
                             }
                         }
