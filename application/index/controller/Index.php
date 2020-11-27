@@ -1489,4 +1489,27 @@ class Index extends Controller
         return successMsg('',$data);
     }
 
+    /**
+     * Notes: 修复历史数据（取餐码）
+     * Class: updateOrderCode
+     * user: bingwoo
+     * date: 2020/11/10 17:20
+     */
+    public function updateOrderCode(){
+
+        $orderData = model('Xmorder')->where(['code'=>0])->field('orderid,order_sn')->select();
+        if(empty($orderData)){
+            return '已无更新订单';
+        }
+        $orderData = $orderData->toArray();
+        foreach ($orderData as $v){
+            $code = substr($v['order_sn'],-4);
+            $saveData = [
+                'code'=>$code,
+            ];
+            model('Xmorder')->save($saveData,['orderid'=>$v['orderid']]);
+        }
+        return '更新成功';
+    }
+
 }

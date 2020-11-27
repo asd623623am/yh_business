@@ -28,7 +28,9 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+//        $storeid = getStoreidByKey($getData['access-token']);
+        $loginInfo = session($getData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $newOrderCount = model('xmorder')->where(['storeid'=>$storeid,'is_new'=>1])->count();
         $data['order_count'] = $newOrderCount;
         return successMsg('',$data);
@@ -49,7 +51,7 @@ class Xmorder extends Controller{
         $postData= input('post.');
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         $editData['is_new'] = 2;
         $orderidArr = [];
         if(isset($postData['order_id_list']) && !empty($postData['order_id_list'])){
@@ -91,7 +93,9 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+//        $storeid = getStoreidByKey($getData['access-token']);
+        $loginInfo = session($getData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $where['storeid'] = $storeid;
         //分页
         $page = 0;
@@ -159,7 +163,7 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token','order_id'];
         verifColumn($verifData,$getData);
-        getStoreidByKey($getData['access-token']);
+//        getStoreidByKey($getData['access-token']);
         $orderData = model('xmorder')->where(['orderid'=>$getData['order_id']])->find();
         if(empty($orderData)){
             return failMsg('订单信息有误');
@@ -221,7 +225,9 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+//        $storeid = getStoreidByKey($getData['access-token']);
+        $loginInfo = session($getData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $data = [
             'order_day'=>0,
             'order_count'=>0,
@@ -263,6 +269,81 @@ class Xmorder extends Controller{
     }
 
     /**
+     * Notes: 确认完成订单
+     * Class: confirmOrder
+     * user: bingwoo
+     * date: 2020/11/10 16:08
+     */
+    public function confirmOrder(){
+        if(Request::instance()->isPost() == false){
+            return failMsg('请求方式有误');
+        }
+        $postData = input('post.');
+        $verifData = ['access-token','order_no'];
+        verifColumn($verifData,$postData);
+        $where = [
+            'order_sn'	=> $postData['order_no'],
+            'status'	=> 1
+        ];
+        $result = model('Xmorder')->where($where)->field('orderid,storeid')->find();
+        if(empty($result)){
+            return failMsg('没有找到您的订单！');
+        }
+        $result = $result->toArray();
+        $saveData = ['order_status'=>5];
+        $confirmRet = model('Xmorder')->save($saveData,['orderid'=>$result['orderid']]);
+        if($confirmRet){
+            $this->sendConfirmNotice($result['storeid']);
+            successMsg('操作成功');
+        }
+        failMsg('操作失败');
+
+    }
+
+    /**
+     * Notes: 发送确认通知
+     * Class: sendConfirmNotice
+     * user: bingwoo
+     * date: 2020/11/10 16:15
+     */
+    public function sendConfirmNotice($storeid){
+        $systemData = model('system')->field('gz_token')->find();
+        $storeData = model('store')->where(['storeid'=>$storeid])->field('name')->find();
+        if(empty($systemData)){
+            return false;
+        }
+        $systemData = $systemData->toArray();
+        $data = [
+            'keyword2'      => [
+                'value'     => '2元',
+                'color'     => '#173177'
+            ],
+            'keyword1'      => [
+                'value'     => 1,
+                'color'     => '#173177'
+            ],
+            'remark'      => [
+                'value'     => '感谢您的使用。',
+                'color'     => '#173177'
+            ],
+            'first'      => [
+                'value'     => '机场--'.$storeData['name'],
+                'color'     => '#173177'
+            ],
+        ];
+        $accessToken = $systemData['gz_token'];
+        $template = [
+            "touser" => $systemData['gz_token'],
+            "template_id" => "XfYvkPO8lkbmNCn3g1aVagcv8i4xrTU8F3a3KBlN2kA",
+            "topcolor" => "#FF0000",
+            "data"      => $data
+        ];
+        $json_template = json_encode($template);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
+        return $this->request_post($url, urldecode($json_template));
+    }
+
+    /**
      * Notes: 退款
      * Class: refundOrder
      * user: bingwoo
@@ -274,9 +355,9 @@ class Xmorder extends Controller{
             return failMsg('请求方式有误');
         }
         $getData = input('post.');
-            $verifData = ['access-token','order_no'];
+        $verifData = ['access-token','order_no'];
         verifColumn($verifData,$getData);
-        getStoreidByKey($getData['access-token']);
+//        getStoreidByKey($getData['access-token']);
         $where = [
             'order_sn'	=> $getData['order_no'],
             'status'	=> 1
@@ -410,6 +491,34 @@ class Xmorder extends Controller{
         $output = curl_exec($curl);
         curl_close($curl);
         return @json_decode($output, true);
+    }
+
+    /**
+     * 发送post请求
+     * @param string $url
+     * @param string $param
+     * @return bool|mixed
+     */
+    public function request_post($url = '', $param = '')
+    {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+        $postUrl = $url;
+        $curlPost = $param;
+        $ch = curl_init(); //初始化curl
+        curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
+        curl_setopt($ch, CURLOPT_POST, true); //post提交方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        curl_setopt($ch, CURLOPT_HEADER, false);//设置header
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        $data = curl_exec($ch); //运行curl
+        curl_close($ch);
+        return $data;
     }
 
     /**

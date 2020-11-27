@@ -29,7 +29,9 @@ class Goodsspec extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+//        $storeid = getStoreidByKey($getData['access-token']);
+        $loginInfo = session($getData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
         $snData = [];
         if(!empty($storeData)){
@@ -91,7 +93,9 @@ class Goodsspec extends Controller{
         //验证字段
         $verifData = ['access-token','gstname','gsname'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+//        $storeid = getStoreidByKey($postData['access-token']);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
         //验证规格是否存在
         $where['storeid'] = $storeid;
         $where['gstname'] = $postData['gstname'];
@@ -155,7 +159,7 @@ class Goodsspec extends Controller{
         //验证字段
         $verifData = ['access-token','gstid','gstname','gsname'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         $verifData = model('goodsspectype')->where(['gstname'=>$postData['gstname'],'status'=>0])->field('gstid')->select();
         if(!empty($verifData)){
             $verifData = $verifData->toArray();
@@ -238,7 +242,7 @@ class Goodsspec extends Controller{
         //验证字段
         $verifData = ['access-token','gstid'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         //检检查是否有商品在使用该规格
         $count = model('goodsbingspec')->where('gstids', 'like', '%'.$postData['gstid'].'%')->count();
         if($count>0){

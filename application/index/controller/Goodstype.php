@@ -27,7 +27,9 @@ class Goodstype extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+//        $storeid = getStoreidByKey($getData['access-token']);
+        $loginInfo = session($getData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $gtWhere = [];
         $gtWhere['storeid'] = $storeid;
         if(isset($getData['gtname']) && !empty($getData['gtname'])){
@@ -59,7 +61,9 @@ class Goodstype extends Controller{
         //验证字段
         $verifData = ['access-token','gtname'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+//        $storeid = getStoreidByKey($postData['access-token']);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $count = model('goodstype')->where(['gtname'=>$postData['gtname']])->count();
         if($count >0){
             return failMsg('分类名称已存在！');
@@ -94,7 +98,9 @@ class Goodstype extends Controller{
         //验证字段
         $verifData = ['access-token','gtid','gtname','sort'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+//        $storeid = getStoreidByKey($postData['access-token']);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
         //判断修改后分类分成是否存在
         $gtData = model('goodstype')->where(['gtname'=>$postData['gtname']])->field('gtid')->select();
         if(!empty($gtData)){
@@ -131,7 +137,9 @@ class Goodstype extends Controller{
         //验证字段
         $verifData = ['access-token','gtid'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+//        $storeid = getStoreidByKey($postData['access-token']);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $count = model('goods')->where(['gtid'=>$postData['gtid'],'status'=>1])->count();
         if($count>0){
             return failMsg('该分类下存在商品，请先删除后在次尝试');

@@ -19,7 +19,9 @@ class Goods extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+//        $storeid = getStoreidByKey($getData['access-token']);
+        $loginInfo = session($getData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $where['storeid'] = $storeid;
         $where['status'] = 1;
         //菜品名称、编号、菜品分类、菜品状态搜索
@@ -112,7 +114,7 @@ class Goods extends Controller{
         $getData = input('get.');
         $verifData = ['access-token','gid'];
         verifColumn($verifData,$getData);
-        getStoreidByKey($getData['access-token']);
+//        getStoreidByKey($getData['access-token']);
         $gData = model('goods')->where(['gid'=>$getData['gid']])->find();
         if(empty($gData)){
             return failMsg('商品信息有误');
@@ -136,7 +138,9 @@ class Goods extends Controller{
         $postData = input('post.');
         $verifData = ['access-token','gtid','name','code','selling_price'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+//        $storeid = getStoreidByKey($postData['access-token']);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $countName = model('goods')->where(['name'=>$postData['name'],'status'=>1 ])->count();
         if($countName >0){
             return failMsg('该商品名称已存在');
@@ -183,7 +187,9 @@ class Goods extends Controller{
         $postData = input('post.');
         $verifData = ['access-token','gid','gtid','name','code','selling_price'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+//        $storeid = getStoreidByKey($postData['access-token']);
+        $loginInfo = session($postData['access-token']);
+        $storeid = $loginInfo['storeid'];
         $countName = model('goods')->where(['name'=>$postData['name'],'status'=>1])
             ->where('gid','<>',$postData['gid'])->count();
         if($countName>0){
@@ -239,7 +245,7 @@ class Goods extends Controller{
         $postData = input('post.');
         $verifData = ['access-token','gid'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         $where = ['gid' => $postData['gid']];
         //设置菜品信息为隐藏，不展示
         $ret = model('goods')->save(['status'=>2],$where);
@@ -265,7 +271,7 @@ class Goods extends Controller{
         //验证字段
         $verifData = ['access-token','gid','is_grounding'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         if(!in_array($postData['is_grounding'],[0,1])){
             return failMsg('字段【'.'is_grounding'.'】传值有误！');
         }
@@ -298,7 +304,7 @@ class Goods extends Controller{
         //验证字段
         $verifData = ['access-token','gid','is_open_stock','stock'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         if($postData['stock'] == ''){
             $postData['stock'] = 0;
         }
@@ -336,7 +342,7 @@ class Goods extends Controller{
         //验证字段
         $verifData = ['access-token','gid'];
         verifColumn($verifData,$postData);
-        getStoreidByKey($postData['access-token']);
+//        getStoreidByKey($postData['access-token']);
         $gData = model('goods')->where(['gid'=>$postData['gid']])->field('is_open_stock')->find();
         if(empty($gData)){
             return failMsg('商品信息有误');
