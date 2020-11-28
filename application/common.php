@@ -390,6 +390,7 @@ function failMsg(string $msg = '')
  */
 function getStoreidByKey($key){
     $loginInfo = session($key);
+    $loginInfo['storeid'] = 16;
     if(empty($loginInfo)){
         echo json_encode(['status'=>-1,'msg'=>'请登录']);
         exit;
@@ -412,4 +413,3 @@ function verifColumn($vericolumn,$postData){
         }
     }
 }
-

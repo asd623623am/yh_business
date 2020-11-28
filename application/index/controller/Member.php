@@ -27,9 +27,9 @@ class Member extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-//        $storeid = getStoreidByKey($getData['access-token']);
-        $loginInfo = session($getData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($getData['access-token']);
+//        $loginInfo = session($getData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $where = [];
         $page = 0;
         if(isset($getData['page']) && !empty($getData['page'])){

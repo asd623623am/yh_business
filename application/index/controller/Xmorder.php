@@ -28,9 +28,9 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-//        $storeid = getStoreidByKey($getData['access-token']);
-        $loginInfo = session($getData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($getData['access-token']);
+//        $loginInfo = session($getData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $newOrderCount = model('xmorder')->where(['storeid'=>$storeid,'is_new'=>1])->count();
         $data['order_count'] = $newOrderCount;
         return successMsg('',$data);
@@ -51,7 +51,7 @@ class Xmorder extends Controller{
         $postData= input('post.');
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
-//        getStoreidByKey($postData['access-token']);
+        getStoreidByKey($postData['access-token']);
         $editData['is_new'] = 2;
         $orderidArr = [];
         if(isset($postData['order_id_list']) && !empty($postData['order_id_list'])){
@@ -93,9 +93,9 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-//        $storeid = getStoreidByKey($getData['access-token']);
-        $loginInfo = session($getData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($getData['access-token']);
+//        $loginInfo = session($getData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $where['storeid'] = $storeid;
         //分页
         $page = 0;
@@ -225,9 +225,9 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-//        $storeid = getStoreidByKey($getData['access-token']);
-        $loginInfo = session($getData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($getData['access-token']);
+//        $loginInfo = session($getData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $data = [
             'order_day'=>0,
             'order_count'=>0,

@@ -19,9 +19,9 @@ class Goods extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-//        $storeid = getStoreidByKey($getData['access-token']);
-        $loginInfo = session($getData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($getData['access-token']);
+//        $loginInfo = session($getData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $where['storeid'] = $storeid;
         $where['status'] = 1;
         //菜品名称、编号、菜品分类、菜品状态搜索
@@ -138,9 +138,9 @@ class Goods extends Controller{
         $postData = input('post.');
         $verifData = ['access-token','gtid','name','code','selling_price'];
         verifColumn($verifData,$postData);
-//        $storeid = getStoreidByKey($postData['access-token']);
-        $loginInfo = session($postData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($postData['access-token']);
+//        $loginInfo = session($postData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $countName = model('goods')->where(['name'=>$postData['name'],'status'=>1 ])->count();
         if($countName >0){
             return failMsg('该商品名称已存在');
@@ -187,9 +187,9 @@ class Goods extends Controller{
         $postData = input('post.');
         $verifData = ['access-token','gid','gtid','name','code','selling_price'];
         verifColumn($verifData,$postData);
-//        $storeid = getStoreidByKey($postData['access-token']);
-        $loginInfo = session($postData['access-token']);
-        $storeid = $loginInfo['storeid'];
+        $storeid = getStoreidByKey($postData['access-token']);
+//        $loginInfo = session($postData['access-token']);
+//        $storeid = $loginInfo['storeid'];
         $countName = model('goods')->where(['name'=>$postData['name'],'status'=>1])
             ->where('gid','<>',$postData['gid'])->count();
         if($countName>0){
