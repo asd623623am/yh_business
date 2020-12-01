@@ -5,6 +5,8 @@ use think\Request;
 
 class Login extends Controller{
 
+    protected $redisdb;
+
     /**
      * Notes: 登录
      * Class: Login
@@ -13,10 +15,11 @@ class Login extends Controller{
      */
     public function Login(){
 
+        new \Redis();
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData=input('post.');
+        $postData=input('get.');
         //验证传递字段
         $verifData = ['admin_name','admin_pwd'];
         verifColumn($verifData,$postData);
@@ -41,9 +44,11 @@ class Login extends Controller{
         if($admin_pwd != $admin_info['admin_pwd']){
             return failMsg('账号或密码错误');
         }else{
-            //存储session信息
+            //存储门店id信息
             $data['access_token'] = md5($postData['admin_name']);
-            session($data['access_token'],$admin_info);
+            $this->redisdb  = new \redis();
+            $this->redisdb->connect('127.0.0.1','6379');
+            $this->redisdb->set($data['access_token'],$admin_info['storeid'],7200);
             return successMsg('登陆成功',$data);
         }
     }
@@ -64,7 +69,9 @@ class Login extends Controller{
         if(empty($loginInfo)){
             return failMsg('退出失败');
         }
-        session($postData['access-token'],null);
+        $this->redisdb  = new \redis();
+        $this->redisdb->connect('127.0.0.1','6379');
+        $this->redisdb->set($postData['access_token'],'');
         return successMsg('退出成功');
     }
 

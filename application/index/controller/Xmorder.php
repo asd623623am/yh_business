@@ -29,8 +29,6 @@ class Xmorder extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $storeid = getStoreidByKey($getData['access-token']);
-//        $loginInfo = session($getData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $newOrderCount = model('xmorder')->where(['storeid'=>$storeid,'is_new'=>1])->count();
         $data['order_count'] = $newOrderCount;
         return successMsg('',$data);
@@ -94,8 +92,6 @@ class Xmorder extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $storeid = getStoreidByKey($getData['access-token']);
-//        $loginInfo = session($getData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $where['storeid'] = $storeid;
         //分页
         $page = 0;
@@ -163,7 +159,7 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token','order_id'];
         verifColumn($verifData,$getData);
-//        getStoreidByKey($getData['access-token']);
+        getStoreidByKey($getData['access-token']);
         $orderData = model('xmorder')->where(['orderid'=>$getData['order_id']])->find();
         if(empty($orderData)){
             return failMsg('订单信息有误');
@@ -226,8 +222,6 @@ class Xmorder extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $storeid = getStoreidByKey($getData['access-token']);
-//        $loginInfo = session($getData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $data = [
             'order_day'=>0,
             'order_count'=>0,
@@ -357,7 +351,7 @@ class Xmorder extends Controller{
         $getData = input('post.');
         $verifData = ['access-token','order_no'];
         verifColumn($verifData,$getData);
-//        getStoreidByKey($getData['access-token']);
+        getStoreidByKey($getData['access-token']);
         $where = [
             'order_sn'	=> $getData['order_no'],
             'status'	=> 1

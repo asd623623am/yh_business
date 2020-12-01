@@ -28,21 +28,32 @@ class Goodstype extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $storeid = getStoreidByKey($getData['access-token']);
-//        $loginInfo = session($getData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $gtWhere = [];
         $gtWhere['storeid'] = $storeid;
+        $query = model('goodstype');
         if(isset($getData['gtname']) && !empty($getData['gtname'])){
-            $gtWhere['gtname'] = $getData['gtname'];
+            $gtWhere['gtname'] = ['=',$getData['gtname']];
         }
-        $goodsData = model('goodstype')->where($gtWhere)->select();
+        $query = $query->where($gtWhere);
+        if(isset($getData['page']) && !empty($getData['page'])){
+            $limit = 20;
+            if(isset($getData['limit']) && !empty($getData['limit'])){
+                $limit = $getData['limit'];
+            }
+            $query = $query->page($getData['page'],$limit);
+        }
+        $goodsData = $query->order('gtid','desc')->select();
+        $count = model('goodstype')->where($gtWhere)->count();
         if($goodsData){
             $goodsData = $goodsData->toArray();
             foreach ($goodsData as &$v){
                 $v['update_time']  = date('Y-m-d H:i:s',$v['update_time']);
+                $gWhere = [];
+                $gWhere['gtid'] = ['=',$v['gtid']];
+                $v['goods_num'] = model('goods')->where($gWhere)->count();
             }
         }
-        return successMsg('返回成功',$goodsData);
+        return successMsg('返回成功',$goodsData,$count);
 
     }
 
@@ -62,8 +73,6 @@ class Goodstype extends Controller{
         $verifData = ['access-token','gtname'];
         verifColumn($verifData,$postData);
         $storeid = getStoreidByKey($postData['access-token']);
-//        $loginInfo = session($postData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $count = model('goodstype')->where(['gtname'=>$postData['gtname']])->count();
         if($count >0){
             return failMsg('分类名称已存在！');
@@ -99,14 +108,12 @@ class Goodstype extends Controller{
         $verifData = ['access-token','gtid','gtname','sort'];
         verifColumn($verifData,$postData);
         $storeid = getStoreidByKey($postData['access-token']);
-//        $loginInfo = session($postData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         //判断修改后分类分成是否存在
         $gtData = model('goodstype')->where(['gtname'=>$postData['gtname']])->field('gtid')->select();
         if(!empty($gtData)){
             foreach ($gtData as $v){
                 if($v['gtid'] != $postData['gtid']){
-                    return failMsg('商品名称已存在！');
+                    return failMsg('分类名称已存在！');
                 }
             }
         }
@@ -137,9 +144,7 @@ class Goodstype extends Controller{
         //验证字段
         $verifData = ['access-token','gtid'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
-//        $loginInfo = session($postData['access-token']);
-//        $storeid = $loginInfo['storeid'];
+        getStoreidByKey($postData['access-token']);
         $count = model('goods')->where(['gtid'=>$postData['gtid'],'status'=>1])->count();
         if($count>0){
             return failMsg('该分类下存在商品，请先删除后在次尝试');

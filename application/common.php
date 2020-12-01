@@ -389,13 +389,14 @@ function failMsg(string $msg = '')
  * date: 2020/10/20 13:48
  */
 function getStoreidByKey($key){
-    $loginInfo = session($key);
-    $loginInfo['storeid'] = 16;
+    $redisdb  = new \redis();
+    $redisdb->connect('127.0.0.1','6379');
+    $loginInfo = $redisdb->get($key);
     if(empty($loginInfo)){
         echo json_encode(['status'=>-1,'msg'=>'请登录']);
         exit;
     }
-    return $loginInfo['storeid'];
+    return $loginInfo;
 }
 
 /**

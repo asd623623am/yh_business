@@ -29,8 +29,6 @@ class Store extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $storeid = getStoreidByKey($getData['access-token']);
-//        $loginInfo = session($getData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $scData = model('storecontent')->where(['storeid'=>$storeid])->find();
         $data = [];
         if(!empty($scData)){
@@ -62,8 +60,6 @@ class Store extends Controller{
         $verifData = ['access-token','is_charge'];
         verifColumn($verifData,$postData);
         $storeid = getStoreidByKey($postData['access-token']);
-//        $loginInfo = session($postData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $scData = model('storecontent')->where(['storeid'=>$storeid])->find();
         $editData = [
             'is_charge'=>$postData['is_charge'],

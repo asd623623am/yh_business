@@ -28,8 +28,6 @@ class Member extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $storeid = getStoreidByKey($getData['access-token']);
-//        $loginInfo = session($getData['access-token']);
-//        $storeid = $loginInfo['storeid'];
         $where = [];
         $page = 0;
         if(isset($getData['page']) && !empty($getData['page'])){
@@ -129,7 +127,7 @@ class Member extends Controller{
         //验证字段
         $verifData = ['access-token','uid'];
         verifColumn($verifData,$getData);
-//        getStoreidByKey($getData['access-token']);
+        getStoreidByKey($getData['access-token']);
         $where = [
             'uid' =>$getData['uid']
         ];
