@@ -162,7 +162,7 @@ class Goods extends Controller{
             $gbsData['gstids'] = $postData['gstids'];
             $gbsData['update_time'] = time();
             $gbsData['create_time'] = time();
-            model('goodsBingSpec')->save($gbsData);
+            model('goodsbingspec')->save($gbsData);
         }
         if($gid){
             return successMsg('添加成功');
