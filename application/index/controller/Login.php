@@ -19,7 +19,7 @@ class Login extends Controller{
         if(Request::instance()->isPost() == false){
             return failMsg('请求方式有误');
         }
-        $postData=input('get.');
+        $postData=input('post.');
         //验证传递字段
         $verifData = ['admin_name','admin_pwd'];
         verifColumn($verifData,$postData);
