@@ -119,6 +119,8 @@ class Goods extends Controller{
             return failMsg('商品信息有误');
         }
         $gData = $gData->toArray();
+        $gtData = model('goodstype')->where(['gtid'=>$gData['gtid']])->field('gtname')->find();
+        $gData['gtname'] = $gtData['gtname'];
         $gData['img'] = '/uploads/'.$gData['img'];
         //获取规格信息
         $gbsData = model('goodsbingspec')->where(['goodsid'=>$gData['gid']])->find();
