@@ -118,6 +118,25 @@ class Goods extends Controller{
             return failMsg('商品信息有误');
         }
         $gData = $gData->toArray();
+        //获取规格信息
+        $gbsData = model('goodsbingspec')->where(['goodsid'=>$gData['gid']])->find();
+        if(!empty($gbsData)){
+            $gbsData = $gbsData->toArray();
+            $gData['gstids'] = $gbsData['gstids'];
+            $gstDatas = explode(',',$gbsData['gstids']);
+            $data = [];
+            foreach ($gstDatas as $v){
+                $gstData = model('goodsspectype')->where(['gstid'=>$v])->find();
+                if($gstData){
+                    $gstData = $gstData->toArray();
+                    $data[] = [
+                        'gstid'=>$v,
+                        'gstname'=>$gstData['gstname']
+                    ];
+                }
+            }
+            $gData['gstData'] = $data;
+        }
         return successMsg('',$gData);
 
     }
