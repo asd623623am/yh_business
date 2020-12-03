@@ -90,6 +90,7 @@ class Goods extends Controller{
                         $val['gtname'] = $gtval['gtname'];
                     }
                 }
+                $val['img'] = '/uploads/'.$val['img'];
             }
             unset($val);
         }
@@ -118,6 +119,7 @@ class Goods extends Controller{
             return failMsg('商品信息有误');
         }
         $gData = $gData->toArray();
+        $gData['img'] = '/uploads/'.$gData['img'];
         //获取规格信息
         $gbsData = model('goodsbingspec')->where(['goodsid'=>$gData['gid']])->find();
         if(!empty($gbsData)){
