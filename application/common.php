@@ -409,7 +409,7 @@ function verifColumn($vericolumn,$postData){
 
     foreach ($vericolumn as $v){
         if(!isset($postData[$v])){
-            echo json_encode(['status'=>-1,'msg'=>'字段['.$v.']必传']);
+            echo json_encode(['code'=>-1,'msg'=>'字段['.$v.']必传']);
             exit;
         }
     }
