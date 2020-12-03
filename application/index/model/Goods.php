@@ -31,7 +31,7 @@ class Goods extends Model{
         ];
         foreach ($mustField as $k => $val){
             if(isset($data[$k]) && empty($data[$k])){
-                fail($val.'不能为空') ;
+                failMsg($val.'不能为空') ;
             }else{
                 $saveData[$k] = $data[$k];
             }
