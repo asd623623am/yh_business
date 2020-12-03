@@ -90,7 +90,7 @@ class Goods extends Controller{
                         $val['gtname'] = $gtval['gtname'];
                     }
                 }
-                $val['img'] = '/uploads/'.$val['img'];
+                $val['img'] = '/uploads/images/'.$val['img'];
             }
             unset($val);
         }
@@ -121,7 +121,7 @@ class Goods extends Controller{
         $gData = $gData->toArray();
         $gtData = model('goodstype')->where(['gtid'=>$gData['gtid']])->field('gtname')->find();
         $gData['gtname'] = $gtData['gtname'];
-        $gData['img'] = '/uploads/'.$gData['img'];
+        $gData['img'] = '/uploads/images/'.$gData['img'];
         //获取规格信息
         $gbsData = model('goodsbingspec')->where(['goodsid'=>$gData['gid']])->find();
         if(!empty($gbsData)){
