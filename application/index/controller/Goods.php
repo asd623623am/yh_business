@@ -29,8 +29,10 @@ class Goods extends Controller{
         if(isset($getData['gtid']) && !empty($getData['gtid'])){
             $where['gtid'] = $getData['gtid'];
         }
-        if(isset($getData['is_grounding']) && !empty($getData['is_grounding'])){
-            $where['is_grounding'] = $getData['is_grounding'];
+        if(isset($getData['is_grounding'])){
+            if($getData['is_grounding'] == 0 || !empty($getData['is_grounding'])){
+                $where['is_grounding'] = $getData['is_grounding'];
+            }
         }
         //分页
         $page = 0;
