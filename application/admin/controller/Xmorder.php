@@ -1049,7 +1049,7 @@ class Xmorder extends Common
 	{
 		$systemData = model('system')->field('gz_token')->find();
 		
-		$order = model('Xmorder')->where(['storeid'=>$storeid])->find();
+		$order = model('Xmorder')->where(['orderid'=>$storeid])->find();
         if($order == null){
             return false;
         }
@@ -1082,7 +1082,7 @@ class Xmorder extends Common
             "template_id" => "X-BBtbWwuy-WP5895NFPrhrZmwczWr7b-PNQ1fx4UzU",
             "topcolor" => "#FF0000",
             "data"      => $data
-        ];
+		];
         $json_template = json_encode($template);
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
         return $this->request_post($url, urldecode($json_template));
