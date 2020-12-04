@@ -98,6 +98,7 @@
             <!-- <option value="1">付款中</option> -->
             <option value="2" selected>已付款</option>
             <option value="3">已退款</option>
+            <option value="4">已完成</option>
         </select>
     </div>
     <div class="layui-inline tempsTest"> <!--  支付时间-->
@@ -139,13 +140,14 @@
                placeholder="请输入交易号" class="layui-input" style="width: 200px"/>
     </div>
     <button class="layui-btn tempsTest" lay-submit id='sousuo' lay-filter="*">搜索</button>
-    <button class="layui-btn tempsTest" lay-submit id='excel' lay-filter="*">导出订单(excel)</button>
+    <button class="layui-btn tempsTest" lay-submit id='excel' style="display: none;" lay-filter="*">导出订单(excel)</button>
 </div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="pos">详情</a>
     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="repticket">补打</a>
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="is_ok">完成</a>
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -256,6 +258,22 @@
                     },'json'
                 )
                     
+            } else if(layEvent == 'is_ok'){
+                layer.confirm('确认完成？', {
+                    btn: ['确认', '取消'] //可以无限个按钮
+                    ,btn3: function(index, layero){
+                    }
+                    }, function(index, layero){
+                        $.post('{:url("Xmorder/isConfirm")}',
+                        {data:data},
+                        function(msg){
+                            layer.msg(msg.font,{icon:msg.code});
+                            if(msg.code == 1){
+                                table.reload('test');
+                            }
+                        },'json'
+                        )
+                    });
             }
         })
 
@@ -377,7 +395,7 @@
                 ,{field:'pay_fee',width:200, title: '订单总额'}
                 ,{field:'goods_amount',width:200, title: '菜品数量'}
                 ,{field:'pay_id',width:150, title: '支付方式',align:'center'}
-                ,{field:'pay_status',width:150, title: '支付状态',align:'center'}
+                ,{field:'pay_status',width:150, title: '订单状态',align:'center'}
                 ,{field:'pay_time',width:200, title: '支付时间',align:'center'}
                 ,{field:'create_time',width:200, title: '支付日期',align:'center'}
                 // ,{field:'invoice_status',width:150, title: '开票状态',align:'center'}

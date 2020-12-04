@@ -104,6 +104,8 @@ class Xmorder extends Common
 					$res[$k]['pay_status'] = '已付款';
 				} else if($v['pay_status'] == 3){
 					$res[$k]['pay_status'] = '已退款';
+				} else if($v['pay_status'] == 4) {
+					$res[$k]['pay_status'] = '已完成';
 				}
 
 				if($v['order_status'] == 0){
@@ -998,5 +1000,81 @@ class Xmorder extends Common
         $data = curl_exec($ch); //运行curl
         curl_close($ch);
         return $data;
+	}
+	
+
+	public function isConfirm()
+	{
+		$data = input();
+		if(empty($data)){
+			fail('非法请求！');
+		}
+		$data = $data['data'];
+		$where = [
+			'orderid'	=> $data['orderid'],
+		];
+		$order = model('Xmorder')->where($where)->find();
+		if($order == null){
+			fail('当前网络较差，请重新请求');
+		}
+		if($order['pay_status'] == 4){
+			win('已是已完成了');
+		}else if($order['pay_status'] != 2){
+			fail('这个订单还为付款，付款后再试！');
+		} else 
+		$update = [];
+		if($data['is_new_type'] == 1){
+			$update['is_new'] =  2;
+		}
+		$update['pay_status'] = 4;
+		$info = model('Xmorder')->where($where)->setField($update);
+		if(!$info){
+			fail('当前网络较差，请重新请求');
+		} else {
+			$this->sendConfirmNotice($order['storeid']);
+			win('已完成');
+		}
+		
+	}
+
+	/**
+	 * 发送确认公众号.
+	 */
+	public function sendConfirmNotice($storeid)
+	{
+        $systemData = model('system')->field('gz_token')->find();
+        $storeData = model('store')->where(['storeid'=>$storeid])->field('name')->find();
+        if(empty($systemData)){
+            return false;
+        }
+        $systemData = $systemData->toArray();
+        $data = [
+            'keyword2'      => [
+                'value'     => '2元',
+                'color'     => '#173177'
+            ],
+            'keyword1'      => [
+                'value'     => 1,
+                'color'     => '#173177'
+            ],
+            'remark'      => [
+                'value'     => '感谢您的使用。',
+                'color'     => '#173177'
+            ],
+            'first'      => [
+                'value'     => '机场--'.$storeData['name'],
+                'color'     => '#173177'
+            ],
+        ];
+        $accessToken = $systemData['gz_token'];
+        $template = [
+            "touser" => $systemData['gz_token'],
+            "template_id" => "XfYvkPO8lkbmNCn3g1aVagcv8i4xrTU8F3a3KBlN2kA",
+            "topcolor" => "#FF0000",
+            "data"      => $data
+        ];
+        $json_template = json_encode($template);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
+        return $this->request_post($url, urldecode($json_template));
     }
 }
