@@ -77,7 +77,7 @@
         var upload = layui.upload;
         var form = layui.form;
         var status = $('#status').text();
-        if(status == '已付款'){
+        if(status == '已付款' || status == '已完成'){
             $('#refund').attr('style','display:inline;');
             $('#title').show();
         } else {
