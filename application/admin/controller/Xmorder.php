@@ -1007,6 +1007,9 @@ class Xmorder extends Common
 
 	public function isConfirm()
 	{
+
+		$res = $this->sendConfirmNotice($order['storeid']);
+		dump($res);exit;
 		$data = input();
 		if(empty($data)){
 			fail('非法请求！');
