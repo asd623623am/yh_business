@@ -1077,7 +1077,7 @@ class Xmorder extends Common
         ];
         $accessToken = $systemData['gz_token'];
         $template = [
-            "touser" => $systemData['gz_token'],
+            "touser" => 'oYPgFs-ooVJ3Tmmccm60jq6ufIJ8',
             "template_id" => "X-BBtbWwuy-WP5895NFPrhrZmwczWr7b-PNQ1fx4UzU",
             "topcolor" => "#FF0000",
             "data"      => $data
