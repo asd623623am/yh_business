@@ -1007,9 +1007,6 @@ class Xmorder extends Common
 
 	public function isConfirm()
 	{
-		$res=$this->sendConfirmNotice(3845);
-		dump($res);
-		exit;
 		$data = input();
 		if(empty($data)){
 			fail('非法请求！');
@@ -1036,7 +1033,7 @@ class Xmorder extends Common
 		if(!$info){
 			fail('当前网络较差，请重新请求');
 		} else {
-			$this->sendConfirmNotice($order['storeid']);
+			$this->sendConfirmNotice($order['orderid']);
 			win('已完成');
 		}
 		
@@ -1045,14 +1042,17 @@ class Xmorder extends Common
 	/**
 	 * 发送确认公众号.
 	 */
-	public function sendConfirmNotice($storeid)
+	public function sendConfirmNotice($orderid)
 	{
 		$systemData = model('system')->field('gz_token')->find();
-		
-		$order = model('Xmorder')->where(['orderid'=>$storeid])->find();
+		$order = model('Xmorder')->where(['orderid'=>$orderid])->find();
         if($order == null){
             return false;
-        }
+		}
+		$name = model('Xmordergoods')->where(['order_id'=>$order['order_sn']])->find();
+		if($name == null){
+			return false;
+		}
         $systemData = $systemData->toArray();
         $data = [
             'keyword2'      => [
@@ -1060,7 +1060,7 @@ class Xmorder extends Common
                 'color'     => '#173177'
             ],
             'keyword1'      => [
-                'value'     => '商品名称',
+                'value'     => $name['goods_name'],
                 'color'     => '#173177'
 			],
 			'keyword3'      => [
