@@ -1052,26 +1052,30 @@ class Xmorder extends Common
         $systemData = $systemData->toArray();
         $data = [
             'keyword2'      => [
-                'value'     => '2元',
+                'value'     => '123443432432',
                 'color'     => '#173177'
             ],
             'keyword1'      => [
-                'value'     => 1,
+                'value'     => '商品名称',
+                'color'     => '#173177'
+			],
+			'keyword3'      => [
+                'value'     => '0.1元',
                 'color'     => '#173177'
             ],
             'remark'      => [
-                'value'     => '感谢您的使用。',
+                'value'     => '感谢您的光临~',
                 'color'     => '#173177'
             ],
             'first'      => [
-                'value'     => '机场--'.$storeData['name'],
+                'value'     => '您好，您的订单已完成！',
                 'color'     => '#173177'
             ],
         ];
         $accessToken = $systemData['gz_token'];
         $template = [
             "touser" => $systemData['gz_token'],
-            "template_id" => "XfYvkPO8lkbmNCn3g1aVagcv8i4xrTU8F3a3KBlN2kA",
+            "template_id" => "X-BBtbWwuy-WP5895NFPrhrZmwczWr7b-PNQ1fx4UzU",
             "topcolor" => "#FF0000",
             "data"      => $data
         ];
