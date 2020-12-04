@@ -334,7 +334,7 @@ class Xmorder extends Common
 			fail('没有找到您的订单！');
 		}
 		$result = $result->toArray();
-		if($result['pay_status'] != 2 || $result['pay_status'] != 4){
+		if($result['pay_status'] == 0 || $result['pay_status'] == 1 || $result['pay_status'] == 3){
 			fail('您还不是已支付订单！');
 		}
 
