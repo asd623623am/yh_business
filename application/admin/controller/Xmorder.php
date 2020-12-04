@@ -1071,7 +1071,7 @@ class Xmorder extends Common
                 'color'     => '#173177'
             ],
             'first'      => [
-                'value'     => '您好，您的订单已完成！<br> 取餐号：0001',
+                'value'     => '您好，您的订单已完成！ 取餐号：0001',
                 'color'     => '#173177'
             ],
         ];
