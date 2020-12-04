@@ -268,6 +268,8 @@ class Xmorder extends Common
 			$order['pay_status']	= '已付款';
 		} else if($result['pay_status'] == 3){
 			$order['pay_status']	= '已退款';
+		} else if($result['pay_status'] == 4){
+			$order['pay_status']	= '已完成';
 		}
 		$order['remark'] = $result['remark'];
 		$order['receivables'] = $result['receivables'];
