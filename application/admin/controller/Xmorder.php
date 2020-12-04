@@ -1007,9 +1007,9 @@ class Xmorder extends Common
 
 	public function isConfirm()
 	{
-
-		$res = $this->sendConfirmNotice(1);
-		dump($res);exit;
+		$res=$this->sendConfirmNotice(3845);
+		dump($res);
+		exit;
 		$data = input();
 		if(empty($data)){
 			fail('非法请求！');
@@ -1047,15 +1047,16 @@ class Xmorder extends Common
 	 */
 	public function sendConfirmNotice($storeid)
 	{
-        $systemData = model('system')->field('gz_token')->find();
-        $storeData = model('store')->where(['storeid'=>$storeid])->field('name')->find();
-        if(empty($systemData)){
+		$systemData = model('system')->field('gz_token')->find();
+		
+		$order = model('Xmorder')->where(['storeid'=>$storeid])->find();
+        if($order == null){
             return false;
         }
         $systemData = $systemData->toArray();
         $data = [
             'keyword2'      => [
-                'value'     => '123443432432',
+                'value'     => $order['order_sn'],
                 'color'     => '#173177'
             ],
             'keyword1'      => [
@@ -1063,7 +1064,7 @@ class Xmorder extends Common
                 'color'     => '#173177'
 			],
 			'keyword3'      => [
-                'value'     => '0.1元',
+                'value'     => $order['pay_fee'].'元',
                 'color'     => '#173177'
             ],
             'remark'      => [
@@ -1071,13 +1072,13 @@ class Xmorder extends Common
                 'color'     => '#173177'
             ],
             'first'      => [
-                'value'     => '您好，您的订单已完成！ 取餐号：0001',
+                'value'     => '您好，您的订单已完成！ 取餐号：'.$order['code'],
                 'color'     => '#173177'
             ],
         ];
         $accessToken = $systemData['gz_token'];
         $template = [
-            "touser" => 'oYPgFs-ooVJ3Tmmccm60jq6ufIJ8',
+            "touser" => $order['gz_openid'],
             "template_id" => "X-BBtbWwuy-WP5895NFPrhrZmwczWr7b-PNQ1fx4UzU",
             "topcolor" => "#FF0000",
             "data"      => $data
