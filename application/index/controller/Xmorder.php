@@ -102,7 +102,7 @@ class Xmorder extends Controller{
         if(isset($getData['limit']) && !empty($getData['limit'])){
             $limit = $getData['limit'];
         }
-        //搜索条件桌台号、支付状态、就餐方式、支付时间
+        //搜索条件桌台号、支付状态、就餐方式、用户id、支付时间
         if(isset($getData['tnumber']) && !empty($getData['tnumber'])){
             $where['tnumber'] = $getData['tnumber'];
         }
@@ -111,6 +111,9 @@ class Xmorder extends Controller{
         }
         if(isset($getData['order_type']) && !empty($getData['order_type'])){
             $where['order_type'] = $getData['order_type'];
+        }
+        if(isset($getData['uid']) && !empty($getData['uid'])){
+            $where['uid'] = $getData['uid'];
         }
         if(isset($getData['pay_time']) && !empty($getData['pay_time'])){
             $sartTime = strtotime($getData['pay_time'].'0:0:0');
