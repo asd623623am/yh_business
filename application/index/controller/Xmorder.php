@@ -191,17 +191,25 @@ class Xmorder extends Controller{
         $orderData['create_time'] = date('Ymd H:i:s',$orderData['create_time']);
         $orderData['update_time'] = date('Ymd H:i:s',$orderData['update_time']);
         $orderData['pay_time'] = date('Ymd H:i:s',$orderData['pay_time']);
-        $goodsData = model('xmordergoods')->where(['order_id'=>$getData['order_id']])->select();
+        $goodsData = model('xmordergoods')->where(['order_id'=>$orderData['order_sn']])->select();
         if(!empty($goodsData)){
             $goodsData = $goodsData->toArray();
             foreach ($goodsData as &$gv){
                 $gv['gsname'] = '';
                 if(!empty($gv['gbsid'])){
                     $gbsArr = explode(',',$gv['gbsid']);
-                    $gswhere['gsid'] = ['in',$gbsArr];
-                    $gsnameData = model('goodsspec')->where($gswhere)->fired('gsname')->select();
-                    if(!empty($gsnameData)){
-                        $gv['gsname'] = $gsnameData;
+                    $gswhere['gstid'] = ['in',$gbsArr];
+                    $gstData = model('goodsspectype')->where($gswhere)->field('gstid,gstname')->select();
+                    if(!empty($gstData)){
+                        $gstData = $gstData->toArray();
+                        $dsData = [];
+                        foreach ($gstData as $gstv){
+                            $dsData[] = [
+                                'id'=>$gstv['gstid'],
+                                'name'=>$gstv['gstname'],
+                            ];
+                        }
+                        $gv['gstData'] = $dsData;
                     }
                 }
             }
