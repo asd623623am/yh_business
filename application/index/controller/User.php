@@ -30,7 +30,7 @@ class User extends Controller{
             $storeData = $storeData->toArray();
             $data['store_name'] = $storeData['name'];
             if(!empty($storeData['logo'])){
-                $data['store_logo'] = $storeData['logo'];
+                $data['store_logo'] = '/uploads/'.$storeData['logo'];
             }
         }
         return successMsg('',$data);
