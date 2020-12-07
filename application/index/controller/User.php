@@ -22,6 +22,7 @@ class User extends Controller{
         verifColumn($verifData,$getData);
         $userInfo = getStoreidByKey($getData['access-token']);
         $data['admin_name'] = $userInfo['admin_name'];
+        $data['admin_img'] = '/image/20201204162137.jpg';
         $data['store_name'] = '';
         $data['store_logo'] = '';
         $storeData = model('store')->where(['storeid'=>$userInfo['storeid']])->field('logo,name')->find();
