@@ -97,7 +97,7 @@ class Goods extends Controller{
             unset($val);
         }
         $count = model('goods')->where($where)->count();
-        return successMsg('',$data,$count);
+        return successMsg('操作成功',$data,$count);
 
     }
 

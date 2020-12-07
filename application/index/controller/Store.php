@@ -33,15 +33,16 @@ class Store extends Controller{
         $data = [];
         if(!empty($scData)){
             $data = $scData->toArray();
+            $data['img'] = '/uploads/images/'.$data['img'];
         }
         if(empty($data)){
             $scData = model('storecontent')->where(['storeid'=>0])->find();
             if(!empty($scData)){
                 $data = $scData->toArray();
-                $data['img'] = 'https://'.$_SERVER['SERVER_NAME'].'/uploads/images/'.$data['img'];
+                $data['img'] = '/uploads/images/'.$data['img'];
             }
         }
-        return successMsg('',$data);
+        return successMsg('操作成功',$data);
 
     }
 

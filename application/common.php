@@ -408,7 +408,7 @@ function getStoreidByKey($key){
 function verifColumn($vericolumn,$postData){
 
     foreach ($vericolumn as $v){
-        if(!isset($postData[$v])){
+        if(!isset($postData[$v]) || empty($postData[$v])){
             echo json_encode(['code'=>-1,'msg'=>'字段['.$v.']必传']);
             exit;
         }
