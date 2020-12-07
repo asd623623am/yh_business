@@ -396,7 +396,7 @@ function getStoreidByKey($key){
         echo json_encode(['status'=>-1,'msg'=>'请登录']);
         exit;
     }
-    return $loginInfo;
+    return json_decode($loginInfo,true);
 }
 
 /**

@@ -28,8 +28,8 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
-        $newOrderCount = model('xmorder')->where(['storeid'=>$storeid,'is_new'=>1])->count();
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $newOrderCount = model('xmorder')->where(['storeid'=>$userInfo['storeid'],'is_new'=>1])->count();
         $data['order_count'] = $newOrderCount;
         return successMsg('',$data);
 
@@ -91,8 +91,8 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
-        $where['storeid'] = $storeid;
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $where['storeid'] = $userInfo['storeid'];
         //分页
         $page = 0;
         if(isset($getData['page']) && !empty($getData['page'])){
@@ -232,7 +232,8 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
         $data = [
             'order_day'=>0,
             'order_count'=>0,

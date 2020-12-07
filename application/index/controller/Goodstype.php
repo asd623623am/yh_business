@@ -27,7 +27,8 @@ class Goodstype extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
         $gtWhere = [];
         $gtWhere['storeid'] = $storeid;
         $query = model('goodstype');
@@ -72,7 +73,8 @@ class Goodstype extends Controller{
         //验证字段
         $verifData = ['access-token','gtname'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+        $userInfo = getStoreidByKey($postData['access-token']);
+        $storeid = $userInfo['storeid'];
         $count = model('goodstype')->where(['gtname'=>$postData['gtname']])->count();
         if($count >0){
             return failMsg('分类名称已存在！');
@@ -107,7 +109,8 @@ class Goodstype extends Controller{
         //验证字段
         $verifData = ['access-token','gtid','gtname','sort'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+        $userInfo = getStoreidByKey($postData['access-token']);
+        $storeid = $userInfo['storeid'];
         //判断修改后分类分成是否存在
         $gtData = model('goodstype')->where(['gtname'=>$postData['gtname']])->field('gtid')->select();
         if(!empty($gtData)){

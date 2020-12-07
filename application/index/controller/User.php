@@ -20,10 +20,7 @@ class User extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $userInfo = session($getData['access-token']);
-        if(empty($userInfo)){
-            return failMsg( '请登录');
-        }
+        $userInfo = getStoreidByKey($getData['access-token']);
         $data['admin_name'] = $userInfo['admin_name'];
         $data['store_name'] = '';
         $data['store_logo'] = '';

@@ -29,7 +29,8 @@ class Goodsspec extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
         $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
         $snData = [];
         if(!empty($storeData)){
@@ -91,7 +92,8 @@ class Goodsspec extends Controller{
         //验证字段
         $verifData = ['access-token','gstname','gsname','is_more','is_must'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+        $userInfo = getStoreidByKey($postData['access-token']);
+        $storeid = $userInfo['storeid'];
         //验证规格是否存在
         $where['storeid'] = $storeid;
         $where['gstname'] = $postData['gstname'];
