@@ -114,6 +114,9 @@ class Xmorder extends Controller{
         if(isset($getData['order_type']) && !empty($getData['order_type'])){
             $where['order_type'] = $getData['order_type'];
         }
+        if(isset($getData['is_new']) && !empty($getData['is_new'])){
+            $where['is_new'] = $getData['is_new'];
+        }
         if(isset($getData['uid']) && !empty($getData['uid'])){
             $where['uid'] = $getData['uid'];
         }
