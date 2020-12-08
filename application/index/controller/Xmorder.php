@@ -65,15 +65,15 @@ class Xmorder extends Controller{
                     $orderidArr[] = $v['orderid'];
                 }
             }
-
         }
-        $where['orderid'] = ['in',$orderidArr];
-        $ret = model('xmorder')->where($where)->update($editData);
-        if($ret){
-            return successMsg('查阅成功');
-        }else{
-            return failMsg('查阅失败');
+        if(!empty($orderidArr)){
+            $where['orderid'] = ['in',$orderidArr];
+            $ret = model('xmorder')->where($where)->update($editData);
+            if(!$ret){
+                return failMsg('查阅失败');
+            }
         }
+        return successMsg('查阅成功');
     }
 
     /**
@@ -108,8 +108,10 @@ class Xmorder extends Controller{
         if(isset($getData['tnumber']) && !empty($getData['tnumber'])){
             $where['tnumber'] = $getData['tnumber'];
         }
-        if(isset($getData['pay_status']) && !empty($getData['pay_status'])){
-            $where['pay_status'] = $getData['pay_status'];
+        if(isset($getData['pay_status'])){
+            if($getData['pay_status'] == 0 || !empty($getData['pay_status'])){
+                $where['pay_status'] = $getData['pay_status'];
+            }
         }
         if(isset($getData['order_type']) && !empty($getData['order_type'])){
             $where['order_type'] = $getData['order_type'];
@@ -121,8 +123,20 @@ class Xmorder extends Controller{
             $where['uid'] = $getData['uid'];
         }
         if(isset($getData['pay_time']) && !empty($getData['pay_time'])){
-            $sartTime = strtotime($getData['pay_time'].'0:0:0');
-            $endTime = strtotime($getData['pay_time'].'23:59:59');
+            $payData = explode('/',$getData['pay_time']);
+            if(count($payData)<2){//格式：年月日
+                $sartTime = strtotime($payData[0]);
+                $endTime = $sartTime+86399;
+            }else{//格式：年月日时分
+                $sartTime = strtotime($payData[0]);
+                $hour_time = strtotime($payData[1]) - strtotime('today');
+                $sartTime = $sartTime+$hour_time;
+                if(is_int($hour_time%3600)){
+                    $endTime = $sartTime+3599;
+                }else{
+                    $endTime = $sartTime+59;
+                }
+            }
             $where['pay_time'] = ['between time', [$sartTime, $endTime]];
         }
         $orderData = model('xmorder')->where($where)->page($page,$limit)->select();
