@@ -92,7 +92,9 @@ class Xmorder extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $userInfo = getStoreidByKey($getData['access-token']);
-        $where['storeid'] = $userInfo['storeid'];
+        $storeid = $userInfo['storeid'];
+        $where = [];
+        $where['storeid'] = $storeid;
         //分页
         $page = 0;
         if(isset($getData['page']) && !empty($getData['page'])){
