@@ -19,7 +19,6 @@ class Common extends Controller
             // $this->jumpError('请先登录',url('Login/login'));
             $this -> redirect('login/login');
         }
-
         ################## 根据管理员的类型 ，获取管理员的权限
         $admin_info = session('admin');
         if( $admin_info['admin_type'] == 1 ){
@@ -174,6 +173,9 @@ class Common extends Controller
                         if ($vv['node_name'] == '菜品库存') {
                             $sontemp[3] = $vv;
                         }
+                        if ($vv['node_name'] == '时段商品管理') {
+                            $sontemp[4] = $vv;
+                        }
                     }
                     ksort($sontemp);
                     $temp[2]['son'] = $sontemp;
@@ -293,6 +295,9 @@ class Common extends Controller
                         }
                         if ($vv['node_name'] == '菜品库存') {
                             $sontemp[3] = $vv;
+                        }
+                        if ($vv['node_name'] == '时段商品管理') {
+                            $sontemp[4] = $vv;
                         }
                     }
                     ksort($sontemp);
