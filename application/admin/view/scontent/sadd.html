@@ -51,6 +51,41 @@
           <textarea placeholder="请输入内容" name='content' class="layui-textarea">{$storeInfo.content}</textarea>
         </div>
     </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">公告文本</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入公告" name='notice' class="layui-textarea">{$storeInfo.notice}</textarea>
+          <div class="layui-form-mid layui-word-aux"><font style="color: red" >注：</font>公告文本：提示建议文字在30字以内，最多不要超过50字。</div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">上餐时间Y/N</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="is_time" id="is_time" value="{$storeInfo.is_time}"  lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">上餐时间</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="up_time" id="up_time" value="{$storeInfo.up_time}" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux"><font style="color: red" >注：</font>每份菜品上餐时间以分钟为单位</div>
+        </div>
+    </div>
+
+    <input type="text" id='sell_type_val' hidden value="{$storeInfo.sell_type}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">估清</label>
+        <div class="layui-input-block">
+          <input type="radio" name="sell_type" value="0" title="估清后显示售罄" checked>
+          <input type="radio" name="sell_type" value="1" title="估清后不现在列表">
+        </div>
+      </div>
+    
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="*">立即添加</button>
@@ -69,6 +104,13 @@
             if(is_charge == 1){
                 $('#is_charge').attr('checked',true);
             }
+            //设置上餐时间
+            var is_time = $('#is_time').val();
+            if(is_time == 1){
+                $('#is_time').attr('checked',true);
+            }
+            var sell_type_val = $('#sell_type_val').val();
+            $("input[name=sell_type][value="+sell_type_val+"]").attr("checked",true);
 
             var imgs = $('#imgs').val();
             if(imgs != ''){

@@ -26,12 +26,20 @@ class Scontent extends Common
                     'img'       => $data['banner_url'],
                     'packing_fee'   => $data['packing_fee'],
                     'content'   => $data['content'],
-                    'ctime'     => time()
+                    'ctime'     => time(),
+                    'notice'    => $data['notice'],
+                    'up_time'   => $data['up_time'],
+                    'sell_type' => $data['sell_type']
                 ];
-                $arr['is_charge'] = 0;
+                $update['is_charge'] = 0;
                 if(isset($data['is_charge'])){
                     $update['is_charge'] = 1;
                 }
+                $update['is_time'] = 0;
+                if(isset($data['is_time'])){
+                    $update['is_time'] = 1;
+                }
+
                 $info=Db::table('xm_store_content')->insertGetId($update);
                 if($info){
                     $this -> addLog('添加了店铺简介');
@@ -47,11 +55,18 @@ class Scontent extends Common
                     'img'       => $data['banner_url'],
                     'packing_fee'   => $data['packing_fee'],
                     'content'   => $data['content'],
-                    'utime'     => time()
+                    'utime'     => time(),
+                    'notice'    => $data['notice'],
+                    'up_time'   => $data['up_time'],
+                    'sell_type' => $data['sell_type']
                 ];
                 $arr['is_charge'] = 0;
                 if(isset($data['is_charge'])){
                     $arr['is_charge'] = 1;
+                }
+                $arr['is_time'] = 0;
+                if(isset($data['is_time'])){
+                    $arr['is_time'] = 1;
                 }
                 $info = Db::table('xm_store_content')->where($where)->setField($arr);
                 if($info){
@@ -69,6 +84,7 @@ class Scontent extends Common
                     'is_charge'   => 0,
                     'packing_fee'   => 0,
                     'content'   => '',
+                    'notice'    => '',
                 ];
             }
             $this->assign('storeInfo',$storeInfo);
