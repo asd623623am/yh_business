@@ -28,20 +28,22 @@ class Store extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
         $scData = model('storecontent')->where(['storeid'=>$storeid])->find();
         $data = [];
         if(!empty($scData)){
             $data = $scData->toArray();
+            $data['img'] = '/uploads/images/'.$data['img'];
         }
         if(empty($data)){
             $scData = model('storecontent')->where(['storeid'=>0])->find();
             if(!empty($scData)){
                 $data = $scData->toArray();
-                $data['img'] = 'https://'.$_SERVER['SERVER_NAME'].'/uploads/images/'.$data['img'];
+                $data['img'] = '/uploads/images/'.$data['img'];
             }
         }
-        return successMsg('',$data);
+        return successMsg('操作成功',$data);
 
     }
 
@@ -59,7 +61,8 @@ class Store extends Controller{
         //验证字段
         $verifData = ['access-token','is_charge'];
         verifColumn($verifData,$postData);
-        $storeid = getStoreidByKey($postData['access-token']);
+        $userInfo = getStoreidByKey($postData['access-token']);
+        $storeid = $userInfo['storeid'];
         $scData = model('storecontent')->where(['storeid'=>$storeid])->find();
         $editData = [
             'is_charge'=>$postData['is_charge'],

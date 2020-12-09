@@ -27,7 +27,8 @@ class Member extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
         $where = [];
         $page = 0;
         if(isset($getData['page']) && !empty($getData['page'])){
@@ -95,19 +96,7 @@ class Member extends Controller{
 			'uid' => $getData['uid'],
 			'pay_status'	=> 2
 		];
-        $fee = 0;
-        $arr['oeder_list'] = [];
-        $uOrder = model('xmorder')->where($oWhere)
-            ->field('orderid,order_sn,order_type,tnumber,userNum,pay_fee,pay_status')->select();
-        if($uOrder){
-            $uOrder = $uOrder->toArray();
-            foreach ($uOrder as &$v){
-                $fee += $v['pay_fee'];
-                $v['goods_count'] = model('xmordergoods')->where(['order_id'=>$v['orderid']])->count();
-            }
-            $arr['oeder_list'] = $uOrder;
-        }
-        $arr['pay_money'] = $fee;
+        $arr['pay_money'] = model('xmorder')->where($oWhere)->sum('pay_fee');
 		return successMsg('',$arr);
 
 	}

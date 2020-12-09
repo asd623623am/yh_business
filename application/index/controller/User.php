@@ -20,11 +20,9 @@ class User extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $userInfo = session($getData['access-token']);
-        if(empty($userInfo)){
-            return failMsg( '请登录');
-        }
+        $userInfo = getStoreidByKey($getData['access-token']);
         $data['admin_name'] = $userInfo['admin_name'];
+        $data['admin_img'] = '/image/20201204162137.jpg';
         $data['store_name'] = '';
         $data['store_logo'] = '';
         $storeData = model('store')->where(['storeid'=>$userInfo['storeid']])->field('logo,name')->find();
@@ -32,7 +30,7 @@ class User extends Controller{
             $storeData = $storeData->toArray();
             $data['store_name'] = $storeData['name'];
             if(!empty($storeData['logo'])){
-                $data['store_logo'] = $storeData['logo'];
+                $data['store_logo'] = '/uploads/'.$storeData['logo'];
             }
         }
         return successMsg('',$data);

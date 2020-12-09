@@ -28,8 +28,8 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
-        $newOrderCount = model('xmorder')->where(['storeid'=>$storeid,'is_new'=>1])->count();
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $newOrderCount = model('xmorder')->where(['storeid'=>$userInfo['storeid'],'is_new'=>1])->count();
         $data['order_count'] = $newOrderCount;
         return successMsg('',$data);
 
@@ -65,15 +65,15 @@ class Xmorder extends Controller{
                     $orderidArr[] = $v['orderid'];
                 }
             }
-
         }
-        $where['orderid'] = ['in',$orderidArr];
-        $ret = model('xmorder')->where($where)->update($editData);
-        if($ret){
-            return successMsg('查阅成功');
-        }else{
-            return failMsg('查阅失败');
+        if(!empty($orderidArr)){
+            $where['orderid'] = ['in',$orderidArr];
+            $ret = model('xmorder')->where($where)->update($editData);
+            if(!$ret){
+                return failMsg('查阅失败');
+            }
         }
+        return successMsg('查阅成功');
     }
 
     /**
@@ -91,7 +91,9 @@ class Xmorder extends Controller{
         //验证字段
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
+        $where = [];
         $where['storeid'] = $storeid;
         //分页
         $page = 0;
@@ -102,19 +104,39 @@ class Xmorder extends Controller{
         if(isset($getData['limit']) && !empty($getData['limit'])){
             $limit = $getData['limit'];
         }
-        //搜索条件桌台号、支付状态、就餐方式、支付时间
+        //搜索条件桌台号、支付状态、就餐方式、用户id、支付时间
         if(isset($getData['tnumber']) && !empty($getData['tnumber'])){
             $where['tnumber'] = $getData['tnumber'];
         }
-        if(isset($getData['pay_status']) && !empty($getData['pay_status'])){
-            $where['pay_status'] = $getData['pay_status'];
+        if(isset($getData['pay_status'])){
+            if($getData['pay_status'] == 0 || !empty($getData['pay_status'])){
+                $where['pay_status'] = $getData['pay_status'];
+            }
         }
         if(isset($getData['order_type']) && !empty($getData['order_type'])){
             $where['order_type'] = $getData['order_type'];
         }
+        if(isset($getData['is_new']) && !empty($getData['is_new'])){
+            $where['is_new'] = $getData['is_new'];
+        }
+        if(isset($getData['uid']) && !empty($getData['uid'])){
+            $where['uid'] = $getData['uid'];
+        }
         if(isset($getData['pay_time']) && !empty($getData['pay_time'])){
-            $sartTime = strtotime($getData['pay_time'].'0:0:0');
-            $endTime = strtotime($getData['pay_time'].'23:59:59');
+            $payData = explode('/',$getData['pay_time']);
+            if(count($payData)<2){//格式：年月日
+                $sartTime = strtotime($payData[0]);
+                $endTime = $sartTime+86399;
+            }else{//格式：年月日时分
+                $sartTime = strtotime($payData[0]);
+                $hour_time = strtotime($payData[1]) - strtotime('today');
+                $sartTime = $sartTime+$hour_time;
+                if(is_int($hour_time%3600)){
+                    $endTime = $sartTime+3599;
+                }else{
+                    $endTime = $sartTime+59;
+                }
+            }
             $where['pay_time'] = ['between time', [$sartTime, $endTime]];
         }
         $orderData = model('xmorder')->where($where)->page($page,$limit)->select();
@@ -188,17 +210,25 @@ class Xmorder extends Controller{
         $orderData['create_time'] = date('Ymd H:i:s',$orderData['create_time']);
         $orderData['update_time'] = date('Ymd H:i:s',$orderData['update_time']);
         $orderData['pay_time'] = date('Ymd H:i:s',$orderData['pay_time']);
-        $goodsData = model('xmordergoods')->where(['order_id'=>$getData['order_id']])->select();
+        $goodsData = model('xmordergoods')->where(['order_id'=>$orderData['order_sn']])->select();
         if(!empty($goodsData)){
             $goodsData = $goodsData->toArray();
             foreach ($goodsData as &$gv){
                 $gv['gsname'] = '';
                 if(!empty($gv['gbsid'])){
                     $gbsArr = explode(',',$gv['gbsid']);
-                    $gswhere['gsid'] = ['in',$gbsArr];
-                    $gsnameData = model('goodsspec')->where($gswhere)->fired('gsname')->select();
-                    if(!empty($gsnameData)){
-                        $gv['gsname'] = $gsnameData;
+                    $gswhere['gstid'] = ['in',$gbsArr];
+                    $gstData = model('goodsspectype')->where($gswhere)->field('gstid,gstname')->select();
+                    if(!empty($gstData)){
+                        $gstData = $gstData->toArray();
+                        $dsData = [];
+                        foreach ($gstData as $gstv){
+                            $dsData[] = [
+                                'id'=>$gstv['gstid'],
+                                'name'=>$gstv['gstname'],
+                            ];
+                        }
+                        $gv['gstData'] = $dsData;
                     }
                 }
             }
@@ -221,7 +251,8 @@ class Xmorder extends Controller{
         $getData = input('get.');
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
-        $storeid = getStoreidByKey($getData['access-token']);
+        $userInfo = getStoreidByKey($getData['access-token']);
+        $storeid = $userInfo['storeid'];
         $data = [
             'order_day'=>0,
             'order_count'=>0,

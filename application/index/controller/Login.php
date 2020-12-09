@@ -48,7 +48,7 @@ class Login extends Controller{
             $data['access_token'] = md5($postData['admin_name']);
             $this->redisdb  = new \redis();
             $this->redisdb->connect('127.0.0.1','6379');
-            $this->redisdb->set($data['access_token'],$admin_info['storeid'],7200);
+            $this->redisdb->set($data['access_token'],json_encode($admin_info),7200);
             return successMsg('登陆成功',$data);
         }
     }
@@ -65,10 +65,6 @@ class Login extends Controller{
         //验证传递字段
         $verifData = ['access-token'];
         verifColumn($verifData,$postData);
-        $loginInfo = session($postData['access-token']);
-        if(empty($loginInfo)){
-            return failMsg('退出失败');
-        }
         $this->redisdb  = new \redis();
         $this->redisdb->connect('127.0.0.1','6379');
         $this->redisdb->set($postData['access_token'],'');
