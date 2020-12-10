@@ -89,6 +89,13 @@ class Xmorder extends Common
 			$count = model('Xmorder')->where($where)->count();
 			$res = model('Xmorder')->where($where)->order($order)->page($page,$limit)->order('orderid','desc')->select()->toArray();
 			foreach($res as $k=>$v){
+			$good_data = model('Xmordergoods')->where(['order_id'=>$v['order_sn']])->find();
+			if($good_data == null){
+				$res[$k]['good_name'] = '';
+			} else {
+				$res[$k]['good_name'] = $good_data['goods_name'];
+			}
+
 				$res[$k]['content'] = '菜品数量：'.$v['goods_amount'].'<br/>'.'总额：'.$v['pay_fee'];
 
 				if($v['pay_id'] == 1 ){
@@ -808,11 +815,15 @@ class Xmorder extends Common
 
 	public function orderCount()
 	{
+		$user = session('admin');
 		$xwhere = [
             'status'    => 1,
             'is_new'    => 1,
             'pay_status' => 2
-        ];
+		];
+		if($user['admin_type'] == 3){
+			$xwhere['storeid']	= $user['storeid'];
+		}
 		$order_count = model('Xmorder')->where($xwhere)->count();
 		$info = ['code' => 0, 'msg' => '', 'count' => $order_count];
 		echo json_encode($info);
@@ -1035,7 +1046,6 @@ class Xmorder extends Common
 			$this->sendConfirmNotice($order['orderid']);
 			win('已完成');
 		}
-		
 	}
 
 	/**
