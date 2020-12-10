@@ -284,7 +284,6 @@ class Xmorder extends Common
 		} else {
 			$order['sname'] = $Store->name;
 		}
-		
 		$this->assign('order',$order);
 		//菜品信息
 		$goodWhere = [

@@ -204,7 +204,7 @@ function getAllCateId($cate_id,$cateInfo){
     static $c_id=[];
     foreach($cateInfo as $k=>$v){
         if($v['pid']==$cate_id){
-           $c_id[]=$v['cate_id'];
+            $c_id[]=$v['cate_id'];
             getAllCateId($v['cate_id'],$cateInfo);
         }
     }
@@ -408,9 +408,11 @@ function getStoreidByKey($key){
 function verifColumn($vericolumn,$postData){
 
     foreach ($vericolumn as $v){
-        if(!isset($postData[$v]) || empty($postData[$v])){
-            echo json_encode(['code'=>-1,'msg'=>'字段['.$v.']必传']);
-            exit;
+        if(!isset($postData[$v])){
+            if($postData[$v] == false && empty($postData[$v])){
+                echo json_encode(['code'=>-1,'msg'=>'字段['.$v.']必传']);
+                exit;
+            }
         }
     }
 }
