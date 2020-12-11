@@ -33,7 +33,7 @@ class Goodstype extends Controller{
         $gtWhere['storeid'] = $storeid;
         $query = model('goodstype');
         if(isset($getData['gtname']) && !empty($getData['gtname'])){
-            $gtWhere['gtname'] = ['=',$getData['gtname']];
+            $gtWhere['gtname'] = ['like','%'.$getData['gtname'].'%'];
         }
         $query = $query->where($gtWhere);
         if(isset($getData['page']) && !empty($getData['page'])){

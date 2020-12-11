@@ -34,13 +34,13 @@ class Store extends Controller{
         $data = [];
         if(!empty($scData)){
             $data = $scData->toArray();
-            $data['img'] = '/uploads/images/'.$data['img'];
+            $data['img'] = '/uploads/'.$data['img'];
         }
         if(empty($data)){
             $scData = model('storecontent')->where(['storeid'=>0])->find();
             if(!empty($scData)){
                 $data = $scData->toArray();
-                $data['img'] = '/uploads/images/'.$data['img'];
+                $data['img'] = '/uploads/'.$data['img'];
             }
         }
         return successMsg('操作成功',$data);
@@ -107,7 +107,7 @@ class Store extends Controller{
             $uploaded_file=$_FILES['file']['tmp_name'];
             //我们给每个用户动态的创建一个文件夹
             $date = date('Ymd',time());
-            $user_path=ROOT_PATH . 'public' . DS . 'uploads/images/'.$date;
+            $user_path=ROOT_PATH . 'public' . DS . 'uploads/'.$date;
             //判断该用户文件夹是否已经有这个文件夹
             if(!file_exists($user_path)) {
                 //mkdir($user_path);

@@ -39,7 +39,7 @@ class Goodsspec extends Controller{
         $where = [];
         $where['storeid'] = $storeid;
         if(!empty($getData['gstname'])){
-            $where['gstname'] = ['like','%'. $getData['gstname'].'%'];
+            $where['gstname'] = ['like','%'.$getData['gstname'].'%'];
         }
         $where['status'] = 0;
         $page = 0;

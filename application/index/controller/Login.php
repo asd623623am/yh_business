@@ -67,7 +67,7 @@ class Login extends Controller{
         verifColumn($verifData,$postData);
         $this->redisdb  = new \redis();
         $this->redisdb->connect('127.0.0.1','6379');
-        $this->redisdb->set($postData['access_token'],'');
+        $this->redisdb->set($postData['access-token'],'');
         return successMsg('退出成功');
     }
 
