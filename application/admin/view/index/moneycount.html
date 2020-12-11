@@ -1,0 +1,37 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>基本情况</a>
+        <a><cite>门店销售额</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>门店销售额（单位：元）</legend>
+</fieldset>
+<div class="layui-form-item">
+    <div style="width: 40%; margin-left: 40px; float: left;">
+        {volist name="newdata" id='newdata'}
+
+        <div style="margin-top: 2%;">
+            <span>{$newdata.i}</span>
+            <input type="text" value="{$newdata.name}" readonly style="border:none; width: 300px;">
+            <input type="text" value="{$newdata.money}" readonly style="border:none;">
+        </div>
+        {/volist}
+    </div>
+</div>
+<div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+<script>
+    layui.use(['table','layer','upload','form'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+        $('#up').click(function(){
+            location.href='{:url("Index/index")}';
+        });
+    });
+</script>
