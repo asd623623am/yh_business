@@ -1,6 +1,7 @@
 <?php
 namespace  app\admin\controller;
 use EasyWeChat\BasicService\QrCode\Client;
+use Think\Db;
 
 class Index extends Common{
 
@@ -10,6 +11,13 @@ class Index extends Common{
     protected $app;
 
     public function index(){
+        $user = session('admin');
+        $admin_type = 0; //状态  0是超级管理员，1是商家
+        if($user['admin_type'] == 3){
+            $admin_type = 1;   
+        }
+        $this->assign('admin_type',$admin_type);
+
 
         $storeid = getStoreid();
         //获取商户基础信息
@@ -30,12 +38,9 @@ class Index extends Common{
                 $system_info['address'] = $storeData['address'];
             }
         }
-        // $where['order_status'] = 5;
-        // $where['shipping_status'] = 2;
         $where['pay_status'] = 2;
-        // $where['create_time'] = date('Y-m-d',time());
         $start = date('Y-m-d',time()).' 00:00:00';
-		$end = date('Y-m-d',time()).' 23:59:59';
+        $end = date('Y-m-d',time()).' 23:59:59';
         $orderData = model('Xmorder')->where($where)->whereTime('create_time','between',[$start,$end])->select()->toArray();
         $amountTotal = array_sum(array_column($orderData, 'pay_fee'));
         //获取开业门店数量和商品数量
@@ -900,4 +905,174 @@ class Index extends Common{
         model('')->save();
     }
 
+    public function moneyCount()
+    {
+        $store = model('Store')->where(['status'=>1])->select()->toArray();
+        $where = [];
+        
+        foreach($store as $k=>$v){
+            $where['status'] = 1;
+            $where['pay_status'] = array('in',[2,4]);
+            $where['storeid'] = $v['storeid'];
+            $datas = model('Xmorder')->where($where)->select()->toArray();
+            $money = 0;
+            if(!empty($datas)){
+                foreach($datas as $kk=>$vv){
+                    $money += $vv['pay_fee'];
+                }
+            }
+            $money = sprintf("%1\$.2f",$money);
+            $newdata[] = [
+                'name'    => $v['name'],
+                'money'       => $money
+            ];
+            $keys[] = $money;
+        }
+        array_multisort($keys, SORT_DESC, $newdata);
+        $i = 0;
+        foreach($newdata as $ke=>$val){
+            $i++;
+            $newdata[$ke]['i'] = $i;
+        }
+
+
+        // $where = [
+        //     'status'    => 1,
+        //     'pay_status'    => array('in',[2,4])
+        // ];
+        // $data = model('Xmorder')->where($where)->select()->toArray();
+        // $group = $this->array_group_by($data,'storeid');
+        // $money = 0;
+        // $newdata = [];
+        // $i = 0;
+        // $keys = [];
+        // foreach($group as $k=>$v){
+        //     $store_where = [
+        //         'storeid'   => $k
+        //     ];
+        //     $store = model('Store')->where($store_where)->find();
+        //     $store_name = '';
+        //     if($store != null){
+        //         $store_name = $store['name'];
+        //     }
+        //     foreach($v as $kk=>$vv){
+        //         $money += $vv['pay_fee'];
+        //     }
+        //     $newdata[] = [
+        //         'name'   => $store_name,
+        //         'money'     => $money,
+        //     ];
+        //     $keys[] = $money;
+        // }
+
+        // array_multisort($keys, SORT_DESC, $newdata);
+        // foreach($newdata as $ke=>$val){
+        //     $i++;
+        //     $newdata[$ke]['i'] = $i;
+        // }
+        // dump($newdata);exit;
+        $this->assign('newdata',$newdata);
+        return view();
+    }
+
+    public function moneyCountSel()
+    {
+        $data  = input();
+        $store = model('Store')->where(['status'=>1])->select()->toArray();
+        $newdata = [];
+        $keys = [];
+        $data = $data['data'];
+        $where = [];
+        $where['status'] = 1;
+        $where['pay_status'] = array('in',[2,4]);
+        if($data == 'd'){
+            foreach($store as $k=>$v){
+                $where['storeid'] = $v['storeid'];
+                $datas = model('Xmorder')->where($where)->whereTime('pay_time', 'd')->select()->toArray();
+                $money = 0;
+                if(!empty($datas)){
+                    foreach($datas as $kk=>$vv){
+                        $money += $vv['pay_fee'];
+                    }
+                }
+                $money = sprintf("%1\$.2f",$money);
+                $newdata[] = [
+                    's_name'    => $v['name'],
+                    'money'       => $money
+                ];
+                $keys[] = $money;
+            }
+        }else if ($data == 'w') {
+            foreach($store as $k=>$v){
+                $where['storeid'] = $v['storeid'];
+                $datas = model('Xmorder')->where($where)->whereTime('pay_time', 'w')->select()->toArray();
+                $money = 0;
+                if(!empty($datas)){
+                    foreach($datas as $kk=>$vv){
+                        $money += $vv['pay_fee'];
+                    }
+                }
+                $money = sprintf("%1\$.2f",$money);
+                $newdata[] = [
+                    's_name'    => $v['name'],
+                    'money'       => $money
+                ];
+                $keys[] = $money;
+            }
+        } else if ($data == 'm') {
+            foreach($store as $k=>$v){
+                $where['storeid'] = $v['storeid'];
+                $datas = model('Xmorder')->where($where)->whereTime('pay_time', 'm')->select()->toArray();
+                $money = 0;
+                if(!empty($datas)){
+                    foreach($datas as $kk=>$vv){
+                        $money += $vv['pay_fee'];
+                    }
+                }
+                $money = sprintf("%1\$.2f",$money);
+                $newdata[] = [
+                    's_name'    => $v['name'],
+                    'money'       => $money
+                ];
+                $keys[] = $money;
+            }
+        } else if ($data == 'y') {
+            foreach($store as $k=>$v){
+                $where['storeid'] = $v['storeid'];
+                $datas = model('Xmorder')->where($where)->whereTime('pay_time', 'y')->select()->toArray();
+                $money = 0;
+                if(!empty($datas)){
+                    foreach($datas as $kk=>$vv){
+                        $money += $vv['pay_fee'];
+                    }
+                }
+                $money = sprintf("%1\$.2f",$money);
+                $newdata[] = [
+                    's_name'    => $v['name'],
+                    'money'       => $money,
+                ];
+                $keys[] = $money;
+            }
+        }
+        array_multisort($keys, SORT_DESC, $newdata);
+        $newdatas=array_slice($newdata,0,12);
+        $info=['code'=>0,'msg'=>'','data'=>$newdatas];
+        return json($info);
+    }
+
+    private function array_group_by($arr, $key)
+	{
+		$grouped = [];
+		foreach ($arr as $value) {
+			$grouped[$value[$key]][] = $value;
+		}
+		if (func_num_args() > 2) {
+			$args = func_get_args();
+			foreach ($grouped as $key => $value) {
+				$parms = array_merge([$value], array_slice($args, 2, func_num_args()));
+				$grouped[$key] = call_user_func_array('array_group_by', $parms);
+			}
+		}
+		return $grouped;
+	}
 }

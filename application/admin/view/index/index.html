@@ -164,6 +164,15 @@
         box-sizing: border-box;
     }
 
+    .s_sort>div{
+        min-width: 480px;
+        width: 100%;
+        margin-top: 20px;
+        background: #fff;
+        padding: 30px;
+        box-sizing: border-box;
+    }
+
     .char-title {
         display: flex;
         justify-content: space-between;
@@ -195,6 +204,56 @@
         border-color: #23DAC3;
         color: #23DAC3;
     }
+		ul li{
+			list-style: none;
+		}
+		.lists{
+			width: 50rem;
+			height: 12rem;
+		}
+		#uis{
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			overflow: hidden;
+		}
+		.li{
+			width: 33.333%;
+			height: 3rem;
+			line-height: 3rem;
+		}
+		.serial{
+			display: inline-block;
+			margin: 0.1875rem;
+			width: 1.25rem;
+		}
+
+
+        .tabbar{
+			display: flex;
+            margin-left: 68%;
+		}
+		.tiem{
+			width: 3.125rem;
+			height: 1.875rem;
+			border: 1px solid #a2a2a2;
+			text-align: center;
+			line-height: 1.875rem;
+		}
+		.active{
+			color: #FFFFFF;
+			background-color: #3557FF;
+		}
+		.year{
+			border-bottom-left-radius: 0.3125rem;
+			border-top-left-radius: 0.3125rem;
+		}
+		.day{
+			border-bottom-right-radius: 0.3125rem;
+			border-top-right-radius: 0.3125rem;
+		}
 </style>
 <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
 <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
@@ -242,6 +301,38 @@
             </div>
         </div>
     </div>
+<span id='admin_type' hidden>{$admin_type}</span>
+    <div class="s_sort" id='sort_div' hidden>
+        <div>
+            <div class="char-title char1">
+                <div class="char-title-left">
+                    <i></i>
+                    <em>交易金额</em>
+                </div>
+                <div class="tabbar">
+                    <div class="year tiem active" v='y'>年</div>
+                    <div class="week tiem" v='w'>周</div>
+                    <div class="month tiem" v='m'>月</div>
+                    <div class="day tiem" v='d'>日</div>
+                </div>
+                <div class="char-title-right">
+                   
+                    <a href="{:url('Index/moneyCount')}" style="color: blue;">查看全部 > </a>
+                    <!-- <b class="active">当日</b>
+                    <b >本周</b>
+                    <b >本月</b>
+                    <b >本年</b> -->
+                </div>
+            </div>
+            <div class="lists" style="width: 100%;">
+                <ul id="uis">
+                    <li class="li">
+                        <!-- <span class="name">名称</span><span class="time">20001216</span> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="char">
         <div>
             <div class="char-title char1">
@@ -266,6 +357,63 @@
         var form = layui.form;
         var layer = layui.layer;
     })
+
+    $('.tiem').click(function(){
+        var val = $(this).attr('v');
+        
+        $.post(
+            "{:url('Index/moneyCountSel')}",
+            {data:val},
+            function (msg) {
+                if (msg.code == 0) {
+                    var li = '';
+                    $.each(msg.data,function(index,item){
+                        li += '<li class="li"><span class="serial">'+(index+1)+'</span><span class="name">'+item.s_name+'：</span><span class="page">'+item.money+'</span></li>'
+                    })
+                    $("#uis").html(li);
+                    console.log(msg);
+                }
+            }, 'json'
+        )
+    });
+    var lis = $(".tiem");
+	for (var i = 0; i < lis.length; i++) {
+		lis[i].onclick = function(){
+			for (var k = 0; k < lis.length; k++) {
+				if( this == lis[k] ){
+					this.classList.add("active");
+				}else{
+					lis[k].classList.remove("active")
+				}
+				
+			}
+		}
+	}
+
+
+//#####################门店销售排行
+
+$.post(
+    "{:url('Index/moneyCountSel')}",
+    {data:'y'},
+    function (msg) {
+        if (msg.code == 0) {
+            var li = '';
+            $.each(msg.data,function(index,item){
+                li += '<li class="li"><span class="serial">'+(index+1)+'</span><span class="name">'+item.s_name+'：</span><span class="page">'+item.money+'</span></li>'
+            })
+            $("#uis").html(li);
+            console.log(msg);
+        }
+    }, 'json'
+)
+
+
+//###################结束
+    var admin_type = $('#admin_type').text();
+    if(admin_type != 1){
+        $('#sort_div').show();
+    }
 
     var storeid = $('#storeid').val();
     if(storeid>0){
