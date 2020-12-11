@@ -30,6 +30,7 @@
     <button type="button" class="layui-btn  layui-btn-normal" id="myload" style="">
         <i class="layui-icon">&#xe67c;</i>导入Excel表
     </button>
+    <button class="layui-btn layui-btn-normal" id='report' lay-submit lay-filter="*">门店报表</button>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
@@ -95,6 +96,10 @@
         $('#submit').click(function(){
             location.href="{:url('Store/storeAdd')}";
         })
+        //门店报表
+        $('#report').click(function(){
+            location.href="{:url('Store/reportList')}";
+        });
         //删除和修改
         table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据

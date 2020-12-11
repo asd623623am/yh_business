@@ -1,0 +1,173 @@
+<style>
+.h_box{
+    margin-top: 1%;
+    margin-left: 1%;
+}
+</style>
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>门店管理</a>
+        <a><cite>门店报表</cite></a>
+    </span>
+</blockquote>
+<form class="layui-form">
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" id="app">
+            <select name="storeid" id="storeid" lay-search="">
+                <option value="" >请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    
+    <div class="layui-inline">
+        <label class="layui-form-label">时间范围<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" style="width: 100px;">
+          <input type="text" name="start_at" placeholder="开始时间" autocomplete="off" class="layui-input" id="test1">
+        </div>
+        <div class="layui-input-inline" style="width: 100px;">
+          <input type="text" name="end_at" placeholder="结束时间" autocomplete="off" class="layui-input" id="test2">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="preview">预览</button>
+                <button class="layui-btn" lay-submit lay-filter="export">导出账单/报表</button>
+                <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="p_list" hidden>
+        <hr>
+        <h2>账单汇总</h2>
+        <div class="h_box">
+            <span>账单总数</span>
+            <span id='count'></span>
+        </div>
+        <div class="h_box">
+            <span>账单总额</span>
+            <span id='money'></span>
+        </div>
+        <div class="h_box">
+            <span>优惠总额</span>
+            <span id='d_fee'></span>
+        </div>
+        <div class="h_box">
+            <span>退款单数</span>
+            <span id='r_count'></span>
+        </div>
+        <div class="h_box">
+            <span>退款总额</span>
+            <span id='r_fee'></span>
+        </div>
+        <div class="h_box">
+            <span>合计</span>
+            <span id='fee'></span>
+        </div>
+        <h2>菜品汇总</h2>
+        <div class="h_box">
+            <input type="text" readonly value="分类名称" style="width: 200px; border:none;">
+            <input type="text" readonly value="菜品数量" style="width: 200px;  border:none;">
+            <input type="text" readonly value="金额" style="width: 200px;  border:none;">
+        </div>
+        <div id='type_html'>
+        </div>
+
+        <h2>菜品销售明细</h2>
+        <div class="h_box">
+            <input type="text" readonly value="分类名称" style="width: 200px; border:none;">
+            <input type="text" readonly value="菜品名称" style="width: 400px; border:none;">
+            <input type="text" readonly value="菜品数量" style="width: 200px;  border:none;">
+            <input type="text" readonly value="金额" style="width: 200px;  border:none;">
+        </div>
+        <div id='goods_html_data'></div>
+        
+    </div>
+</form>
+<script>
+    layui.use(['table','layer','laydate','upload','form'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        form.render('select'); //刷新select选择框渲染
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test1' //指定元素
+        });
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#test2' //指定元素
+        });
+        $('#up').click(function(){
+            location.href='{:url("Store/storeList")}';
+        });
+
+        form.on('submit(preview)',function(data){
+            var info = data.field;
+            if(info.end_at == '' || info.start_at == '' || info.storeid == ''){
+                layer.msg('缺少参数', {icon: 5});
+                return false;
+            }
+            $.post(
+                "{:url('Store/preview')}",
+                info,
+                function(msg){
+                    if(msg.code ==1){
+                        $('#count').text(msg.font.count);
+                        $('#money').text(msg.font.money);
+                        $('#d_fee').text(msg.font.d_fee);
+                        $('#r_count').text(msg.font.r_count);
+                        $('#r_fee').text(msg.font.r_fee);
+                        $('#fee').text(msg.font.fee);
+                        var type_data = msg.font.type_data.data;
+                        var _str = '';
+
+                        for (var i=0;i<type_data.length;i++)
+                        {
+                           _str+= '<div class="h_box">'+
+                                '<input type="text" readonly value="'+type_data[i]['type_name']+'" style="width: 200px; border:none;">'+
+                                '<input type="text" readonly value="'+type_data[i]['count']+'" style="width: 200px;  border:none;">'+
+                                '<input type="text" readonly value="'+type_data[i]['money']+'" style="width: 200px;  border:none;">'+
+                            '</div>';
+                        }
+                        $('#type_html').html(_str);
+                        var d_data = msg.font.d_data.data;
+                        var _strs = '';
+                        for (var i=0;i<d_data.length;i++)
+                        {
+                            _strs+= '<div class="h_box">'+
+                                '<input type="text" readonly value="'+d_data[i]['gtname']+'" style="width: 200px; border:none;">'+
+                                '<input type="text" readonly value="'+d_data[i]['gname']+'" style="width: 400px; border:none;">'+
+                                '<input type="text" readonly value="'+d_data[i]['count']+'" style="width: 200px;  border:none;">'+
+                                '<input type="text" readonly value="'+d_data[i]['money']+'" style="width: 200px;  border:none;">'+
+                            '</div>';
+                        }
+                        $('#goods_html_data').html(_strs);
+                        $('#p_list').show();
+                    }else{
+                        layer.msg(msg.font, {icon: 5});
+                    }
+                },'json'
+            )
+            return false;
+        });
+
+
+        form.on('submit(export)',function(data){
+            var info = data.field;
+            if(info.end_at == '' || info.start_at == '' || info.storeid == ''){
+                layer.msg('缺少参数', {icon: 5});
+                return false;
+            }
+            location.href="{:url('Store/exportExcel')}?storeid="+info.storeid+'&end_at='+info.end_at+'&start_at='+info.start_at;
+            return false;
+        });
+    });
+</script>
