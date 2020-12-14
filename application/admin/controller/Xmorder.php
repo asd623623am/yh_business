@@ -323,8 +323,8 @@ class Xmorder extends Common
 		// dump($goods);
 	}
 
-	public function refund()
-	{
+	public function refund(){
+
 		$order = input();
 		if(empty($order)){
 			fail('非法请求！');
@@ -333,9 +333,7 @@ class Xmorder extends Common
 			'order_sn'	=> $order['order_no'],
 			'status'	=> 1
 		];
-
 		$result = model('Xmorder')->where($where)->find();
-		
 		if($result== null){
 			fail('没有找到您的订单！');
 		}
@@ -343,7 +341,7 @@ class Xmorder extends Common
 		if($result['pay_status'] == 0 || $result['pay_status'] == 1 || $result['pay_status'] == 3){
 			fail('您还不是已支付订单！');
 		}
-
+        $str = '订单号:'.$order['order_no'];
 		$qutorder = [];
 		$qutorder['order_sn'] = $result['order_sn'];
 		$qutorder['pay_fee'] = $result['pay_fee'];
@@ -354,77 +352,78 @@ class Xmorder extends Common
 		];
 		$storeData = Db::table('xm_store')->where($storeWheres)->find();
 		$qutorder['name'] = $storeData['name'];
-
-
 		if (!empty($app)) {
+            if(empty($app[0]['mini_appsecret']) || empty($app[0]['termNo']) || empty($app[0]['merId'])){
 
-				if(empty($app[0]['mini_appsecret']) || empty($app[0]['termNo']) || empty($app[0]['merId'])){
-					
-				}
-    			$secret = $app[0]['mini_appsecret'];
-    			$termNo = $app[0]['termNo'];
-    			$merId = $app[0]['merId'];
+            }
+            $secret = $app[0]['mini_appsecret'];
+            $termNo = $app[0]['termNo'];
+            $merId = $app[0]['merId'];
 
-    			$result['pay_fee']=str_replace('.', '', $result['pay_fee']);
-    			$lens = strlen($result['pay_fee']);
-    			// $data['deposit_money']=sprintf("%012d", $data);//生成12位数，不足前面补0   
-    			if ($lens < 12) {
-    				for ($i=0; $i < 12-$lens ; $i++) { 
-    					$result['pay_fee'] = substr_replace(0, $result['pay_fee'], 1, 0);
-    				}
-				}
-    			$time = date('YmdHis',time());
-    			$arr = [
-    				'orgNo'	=> '2111',
-    				'charset'	=> 'UTF-8',
-    				'termNo'	=> $termNo,
-    				'termType'	=> 'XMWPFB',
-    				'txtTime'	=> $time,
-    				'signType'	=> 'MD5',
-    				
-    				'transNo'	=> $result['order_sn'],
-    				'merId'		=> $merId,
-    				'amt'		=> intval($result['pay_fee']),
-    				'payType'	=> 1
-    			];
+            $result['pay_fee']=str_replace('.', '', $result['pay_fee']);
+            $lens = strlen($result['pay_fee']);
+            // $data['deposit_money']=sprintf("%012d", $data);//生成12位数，不足前面补0
+            if ($lens < 12) {
+                for ($i=0; $i < 12-$lens ; $i++) {
+                    $result['pay_fee'] = substr_replace(0, $result['pay_fee'], 1, 0);
+                }
+            }
+            $time = date('YmdHis',time());
+            $arr = [
+                'orgNo'	=> '2111',
+                'charset'	=> 'UTF-8',
+                'termNo'	=> $termNo,
+                'termType'	=> 'XMWPFB',
+                'txtTime'	=> $time,
+                'signType'	=> 'MD5',
 
-
-    			$signdata = [
-    				'orgNo'	=>'2111',
-    				'amt'	=> intval($result['pay_fee']),
-    				'termNo'=> $termNo,
-    				'merId'	=> $merId,
-    				'transNo'	=> $result['order_sn'],
-    				'txtTime'	=> $time
-    			];
-    			$sign = $this->appgetSign($signdata,$secret);
-    			$arr['signValue']=strtoupper($sign);
-    			$url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
-				$res = $this->sendpostss($url,$arr);
-    			if ($res['returnCode'] == 0000) {
-					$wheres = [
-						'order_sn'	=> $order['order_no'],
-						'status'	=> 1
-					];
-    				$newData = [
-    					'pay_status'	=> 3,
-    				];
-    				$infos = model('Xmorder')->where($wheres)->setField($newData);
-    				if ($infos) {
-						$qutorder['gz_token'] = $app[0]['gz_token'];
-						$this->doSend($qutorder);
-    					win('退款成功');		
-    				} else {
-    					fail('退款失败');
-    				}
-    			} else {
-    				fail($res['returnMsg']);
-    			}
-    		} else {
-    			fail('请您去配置微信小程序参数');
-    		}
-
-		win('退款成功');
+                'transNo'	=> $result['order_sn'],
+                'merId'		=> $merId,
+                'amt'		=> intval($result['pay_fee']),
+                'payType'	=> 1
+            ];
+            $signdata = [
+                'orgNo'	=>'2111',
+                'amt'	=> intval($result['pay_fee']),
+                'termNo'=> $termNo,
+                'merId'	=> $merId,
+                'transNo'	=> $result['order_sn'],
+                'txtTime'	=> $time
+            ];
+            $sign = $this->appgetSign($signdata,$secret);
+            $arr['signValue']=strtoupper($sign);
+            $url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
+            $res = $this->sendpostss($url,$arr);
+            if ($res['returnCode'] == 0000) {
+                $wheres = [
+                    'order_sn'	=> $order['order_no'],
+                    'status'	=> 1
+                ];
+                $newData = [
+                    'pay_status'	=> 3,
+                ];
+                $infos = model('Xmorder')->where($wheres)->setField($newData);
+                if ($infos) {
+                    $qutorder['gz_token'] = $app[0]['gz_token'];
+                    $this->doSend($qutorder);
+                    $str .= ' 状态:退款成功';
+                    $this->addLog($str);
+                    win('退款成功');
+                } else {
+                    $str .= ' 状态:退款成功,更新订单状态失败';
+                    $this->addLog($str);
+                    fail('退款失败');
+                }
+            } else {
+                $str .= ' 状态：退款失败'.' 原因:'.$res['returnMsg'];
+                $this->addLog($res['returnMsg']);
+                fail($res['returnMsg']);
+            }
+        } else {
+            $str .= ' 状态:退款失败'.' 原因:请您去配置微信小程序参数';
+            $this->addLog('请您去配置微信小程序参数');
+            fail('请您去配置微信小程序参数');
+        }
 	}
 
 	public function appgetSign($data,$secret)
@@ -1095,5 +1094,23 @@ class Xmorder extends Common
         $json_template = json_encode($template);
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
         return $this->request_post($url, urldecode($json_template));
+    }
+
+    /**
+     * Notes: 添加日志
+     * Class: addLog
+     * user: bingwoo
+     * date: 2020/12/14 14:23
+     */
+    public function addLog($str)
+    {
+        $user = session('admin');
+        $insert = [
+            'name'  => $user['admin_name'],
+            'content'   => $str,
+            'source'   => '后台退款',
+            'ctime'     => time()
+        ];
+        model('Log')->allowField(true)->save($insert);
     }
 }

@@ -387,6 +387,7 @@ class Xmorder extends Controller{
             'order_sn'	=> $getData['order_no'],
             'status'	=> 1
         ];
+        $str = '订单号:'.$getData['order_no'];
         $result = model('Xmorder')->where($where)->find();
         if(empty($result)){
             return failMsg('没有找到您的订单！');
@@ -458,17 +459,24 @@ class Xmorder extends Controller{
                 if ($infos) {
                     $qutorder['gz_token'] = $app[0]['gz_token'];
                     $this->doSend($qutorder);
+                    $str .= ' 状态:退款成功';
+                    $this->addLog($str);
                     return successMsg('退款成功');
                 } else {
-                    return failMsg('退款失败');
+                    $str .= ' 状态:退款成功,更新订单状态失败';
+                    $this->addLog($str);
+                    return failMsg('退款成功,更新订单状态失败');
                 }
             } else {
+                $str .= ' 状态:退款失败'.' 原因:'.$res['returnMsg'];
+                $this->addLog($str);
                 return failMsg($res['returnMsg']);
             }
         } else {
+            $str .= ' 状态:退款失败'.' 原因：请您去配置微信小程序参数';
+            $this->addLog($str);
             return failMsg('请您去配置微信小程序参数');
         }
-        return successMsg('退款成功');
     }
 
     /**
@@ -585,8 +593,24 @@ class Xmorder extends Controller{
         $json_template = json_encode($template);
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
         return $this->request_post($url, urldecode($json_template));
+    }
 
-
+    /**
+     * Notes: 添加日志
+     * Class: addLog
+     * user: bingwoo
+     * date: 2020/12/14 14:23
+     */
+    public function addLog($str)
+    {
+        $user = session('admin');
+        $insert = [
+            'name'  => $user['admin_name'],
+            'content'   => $str,
+            'source'   => '手机端退款',
+            'ctime'     => time()
+        ];
+        model('Log')->allowField(true)->save($insert);
     }
 
 }
