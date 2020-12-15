@@ -34,7 +34,9 @@ class Store extends Controller{
         $data = [];
         if(!empty($scData)){
             $data = $scData->toArray();
-            $data['img'] = '/uploads/'.$data['img'];
+            if($data['img']){
+                $data['img'] = '/uploads/'.$data['img'];
+            }
         }
         if(empty($data)){
             $scData = model('storecontent')->where(['storeid'=>0])->find();
