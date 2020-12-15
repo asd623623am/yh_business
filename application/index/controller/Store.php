@@ -72,13 +72,13 @@ class Store extends Controller{
             'storeid'=>$storeid,
             'utime'=>time(),
         ];
-        if(isset($postData['img']) && !empty($postData['img'])){
+        if(isset($postData['img'])){
             $editData['img'] = $postData['img'];
         }
-        if(isset($postData['packing_fee']) && !empty($postData['packing_fee'])){
+        if(isset($postData['packing_fee'])){
             $editData['packing_fee'] = $postData['packing_fee'];
         }
-        if(isset($postData['content']) && !empty($postData['content'])){
+        if(isset($postData['content'])){
             $editData['content'] = $postData['content'];
         }
         if(!empty($scData)){
