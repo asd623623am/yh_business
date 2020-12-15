@@ -85,6 +85,9 @@ class Scontent extends Common
                     'packing_fee'   => 0,
                     'content'   => '',
                     'notice'    => '',
+                    'is_time'    => 0,
+                    'up_time'    => 0,
+                    'sell_type'    => 0,
                 ];
             }
             $this->assign('storeInfo',$storeInfo);
