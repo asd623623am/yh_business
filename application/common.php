@@ -416,3 +416,30 @@ function verifColumn($vericolumn,$postData){
         }
     }
 }
+
+/**
+ * Notes: 添加日志
+ * Class: addLog
+ * user: bingwoo
+ * date: 2020/12/14 14:23
+ */
+function addLog($str,$accesstoken = ''){
+
+    $redisdb  = new \redis();
+    $admin_name = '未知';
+    if($accesstoken){
+        $redisdb->connect('127.0.0.1','6379');
+        $data = $redisdb->get($accesstoken);
+        if($data){
+            $user = json_decode($data,true);
+            $admin_name = $user['admin_name'];
+        }
+    }
+    $insert = [
+        'name'  => $admin_name,
+        'content'   => $str,
+        'source'   => '手机端退款',
+        'ctime'     => time()
+    ];
+    model('Log')->allowField(true)->save($insert);
+}

@@ -460,21 +460,21 @@ class Xmorder extends Controller{
                     $qutorder['gz_token'] = $app[0]['gz_token'];
                     $this->doSend($qutorder);
                     $str .= ' 状态:退款成功';
-                    $this->addLog($str);
+                    addLog($str,$getData['access-token']);
                     return successMsg('退款成功');
                 } else {
                     $str .= ' 状态:退款成功,更新订单状态失败';
-                    $this->addLog($str);
+                    addLog($str,$getData['access-token']);
                     return failMsg('退款成功,更新订单状态失败');
                 }
             } else {
                 $str .= ' 状态:退款失败'.' 原因:'.$res['returnMsg'];
-                $this->addLog($str);
+                addLog($str,$getData['access-token']);
                 return failMsg($res['returnMsg']);
             }
         } else {
             $str .= ' 状态:退款失败'.' 原因：请您去配置微信小程序参数';
-            $this->addLog($str);
+            addLog($str,$getData['access-token']);
             return failMsg('请您去配置微信小程序参数');
         }
     }
@@ -595,22 +595,6 @@ class Xmorder extends Controller{
         return $this->request_post($url, urldecode($json_template));
     }
 
-    /**
-     * Notes: 添加日志
-     * Class: addLog
-     * user: bingwoo
-     * date: 2020/12/14 14:23
-     */
-    public function addLog($str)
-    {
-        $user = session('admin');
-        $insert = [
-            'name'  => $user['admin_name'],
-            'content'   => $str,
-            'source'   => '手机端退款',
-            'ctime'     => time()
-        ];
-        model('Log')->allowField(true)->save($insert);
-    }
+
 
 }

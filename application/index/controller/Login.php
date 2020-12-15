@@ -49,6 +49,8 @@ class Login extends Controller{
             $this->redisdb  = new \redis();
             $this->redisdb->connect('127.0.0.1','6379');
             $this->redisdb->set($data['access_token'],json_encode($admin_info),7200);
+            $str = $postData['admin_name'].'登录成功';
+            addLog($str,$data['access-token']);
             return successMsg('登陆成功',$data);
         }
     }
