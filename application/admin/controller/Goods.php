@@ -1133,4 +1133,485 @@ class Goods extends Common{
         }
         
     }
+
+
+
+    public function goodstimelist()
+    {
+        $storeid = getStoreid();
+        if($storeid != 0){
+            $where = ['storeid'=>$storeid];
+        }
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        $snData = [];
+        if(!empty($storeData)){
+            $snData = array_column($storeData,'name','storeid');
+        }
+        $where['status'] = 1;
+        if( request() -> isAjax() ){
+            $getData = input('get.');
+            $wheres = [];
+            if($storeid != 0){
+                $wheres['storeid'] = $storeid;
+            } else {
+                if(!empty($getData['storeids'])){
+                    $wheres['storeid'] = $getData['storeids'];
+                }
+            }
+
+            if(!empty($getData['name'])){
+                $wheres['name'] = $getData['name'];
+            }
+            $wheres['status'] = 1;
+
+            $page = $getData['page'];
+            if(empty($page)){
+                exit('非法操作此页面');
+            }
+            $limit = $getData['limit'];
+            if(empty($limit)){
+                exit('非法操作此页面');
+            }
+            $data=model("GoodsTime")->where($wheres)->page($page,$limit)->select()->toArray();
+            $count = model('GoodsTime')->where($wheres)->count();
+
+            if(!empty($getData['start_at']) && !empty($getData['end_at'])){
+                $s = $getData['start_at'];
+                $e = $getData['end_at'];
+                $data = array_filter($data, function($v) use ($s, $e) { 
+                    return strtotime($v['start_at']) >= strtotime($s) && strtotime($v['end_at']) <= strtotime($e);
+                }); 
+            }
+            $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+            $snData = [];
+            if(!empty($storeData)){
+                $snData = array_column($storeData,'name','storeid');
+            }
+            if(!empty($data)){
+                foreach($data as $k=>$v){
+                    if(isset($snData[$v['storeid']])){
+                        $data[$k]['storename'] = $snData[$v['storeid']];
+                    } else {
+                        $data[$k]['storename'] = '';
+                    }
+                    $gwhere = [
+                        'status'    => 1,
+                        'storeid'   => $v['storeid'],
+                        'gtimeid'   => $v['id']
+                    ];
+                    $gcount = model('GoodsTimegood')->where($gwhere)->count();
+                    $data[$k]['gcount'] = $gcount;
+                }
+            }
+            $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$data];
+            echo json_encode($info);
+            exit;
+        }else{
+            $this->assign('storeid',$storeid);
+            $this->assign('storeData',$storeData);
+            return view();
+        }
+    }
+
+    public function goodsTimeAdd()
+    {
+        $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        if(check()){
+            $postData = input('post.');
+            if(empty($postData['name']) || empty($postData['start_at']) || empty($postData['end_at'])){
+                fail('缺少参数！');
+            }
+
+            $storeids = '';
+            if($storeid != 0){
+                $storeids = $storeid;
+            } else {
+                if(empty($postData['storeid'])){
+                    fail('缺少参数！');
+                }
+                $storeids = $postData['storeid'];
+
+            }
+            
+            
+            $model = model('GoodsTime');
+
+            # 开启事务
+            $model -> startTrans();
+            try{
+                $gtdata = [
+                    'name'  => $postData['name'],
+                    'start_at'  => $postData['start_at'],
+                    'end_at'  => $postData['end_at'],
+                    'status'    => 1,
+                    'ctime'    => time(),
+                    'storeid'   => $storeids
+                ];
+                # 菜品时段表
+                $model->insert($gtdata);
+
+                $gt_id = $model -> getLastInsID();
+
+                if( $gt_id < 1 ){
+                    throw new \Exception('菜品时段表写入失败');
+                }
+                #写入时段商品商品关联表
+                $gtmmodel = model('GoodsTimegood');
+                $gtmdata = [];
+                foreach($postData['goodsId'] as $k=>$v){
+                    $good_where = [
+                        'gid'   => $v
+                    ];
+                    $goodsdata = model('Goods')->where($good_where)->find();
+                    if($goodsdata == null){
+                        $gname = '';
+                    } else {
+                        $gname = $goodsdata['name'];
+                    }
+                    $gtmdata[] = [
+                        'gid'   => $v,
+                        'gname' => $goodsdata['name'],
+                        'tid'   => $goodsdata['gtid'],
+                        'status'    => 1,
+                        'ctime' => time(),
+                        'storeid'   => $storeids,
+                        'gtimeid'   => $gt_id,
+                    ];
+                }
+                $number = $gtmmodel -> insertAll( $gtmdata );
+
+                if( $number < 1 ){
+                    throw new \Exception('时段商品商品关联表写入失败');
+                }
+
+                #写入时段商品分类关联表
+                $gtymodel = model('GoodsTimetype');
+                $gtydata = [];
+                foreach($postData['typesId'] as $kk=>$vv){
+                    $GoodsTypewhere = [
+                        'gtid'  => $vv
+                    ];
+                    $typedata = model('GoodsType')->where($GoodsTypewhere)->find();
+                    $gtydata[] = [
+                        'tid'   => $vv,
+                        'tname' => $typedata['gtname'],
+                        'status'=>1,
+                        'ctime' => time(),
+                        'storeid'   => $storeids,
+                        'gtimeid'   => $gt_id
+                    ];
+                }
+                $num = $gtymodel -> insertAll( $gtydata );
+
+                if( $num < 1 ){
+                    throw new \Exception('时段商品分类关联表写入失败');
+                }
+
+                $model -> commit();
+
+                $this -> addLog('添加时段管理数据');
+
+                win('添加成功');
+                
+
+            }catch ( \Exception $e ){
+
+                $model -> rollback();
+
+                $this -> fail( $e -> getMessage() );
+            }
+        }else{
+            $this->assign('storeData',$storeData);
+            $this->assign('storeidval',$storeid);
+            return view();
+        }
+    }
+
+    public function goodsTypeSel(){
+        $storeid = getStoreid();
+        $where = [];
+        if($storeid != 0){
+            $where['storeid'] = $storeid;
+        } else {
+            $sid = input();
+            if(!empty($sid)){
+                $where['storeid'] = $sid['data'];
+            }
+        }
+        $where['status'] = 1;
+        $data = [];
+        if(isset($where['storeid'])){
+            $data = model('GoodsType')->where($where)->select()->toArray();
+        }
+        if(!empty($data)){
+            foreach($data as $k=>$v){
+                $g_where = [
+                    'gtid'  => $v['gtid'],
+                    'status'=> 1,
+                    'storeid'=> $v['storeid']
+                ];
+                $gdata = model('Goods')->where($g_where)->select()->toArray();
+                $data[$k]['son'] = $gdata;
+            }
+            $info=['code'=>0,'msg'=>'ok','font'=>$data];
+            echo json_encode($info);exit;
+        }
+    }
+
+    public function goodsTimeInfo()
+    {
+        $input = input();
+        $storeid = getStoreid();
+        $is_show = 1; //1展示门店 2不展示门店
+        if($storeid != 0){
+            $is_show = 2;
+        }
+        $this->assign('is_show',$is_show);
+        $where = [
+            'id'    => $input['id'],
+            'status'    => 1
+        ];
+        $data = model('GoodsTime')->where($where)->find()->toArray();
+        $s_where = [
+            'storeid'   => $data['storeid']
+        ];
+        $storeData = model('store')->field('storeid,name')->where($s_where)->find()->toArray();
+        $data['s_name'] = $storeData['name'];
+
+        $t_where = [
+            'gtimeid'   => $data['id'],
+            'storeid'   => $data['storeid'],
+            'status'    => 1
+        ];
+        $typeData = model('GoodsTimetype')->where($t_where)->select()->toArray();
+        foreach($typeData as $k=>$v){
+            $g_where = [
+                'gtimeid'   => $data['id'],
+                'storeid'   => $data['storeid'],
+                'status'    => 1,
+                'tid'       => $v['tid']
+            ];
+            $goodData = model('GoodsTimegood')->where($g_where)->select()->toArray();
+            $typeData[$k]['son'] = $goodData;
+
+        }
+        $this->assign('tdatas',$typeData);
+        $this->assign('data',$data);
+        $this->assign('page',$input['page']);
+        return view();
+    }
+
+    public function goodsTimeEdit()
+    {
+        $storeid = getStoreid();
+        $storeData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        if(check()){
+            $postData = input('post.');
+            if(!empty($postData)){
+
+
+                if(empty($postData['name']) || empty($postData['start_at']) || empty($postData['end_at'])){
+                    fail('缺少参数！');
+                }
+    
+                $storeids = '';
+                if($storeid != 0){
+                    $storeids = $storeid;
+                } else {
+                    if(empty($postData['storeid'])){
+                        fail('缺少参数！');
+                    }
+                    $storeids = $postData['storeid'];
+    
+                }
+
+                $del_where = [
+                    'gtimeid'  => $postData['id']
+                ];
+                $model = model('GoodsTime');
+    
+                # 开启事务
+                $model -> startTrans();
+                try{
+                    $where = [
+                        'id'    => $postData['id']
+                    ];
+                    $dataUpdate = [
+                        'name'  => $postData['name'],
+                        'start_at'  => $postData['start_at'],
+                        'end_at'    => $postData['end_at'],
+                        'utime'     => time(),
+                        'storeid'   => $storeids,
+                    ];
+                    # 菜品时段表
+                    $res = $model->where($where)->update($dataUpdate);
+                    if( $res < 1 ){
+                        throw new \Exception('菜品时段表修改失败');
+                    }
+                    #写入时段商品商品关联表
+                    $gtmmodel = model('GoodsTimegood');
+                    $del_gtm_res = $gtmmodel->where($del_where)->delete();
+                    if( $del_gtm_res < 1 ){
+                        throw new \Exception('时段商品商品关联表删除失败');
+                    }
+                    $gtmdata = [];
+                    foreach($postData['goodsId'] as $k=>$v){
+                        $good_where = [
+                            'gid'   => $v
+                        ];
+                        $goodsdata = model('Goods')->where($good_where)->find();
+                        if($goodsdata == null){
+                            $gname = '';
+                        } else {
+                            $gname = $goodsdata['name'];
+                        }
+                        $gtmdata[] = [
+                            'gid'   => $v,
+                            'gname' => $goodsdata['name'],
+                            'tid'   => $goodsdata['gtid'],
+                            'status'    => 1,
+                            'ctime' => time(),
+                            'storeid'   => $storeids,
+                            'gtimeid'   => $postData['id'],
+                        ];
+                    }
+
+                    $number = $gtmmodel -> insertAll( $gtmdata );
+
+                    if( $number < 1 ){
+                        throw new \Exception('时段商品商品关联表写入失败');
+                    }
+
+
+
+                    
+    
+                    #写入时段商品分类关联表
+                    $gtymodel = model('GoodsTimetype');
+                    $del_gty_res = $gtymodel->where($del_where)->delete();
+                    if( $del_gty_res < 1 ){
+                        throw new \Exception('时段商品分类关联表删除失败');
+                    }
+
+                    $gtydata = [];
+                    foreach($postData['typesId'] as $kk=>$vv){
+                        $GoodsTypewhere = [
+                            'gtid'  => $vv
+                        ];
+                        $typedata = model('GoodsType')->where($GoodsTypewhere)->find();
+                        $gtydata[] = [
+                            'tid'   => $vv,
+                            'tname' => $typedata['gtname'],
+                            'status'=>1,
+                            'ctime' => time(),
+                            'storeid'   => $storeids,
+                            'gtimeid'   => $postData['id'],
+                        ];
+                    }
+                    $num = $gtymodel -> insertAll( $gtydata );
+
+                    if( $num < 1 ){
+                        throw new \Exception('时段商品分类关联表写入失败');
+                    }
+    
+                    $model -> commit();
+    
+                    $this -> addLog('修改了时段管理数据');
+    
+                    win('修改成功');
+                    
+    
+                }catch ( \Exception $e ){
+    
+                    $model -> rollback();
+    
+                    $this -> fail( $e -> getMessage() );
+                }
+            }
+        }else{
+            $input = input();
+
+            $where = [
+                'id'    => $input['id'],
+                'status'    => 1
+            ];
+            $data = model('GoodsTime')->where($where)->find()->toArray();
+            $t_where = [
+                'gtimeid'   => $data['id'],
+                'storeid'   => $data['storeid'],
+                'status'    => 1
+            ];
+            $typeData = model('GoodsTimetype')->where($t_where)->select()->toArray();
+            $typeStr = '';
+            foreach($typeData as $k=>$v){
+                $typeStr .= $v['tid'].'|';
+            }
+
+            $g_where = [
+                'gtimeid'   => $data['id'],
+                'storeid'   => $data['storeid'],
+                'status'    => 1,
+            ];
+            $goodData = model('GoodsTimegood')->where($g_where)->select()->toArray();
+            $goodStr = '';
+            foreach($goodData as $kk=>$vv){
+                $goodStr .= $vv['gid'].'|';
+            }
+            $this->assign('t_id',$typeStr);
+            $this->assign('g_id',$goodStr);
+            $this->assign('storeData',$storeData);
+            $this->assign('storeidval',$storeid);
+            $this->assign('page',$input['page']);
+            $this->assign('data',$data);
+            return view();
+        }
+    }
+
+    public function goodsTimeDel()
+    {
+        $postData = input();
+        $del_where = [
+            'gtimeid'  => $postData['id']
+        ];
+        $model = model('GoodsTime');
+
+        # 开启事务
+        $model -> startTrans();
+        try{
+            $where = [
+                'id'    => $postData['id']
+            ];
+            # 菜品时段表
+            $res = $model->where($where)->delete();
+            if( $res < 1 ){
+                throw new \Exception('菜品时段表删除失败');
+            }
+            #写入时段商品商品关联表
+            $gtmmodel = model('GoodsTimegood');
+            $del_gtm_res = $gtmmodel->where($del_where)->delete();
+            if( $del_gtm_res < 1 ){
+                throw new \Exception('时段商品商品关联表删除失败');
+            }
+            #写入时段商品分类关联表
+            $gtymodel = model('GoodsTimetype');
+            $del_gty_res = $gtymodel->where($del_where)->delete();
+            if( $del_gty_res < 1 ){
+                throw new \Exception('时段商品分类关联表删除失败');
+            }
+            $model -> commit();
+
+            $this -> addLog('修改了时段管理数据');
+
+            win('删除成功');
+            
+
+        }catch ( \Exception $e ){
+
+            $model -> rollback();
+
+            $this -> fail( $e -> getMessage() );
+        }
+        
+    }
 }
