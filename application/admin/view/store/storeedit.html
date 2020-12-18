@@ -44,20 +44,35 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">点餐密钥:</label>
+        <div class="layui-form-mid layui-word-aux">{$store.airscan_secret_key}</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">会员密钥</label>
+            <div class="layui-input-block">
+                <input type="text" name="member_secret_key" value="{$store.member_secret_key}" placeholder="请输入会员密钥" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">门店地址<span style="color: red;">*</span></label>
         <div class="layui-input-block">
-            <input type="text" name="address" value="{$store.address}" lay-verify="required" maxlength="50" lay-verify="address|required" autocomplete="off" placeholder="请输入门店地址" class="layui-input">
+            <input type="text" name="address" value="{$store.address}" lay-verify="required" maxlength="50"
+                   lay-verify="address|required" autocomplete="off" placeholder="请输入门店地址" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">营业时间</label>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input" value="{$store.start_business_hours}" id="test4" name="start_business_hours" placeholder="开始时间">
+                <input type="text" class="layui-input" value="{$store.start_business_hours}" id="test4"
+                       name="start_business_hours" placeholder="开始时间">
             </div>
             <div class="layui-form-mid">-</div>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input" value="{$store.end_business_hours}" id="test5" name="end_business_hours" placeholder="结束时间">
+                <input type="text" class="layui-input" value="{$store.end_business_hours}" id="test5"
+                       name="end_business_hours" placeholder="结束时间">
             </div>
         </div>
     </div>
@@ -65,13 +80,15 @@
         <div class="layui-inline">
             <label class="layui-form-label">联系人<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="user_name" value="{$store.user_name}" lay-verify="required" maxlength="15" autocomplete="off"  placeholder="请输入联系人" class="layui-input">
+                <input type="text" name="user_name" value="{$store.user_name}" lay-verify="required" maxlength="15"
+                       autocomplete="off"  placeholder="请输入联系人" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">联系方式<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="user_tel" value="{$store.user_tel}" lay-verify="phone" autocomplete="off" placeholder="请输入联系方式" class="layui-input">
+                <input type="text" name="user_tel" value="{$store.user_tel}" lay-verify="phone" autocomplete="off"
+                       placeholder="请输入联系方式" class="layui-input">
             </div>
         </div>
     </div>
@@ -79,36 +96,18 @@
         <div class="layui-inline">
             <label class="layui-form-label">登录账号<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="account" value="{$store.account}" lay-verify="required" maxlength="20" disabled="disabled" autocomplete="off" placeholder="请输入登录账号" class="layui-input">
+                <input type="text" name="account" value="{$store.account}" lay-verify="required" maxlength="20"
+                       disabled="disabled" autocomplete="off" placeholder="请输入登录账号" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">登录密码<span style="color: red;">*</span></label>
             <div class="layui-input-block">
-                <input type="text" name="passwords" value="{$store.password}" lay-verify="required" maxlength="20" disabled="disabled" autocomplete="off" placeholder="请输入登录密码" class="layui-input">
+                <input type="text" name="passwords" value="{$store.password}" lay-verify="required" maxlength="20"
+                       disabled="disabled" autocomplete="off" placeholder="请输入登录密码" class="layui-input">
             </div>
         </div>
     </div>
-    <!-- <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">pos支付</label>
-            <div class="layui-input-block">
-                <input type="text" name="pos_pay" value="{$store.pos_pay}" autocomplete="off" placeholder="请输入pos信息" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">刷脸支付</label>
-            <div class="layui-input-block">
-                <input type="text" name="face_pay" value="{$store.face_pay}" autocomplete="off" placeholder="请输入刷脸支付" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">小票机</label>
-            <div class="layui-input-block">
-                <input type="text" name="password" value="{$store.password}" autocomplete="off" placeholder="请输入小票机信息" class="layui-input">
-            </div>
-        </div>
-    </div> -->
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>

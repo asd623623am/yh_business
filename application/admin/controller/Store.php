@@ -107,12 +107,13 @@ class Store extends Common
                 $insert = $this->processData($data);
                 $storeInfo = model('Store')->field('storeid')->order('storeid desc')->find();
                 $insert['store_no'] = 100001;
-                if(!empty($storeInfo['storeid'])){
+                if(isset($storeInfo['storeid']) && !empty($storeInfo['storeid'])){
                     $len = strlen($storeInfo['storeid']);
                     $strno = substr(100001,0,6-$len);
                     $storeInfo['storeid'] += 1;
                     $insert['store_no'] = $strno.$storeInfo['storeid'];
                 }
+                $insert['airscan_secret_key'] = $this->getAirscanKay();//生成点餐密钥
                 $insert['create_time'] = time();
                 $insert['update_time'] = time();
                 $insert['name'] = '郑州机场商业@'.$insert['name'];
@@ -159,7 +160,6 @@ class Store extends Common
                     fail('添加失败');
                 }
             }
-
         }else{
             return view();
         }
@@ -176,9 +176,16 @@ class Store extends Common
         if(check()){
             $postData = input('post.');
             if(!empty($postData)){
-                $insert = $this->processData($postData);
                 $where = ['storeid' => $postData['storeid']];
+                $storeData = model('Store')->where($where)->find()->toArray();
+                if(empty($storeData)){
+                    $this->fail('获取信息失败！');
+                }
+                $insert = $this->processData($postData);
                 $insert['name'] = '郑州机场商业@'.$insert['name'];
+                if(isset($insert['airscan_secret_key']) && empty($insert['airscan_secret_key'])){
+                    $insert['airscan_secret_key'] = $this->getAirscanKay();
+                }
                 $res = model('Store')->save($insert,$where);
                 if ($res) {
                     $this -> addLog('修改门店信息');
@@ -186,6 +193,8 @@ class Store extends Common
                 } else {
                     fail('修改失败');
                 }
+            }else{
+                $this->getTips();
             }
         }else{
             $storeId=input('get.storeid');
@@ -378,6 +387,10 @@ class Store extends Common
         //刷脸支付
         if(!empty($postData['face_pay'])){
             $insert['face_pay'] =$postData['face_pay'];
+        }
+        //会员密钥
+        if(!empty($postData['member_secret_key'])){
+            $insert['member_secret_key'] = trim($postData['member_secret_key']);
         }
         //营业时间
         $insert['start_business_hours'] = strtotime(date('Y-m-d').$postData['start_business_hours']);
@@ -999,5 +1012,17 @@ class Store extends Common
                     header("Pragma: no-cache");
                     $objWriter->save('php://output');
 
+    }
+
+    /**
+     * Notes: 获取点餐密钥
+     * Class: getAirscanKay
+     * user: bingwoo
+     * date: 2020/12/15 10:32
+     */
+    public function getAirscanKay(){
+
+        $key = 'airscan'.date('YmdHis',time()).rand(0000,9999);
+        return md5($key);
     }
 }
