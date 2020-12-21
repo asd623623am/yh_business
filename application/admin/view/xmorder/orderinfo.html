@@ -24,6 +24,11 @@
            <div style="float:left; margin-left: 40%;">x<span>{$goods.goods_number}</span></div>
             <div style="float: left; margin-left: 5%; color: gray; width: 100px;">￥{$goods.original_price}</div>
             <div style="float: left; margin-left: 10%; color: red;">￥{$goods.selling_price}</div>
+            {if condition="$goods.is_refund eq '0'"}
+                <button type="button" style="margin-left: 80%;" ogid='{$goods.ogid}' money='{$goods.selling_price}' class="layui-btn layui-btn-normal layui-btn-sm is_refund_one">退款</button>
+            {else /}
+                <span style="margin-left: 80%; color: red;">退款成功</span>
+            {/if}
             <div style="clear: both;">
             {volist name="goods.son" id='son'}
                 <button type="button" class="layui-btn layui-btn-normal layui-btn-sm">{$son.gsname}</button>
@@ -62,11 +67,11 @@
         
     </div>
  
-<span id='is_pay'>{$order.is_pay}</span>
+<span id='is_pay' hidden>{$order.is_pay}</span>
 <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
-            <button type="reset" id='refund' class="layui-btn  layui-btn-normal" style="display: none;">退款</button>
+            <button type="reset" id='refund' class="layui-btn  layui-btn-normal" style="display: none;">全部退款</button>
         </div>
         <span style="margin-left: 9%;color:red;display: none;" id='title'>仅限当日23:59:59之前可进行退款操作</span>
     </div>
@@ -88,6 +93,7 @@
         var is_pay = $('#is_pay').text();
         if(is_pay == 1){
             $("#refund").addClass("layui-btn-disabled");
+            $('.is_refund_one').addClass('layui-btn-disabled');
         }
         $('#up').click(function(){
             var page = $('#page').val();
@@ -119,6 +125,50 @@
                         },
                 'json'
                 )
+        });
+
+        $('.is_refund_one').click(function(){
+            if(is_pay == 1){
+                return false;
+            }
+            var _this = $(this);
+            layer.confirm('确认退款？', {
+            btn: ['确认', '取消'] //可以无限个按钮
+            ,btn3: function(index, layero){
+                //按钮【按钮三】的回调
+            }
+            }, function(index, layero){
+                var order = $('#order').val();
+                var ogid = _this.attr('ogid');
+                var money = _this.attr('money');
+
+                $.post(
+                        "{:url('Xmorder/oneRefund')}",
+                        {order_no:order,ogid:ogid,money:money},
+                        function (msg) {
+                            if (msg.code == 1) {
+                                layer.msg(msg.font, {
+                                    icon: msg.code,
+                                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                }, function(){
+                                    var page = $('#page').val();
+                                    localStorage.setItem('page',page);
+                                    window.history.back();
+                                });
+                            } else {
+                                layer.msg(msg.font,{icon:msg.code});
+                            }
+                        },
+                'json'
+                )
+
+
+                console.log(ogid,money,order);
+            //按钮【按钮一】的回调
+            }, function(index){
+            //按钮【按钮二】的回调
+            });
+            
         });
     });
 </script>
