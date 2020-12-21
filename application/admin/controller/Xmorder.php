@@ -452,7 +452,6 @@ class Xmorder extends Common
 			'order_sn'	=> $data['order_no']
 		];
 		$res = model('Xmorder')->where($where)->find();
-
 		if($res== null){
 			fail('没有找到您的订单！');
 		}
@@ -460,8 +459,7 @@ class Xmorder extends Common
 		if($res['pay_status'] == 0 || $res['pay_status'] == 1 || $res['pay_status'] == 3){
 			fail('您还不是已支付订单！');
 		}
-
-
+		$data['money'] = sprintf("%1\$.2f", ($data['money']*$data['num']));
 		$refund_fee = sprintf("%1\$.2f", $data['money']+$res['refund_fee']);
 		if($refund_fee > $res['pay_fee']){
 			fail('您已超过支付金额了！');

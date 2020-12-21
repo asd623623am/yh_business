@@ -25,7 +25,7 @@
             <div style="float: left; margin-left: 5%; color: gray; width: 100px;">￥{$goods.original_price}</div>
             <div style="float: left; margin-left: 10%; color: red;">￥{$goods.selling_price}</div>
             {if condition="$goods.is_refund eq '0'"}
-                <button type="button" style="margin-left: 80%;" ogid='{$goods.ogid}' money='{$goods.selling_price}' class="layui-btn layui-btn-normal layui-btn-sm is_refund_one">退款</button>
+                <button type="button" style="margin-left: 80%;" ogid='{$goods.ogid}' money='{$goods.selling_price}' num="{$goods.goods_number}" class="layui-btn layui-btn-normal layui-btn-sm is_refund_one">退款</button>
             {else /}
                 <span style="margin-left: 80%; color: red;">退款成功</span>
             {/if}
@@ -128,9 +128,9 @@
         });
 
         $('.is_refund_one').click(function(){
-            if(is_pay == 1){
-                return false;
-            }
+            // if(is_pay == 1){
+            //     return false;
+            // }
             var _this = $(this);
             layer.confirm('确认退款？', {
             btn: ['确认', '取消'] //可以无限个按钮
@@ -141,10 +141,11 @@
                 var order = $('#order').val();
                 var ogid = _this.attr('ogid');
                 var money = _this.attr('money');
+                var num = _this.attr('num');
 
                 $.post(
                         "{:url('Xmorder/oneRefund')}",
-                        {order_no:order,ogid:ogid,money:money},
+                        {order_no:order,ogid:ogid,money:money,num:num},
                         function (msg) {
                             if (msg.code == 1) {
                                 layer.msg(msg.font, {
