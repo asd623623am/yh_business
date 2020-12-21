@@ -715,7 +715,6 @@ class Index extends Controller
 		return $this->reply(0,'ok',$temp);
 	}
 
-
 	/**
 	 * 个人详情接口
 	 * @return [type] [description]
@@ -1101,7 +1100,6 @@ class Index extends Controller
     	return $this->reply(0,'授权成功',$arr);
     }
 
-
     ##修改  小程序的头像和网名，为了和公众号同步！
     public function setUser()
     {
@@ -1395,6 +1393,17 @@ class Index extends Controller
 				echo "";
 				exit;
 			}
+    }
+
+    /**
+     * Notes: 设置登录页面
+     * Class: setLoginVal
+     * user: bingwoo
+     * date: 2020/12/21 13:40
+     * return 1：点餐首页 2：后台管理首页
+     */
+    public function setLoginVal(){
+        return 1;
     }
 
     /**
