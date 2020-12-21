@@ -263,11 +263,11 @@ class Xmorder extends Common
 		$newtime = date('Y-m-d',$result['pay_time']);
 		$newtime = $newtime.' 23:59:59';
 
-		if(strtotime($newtime) < time()){   
+		if(strtotime($newtime) < time()){
 			 $is_pay = 1; //1是可以退款 
-		 }else{   
+		 }else{
 			$is_pay = 2;	//2不可以退款
-		 }   
+		 }
 		$order['is_pay'] = $is_pay;
 		$order['pay_time'] = date('Y-m-d H:i:s',$result['pay_time']);
 
@@ -297,9 +297,9 @@ class Xmorder extends Common
 		}
 		$this->assign('order',$order);
 
-		$is_refunds = 1;
+		$is_refund_type = 1;
 		if($result['pay_status'] != 3){
-			$is_refunds = 0;
+			$is_refund_type = 0;
 		}
 		//菜品信息
 		$goodWhere = [
@@ -314,11 +314,11 @@ class Xmorder extends Common
 					'gsid'	=> array('in',$gbsid),
 					'status'	=> 0
 				];
-
-				if($is_refunds != 1){
+				$is_refunds = 0;
+				if($is_refund_type != 1){
 					$is_refunds = $v['is_refund'];
 				} else {
-					$is_refunds = $v['is_refund'];
+					$is_refunds = $is_refund_type;
 				}
 
 
