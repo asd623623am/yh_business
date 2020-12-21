@@ -510,8 +510,8 @@ class Xmorder extends Common
             $sign = $this->appgetSign($signdata,$secret);
             $arr['signValue']=strtoupper($sign);
             $url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
-            $res = $this->sendpostss($url,$arr);
-            if ($res['returnCode'] == 0000) {
+            $ress = $this->sendpostss($url,$arr);
+            if ($ress['returnCode'] == 0000) {
 
 				$model = model('Xmorder');
 				# 开启事务
@@ -553,7 +553,7 @@ class Xmorder extends Common
 					$this -> fail( $e -> getMessage() );
 				}
             } else {
-                fail($res['returnMsg']);
+                fail($ress['returnMsg']);
             }
         } else {
             $str .= ' 状态:退款失败'.' 原因:请您去配置微信小程序参数';
