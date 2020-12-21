@@ -535,11 +535,10 @@ class Xmorder extends Common
 					}
 					$xm_where = [
 						'ogid'	=> $data['ogid'],
-						'refund_no'	=> $refundNo
 					];
 					#写入时段商品商品关联表
 					$xmmodel = model('Xmordergoods');
-					$xm_res = $xmmodel->where($xm_where)->update(['is_refund'=>1]);
+					$xm_res = $xmmodel->where($xm_where)->update(['is_refund'=>1,'refund_no'=>$refundNo]);
 					if( $xm_res < 1 ){
 						throw new \Exception('订单商品信息表修改失败');
 					}
