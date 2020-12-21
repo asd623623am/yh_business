@@ -1,0 +1,287 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>菜品管理</a>
+        <a><cite> 时段商品添加</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>时段商品添加</legend>
+</fieldset>
+<form class="layui-form">
+    <input type="text" name="id" hidden value="{$data.id}">
+    <input type="text" id="page" hidden='hidden' value="{$page}">
+    <span id='storeid_val' hidden>{$data.storeid}</span>
+    <div class="layui-form-item" id="storeids">
+        <label class="layui-form-label">门店列表<span style="color: red;">*</span></label>
+        <div class="layui-input-inline" id="app">
+            <select name="storeid" id="storeid" lay-verify="required" lay-filter='filter' lay-search="">
+                <option value="" >请选择门店</option>
+                {volist name="storeData" id='storeData'}
+                <option value="{$storeData.storeid}">{$storeData.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">时段名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input type="text" name="name" value="{$data.name}" lay-verify="required" maxlength="10" autocomplete="off" placeholder="请输入时段名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="layui-form-item">
+  <div class="layui-inline">
+    <label class="layui-form-label">时间<span style="color: red;">*</span></label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="text" name="start_at" placeholder="开始时间" value="{$data.start_at}" autocomplete="off" class="layui-input" id='test1'>
+    </div>
+    <div class="layui-form-mid">-</div>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="text" name="end_at" placeholder="结束时间" value="{$data.end_at}" autocomplete="off" class="layui-input" id='test2'>
+    </div>
+  </div>
+</div>
+
+<span id='t_id_val' hidden>{$t_id}</span>
+<span id='g_id_val' hidden>{$g_id}</span>
+<div style="margin-left: 4%" id='typeDataBox'>
+
+</div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即修改</button>
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+    <input type="text" id="storeidval" value="{$storeidval}" style="display: none">
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer','laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#test1' //指定元素
+                ,type:'time'
+            });
+            laydate.render({
+                elem: '#test2' //指定元素
+                ,type:'time'
+            });
+            var storeid_val=$('#storeid_val').text();
+            $("#storeid").find("option[value='"+storeid_val+"']").attr("selected",true);
+            form.render('select');
+//####################################################
+ // 给父级添加点击事件
+
+ function parentClick(){
+ $('.parent').click(function(){
+    if( $(this).prop('checked') ==  true ){
+        $(this).prop('checked' , false);
+        $(this).parents('.layui-form-item').
+        children('.layui-input-block').find('input').prop('checked' , false);
+    }else{
+        $(this).prop('checked' , true);
+        $(this).parents('.layui-form-item').
+        children('.layui-input-block').find('input').prop('checked' , true);
+    }
+    form.render();
+});
+
+        // 二级菜单添加点击事件
+        form.on('checkbox(two)', function(data){
+            var mark = 0;
+            //获取同级的所有二级菜单是否有选中的，有选中的化，让父级还是选中的状态
+            data.othis.parent('.layui-input-block').find('input').each(function(){
+                if( $(this).prop('checked') == true ){
+                    mark = 1;
+                }
+            });
+
+            if( data.elem.checked == true ){
+                data.elem.checked =  true ;
+                data.othis.parents('.layui-form-item').
+                find('.layui-form-label').find('input').prop('checked' , true);
+            }else{
+                data.elem.checked =  false ;
+                if( mark !=  1 ){
+                    data.othis.parents('.layui-form-item').
+                    find('.layui-form-label').find('input').prop('checked' , false);
+                }
+            }
+            form.render();
+        });
+ }
+//################################################ 结束
+
+
+
+
+
+//*************  jquery 拼接复选框
+$.post(
+    "{:url('Goods/goodsTypeSel')}",
+    {data:storeid_val},
+    function(msg){
+        if(msg.code != 1){
+            var data = msg.font;
+            var _str = '';
+            for (var i=0;i<data.length;i++)
+            {
+                _str+='    <div class="layui-form-item" pane="">'+
+        
+                    '<label class="layui-form-label big-size">'+
+                    '<input type="checkbox" class="parent" name="typesId[]"'+
+                    'lay-skin="primary" value="'+data[i]['gtid']+'" title="'+data[i]['gtname']+'">'+
+                    '</label><br/><br/>'+
+                    '<div class="layui-input-block input-left">';
+                    
+                for (var k=0;k<data[i]['son'].length;k++)
+                {
+                  _str +=  '<input type="checkbox" class="aaaaa" name="goodsId[]"'+
+                    'lay-skin="primary" value="'+data[i]['son'][k]['gid']+'" lay-filter="two" title="'+data[i]['son'][k]['name']+'">';
+                }
+                _str += '</div>'+
+                '</div>';
+            }
+            $('#typeDataBox').html(_str);
+
+
+
+                        //复选框赋值.
+                        var code = $('#t_id_val').text();
+                        var arr = code.split("|");
+                        arr.pop();
+
+                        for (var j = 0; j < arr.length; j++) {
+                            var unitTypeCheckbox = $("input[name='typesId[]']");
+                            for (var i = 0; i < unitTypeCheckbox.length; i++) {
+                                if (unitTypeCheckbox[i].value == arr[j]) {
+                                    unitTypeCheckbox[i].checked = true;
+                                }
+                            }
+                        }
+
+                        var g_ids = $('#g_id_val').text();
+                        var garr = g_ids.split("|");
+                        garr.pop();
+                        for (var j = 0; j < garr.length; j++) {
+                            var unitTypeCheckbox = $("input[name='goodsId[]']");
+                            for (var i = 0; i < unitTypeCheckbox.length; i++) {
+                                if (unitTypeCheckbox[i].value == garr[j]) {
+                                    unitTypeCheckbox[i].checked = true;
+                                }
+                            }
+                        }
+            form.render();
+            parentClick();
+            return false;
+        }
+    },'json'
+)
+
+
+form.on('select(filter)', function(data){
+  $.post(
+    "{:url('Goods/goodsTypeSel')}",
+    {data:data.value},
+    function(msg){
+        if(msg.code != 1){
+            var data = msg.font;
+            var _str = '';
+            for (var i=0;i<data.length;i++)
+            {
+                _str+='    <div class="layui-form-item" pane="">'+
+        
+                    '<label class="layui-form-label big-size">'+
+                    '<input type="checkbox" class="parent" name="typesId[]"'+
+                    'lay-skin="primary" value="'+data[i]['gtid']+'" title="'+data[i]['gtname']+'">'+
+                    '</label><br/><br/>'+
+                    '<div class="layui-input-block input-left">';
+                    
+                for (var k=0;k<data[i]['son'].length;k++)
+                {
+                  _str +=  '<input type="checkbox" class="aaaaa" name="goodsId[]"'+
+                    'lay-skin="primary" value="'+data[i]['son'][k]['gid']+'" lay-filter="two" title="'+data[i]['son'][k]['name']+'">';
+                }
+                _str += '</div>'+
+                '</div>';
+            }
+            $('#typeDataBox').html(_str);
+            form.render();
+            parentClick();
+            return false;
+        }
+    },'json'
+)
+
+});
+
+
+
+
+
+//******************************结束
+
+
+
+
+
+
+
+
+            multiSelect = function() {};
+
+            form.on('submit(*)',function(data){
+                var info = data.field;
+                $.post(
+                    "{:url('Goods/goodsTimeEdit')}",
+                    info,
+                    function(msg){
+                        if(msg.code ==1){
+                            layer.msg(msg.font, {
+                                icon: msg.code,
+                                time: 500 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                var page = $('#page').val();
+                                localStorage.setItem('page',page);
+                                window.history.back();
+                            });
+                        }else{
+                            layer.msg(msg.font, {icon: 5});
+                        }
+                    },'json'
+                )
+                return false;
+            })
+            $('#up').click(function(){
+                var page = $('#page').val();
+                localStorage.setItem('page',page);
+                window.history.back();
+            });
+
+            var storeidval = $("#storeidval").val();
+            if(storeidval != 0){
+                $("#storeids").hide();
+                $("#storeid").val(storeidval);
+            }
+            /* 验证输入框*/
+            form.verify({
+                sort: [/^$|^[0-9]{0,5}$/, '只能是数字且范围0~99999！']
+            });
+            form.render();
+        });
+    })
+
+</script>

@@ -1,0 +1,92 @@
+<blockquote class="layui-elem-quote layui-text">
+    <span class="layui-breadcrumb">
+        <a href='#'>菜品管理</a>
+        <a><cite> 分类修改</cite></a>
+    </span>
+</blockquote>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>修改菜品分类</legend>
+</fieldset>
+<form class="layui-form">
+<input type="text" id="page" hidden='hidden' value="{$page}">
+    <input type="text" id='is_show_val' hidden value="{$is_show}">
+    <div class="layui-form-item" id='s_name_show'>
+        <div class="layui-inline" >
+            <label class="layui-form-label">门店<span style="color: red;">*</span></label>
+            <div class="layui-input-block" style="width: 300px;">
+                <input type="text" name="gtid" readonly style="border:none;" value="{$data.s_name}"  autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline" >
+            <label class="layui-form-label">时段名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block" style="width: 300px;">
+                <input type="text" name="gtid" readonly style="border:none;" value="{$data.name}"  autocomplete="off" placeholder="请输入门店名称" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">时间<span style="color: red;">*</span></label>
+          <div class="layui-input-inline" style="width: 100px;">
+            <input type="text" name="start_at" readonly style="border:none;" value="{$data.start_at}" placeholder="开始时间" autocomplete="off" class="layui-input" id='test1'>
+          </div>
+          <div class="layui-form-mid">-</div>
+          <div class="layui-input-inline" style="width: 100px;">
+            <input type="text" name="end_at" readonly style="border:none;" value="{$data.end_at}" placeholder="结束时间" autocomplete="off" class="layui-input" id='test2'>
+          </div>
+        </div>
+      </div>
+    
+<hr>
+      <div style="margin-left: 4%">
+        {volist name="tdatas" id='v'}
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label big-size">
+                <input type="text" value="{$v.tname}" readonly style="border:none;">
+            </label><br/><br/>
+            <div class="layui-input-block input-left">
+                {volist name='$v["son"]' id='vv'}
+                <input type="text" value="{$vv.gname}" readonly style="width: 300px; border:none;">
+                {/volist}
+            </div>
+        </div>
+        {/volist}
+    </div>
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="reset" id='up' class="layui-btn layui-btn-primary">返回</button>
+        </div>
+    </div>
+</form>
+
+<!-- 示例-970 -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    $(function(){
+        layui.use(['form','layer',], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            $('#up').click(function(){
+                var page = $('#page').val();
+                localStorage.setItem('page',page);
+                window.history.back();
+            });
+
+            var is_show_val = $('#is_show_val').val();
+            if(is_show_val != 1){
+                $('#s_name_show').attr('style','display:none;');
+            }
+            /* 验证输入框*/
+            form.verify({
+                sort: [/^$|^[0-9]{0,5}$/, '只能是数字且范围0~99999！']
+            });
+            form.render();
+        });
+    })
+
+</script>
