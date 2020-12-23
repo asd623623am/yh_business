@@ -21,7 +21,7 @@ class OrderGoods extends Controller{
         if($data){
             $data = $data->toArray();
         }
-        return $data;
+        return json($data);
     }
 
 

@@ -183,7 +183,7 @@ class Store extends Common
                 }
                 $insert = $this->processData($postData);
                 $insert['name'] = '郑州机场商业@'.$insert['name'];
-                if(isset($insert['airscan_secret_key']) && empty($insert['airscan_secret_key'])){
+                if(!isset($storeData['airscan_secret_key']) || empty($storeData['airscan_secret_key'])){
                     $insert['airscan_secret_key'] = $this->getAirscanKay();
                 }
                 $res = model('Store')->save($insert,$where);
@@ -258,9 +258,6 @@ class Store extends Common
                 ];
                 model('GoodsType')->save($tdel,$where);
 
-
-
-
                 $admin = model('Admin')->where($where)->select()->toArray();
                 $delId = [];
                 foreach($admin as $k=>$v){
@@ -306,8 +303,6 @@ class Store extends Common
             ];
             $res = model('Store')->save($delDate,$where);
             if ($res) {
-
-
                 ###删除商品
                 $gdel = [
                     'status'    => 2
@@ -318,7 +313,6 @@ class Store extends Common
                 $sdel = [
                     'status'    => 1
                 ];
-
                 model('GoodsBingSpec')->where($where)->delete();
                 //分类
                 model('GoodsSpecType')->save($sdel,$where);
@@ -327,15 +321,12 @@ class Store extends Common
                 ];
                 model('GoodsType')->save($tdel,$where);
 
-
-
                 $admin = model('Admin')->where($where)->select()->toArray();
             
                 $delId = [];
                 foreach($admin as $k=>$v){
                     $delId[] = $v['admin_id'];
                 }
-
                 $reslut = model('Admin')->where($where)->delete();
                 if($reslut){
                     $wheres = [
@@ -865,152 +856,148 @@ class Store extends Common
      * 导出Excel表
      * @return [type] [description]
      */
-    public function phpExcel($data)
-    {
-            $xlsData = $data['arr'];
-            $typeData = $data['type_data']['data'];
-            $dData = $data['d_data']['data'];
-            $fileName = $data['fileName'];
-            $data_marge = $data['data_marge'];
-            // dump($fileName);exit;
-                if($fileName==""){$fileName=time();}//如果没有给名称 默认为当前时间戳
-            // 模拟获取数据
-            // $xlsData = self::getData();
-            // $xlsData = $this->dataData();
+    public function phpExcel($data){
 
-            Vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
-                    Vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
-                    Vendor('PHPExcel.PHPExcel.Writer.Excel2007');
-                    $objExcel = new \PHPExcel();
-                    //set document Property
-                    $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+        $xlsData = $data['arr'];
+        $typeData = $data['type_data']['data'];
+        $dData = $data['d_data']['data'];
+        $fileName = $data['fileName'];
+        $data_marge = $data['data_marge'];
+        // dump($fileName);exit;
+            if($fileName==""){$fileName=time();}//如果没有给名称 默认为当前时间戳
+        // 模拟获取数据
+        // $xlsData = self::getData();
+        // $xlsData = $this->dataData();
 
-                    $objActSheet = $objExcel->getActiveSheet();
-                    $objActSheet->getStyle('1')->getFont()->setBold(true);
-                    $objActSheet->getStyle('2')->getFont()->setBold(true);
-                    $objExcel->getActiveSheet()->getStyle(1)->getFont()->setSize(20);
-                    // $objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->      //设置全局默认的字体大小
-                    //   $objExcel->getActiveSheet()->getStyle('A1:A2')->getFont()->setSize(20)->setARGB('#FF0000');
+        Vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
+        Vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
+        Vendor('PHPExcel.PHPExcel.Writer.Excel2007');
+        $objExcel = new \PHPExcel();
+        //set document Property
+        $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
 
-                    $objActSheet->setTitle($data['tableXls']);//设置sheet工作表名称
-                    $key = ord("A");
-                    $letter =explode(',',"A,B,C,D,E,F,G");
-                    $arrHeader = array('账单总汇');
-                    //合并单元格
-                    $objExcel->getActiveSheet()->mergeCells('A1:P1');
-                    $objExcel->getActiveSheet()->mergeCells('A2:P2');
+        $objActSheet = $objExcel->getActiveSheet();
+        $objActSheet->getStyle('1')->getFont()->setBold(true);
+        $objActSheet->getStyle('2')->getFont()->setBold(true);
+        $objExcel->getActiveSheet()->getStyle(1)->getFont()->setSize(20);
+        // $objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->      //设置全局默认的字体大小
+        //   $objExcel->getActiveSheet()->getStyle('A1:A2')->getFont()->setSize(20)->setARGB('#FF0000');
 
-                    //设置水平居中
-                    $objExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objActSheet->setTitle($data['tableXls']);//设置sheet工作表名称
+        $key = ord("A");
+        $letter =explode(',',"A,B,C,D,E,F,G");
+        $arrHeader = array('账单总汇');
+        //合并单元格
+        $objExcel->getActiveSheet()->mergeCells('A1:P1');
+        $objExcel->getActiveSheet()->mergeCells('A2:P2');
 
-                    //填充标题
-                        $objActSheet->setCellValue($letter[0].'1',$data['tableXls']);
-                    
-                    //填充表头信息
-                    $lenth =  count($arrHeader);
-                    for($i = 0;$i < $lenth;$i++) {
-                        $objActSheet->setCellValue("$letter[$i]2","$arrHeader[$i]");
+        //设置水平居中
+        $objExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-                    };
-                    
-                    //填充表格信息
-                    foreach($xlsData as $k=>$v){
-                        $k +=3;
-                        $objActSheet->setCellValue('B'.$k,$v['name']);
-                        $objActSheet->setCellValue('C'.$k, $v['val']);
-                        // $objActSheet->setCellValue('C'.$k, $v['home_code']);
-                        // $objActSheet->setCellValue('D'.$k, $v['name']);
-                        // $objActSheet->setCellValue('E'.$k, $v['tel']);
-                        // $objActSheet->setCellValue('F'.$k, $v['area']);
-                        // $objActSheet->setCellValue('G'.$k, $v['check_in_at']);
-                        // $objActSheet->setCellValue('D'.$k, $v['email']);
-                        // $objActSheet->setCellValue('E'.$k, $v['tel']);
-                        // $objActSheet->setCellValue('F'.$k, $v['position']);
-                        // $objActSheet->setCellValue('G'.$k, $v['apphang']);
-                        // $objActSheet->setCellValue('H'.$k, $v['role_id'] == 2?'正式会员':'普通会员');
-                        // $objActSheet->setCellValue('I'.$k, $v['active'] == 1?'是':'否');
-                        // 表格高度
-                        // $objActSheet->getRowDimension($k)->setRowHeight(20);
-                    }
-                    //菜品总汇
-                    $last = end($xlsData);
-                    $last_key = key($xlsData)+5;
-                    $objExcel->getActiveSheet()->mergeCells('A'.$last_key.':P'.$last_key);
-                    $titleHeader = array('菜品总汇');
-                    $titleHeaderArr = array('分类名称','数量','金额');
-                    //填充表头信息
-                    $lenth =  count($titleHeader);
-                    for($i = 0;$i < $lenth;$i++) {
-                        $objActSheet->setCellValue("$letter[$i]$last_key","$titleHeader[$i]")->getStyle('A'.$last_key.':P'.$last_key)->getFont()->setBold(true);
-                    };
-                    $lenth =  count($titleHeaderArr);
-                    for($i = 0;$i < $lenth;$i++) {
-                        $k = $i;
-                        $k++;
-                        $objActSheet->setCellValue("$letter[$k]".($last_key+1)."","$titleHeaderArr[$i]");
-                    };
-                    foreach($typeData as $kk=>$vv){
-                        $kk += ($last_key+2);
-                        $objActSheet->setCellValue('B'.$kk,$vv['type_name']);
-                        $objActSheet->setCellValue('C'.$kk, $vv['count']);
-                        $objActSheet->setCellValue('D'.$kk, $vv['money']);
-                    }
+        //填充标题
+            $objActSheet->setCellValue($letter[0].'1',$data['tableXls']);
 
-                    //菜品销售明细.
-                    $lasts = end($typeData);
-                    $last_keys = key($typeData)+$last_key+4;
+        //填充表头信息
+        $lenth =  count($arrHeader);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]2","$arrHeader[$i]");
 
-                    $objExcel->getActiveSheet()->mergeCells('A'.$last_keys.':P'.$last_keys);
-                    $dHeader = array('菜品销售明细');
-                    $dHeaderArr = array('分类名称','菜品名称','数量','金额');
-                    //填充表头信息
-                    $lenth =  count($dHeader);
-                    for($i = 0;$i < $lenth;$i++) {
-                        $objActSheet->setCellValue("$letter[$i]$last_keys","$dHeader[$i]")->getStyle('A'.$last_keys.':P'.$last_keys)->getFont()->setBold(true);
-                    };
-                    $lenth =  count($titleHeaderArr);
-                    for($i = 0;$i < $lenth;$i++) {
-                        $objActSheet->setCellValue("$letter[$i]".($last_keys+1)."","$dHeaderArr[$i]");
-                    };
-                    foreach($data_marge as $c=>$l){
-                        if(count($l)>=2){
-                            $first = array_shift($l);
-                            $one = $first['key'] + ($last_keys+2);
-                            $last = array_pop($l);
-                            $end = $last['key'] + ($last_keys+2);
-                            $objExcel->getActiveSheet()->mergeCells('A'.$one.':A'.$end);
-                        }
-                    }
-                    foreach($dData as $dk=>$dv){
-                        $dk += ($last_keys+2);
-                        $objActSheet->setCellValue('A'.$dk,$dv['gtname']);
-                        $objActSheet->setCellValue('B'.$dk, $dv['gname']);
-                        $objActSheet->setCellValue('C'.$dk, $dv['count']);
-                        $objActSheet->setCellValue('D'.$dk, $dv['money']);
-                    }
+        };
 
+        //填充表格信息
+        foreach($xlsData as $k=>$v){
+            $k +=3;
+            $objActSheet->setCellValue('B'.$k,$v['name']);
+            $objActSheet->setCellValue('C'.$k, $v['val']);
+            // $objActSheet->setCellValue('C'.$k, $v['home_code']);
+            // $objActSheet->setCellValue('D'.$k, $v['name']);
+            // $objActSheet->setCellValue('E'.$k, $v['tel']);
+            // $objActSheet->setCellValue('F'.$k, $v['area']);
+            // $objActSheet->setCellValue('G'.$k, $v['check_in_at']);
+            // $objActSheet->setCellValue('D'.$k, $v['email']);
+            // $objActSheet->setCellValue('E'.$k, $v['tel']);
+            // $objActSheet->setCellValue('F'.$k, $v['position']);
+            // $objActSheet->setCellValue('G'.$k, $v['apphang']);
+            // $objActSheet->setCellValue('H'.$k, $v['role_id'] == 2?'正式会员':'普通会员');
+            // $objActSheet->setCellValue('I'.$k, $v['active'] == 1?'是':'否');
+            // 表格高度
+            // $objActSheet->getRowDimension($k)->setRowHeight(20);
+        }
+        //菜品总汇
+        $last = end($xlsData);
+        $last_key = key($xlsData)+5;
+        $objExcel->getActiveSheet()->mergeCells('A'.$last_key.':P'.$last_key);
+        $titleHeader = array('菜品总汇');
+        $titleHeaderArr = array('分类名称','数量','金额');
+        //填充表头信息
+        $lenth =  count($titleHeader);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]$last_key","$titleHeader[$i]")->getStyle('A'.$last_key.':P'.$last_key)->getFont()->setBold(true);
+        };
+        $lenth =  count($titleHeaderArr);
+        for($i = 0;$i < $lenth;$i++) {
+            $k = $i;
+            $k++;
+            $objActSheet->setCellValue("$letter[$k]".($last_key+1)."","$titleHeaderArr[$i]");
+        };
+        foreach($typeData as $kk=>$vv){
+            $kk += ($last_key+2);
+            $objActSheet->setCellValue('B'.$kk,$vv['type_name']);
+            $objActSheet->setCellValue('C'.$kk, $vv['count']);
+            $objActSheet->setCellValue('D'.$kk, $vv['money']);
+        }
 
-                    $width = array(10,15,20,25,30);
-                    //设置表格的宽度
-                    $objActSheet->getColumnDimension('A')->setWidth($width[1]);
-                    $objActSheet->getColumnDimension('B')->setWidth($width[2]);
-                    $objActSheet->getColumnDimension('C')->setWidth($width[3]);
-                    $objActSheet->getColumnDimension('D')->setWidth($width[4]);
-                    $objActSheet->getColumnDimension('E')->setWidth($width[1]);
-                    $objActSheet->getColumnDimension('F')->setWidth($width[1]);
-                    $objActSheet->getColumnDimension('G')->setWidth($width[1]);
+        //菜品销售明细.
+        $lasts = end($typeData);
+        $last_keys = key($typeData)+$last_key+4;
 
-
-                    $outfile = $fileName.".xlsx";
-                    ob_end_clean();
-                    header("Content-Type: application/force-download");
-                    header("Content-Type: application/octet-stream");
-                    header("Content-Type: application/download");
-                    header('Content-Disposition:inline;filename="'.$outfile.'"');
-                    header("Content-Transfer-Encoding: binary");
-                    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-                    header("Pragma: no-cache");
-                    $objWriter->save('php://output');
+        $objExcel->getActiveSheet()->mergeCells('A'.$last_keys.':P'.$last_keys);
+        $dHeader = array('菜品销售明细');
+        $dHeaderArr = array('分类名称','菜品名称','数量','金额');
+        //填充表头信息
+        $lenth =  count($dHeader);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]$last_keys","$dHeader[$i]")->getStyle('A'.$last_keys.':P'.$last_keys)->getFont()->setBold(true);
+        };
+        $lenth =  count($titleHeaderArr);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]".($last_keys+1)."","$dHeaderArr[$i]");
+        };
+        foreach($data_marge as $c=>$l){
+            if(count($l)>=2){
+                $first = array_shift($l);
+                $one = $first['key'] + ($last_keys+2);
+                $last = array_pop($l);
+                $end = $last['key'] + ($last_keys+2);
+                $objExcel->getActiveSheet()->mergeCells('A'.$one.':A'.$end);
+            }
+        }
+        foreach($dData as $dk=>$dv){
+            $dk += ($last_keys+2);
+            $objActSheet->setCellValue('A'.$dk,$dv['gtname']);
+            $objActSheet->setCellValue('B'.$dk, $dv['gname']);
+            $objActSheet->setCellValue('C'.$dk, $dv['count']);
+            $objActSheet->setCellValue('D'.$dk, $dv['money']);
+        }
+        $width = array(10,15,20,25,30);
+        //设置表格的宽度
+        $objActSheet->getColumnDimension('A')->setWidth($width[1]);
+        $objActSheet->getColumnDimension('B')->setWidth($width[2]);
+        $objActSheet->getColumnDimension('C')->setWidth($width[3]);
+        $objActSheet->getColumnDimension('D')->setWidth($width[4]);
+        $objActSheet->getColumnDimension('E')->setWidth($width[1]);
+        $objActSheet->getColumnDimension('F')->setWidth($width[1]);
+        $objActSheet->getColumnDimension('G')->setWidth($width[1]);
+        $outfile = $fileName.".xlsx";
+        ob_end_clean();
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$outfile.'"');
+        header("Content-Transfer-Encoding: binary");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Pragma: no-cache");
+        $objWriter->save('php://output');
 
     }
 

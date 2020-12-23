@@ -31,11 +31,13 @@ class Store extends Controller{
         $userInfo = getStoreidByKey($getData['access-token']);
         $storeid = $userInfo['storeid'];
         $scData = model('storecontent')->where(['storeid'=>$storeid])->find();
+        $sData = model('store')->where(['storeid'=>$storeid])->find();
         $data = [];
         if(!empty($scData)){
             $data = $scData->toArray();
+            $sData = $sData->toArray();
             if($data['img']){
-                $data['img'] = '/uploads/'.$data['img'];
+                $data['img'] = '/uploads/'.$sData['logo'];
             }
         }
         if(empty($data)){
@@ -72,8 +74,13 @@ class Store extends Controller{
             'storeid'=>$storeid,
             'utime'=>time(),
         ];
+        $editStoreData = [];
         if(isset($postData['img'])){
-            $editData['img'] = $postData['img'];
+            $swhere['storeid'] = $storeid;
+            $editStoreData['logo'] = $postData['img'];
+        }
+        if($editStoreData){
+            model('store')->save($editStoreData,$swhere);
         }
         if(isset($postData['packing_fee'])){
             $editData['packing_fee'] = $postData['packing_fee'];

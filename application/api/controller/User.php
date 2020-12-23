@@ -24,7 +24,7 @@ class User extends Controller{
         if($mData){
             $mData = $mData->toArray();
         }
-        return $mData;
+        return json($mData);
     }
 
     /**
@@ -40,7 +40,7 @@ class User extends Controller{
         if($data){
             $data = $data->toArray();
         }
-        return $data;
+        return json($data);
     }
 
 

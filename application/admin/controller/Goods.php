@@ -90,7 +90,7 @@ class Goods extends Common{
             $postData = input('post.');
             $insert = [
                 'gtname' => $postData['gtname'],
-                'sort' => empty($postData['sort'])?10:$postData['sort'],
+                'sort' => empty($postData['sort'])?999:$postData['sort'],
                 'create_time' => time(),
                 'update_time' => time(),
             ];
@@ -273,6 +273,10 @@ class Goods extends Common{
                             if($gtval['gtid'] == $val['gtid']){
                                 $val['gtname'] = $gtval['gtname'];
                             }
+                        }
+                        //修改库存显示
+                        if($val['is_open_stock'] == 0){
+                            $val['stock'] = '--';
                         }
                     }
                     unset($val);

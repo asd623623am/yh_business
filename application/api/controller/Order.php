@@ -21,7 +21,7 @@ class Order extends Controller{
         if($data){
             $data = $data->toArray();
         }
-        return $data;
+        return json($data);
     }
 
 
@@ -41,7 +41,7 @@ class Order extends Controller{
         if($data){
             $data = $data->toArray();
         }
-        return $data;
+        return json($data);
 
     }
 

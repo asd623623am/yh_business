@@ -93,6 +93,10 @@ class Goods extends Controller{
                         $val['gtname'] = $gtval['gtname'];
                     }
                 }
+                //修改库存显示
+                if($val['is_open_stock'] == 0){
+                    $val['stock'] = '--';
+                }
                 $val['img'] = '/uploads/'.$val['img'];
             }
             unset($val);
