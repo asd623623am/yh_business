@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Request;
+use think\Db;
 
 class Index extends Controller
 {
@@ -1519,6 +1520,32 @@ class Index extends Controller
             model('Xmorder')->save($saveData,['orderid'=>$v['orderid']]);
         }
         return '更新成功';
-    }
+	}
+	
+	/**
+	 * 查询店铺内容.
+	 */
+	public function selStorecontent()
+	{
+		$data = input();
+		if(!isset($data['storeid'])){
+			return $this->reply(1,'缺少参数1');
+		}
+		if(empty($data['storeid'])){
+			return $this->reply(1,'缺少参数');
+		}
+		$where = [
+			'storeid'	=> $data['storeid']
+		];
+		$res = Db::table('xm_store_content')->where($where)->find();
+		if(is_null($res)){
+			return $this->reply(1,'没有找到您的数据');
+		} else {
+			$font = [
+				'notice'	=> $res['notice']
+			];
+			return $this->reply(0,'ok',$font);
+		}
+	}
 
 }
