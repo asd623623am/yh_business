@@ -1591,8 +1591,8 @@ class Index extends Controller
 				];
 				$gtgdata = model('GoodsTimegood')->field('gid')->where($gtg_where)->select()->toArray();
 				$temp[] = [
-					'start_at'	=> $val['start_at'],
-					'end_at'	=> $val['end_at'],
+					'start_at'	=> strtotime($val['start_at']),
+					'end_at'	=> strtotime($val['end_at']),
 					'goodstypeid'	=> $v['tid'],
 					'goodsdata'	=> $gtgdata,
 				];
