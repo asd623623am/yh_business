@@ -1563,4 +1563,42 @@ class Index extends Controller
 		}
 	}
 
+	/**
+	 * 查询时段数据.
+	 */
+	public function selTimeGoodsData()
+	{
+		$data = input();
+		$gt_where = [
+			'storeid'	=> $data['storeid'],
+			'status'	=> 1
+		];
+		$goodsdata = model('GoodsTime')->where($gt_where)->select()->toArray();
+		$temp = [];
+		foreach($goodsdata as $key=>$val){
+			$typetime_where = [
+				'status'	=> 1,
+				'gtimeid'	=> $val['id'],
+				'storeid'	=> $data['storeid']
+			];
+			$typetimedata = model('GoodsTimetype')->where($typetime_where)->select()->toArray();
+			foreach($typetimedata as $K=>$v){
+				$gtg_where = [
+					'status'	=> 1,
+					'gtimeid'	=> $val['id'],
+					'storeid'	=> $data['storeid'],
+					'tid'		=> $v['tid']
+				];
+				$gtgdata = model('GoodsTimegood')->field('gid')->where($gtg_where)->select()->toArray();
+				$temp[] = [
+					'start_at'	=> $val['start_at'],
+					'end_at'	=> $val['end_at'],
+					'goodstypeid'	=> $v['tid'],
+					'goodsdata'	=> $gtgdata,
+				];
+			}
+		}
+		return $this->reply(0,'ok',$temp);
+	}
+
 }
