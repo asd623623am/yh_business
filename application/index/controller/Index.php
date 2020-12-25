@@ -1541,8 +1541,6 @@ class Index extends Controller
 		if(is_null($res)){
 			return $this->reply(1,'没有找到您的数据');
 		} else {
-
-			// dump($res['sell_type']);exit;
 			$sell_type = 0;
 			if($res['sell_type'] == 0){
 				$sell_type = 1; 
@@ -1561,7 +1559,6 @@ class Index extends Controller
 				'is_time'	=> $is_time,	// 是否开启上餐时间 1是否   2是开启
 				'up_time'	=> $res['up_time'], // 上菜时间
 			];
-			
 			return $this->reply(0,'ok',$font);
 		}
 	}
