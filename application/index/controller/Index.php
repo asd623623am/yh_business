@@ -1545,7 +1545,7 @@ class Index extends Controller
 			// dump($res['sell_type']);exit;
 			$sell_type = 0;
 			if($res['sell_type'] == 0){
-				$sell_type = 1;
+				$sell_type = 1; 
 			} else {
 				$sell_type = 2;
 			}
