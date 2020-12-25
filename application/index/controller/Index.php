@@ -1541,9 +1541,27 @@ class Index extends Controller
 		if(is_null($res)){
 			return $this->reply(1,'没有找到您的数据');
 		} else {
+
+			// dump($res['sell_type']);exit;
+			$sell_type = 0;
+			if($res['sell_type'] == 0){
+				$sell_type = 1;
+			} else {
+				$sell_type = 2;
+			}
+			$is_time = 0;
+			if($res['is_time'] == 0){
+				$is_time = 1;
+			} else {
+				$is_time = 2;
+			}
 			$font = [
-				'notice'	=> $res['notice']
+				'notice'	=> $res['notice'], //通知公告.
+				'sell_type'	=> $sell_type, // 估清模式：1是估清后显示售罄，2是估清后不显示在列表里
+				'is_time'	=> $is_time,	// 是否开启上餐时间 1是否   2是开启
+				'up_time'	=> $res['up_time'], // 上菜时间
 			];
+			
 			return $this->reply(0,'ok',$font);
 		}
 	}
