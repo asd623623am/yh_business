@@ -1573,6 +1573,17 @@ class Index extends Controller
 			'storeid'	=> $data['storeid'],
 			'status'	=> 1
 		];
+
+		$curl_where = [
+			'openId'	=> '',
+			'storeId'	=> $data['storeid'],
+			'userId'	=> ''
+		];
+		$url = 'https://possji.com:8088/yinheorder/order/showStoreInfo';
+		$newdata = $this->sendpostss($url,$curl_where);
+		$curl_data = $newdata['data']['goodtypeinfo'];
+
+
 		$goodsdata = model('GoodsTime')->where($gt_where)->select()->toArray();
 		$temp = [];
 		foreach($goodsdata as $key=>$val){
@@ -1590,15 +1601,37 @@ class Index extends Controller
 					'tid'		=> $v['tid']
 				];
 				$gtgdata = model('GoodsTimegood')->field('gid')->where($gtg_where)->select()->toArray();
-				$temp[] = [
-					'start_at'	=> strtotime($val['start_at']),
-					'end_at'	=> strtotime($val['end_at']),
-					'goodstypeid'	=> $v['tid'],
-					'goodsdata'	=> $gtgdata,
+
+				$time = [
+					'start_at'	=> strtotime($val['start_at']), //开始时间
+					'end_at'	=> strtotime($val['end_at']), //结束时间
 				];
+				foreach($curl_data as $ck=>$cv){
+					if($cv['goodstypeid'] == $v['tid']){
+						$arrs = $this->array_multi_search($gtgdata,$cv['goodsdata'],$time);
+						$curl_data[$ck]['goodsdata'] = $arrs;
+					}
+				}
 			}
 		}
-		return $this->reply(0,'ok',$temp);
+		return $this->reply(0,'ok',$curl_data);
 	}
+
+	/**
+     *  判断字符串是否在数组中，包括二维数组--这里只能判断二维数组
+     * @param $str
+     * @param $arr
+     * @return bool
+     */
+    public function array_multi_search($str,$arr,$time){
+		foreach($str as $k=>$v){
+			foreach($arr as $kk=>$vv){
+				if($v['gid'] == $vv['gid']){
+					$arr[$kk]['time'] = $time;
+				}
+			}
+		}
+        return $arr;
+    }
 
 }
