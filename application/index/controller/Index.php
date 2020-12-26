@@ -1404,7 +1404,7 @@ class Index extends Controller
      * return 1：点餐首页 2：后台管理首页
      */
     public function setLoginVal(){
-        return 1;
+        return 2;
     }
 
     /**
