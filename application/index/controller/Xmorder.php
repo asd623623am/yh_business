@@ -479,6 +479,120 @@ class Xmorder extends Controller{
         }
     }
 
+
+    public function oneRefund()
+    {
+		$data = input();
+		$where = [
+			'order_sn'	=> $data['order_no']
+		];
+		$res = model('Xmorder')->where($where)->find();
+		if($res== null){
+            return failMsg('没有找到您的订单！');
+		}
+		$res = $res->toArray();
+		if($res['pay_status'] == 0 || $res['pay_status'] == 1 || $res['pay_status'] == 3){
+            return failMsg('您还不是已支付订单！');
+		}
+		$data['money'] = sprintf("%1\$.2f", ($data['money']*$data['num']));
+		$refund_fee = sprintf("%1\$.2f", $data['money']+$res['refund_fee']);
+		if($refund_fee > $res['pay_fee']){
+            return failMsg('您已超过支付金额了！');
+		}
+
+		$str = '订单号:'.$data['order_no'];
+		$app = Db::table('system')->select();
+		if (!empty($app)) {
+            if(empty($app[0]['mini_appsecret']) || empty($app[0]['termNo']) || empty($app[0]['merId'])){
+
+            }
+            $secret = $app[0]['mini_appsecret'];
+            $termNo = $app[0]['termNo'];
+            $merId = $app[0]['merId'];
+            $data['money'] = str_replace('.', '', $data['money']);
+            $lens = strlen($data['money']);
+            if ($lens < 12) {
+                for ($i=0; $i < 12-$lens ; $i++) {
+                    $data['money'] = substr_replace(0, $data['money'], 1, 0);
+                }
+			}
+			$refundNo = date('YmdHis') . str_pad(mt_rand(1, 999999), 5, '0', STR_PAD_LEFT);
+            $time = date('YmdHis',time());
+            $arr = [
+                'orgNo'	=> '2111',
+                'charset'	=> 'UTF-8',
+                'termNo'	=> $termNo,
+                'termType'	=> 'XMWPFB',
+                'txtTime'	=> $time,
+                'signType'	=> 'MD5',
+
+                'transNo'	=> $res['order_sn'],
+                'merId'		=> $merId,
+                'amt'		=> intval($data['money']),
+				'payType'	=> 1,
+				'refundNo'	=> $refundNo,
+            ];
+            $signdata = [
+                'orgNo'	=>'2111',
+                'amt'	=> intval($data['money']),
+                'termNo'=> $termNo,
+                'merId'	=> $merId,
+                'transNo'	=> $res['order_sn'],
+                'txtTime'	=> $time
+            ];
+            $sign = $this->appgetSign($signdata,$secret);
+            $arr['signValue']=strtoupper($sign);
+            $url = "http://yhyr.com.cn/YinHeLoan/yinHe/refundWmpPay.action";
+            $ress = $this->sendpostss($url,$arr);
+            if ($ress['returnCode'] == 0000) {
+
+				$model = model('Xmorder');
+				# 开启事务
+				$model -> startTrans();
+				try{
+					$update = [];
+					if($refund_fee == $res['pay_fee']){
+						$update = [
+							'refund_fee'	=> $refund_fee,
+							'pay_status'	=> 3
+						];
+					} else {
+						$update = [
+							'refund_fee'	=> $refund_fee
+						];
+					}
+					# 菜品时段表
+					$res = $model->where($where)->update($update);
+					if( $res < 1 ){
+						throw new \Exception('订单表修改失败');
+					}
+					$xm_where = [
+						'ogid'	=> $data['ogid'],
+					];
+					#写入时段商品商品关联表
+					$xmmodel = model('Xmordergoods');
+					$xm_res = $xmmodel->where($xm_where)->update(['is_refund'=>1,'refund_no'=>$refundNo]);
+					if( $xm_res < 1 ){
+						throw new \Exception('订单商品信息表修改失败');
+					}
+                    $model -> commit();
+                    addLog('退款了一个商品【部分退款】',$getData['access-token']);
+                    return successMsg('部分退款成功');
+				}catch ( \Exception $e ){
+
+					$model -> rollback();
+                    return failMsg($e->getMessage());
+				}
+            } else {
+
+                return failMsg($ress['returnMsg']);
+
+            }
+        } else {
+            return failMsg('请您去配置微信小程序参数');
+        }
+	}
+
     /**
      * Notes: 获取密钥
      * Class: appgetSign
