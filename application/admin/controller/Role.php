@@ -225,7 +225,7 @@ class Role extends Common{
         $font = [
             'role_name'  => '',
             'is_admin'   => '',
-            'type'       => '',
+            // 'type'       => '',
         ];
         Db::table('role')->where($rwhere)->update($font);
         $admin = session('admin');
@@ -236,7 +236,7 @@ class Role extends Common{
             $fonts = [
                 'role_name'  => $data['role_name'],
                 'is_admin'   => $data['is_admin'],
-                'type'       => 3
+                'type'       => 2
             ];
             
             $reslut = Db::table('role')->where($rwhere)->update($fonts);
