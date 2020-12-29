@@ -108,6 +108,8 @@
             // location.href="{:url('Operation/roleList')}";
         });
 
+        
+
         //复选框赋值.
         $('#tag input[type=checkbox]').each(function(){
             var value = this.value;
@@ -129,12 +131,7 @@
         var code = $('#codeNo').val();
         var arr = code.split("|");
         arr.pop();
-
-        //单选框赋值
-         var typeclass = $('#typeclass').text();
-         
-        $("input[name=is_admin][value="+typeclass+"]").prop("checked","true");
-
+        
         var types = $('#types').val();
          if(typeclass == 1){
              types = 3;
@@ -149,13 +146,11 @@
             
             var a = $.inArray($(item).val(), arr);
             if (a != -1) {
-                console.log(a);
-                console.log($(item));
                 $(item).next('div').addClass('layui-form-checked');
             }
             // form.render();
         })
-        console.log(arr);
+
         // 给父级添加点击事件
         $('.parent').click(function(){
             if( $(this).prop('checked') ==  true ){
@@ -172,7 +167,6 @@
 
         // 二级菜单添加点击事件
         form.on('checkbox(two)', function(data){
-            console.log(data);
             var mark = 0;
             //获取同级的所有二级菜单是否有选中的，有选中的化，让父级还是选中的状态
             data.othis.parent('.layui-input-block').find('input').each(function(){
