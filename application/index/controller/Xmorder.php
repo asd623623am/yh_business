@@ -576,7 +576,7 @@ class Xmorder extends Controller{
 						throw new \Exception('订单商品信息表修改失败');
 					}
                     $model -> commit();
-                    addLog('退款了一个商品【部分退款】',$getData['access-token']);
+                    addLog('退款了一个商品【部分退款】',$data['access-token']);
                     return successMsg('部分退款成功');
 				}catch ( \Exception $e ){
 
