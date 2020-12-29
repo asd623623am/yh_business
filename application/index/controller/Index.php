@@ -1645,7 +1645,6 @@ class Index extends Controller
 		}
 		$orderData = $newdata['data'];
 		foreach($orderData['ordergoodsinfo'] as $k=>$v){
-			dump($v);exit;
 			$where = [
 				'ogid'	=> $v['ogid']
 			];
@@ -1653,7 +1652,7 @@ class Index extends Controller
 			if($gres == null){
 				$orderData['ordergoodsinfo'][$k]['is_refund'] = 1;
 			} else {
-				$orderData['ordergoodsinfo'][$k]['is_refund'] = $v['is_refund']; //0是未退款 1是已退款
+				$orderData['ordergoodsinfo'][$k]['is_refund'] = $gres['is_refund']; //0是未退款 1是已退款
 			}
 		}
 		return $this->reply(0,'OK',$orderData);
