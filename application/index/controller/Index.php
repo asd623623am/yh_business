@@ -1645,6 +1645,7 @@ class Index extends Controller
 		}
 		$orderData = $newdata['data'];
 		foreach($orderData['ordergoodsinfo'] as $k=>$v){
+			dump($v);exit;
 			$where = [
 				'ogid'	=> $v['ogid']
 			];
