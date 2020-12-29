@@ -1507,19 +1507,36 @@ class Index extends Controller
      */
     public function updateOrderCode(){
 
-        $orderData = model('Xmorder')->where(['code'=>0])->field('orderid,order_sn')->select();
-        if(empty($orderData)){
-            return '已无更新订单';
-        }
-        $orderData = $orderData->toArray();
-        foreach ($orderData as $v){
-            $code = substr($v['order_sn'],-4);
+        $postData = input('post.');
+        if(isset($postData['order_sn'])){
+            $where = [];
+            $where['order_sn'] = ['=',$postData['order_sn']];
+            $code = substr($postData['order_sn'],-4);
             $saveData = [
                 'code'=>$code,
             ];
-            model('Xmorder')->save($saveData,['orderid'=>$v['orderid']]);
+            $ret = model('Xmorder')->save($saveData,['order_sn'=>$postData['order_sn']]);
+            if(!$ret){
+                return failMsg('更新失败');
+            }
+        }else{
+            $where = [];
+            $where['status'] = ['=',1];
+            $where['code'] = ['=',0];
+            $orderData = model('Xmorder')->where($where)->field('orderid,order_sn')->select();
+            $orderData = $orderData->toArray();
+            if(!$orderData){
+                return successMsg('已无更新订单');
+            }
+            foreach ($orderData as $v){
+                $code = substr($v['order_sn'],-4);
+                $saveData = [
+                    'code'=>$code,
+                ];
+                model('Xmorder')->save($saveData,['orderid'=>$v['orderid']]);
+            }
         }
-        return '更新成功';
+        return successMsg('更新成功');
 	}
 	
 	/**
@@ -1582,8 +1599,6 @@ class Index extends Controller
 		$url = 'https://possji.com:8088/yinheorder/order/showStoreInfo';
 		$newdata = $this->sendpostss($url,$curl_where);
 		$curl_data = $newdata['data']['goodtypeinfo'];
-
-
 		$goodsdata = model('GoodsTime')->where($gt_where)->select()->toArray();
 		$temp = [];
 		foreach($goodsdata as $key=>$val){
