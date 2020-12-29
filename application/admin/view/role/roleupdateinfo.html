@@ -137,19 +137,18 @@
              types = 3;
          }
         
-         $("input[name=type][value="+types+"]").prop("checked","true");
+        //  $("input[name=type][value="+types+"]").prop("checked","true");
 
 
-        form.render();
-        // jQuery.inArray("John", arr);  //3
-        $('.bbbb').each(function(i,item){
-            
-            var a = $.inArray($(item).val(), arr);
-            if (a != -1) {
-                $(item).next('div').addClass('layui-form-checked');
+         for (var j = 0; j < arr.length; j++) {
+            var unitTypeCheckbox = $("input[name='power[]']");
+            for (var i = 0; i < unitTypeCheckbox.length; i++) {
+                if (unitTypeCheckbox[i].value == arr[j]) {
+                    unitTypeCheckbox[i].checked = true;
+                }
             }
-            // form.render();
-        })
+        }
+        form.render();
 
         // 给父级添加点击事件
         $('.parent').click(function(){
