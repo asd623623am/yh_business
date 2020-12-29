@@ -1633,6 +1633,32 @@ class Index extends Controller
 	}
 
 	/**
+	 * 订单详情
+	 */
+	public function queryOrderListInfo()
+	{
+		$url = 'https://possji.com:8088/yinheorder/order/queryOrderListInfo';
+		$data = input();
+		$newdata = $this->sendpostss($url,$data);
+		if($newdata['code'] != '000000'){
+			return $this->reply(1,'没有查到数据！');
+		}
+		$orderData = $newdata['data'];
+		foreach($orderData['ordergoodsinfo'] as $k=>$v){
+			$where = [
+				'ogid'	=> $v['ogid']
+			];
+			$gres = model('Xmordergoods')->where($where)->find();
+			if($gres == null){
+				$orderData['ordergoodsinfo'][$k]['is_refund'] = 1;
+			} else {
+				$orderData['ordergoodsinfo'][$k]['is_refund'] = $v['is_refund']; //0是未退款 1是已退款
+			}
+		}
+		return $this->reply(0,'OK',$orderData);
+	}
+
+	/**
      *  判断字符串是否在数组中，包括二维数组--这里只能判断二维数组
      * @param $str
      * @param $arr
