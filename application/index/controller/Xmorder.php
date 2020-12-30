@@ -413,6 +413,7 @@ class Xmorder extends Controller{
             $secret = $app[0]['mini_appsecret'];
             $termNo = $app[0]['termNo'];
             $merId = $app[0]['merId'];
+            $return_fee = $result['pay_fee'];
             $result['pay_fee']=sprintf("%1\$.2f", $result['pay_fee']-$result['refund_fee']);
             $result['pay_fee']=str_replace('.', '', $result['pay_fee']);
             $lens = strlen($result['pay_fee']);
@@ -454,7 +455,7 @@ class Xmorder extends Controller{
                 ];
                 $newData = [
                     'pay_status'	=> 3,
-                    'refund_fee'    => $result['pay_fee']
+                    'refund_fee'    => $return_fee
                 ];
                 $infos = model('Xmorder')->where($wheres)->setField($newData);
                 if ($infos) {
