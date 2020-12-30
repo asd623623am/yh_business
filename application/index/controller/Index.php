@@ -1629,7 +1629,8 @@ class Index extends Controller
 				}
 			}
 		}
-		return $this->reply(0,'ok',$curl_data);
+ 		$newdata['data']['goodtypeinfo'] = $curl_data;
+		return $this->reply(0,'ok',$newdata['data']);
 	}
 
 	/**
