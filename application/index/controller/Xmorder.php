@@ -413,7 +413,7 @@ class Xmorder extends Controller{
             $secret = $app[0]['mini_appsecret'];
             $termNo = $app[0]['termNo'];
             $merId = $app[0]['merId'];
-
+            $result['pay_fee']=sprintf("%1\$.2f", $result['pay_fee']-$result['refund_fee']);
             $result['pay_fee']=str_replace('.', '', $result['pay_fee']);
             $lens = strlen($result['pay_fee']);
             // $data['deposit_money']=sprintf("%012d", $data);//生成12位数，不足前面补0
@@ -454,6 +454,7 @@ class Xmorder extends Controller{
                 ];
                 $newData = [
                     'pay_status'	=> 3,
+                    'refund_fee'    => $result['pay_fee']
                 ];
                 $infos = model('Xmorder')->where($wheres)->setField($newData);
                 if ($infos) {
