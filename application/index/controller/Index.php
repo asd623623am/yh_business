@@ -1592,9 +1592,9 @@ class Index extends Controller
 		];
 
 		$curl_where = [
-			'openId'	=> '',
+			'openId'	=> $data['openId'],
 			'storeId'	=> $data['storeid'],
-			'userId'	=> ''
+			'userId'	=> $data['userId'],
 		];
 		$url = 'https://possji.com:8088/yinheorder/order/showStoreInfo';
 		$newdata = $this->sendpostss($url,$curl_where);
