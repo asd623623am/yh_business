@@ -200,6 +200,8 @@ class Xmorder extends Controller{
             $orderData['pay_status_name'] = '已付款';
         }else if($orderData['order_type'] == 3){
             $orderData['pay_status_name'] = '已退款';
+        } else if($orderData['order_type'] == 4){
+            $orderData['pay_status_name'] = '已完成';
         }
         //支付方式
         $orderData['pay_away'] = '微信';
@@ -315,7 +317,7 @@ class Xmorder extends Controller{
             return failMsg('没有找到您的订单！');
         }
         $result = $result->toArray();
-        $saveData = ['order_status'=>5];
+        $saveData = ['pay_status'=>4];
         $confirmRet = model('Xmorder')->save($saveData,['orderid'=>$result['orderid']]);
         if($confirmRet){
             $this->sendConfirmNotice($result['storeid']);
@@ -484,6 +486,13 @@ class Xmorder extends Controller{
 
     public function oneRefund()
     {
+        if(Request::instance()->isPost() == false){
+            return failMsg('请求方式有误');
+        }
+        $getData = input('post.');
+        $verifData = ['access-token','order_no','ogid','money','num'];
+        verifColumn($verifData,$getData);
+        getStoreidByKey($getData['access-token']);
 		$data = input();
 		$where = [
 			'order_sn'	=> $data['order_no']
@@ -593,7 +602,8 @@ class Xmorder extends Controller{
         } else {
             return failMsg('请您去配置微信小程序参数');
         }
-	}
+    }
+    
 
     /**
      * Notes: 获取密钥
