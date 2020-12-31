@@ -321,9 +321,9 @@ class Xmorder extends Controller{
         $confirmRet = model('Xmorder')->save($saveData,['orderid'=>$result['orderid']]);
         if($confirmRet){
             $this->sendConfirmNotice($result['storeid']);
-            successMsg('操作成功');
+            return successMsg('操作成功');
         }
-        failMsg('操作失败');
+        return failMsg('操作失败');
 
     }
 
