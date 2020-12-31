@@ -395,9 +395,9 @@ class Xmorder extends Controller{
             return failMsg('没有找到您的订单！');
         }
         $result = $result->toArray();
-        if($result['pay_status'] != 2){
+        if($result['pay_status'] == 0 || $result['pay_status'] == 1 || $result['pay_status'] == 3){
             return failMsg('您还不是已支付订单！');
-        }
+		}
         $qutorder = [];
         $qutorder['order_sn'] = $result['order_sn'];
         $qutorder['pay_fee'] = $result['pay_fee'];
