@@ -139,7 +139,7 @@ class Xmorder extends Controller{
             }
             $where['pay_time'] = ['between time', [$sartTime, $endTime]];
         }
-        $orderData = model('xmorder')->where($where)->page($page,$limit)->select();
+        $orderData = model('xmorder')->where($where)->page($page,$limit)->order('orderid desc')->select();
         if(!empty($orderData)){
             $orderData = $orderData->toArray();
             //获取门店信息
