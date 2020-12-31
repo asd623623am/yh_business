@@ -184,7 +184,20 @@ class Common extends Controller
                     $temp[3] = $v;
                 }
                 if ($v['node_name'] == '订单管理') {
-                    $temp[4] = $v;
+                    $temp['4'] = $v;
+                    $son = $temp[4]['son'];
+                    $sontemp = [];
+                    foreach ($son as $kk => $vv) {
+
+                        if ($vv['node_name'] == '订单列表') {
+                            $sontemp[0] = $vv;
+                        }
+                        if ($vv['node_name'] == '账单/报表') {
+                            $sontemp[1] = $vv;
+                        }
+                    }
+                    ksort($sontemp);
+                    $temp[4]['son'] = $sontemp;
                 }
                 if ($v['node_name'] == '会员管理') {
                     $temp[5] = $v;
@@ -308,6 +321,19 @@ class Common extends Controller
                 }
                 if ($v['node_name'] == '订单管理') {
                     $temp['4'] = $v;
+                    $son = $temp[4]['son'];
+                    $sontemp = [];
+                    foreach ($son as $kk => $vv) {
+
+                        if ($vv['node_name'] == '订单列表') {
+                            $sontemp[0] = $vv;
+                        }
+                        if ($vv['node_name'] == '账单/报表') {
+                            $sontemp[1] = $vv;
+                        }
+                    }
+                    ksort($sontemp);
+                    $temp[4]['son'] = $sontemp;
                 }
                 if ($v['node_name'] == '会员管理') {
                     $temp['5'] = $v;
