@@ -1261,5 +1261,20 @@ class Xmorder extends Common
             'ctime'     => time()
         ];
         model('Log')->allowField(true)->save($insert);
-    }
+	}
+	/**
+	 * 账单/报表
+	 */
+	public function reportList()
+	{
+		$admin_info = session('admin');
+		$is_show = 1; //1显示，2不显示
+		if($admin_info['storeid'] != 0 ){
+			$is_show = 2;
+		}
+		$stroreData = model('store')->field('storeid,name')->where(['status'=>1])->select()->toArray();
+        $this->assign('storeData',$stroreData);
+        $this->assign('is_show',$is_show);
+        return view();
+	}
 }

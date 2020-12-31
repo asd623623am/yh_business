@@ -1164,7 +1164,7 @@ class Goods extends Common{
             }
 
             if(!empty($getData['name'])){
-                $wheres['name'] = $getData['name'];
+                $wheres['name'] = array('like',["%".$getData['name']."%"]);
             }
             $wheres['status'] = 1;
 

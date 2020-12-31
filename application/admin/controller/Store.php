@@ -429,7 +429,12 @@ class Store extends Common
             fail('缺少参数！');
         }
         $where = [];
-        $where['storeid'] = $data['storeid'];
+        $user = session('admin');
+        if($user['storeid'] == 0){
+            $where['storeid'] = $data['storeid'];
+        } else {
+        $where['storeid'] = $user['storeid'];
+        }
         $start = $data['start_at'].'00:00:00';
         $end = $data['end_at'].'23:59:59';
         $where['status'] = 1;
