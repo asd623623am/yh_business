@@ -89,15 +89,26 @@ class Xmorder extends Common
 			$count = model('Xmorder')->where($where)->count();
 			$res = model('Xmorder')->where($where)->order($order)->page($page,$limit)->order('orderid','desc')->select()->toArray();
 			foreach($res as $k=>$v){
-			$good_data = model('Xmordergoods')->where(['order_id'=>$v['order_sn']])->find();
-			if($good_data == null){
-				$res[$k]['good_name'] = '';
-			} else {
-				$res[$k]['good_name'] = $good_data['goods_name'];
-			}
-
-				$res[$k]['content'] = '菜品数量：'.$v['goods_amount'].'<br/>'.'总额：'.$v['pay_fee'];
-
+				$res[$k]['discount_fee'] = $v['goods_fee'] - $v['pay_fee']; 
+				$good_data = model('Xmordergoods')->where(['order_id'=>$v['order_sn']])->select()->toArray();
+				if(!empty($good_data)){
+					foreach($good_data as $kk=>$vv){
+						if($vv['gbsid'] == null){
+							$good_data[$kk]['gsname'] = '';
+						} else {
+							$gbsid = explode(',',$vv['gbsid']);
+							$gwhere = [
+								'gsid'	=> array('in',$gbsid),
+								'status'	=> 0
+							];
+							$ass=Db::table("xm_goods_spec")->field('gsname')->where($gwhere)->select();
+							$gsname = array_column($ass,'gsname');
+							$gsname = implode(',',$gsname);
+							$good_data[$kk]['gsname'] = $gsname;
+						}
+					}
+				}
+				$res[$k]['good_data'] = $good_data;
 				if($v['pay_id'] == 1 ){
 					$res[$k]['pay_id'] = '微信支付';
 				}
@@ -152,17 +163,12 @@ class Xmorder extends Common
 						$res[$k]['is_new_type'] = 1;
 					} else {
 						$res[$k]['order_transNo'] = $v['order_sn']."<br/>交易号：".$v['pay_trans_no'];
-					}
-
-
-					
+					}	
 				}
-
 				if($v['pay_status'] == 3){
 					$res[$k]['refund_fee'] = $v['pay_fee'];
 				}
 			}
-            $this->assign('pay_status',$data['pay_status']);
             $info=['code'=>0,'msg'=>'','count'=>$count,'data'=>$res];
 		    echo json_encode($info);
 		    exit;
