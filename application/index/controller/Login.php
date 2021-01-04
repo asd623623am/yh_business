@@ -39,29 +39,28 @@ class Login extends Controller{
             return failMsg('用户验证信息有误');
         }
         //验证密码
-        $admin_pwd = createPwd($postData['admin_pwd'],$admin_info['salt']);
-        if($admin_pwd != $admin_info['admin_pwd']){
-            return failMsg('账号或密码错误');
-        }else{
-            if(isset($postData['admin_pwd'])){
-                //更新用户信息
-                $saveData = [
-                    'wx_openid'=>$postData['wx_openid'],
-                    'pstrs'=>$postData['admin_pwd'],
-                ];
-                $where = ['admin_id'=>$admin_info['admin_id']];
-                model('Admin')->save($saveData,$where);
+        if(isset($postData['admin_pwd'])){
+            $admin_pwd = createPwd($postData['admin_pwd'],$admin_info['salt']);
+            if($admin_pwd != $admin_info['admin_pwd']){
+                return failMsg('账号或密码错误');
             }
-            //存储门店id信息
-            $data['access_token'] = md5($postData['wx_openid']);
-            $this->redisdb  = new \redis();
-            $this->redisdb->connect('127.0.0.1','6379');
-            $this->redisdb->set($data['access_token'],json_encode($admin_info),86400);
-            $this->redisdb->set($postData['wx_openid'],$data['access_token'],86400);
-            $str = $postData['admin_name'].'登录成功';
-            addLog($str,$data['access_token']);
-            return successMsg('登陆成功',$data);
+            //更新用户信息
+            $saveData = [
+                'wx_openid'=>$postData['wx_openid'],
+                'pstrs'=>$postData['admin_pwd'],
+            ];
+            $where = ['admin_id'=>$admin_info['admin_id']];
+            model('Admin')->save($saveData,$where);
         }
+        //存储门店id信息
+        $data['access_token'] = md5($postData['wx_openid']);
+        $this->redisdb  = new \redis();
+        $this->redisdb->connect('127.0.0.1','6379');
+        $this->redisdb->set($data['access_token'],json_encode($admin_info),86400);
+        $this->redisdb->set($postData['wx_openid'],$data['access_token'],86400);
+        $str = $admin_info['admin_name'].'登录成功';
+        addLog($str,$data['access_token']);
+        return successMsg('登陆成功',$data);
     }
 
     /**
