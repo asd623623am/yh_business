@@ -72,11 +72,11 @@ class Login extends Controller{
         }
         $postData = input('post.');
         //验证传递字段
-        $verifData = ['access-token'];
+        $verifData = ['wx_openid'];
         verifColumn($verifData,$postData);
         $this->redisdb  = new \redis();
         $this->redisdb->connect('127.0.0.1','6379');
-        $this->redisdb->set($postData['access-token'],'');
+        $this->redisdb->set($postData['wx_openid'],'');
         return successMsg('退出成功');
     }
 
