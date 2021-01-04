@@ -20,30 +20,29 @@ class Login extends Controller{
         }
         $postData=input('post.');
         //验证传递字段
-        $verifData = ['wx_openid'];
+        $verifData = ['admin_name','admin_pwd','wx_openid'];
         verifColumn($verifData,$postData);
-        //验证用户名
-        if(!isset($postData['admin_name'])){
-            $where = [
-                'wx_openid'=>$postData['wx_openid']
-            ];
-        }else{
-            $where=[
-                'admin_name'=>$postData['admin_name']
-            ];
+        if(isset($postData['admin_name']) && empty($postData['admin_name'])){
+            return failMsg('账号不能为空');
         }
+        if(isset($postData['admin_pwd']) && empty($postData['admin_pwd'])){
+            return failMsg('密码不能为空');
+        }
+        //验证用户名
+        $where=[
+            'admin_name'=>$postData['admin_name']
+        ];
         if( $admin_obj = model('Admin')->where($where)->find()){
             $admin_info = $admin_obj -> toArray();
         }
         if(empty($admin_info)){
-            return failMsg('用户验证信息有误');
+            return failMsg('账号或密码错误');
         }
         //验证密码
-        if(isset($postData['admin_pwd'])){
-            $admin_pwd = createPwd($postData['admin_pwd'],$admin_info['salt']);
-            if($admin_pwd != $admin_info['admin_pwd']){
-                return failMsg('账号或密码错误');
-            }
+        $admin_pwd = createPwd($postData['admin_pwd'],$admin_info['salt']);
+        if($admin_pwd != $admin_info['admin_pwd']){
+            return failMsg('账号或密码错误');
+        }else{
             //更新用户信息
             $saveData = [
                 'wx_openid'=>$postData['wx_openid'],
@@ -51,16 +50,16 @@ class Login extends Controller{
             ];
             $where = ['admin_id'=>$admin_info['admin_id']];
             model('Admin')->save($saveData,$where);
+            //存储门店id信息
+            $data['access_token'] = md5($postData['wx_openid']);
+            $this->redisdb  = new \redis();
+            $this->redisdb->connect('127.0.0.1','6379');
+            $this->redisdb->set($data['access_token'],json_encode($admin_info),86400);
+            $this->redisdb->set($postData['wx_openid'],$data['access_token'],86400);
+            $str = $postData['admin_name'].'登录成功';
+            addLog($str,$data['access_token']);
+            return successMsg('登陆成功',$data);
         }
-        //存储门店id信息
-        $data['access_token'] = md5($postData['wx_openid']);
-        $this->redisdb  = new \redis();
-        $this->redisdb->connect('127.0.0.1','6379');
-        $this->redisdb->set($data['access_token'],json_encode($admin_info),86400);
-        $this->redisdb->set($postData['wx_openid'],$data['access_token'],86400);
-        $str = $admin_info['admin_name'].'登录成功';
-        addLog($str,$data['access_token']);
-        return successMsg('登陆成功',$data);
     }
 
     /**
