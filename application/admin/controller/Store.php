@@ -438,7 +438,7 @@ class Store extends Common
         $start = $data['start_at'].'00:00:00';
         $end = $data['end_at'].'23:59:59';
         $where['status'] = 1;
-        $where['pay_status'] = array('in',[2,3,4]);
+        $where['pay_status'] = array('in',[2,4]);
         $where['pay_time'] = ['between time',[$start,$end]];
         $data = model('Xmorder')->where($where)->select()->toarray();
         if(empty($data)){
@@ -449,13 +449,17 @@ class Store extends Common
         $r_count = [];
         $r_fee = 0;
         foreach($data as $k=>$v){
-            $money += $v['pay_fee'];
+            $money += ($v['pay_fee']-$v['refund_fee']);
             $d_fee += $v['discount'];
             if($v['pay_status'] == 3){
                 $r_count[] = $v;
                 if($v['refund_fee'] == null){
                     $r_fee += $v['pay_fee'];
                 } else {
+                    $r_fee += $v['refund_fee'];
+                }
+            } else {
+                if($v['refund_fee'] != null){
                     $r_fee += $v['refund_fee'];
                 }
             }
@@ -475,7 +479,8 @@ class Store extends Common
             if($val['pay_status'] !== 3){
                 $gcount++;
                 $order_goods_where = [
-                    'order_id'  => $val['order_sn']
+                    'order_id'  => $val['order_sn'],
+                    'is_refund' => 0
                 ];
                 $a = model('Xmordergoods')->where($order_goods_where)->find();
                 if($a != null){
@@ -537,7 +542,8 @@ class Store extends Common
             if($val['pay_status'] !== 3){
                 $dcount++;
                 $order_goods_where = [
-                    'order_id'  => $val['order_sn']
+                    'order_id'  => $val['order_sn'],
+                    'is_refund' => 0
                 ];
                 $a = model('Xmordergoods')->where($order_goods_where)->find();
                 if($a != null){
