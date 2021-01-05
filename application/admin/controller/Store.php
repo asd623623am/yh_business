@@ -610,9 +610,17 @@ class Store extends Common
 
 
 
-        $store_where = [
-            'storeid'=>$data['storeid']
-        ];
+        $store_where = [];
+        $user = session('admin');
+        if($user['storeid'] == 0){
+            $store_where = [
+                'storeid'=>$data['storeid']
+            ];
+        } else {
+            $store_where = [
+                'storeid'=>$user['storeid']
+            ];
+        }
         $store = model('Store')->where($store_where)->find();
         if($store == null){
             $store['name'] = '测试';
@@ -626,6 +634,197 @@ class Store extends Common
         $fileName = $store['name'];
         $temp['fileName'] = $fileName;
         $temp['tableXls'] = $titles;
+
+        $where = [];
+        $r_where = []; //退款条件
+        $q_where = []; //全部条件
+        $user = session('admin');
+        if($user['storeid'] == 0){
+            $where['storeid'] = $data['storeid'];
+            $r_where['storeid'] = $data['storeid'];
+            $q_where['storeid'] = $data['storeid'];
+        } else {
+            $where['storeid'] = $user['storeid'];
+            $r_where['storeid'] = $user['storeid'];
+            $q_where['storeid'] = $user['storeid'];
+        }
+        $start = $data['start_at'].'00:00:01';
+        $end = $data['end_at'].'23:59:59';
+        $where['status'] = 1;
+        $where['pay_status'] = array('in',[2,4]);
+        $r_where['pay_status'] = 3;
+        $q_where['pay_status'] = array('in',[2,3,4]);
+        $where['pay_time'] = ['between time',[$start,$end]];
+        $r_where['pay_time'] = ['between time',[$start,$end]];
+        $q_where['pay_time'] = ['between time',[$start,$end]];
+        $data = model('Xmorder')->where($where)->select()->toarray();
+        $rdata = model('Xmorder')->where($r_where)->select()->toarray();
+        $qdata = model('Xmorder')->where($q_where)->select()->toarray();
+        if(empty($data)){
+            fail('暂时还没有订单');
+        }
+        $money = 0;
+        $d_fee = 0;
+        $r_count = [];
+        $r_fee = 0;
+        $br_count = []; //部分退款
+        $br_fee = 0; //部分退款
+        foreach($qdata as $qk=>$qv){
+            $money += $qv['pay_fee'];
+            $d_fee += $qv['discount'];
+        }
+        foreach($data as $k=>$v){
+            if($v['refund_fee'] != null){
+                $br_fee += $v['refund_fee'];
+                $br_count[] = $v;
+            }
+        }
+        $r_count = count($rdata);
+        if($r_count != 0){
+            foreach($rdata as $rk=>$rv){
+                $r_fee += $rv['pay_fee'];
+            }
+        }
+        $temp['arr'] = [
+            [
+                'name'  => '账单总数',
+                'val'   => count($qdata), //账单总数
+            ],
+            [
+                'name'  => '账单总额',
+                'val'  => $money, //账单总额
+            ],
+            [
+                'name'  => '优惠总额', 
+                'val'  => $d_fee, //优惠总额
+            ],
+            [
+                'name'  => '部分退款单数',
+                'val'  => count($br_count),
+            ],
+            [
+                'name'  => '部分退款总额',
+                'val'  => $br_fee,
+            ],
+            [
+                'name'  => '全额退款单数',
+                'val'   => $r_count,
+            ],
+            [
+                'name'  => '全额退款总额',
+                'val'   => $r_fee,
+            ],
+            [
+                'name'  => '合计',
+                'val'  => $money-$r_fee-$br_fee, //合计
+            ],
+            
+        ];
+        //菜品汇总
+        $goods_sum = [];
+        //菜品明细
+        $goods_detailed = [];
+        foreach($data as $key=>$val){
+                $order_goods_where = [
+                    'order_id'  => $val['order_sn'],
+                    'is_refund' => 0
+                ];
+                $a = model('Xmordergoods')->where($order_goods_where)->select()->toArray();
+                if(!empty($a)){
+                    foreach($a as $ak=>$av){
+                        $goods_where = [
+                            'gid'  => $av['goods_id'],
+                            'status'    => 1
+                        ];
+                        $gdata = model('Goods')->where($goods_where)->find();
+                        if($gdata != null){
+                            $good_type_where = [
+                                'gtid'  => $gdata['gtid'],
+                                'status'    => 1
+                            ];
+                            $tdata = model('GoodsType')->where($good_type_where)->find();
+                            if($tdata != null){
+                                $a[$ak]['gtid']  = $tdata['gtid'];
+                                $a[$ak]['gtname'] = $tdata['gtname'];
+                            } else {
+                                $a[$ak]['gtid']  = '';
+                                $a[$ak]['gtname'] = '';
+                            }
+                        } else {
+                            $a[$ak]['gtid'] = '';
+                            $a[$ak]['gtname']  = '';
+                        }
+                        $goods_sum[] = $a[$ak];
+                    }
+                    }
+        }
+        $goods_detailed = $goods_sum;
+        $g_counts = 0;
+        $goodsData = $this->array_group_by($goods_sum,'gtname');
+        $newgoods = [];
+        $g_fee = 0;
+        foreach($goodsData as $kk=>$vv){
+            $g_money = 0;
+            foreach($vv as $ks=>$vs){
+                $g_money += $vs['goods_number']*$vs['selling_price'];
+                $g_fee += $vs['goods_number']*$vs['selling_price'];
+                $g_counts += $vs['goods_number'];
+            }
+            $newgoods[] = [
+                'type_name' => $kk,
+                'count'     => count($vv),
+                'money'     => $g_money
+            ];
+        }
+        $newgoods[]=[
+            'type_name' => '小计',
+            'count'     => $g_counts,
+            'money'     => $g_fee
+        ];
+        $temp['type_data'] = $newgoods;
+        // $this->phpExcel($temp);
+        
+// dump($temp);exit;
+        $new_goods_data = [];
+        $d_fee = 0;
+        $order_where = [];
+        $gd_count = 0;
+        $dcount=0;
+        foreach($goods_detailed as $gdk=>$gdv){
+            $d_fee += $gdv['goods_number']*$gdv['selling_price'];
+            $new_goods_data[] = [
+                'gtname' => $gdv['gtname'],
+                'gname'  => $gdv['goods_name'],
+                'count'  => $gdv['goods_number'],
+                'money'  => $gdv['goods_number']*$gdv['selling_price'],
+            ];
+            $order_where[] = $gdv['gtname'];
+            $dcount+=$gdv['goods_number'];
+        }
+        array_multisort($order_where, SORT_ASC, $new_goods_data);
+        $new_goods_data[] = [
+            'gtname' => '',
+            'gname' => '小计',
+            'count' => $dcount,
+            'money' => $d_fee
+        ];
+
+        foreach($new_goods_data as $kks=>$vvs){
+            $new_goods_data[$kks]['key'] = $kks;
+        }
+        $goods_arr_marge = $this->array_group_by($new_goods_data,'gtname');
+        $temp['data_marge'] = $goods_arr_marge;
+        $temp['d_data'] = [
+            'data'  => $new_goods_data,
+        ];
+        $this->phpExcel($temp);
+        dump($temp);exit;
+        $temp['type_data'] = [
+            'data'  => $newgoods,
+        ];
+        $temp['d_data'] = [
+            'data'  => $new_goods_data,
+        ];
         
         $where = [];
         $where['storeid'] = $data['storeid'];
@@ -834,6 +1033,8 @@ class Store extends Common
         $temp['d_data'] = [
             'data'  => $new_goods_data,
         ];
+
+        dump($temp);exit;
         $this->phpExcel($temp);
     }
 
@@ -844,7 +1045,7 @@ class Store extends Common
     public function phpExcel($data){
 
         $xlsData = $data['arr'];
-        $typeData = $data['type_data']['data'];
+        $typeData = $data['type_data'];
         $dData = $data['d_data']['data'];
         $fileName = $data['fileName'];
         $data_marge = $data['data_marge'];
@@ -944,7 +1145,7 @@ class Store extends Common
         for($i = 0;$i < $lenth;$i++) {
             $objActSheet->setCellValue("$letter[$i]$last_keys","$dHeader[$i]")->getStyle('A'.$last_keys.':P'.$last_keys)->getFont()->setBold(true);
         };
-        $lenth =  count($titleHeaderArr);
+        $lenth =  count($dHeaderArr);
         for($i = 0;$i < $lenth;$i++) {
             $objActSheet->setCellValue("$letter[$i]".($last_keys+1)."","$dHeaderArr[$i]");
         };
