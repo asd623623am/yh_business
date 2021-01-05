@@ -37,7 +37,12 @@ class Xmorder extends Common
 				$where['order_type'] = $data['order_type'];
 			}
 			if($data['pay_status'] != null){
-				$where['pay_status'] = $data['pay_status'];
+				if($data['pay_status'] == 5){
+					$where['pay_status'] = array('in',[2,4]);
+					$where['refund_fee'] = array('neq',null);
+				} else {
+					$where['pay_status'] = $data['pay_status'];
+				}
 			}
 			if(!empty($data['pay_fee'])){
 				$where['pay_fee'] = $data['pay_fee'];
