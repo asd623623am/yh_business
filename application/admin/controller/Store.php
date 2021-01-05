@@ -493,6 +493,8 @@ class Store extends Common
 
         //菜品汇总
         $goods_sum = [];
+        //菜品明细
+        $goods_detailed = [];
         foreach($data as $key=>$val){
                 $order_goods_where = [
                     'order_id'  => $val['order_sn'],
@@ -527,15 +529,17 @@ class Store extends Common
                     }
                     }
         }
-        $g_counts = count($goods_sum);
+        $goods_detailed = $goods_sum;
+        $g_counts = 0;
         $goodsData = $this->array_group_by($goods_sum,'gtname');
         $newgoods = [];
         $g_fee = 0;
         foreach($goodsData as $kk=>$vv){
             $g_money = 0;
             foreach($vv as $ks=>$vs){
-                $g_money += $vs['selling_price'];
-                $g_fee += $vs['selling_price'];
+                $g_money += $vs['goods_number']*$vs['selling_price'];
+                $g_fee += $vs['goods_number']*$vs['selling_price'];
+                $g_counts += $vs['goods_number'];
             }
             $newgoods[] = [
                 'type_name' => $kk,
@@ -549,65 +553,22 @@ class Store extends Common
             'money'     => $g_fee
         ];
 
-        //菜品明细
-        $goods_detailed = [];
-        $dcount=0;
-        foreach($data as $key=>$val){
-            if($val['pay_status'] !== 3){
-                $dcount++;
-                $order_goods_where = [
-                    'order_id'  => $val['order_sn'],
-                    'is_refund' => 0
-                ];
-                $a = model('Xmordergoods')->where($order_goods_where)->find();
-                if($a != null){
-                    $a = $a->toArray();
-                    $goods_where = [
-                        'gid'  => $a['goods_id']
-                    ];
-                    $gdata = model('Goods')->where($goods_where)->find();
-                    if($gdata != null){
-                        $gdata = $gdata->toArray();
-
-                        $good_type_where = [
-                            'gtid'  => $gdata['gtid']
-                        ];
-                        $tdata = model('GoodsType')->where($good_type_where)->find();
-                        if($tdata != null){
-                            $gdata['gtname'] = $tdata['gtname'];
-                        } else {
-                            $gdata['gtname'] = '';
-                        }
-
-
-                        $gdata['pay_fee'] = $val['pay_fee'];
-                        $goods_detailed[] = $gdata;
-                    }
-                    
-                }
-            }
-        }
-        $goods_arr = $this->array_group_by($goods_detailed,'name');
         $new_goods_data = [];
         $d_fee = 0;
         $order_where = [];
-        foreach($goods_arr as $dk=>$dv){
-            $d_money = 0;
-            $gtname = '';
-            foreach($dv as $dkk=>$dvv){
-                $d_fee += $dvv['pay_fee'];
-                $d_money += $dvv['pay_fee'];
-                $gtname = $dvv['gtname'];
-            }
-            $order_where[] = $gtname;
+        $gd_count = 0;
+        $dcount=0;
+        foreach($goods_detailed as $gdk=>$gdv){
+            $d_fee += $gdv['goods_number']*$gdv['selling_price'];
             $new_goods_data[] = [
-                'gtname' => $gtname,
-                'gname'  => $dk,
-                'count'  => count($dv),
-                'money'  => $d_money,
+                'gtname' => $gdv['gtname'],
+                'gname'  => $gdv['goods_name'],
+                'count'  => $gdv['goods_number'],
+                'money'  => $gdv['goods_number']*$gdv['selling_price'],
             ];
+            $order_where[] = $gdv['gtname'];
+            $dcount+=$gdv['goods_number'];
         }
-
         array_multisort($order_where, SORT_ASC, $new_goods_data);
         $new_goods_data[] = [
             'gtname' => '',
@@ -615,7 +576,6 @@ class Store extends Common
             'count' => $dcount,
             'money' => $d_fee
         ];
-
         $temp['type_data'] = [
             'data'  => $newgoods,
         ];
