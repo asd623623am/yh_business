@@ -110,7 +110,12 @@ class Xmorder extends Controller{
         }
         if(isset($getData['pay_status'])){
             if($getData['pay_status'] == 0 || !empty($getData['pay_status'])){
-                $where['pay_status'] = $getData['pay_status'];
+                if($getData['pay_status'] == 6){
+                    $where['pay_status'] = array('in',[2,4]);
+					$where['refund_fee'] = array('neq','');
+                } else {
+                    $where['pay_status'] = $getData['pay_status'];                    
+                }
             }
         }
         if(isset($getData['order_type']) && !empty($getData['order_type'])){
