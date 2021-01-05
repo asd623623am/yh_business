@@ -475,7 +475,7 @@ class Store extends Common
         $r_count = count($rdata);
         if($r_count != 0){
             foreach($rdata as $rk=>$rv){
-                $r_fee += $v['pay_fee'];
+                $r_fee += $rv['pay_fee'];
             }
         }
         $temp = [
