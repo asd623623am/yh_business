@@ -429,18 +429,30 @@ class Store extends Common
             fail('缺少参数！');
         }
         $where = [];
+        $r_where = []; //退款条件
+        $q_where = []; //全部条件
         $user = session('admin');
         if($user['storeid'] == 0){
             $where['storeid'] = $data['storeid'];
+            $r_where['storeid'] = $data['storeid'];
+            $q_where['storeid'] = $data['storeid'];
         } else {
-        $where['storeid'] = $user['storeid'];
+            $where['storeid'] = $user['storeid'];
+            $r_where['storeid'] = $user['storeid'];
+            $q_where['storeid'] = $user['storeid'];
         }
-        $start = $data['start_at'].'00:00:00';
+        $start = $data['start_at'].'00:00:01';
         $end = $data['end_at'].'23:59:59';
         $where['status'] = 1;
         $where['pay_status'] = array('in',[2,4]);
+        $r_where['pay_status'] = 3;
+        $q_where['pay_status'] = array('in',[2,3,4]);
         $where['pay_time'] = ['between time',[$start,$end]];
+        $r_where['pay_time'] = ['between time',[$start,$end]];
+        $q_where['pay_time'] = ['between time',[$start,$end]];
         $data = model('Xmorder')->where($where)->select()->toarray();
+        $rdata = model('Xmorder')->where($r_where)->select()->toarray();
+        $qdata = model('Xmorder')->where($q_where)->select()->toarray();
         if(empty($data)){
             fail('暂时还没有订单');
         }
@@ -448,29 +460,33 @@ class Store extends Common
         $d_fee = 0;
         $r_count = [];
         $r_fee = 0;
+        $br_count = []; //部分退款
+        $br_fee = 0; //部分退款
+        foreach($qdata as $qk=>$qv){
+            $money += $qv['pay_fee'];
+            $d_fee += $qv['discount'];
+        }
         foreach($data as $k=>$v){
-            $money += ($v['pay_fee']-$v['refund_fee']);
-            $d_fee += $v['discount'];
-            if($v['pay_status'] == 3){
-                $r_count[] = $v;
-                if($v['refund_fee'] == null){
-                    $r_fee += $v['pay_fee'];
-                } else {
-                    $r_fee += $v['refund_fee'];
-                }
-            } else {
-                if($v['refund_fee'] != null){
-                    $r_fee += $v['refund_fee'];
-                }
+            if($v['refund_fee'] != null){
+                $br_fee += $v['refund_fee'];
+                $br_count[] = $v;
+            }
+        }
+        $r_count = count($rdata);
+        if($r_count != 0){
+            foreach($rdata as $rk=>$rv){
+                $r_fee += $v['pay_fee'];
             }
         }
         $temp = [
-            'count' => count($data), //账单总数
+            'count' => count($qdata), //账单总数
             'money' => $money,  //账单总额
             'd_fee' => $d_fee,  //优惠总额
-            'r_count'   => count($r_count), //退款单数
-            'r_fee' =>  $r_fee, //退款总额
-            'fee'   => $money-$r_fee, //合计
+            'br_count'  => count($br_count), //部分退款单数
+            'br_fee'  => $br_fee, //部分退款金额
+            'r_count'   => $r_count, //全额退款单数
+            'r_fee' =>  $r_fee, //全额退款总额
+            'fee'   => $money-$r_fee-$br_fee, //合计
         ];
         //菜品汇总
         $goods_sum = [];
@@ -482,44 +498,71 @@ class Store extends Common
                     'order_id'  => $val['order_sn'],
                     'is_refund' => 0
                 ];
-                $a = model('Xmordergoods')->where($order_goods_where)->find();
-                if($a != null){
-                    $a = $a->toArray();
-                    $goods_where = [
-                        'gid'  => $a['goods_id']
-                    ];
-                    $gdata = model('Goods')->where($goods_where)->find();
-                    if($gdata != null){
-                        $gdata = $gdata->toArray();
-
-                        $good_type_where = [
-                            'gtid'  => $gdata['gtid']
+                $a = model('Xmordergoods')->where($order_goods_where)->select()->toArray();
+                if(!empty($a)){
+                    foreach($a as $ak=>$av){
+                        $goods_where = [
+                            'gid'  => $av['goods_id']
                         ];
-                        $tdata = model('GoodsType')->where($good_type_where)->find();
-                        if($tdata != null){
-                            $a['gtid']  = $tdata['gtid'];
-                            $a['gtname'] = $tdata['gtname'];
+                        $gdata = model('Goods')->where($goods_where)->find();
+                        if($gdata != null){
+                            $good_type_where = [
+                                'gtid'  => $gdata['gtid'],
+                            ];
+                            $tdata = model('GoodsType')->where($good_type_where)->find();
+                            if($tdata != null){
+                                $a[$ak]['gtid']  = $tdata['gtid'];
+                                $a[$ak]['gtname'] = $tdata['gtname'];
+                            } else {
+                                $a[$ak]['gtid']  = '';
+                                $a[$ak]['gtname'] = '';
+                            }
                         } else {
-                            $a['gtid']  = '';
-                            $a['gtname'] = '';
+                            $a[$ak]['gtid'] = '';
+                            $a[$ak]['gtname']  = '';
                         }
-                    } else {
-                        $a['gtid']  = '';
-                        $a['gtname'] = '';
+                        $goods_sum[] = $a[$ak];
                     }
-                    $a['pay_fee'] = $val['pay_fee'];
-                    $goods_sum[] = $a;
+                    // $goods_sum[] = $a;
+                    // $goods_id_arr = array_column($a,'goods_id');
+                    // $goods_where = [
+                    //     'gid'  => array('in',$goods_id_arr)
+                    // ];
+                    // $gdata = model('Goods')->where($goods_where)->select()->toArray();
+                    // if(!empty($gdata)){
+                    //     $gtid_arr = array_column($gdata,'gtid');
+                    //     $n_gtid_arr=array_unique($gtid_arr);
+                    //     $good_type_where = [
+                    //         'gtid'  => array('in',$n_gtid_arr)
+                    //     ];
+                    //     $tdata = model('GoodsType')->where($good_type_where)->select()->toarray();
+                    //     dump($tdata);exit;
+                    //     if($tdata != null){
+                    //         $a['gtid']  = $tdata['gtid'];
+                    //         $a['gtname'] = $tdata['gtname'];
+                    //     } else {
+                    //         $a['gtid']  = '';
+                    //         $a['gtname'] = '';
+                    //     }
+                    // } else {
+                    //     $a['gtid']  = '';
+                    //     $a['gtname'] = '';
+                    // }
+                    // $a['pay_fee'] = $val['pay_fee'];
+                    // $goods_sum[] = $a;
                 }
             }
         }
         $goodsData = $this->array_group_by($goods_sum,'gtname');
         $newgoods = [];
         $g_fee = 0;
+        $g_counts = 0;
         foreach($goodsData as $kk=>$vv){
             $g_money = 0;
             foreach($vv as $ks=>$vs){
-                $g_money += $vs['pay_fee'];
-                $g_fee += $vs['pay_fee'];
+                $g_counts ++;
+                $g_money += $vs['selling_price'];
+                $g_fee += $vs['selling_price'];
             }
             $newgoods[] = [
                 'type_name' => $kk,
@@ -529,11 +572,9 @@ class Store extends Common
         }
         $newgoods[]=[
             'type_name' => '小计',
-            'count'     => $gcount,
+            'count'     => $g_counts,
             'money'     => $g_fee
         ];
-
-
 
         //菜品明细
         $goods_detailed = [];

@@ -59,12 +59,20 @@
                 <span id='d_fee'></span>
             </div>
             <div class="h_box">
-                <span>退款单数</span>
+                <span>全部退款单数</span>
                 <span id='r_count'></span>
             </div>
             <div class="h_box">
-                <span>退款总额</span>
+                <span>全部退款总额</span>
                 <span id='r_fee'></span>
+            </div>
+            <div class="h_box">
+                <span>部分退款单数</span>
+                <span id='br_count'></span>
+            </div>
+            <div class="h_box">
+                <span>部分退款总额</span>
+                <span id='br_fee'></span>
             </div>
             <div class="h_box">
                 <span>合计</span>
@@ -130,6 +138,8 @@
                             $('#d_fee').text(msg.font.d_fee);
                             $('#r_count').text(msg.font.r_count);
                             $('#r_fee').text(msg.font.r_fee);
+                            $('#br_count').text(msg.font.br_count);
+                            $('#br_fee').text(msg.font.br_fee);
                             $('#fee').text(msg.font.fee);
                             var type_data = msg.font.type_data.data;
                             var _str = '';
