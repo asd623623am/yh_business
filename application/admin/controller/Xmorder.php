@@ -39,7 +39,7 @@ class Xmorder extends Common
 			if($data['pay_status'] != null){
 				if($data['pay_status'] == 5){
 					$where['pay_status'] = array('in',[2,4]);
-					$where['refund_fee'] = array('neq',null);
+					$where['refund_fee'] = array('neq','');
 				} else {
 					$where['pay_status'] = $data['pay_status'];
 				}
