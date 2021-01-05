@@ -36,6 +36,7 @@ class Login extends Controller{
             }
         }else{
 //            session('admin', null);
+            $this->assign('newData',date('Y'));
             if( session('?admin') ){
                 $this -> redirect('index/index');
             }
