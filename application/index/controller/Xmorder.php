@@ -29,7 +29,7 @@ class Xmorder extends Controller{
         $verifData = ['access-token'];
         verifColumn($verifData,$getData);
         $userInfo = getStoreidByKey($getData['access-token']);
-        $newOrderCount = model('xmorder')->where(['storeid'=>$userInfo['storeid'],'is_new'=>1])->count();
+        $newOrderCount = model('xmorder')->where(['storeid'=>$userInfo['storeid'],'pay_status'=>2,'is_new'=>1])->count();
         $data['order_count'] = $newOrderCount;
         return successMsg('',$data);
 
