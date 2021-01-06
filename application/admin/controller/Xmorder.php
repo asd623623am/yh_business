@@ -124,11 +124,19 @@ class Xmorder extends Common
 				} else if($v['pay_status'] == 1){
 					$res[$k]['pay_status'] = '付款中';
 				} else if($v['pay_status'] == 2){
-					$res[$k]['pay_status'] = '已付款';
+					if($v['refund_fee'] != ''){
+						$res[$k]['pay_status'] = '部分退款';
+					} else {
+						$res[$k]['pay_status'] = '已付款';						
+					}
 				} else if($v['pay_status'] == 3){
 					$res[$k]['pay_status'] = '已退款';
 				} else if($v['pay_status'] == 4) {
-					$res[$k]['pay_status'] = '已完成';
+					if($v['refund_fee'] != ''){
+						$res[$k]['pay_status'] = '部分退款';
+					} else {
+						$res[$k]['pay_status'] = '已完成';
+					}
 				}
 
 				if($v['order_status'] == 0){
