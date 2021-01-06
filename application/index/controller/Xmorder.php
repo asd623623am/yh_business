@@ -122,6 +122,7 @@ class Xmorder extends Controller{
             $where['order_type'] = $getData['order_type'];
         }
         if(isset($getData['is_new']) && !empty($getData['is_new'])){
+            $where['pay_status'] = 2;
             $where['is_new'] = $getData['is_new'];
         }
         if(isset($getData['uid']) && !empty($getData['uid'])){
