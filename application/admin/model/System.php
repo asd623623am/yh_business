@@ -8,4 +8,21 @@ class System extends Model{
    protected $updateTime=false;
 
 
+    /**
+     * Notes:
+     * Class: getSystemInfo
+     * user: bingwoo
+     * date: 2021/1/15 11:05
+     */
+   public function getSystemInfo($where = [],$field = '*'){
+       $query = $this;
+       if($where){
+           $query = $query->where($where);
+       }
+       $data = $query->field($field)->find();
+       if($data){
+           $data = $data->toArray();
+       }
+       return $data;
+   }
 }

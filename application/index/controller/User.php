@@ -35,4 +35,43 @@ class User extends Controller{
         }
         return successMsg('',$data);
     }
+
+
+    /**
+     * Notes: 解密用户手机号并保存
+     * Class: ecryptUserPhoned
+     * user: bingwoo
+     * date: 2021/1/15 20:37
+     */
+    public function ecryptUserPhoned(){
+
+        if(Request::instance()->isPost() == false){
+            return failMsg('请求方式有误');
+        }
+        $postData = input('post.');
+        $verifColumn = ['encryptedData','iv','sessionKey','openid'];
+        verifColumn($verifColumn,$postData);
+        $aesKey = base64_decode($postData['sessionKey']);
+        $aesIV = base64_decode($postData['iv']);
+        $aesCipher = base64_decode($postData['encryptedData']);
+        $result = openssl_decrypt($aesCipher,"AES-128-CBC",$aesKey,1,$aesIV);
+        $dataObj = json_decode($result);
+        if($dataObj == NULL){
+            failMsg('参数有误');
+        }
+        if(isset($dataObj->purePhoneNumber)){
+            $userModel = new \app\index\model\User();
+            $where = [];
+            $where['wx_openid'] = ['=',$postData['openid']];
+            $saveData = [
+                'phone'=>$dataObj->purePhoneNumber
+            ];
+            $ret = $userModel->editUserData('',$saveData,$where);
+            if($ret){
+                successMsg('更新用户信息成功');
+            }
+        }
+        failMsg('更新用户信息失败');
+
+    }
 }

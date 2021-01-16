@@ -489,7 +489,6 @@ class Xmorder extends Controller{
         }
     }
 
-
     public function oneRefund()
     {
         if(Request::instance()->isPost() == false){
@@ -609,7 +608,6 @@ class Xmorder extends Controller{
             return failMsg('请您去配置微信小程序参数');
         }
     }
-    
 
     /**
      * Notes: 获取密钥
@@ -726,7 +724,5 @@ class Xmorder extends Controller{
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $accessToken;
         return $this->request_post($url, urldecode($json_template));
     }
-
-
 
 }
