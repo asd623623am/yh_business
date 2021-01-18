@@ -443,3 +443,27 @@ function addLog($str,$accesstoken = ''){
     ];
     model('Log')->allowField(true)->save($insert);
 }
+
+/**
+ * 发送post formdata请求(yinhepay)
+ */
+function send_post_yinhepay($url,array $data)
+{
+    $data = @json_encode($data);
+    $headers = [
+        'Content-Type: application/json;charset=utf-8',
+        'Content-Length: ' . strlen($data)
+    ];
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 8);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+    $output = curl_exec($curl);
+    curl_close($curl);
+    return @json_decode($output, true);
+}

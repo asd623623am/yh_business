@@ -18,14 +18,11 @@ class User extends Controller{
         $postData = input('post.');
         $vericolumn = ['storeid'];
         verifColumn($vericolumn,$postData);
-        $memberModel = new Member();
+        $userModel = new \app\common\model\User();
         $where = [];
         $where['storeid'] = ['=',$postData['storeid']];
-        $mData = $memberModel ->where($where)->select();
-        if($mData){
-            $mData = $mData->toArray();
-        }
-        return json($mData);
+        $userData = $userModel->getUserList($where);
+        return json($userData['data']);
     }
 
     /**
