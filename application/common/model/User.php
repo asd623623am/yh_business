@@ -13,6 +13,8 @@ use think\Model;
 class User extends Model{
 
     protected $table = 'xm_user';
+    protected $createTime='create_time';
+    protected $updateTime=false;
     protected $isMustField = ['sex'=>'性别','wx_name'=>'微信昵称','wx_img'=>'微信头像','wx_openid'=>'微信openid','storeid'=>'门店id'];
     protected $isNoMustField = ['name'=>'会员名称','phone'=>'手机号','birthday'=>'生日', 'card'=>'会员卡', 'email'=>'邮箱',
                                 'grid'=>'会员等级','role'=>'会员角色','points'=>'会员积分','balance'=>'会员余额','wx_token'=>'微信token',
