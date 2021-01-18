@@ -15,7 +15,7 @@ class User extends Controller{
      */
     public function getUserList(){
 
-        $postData = input('post.');
+        $postData = input('');
         $vericolumn = ['storeid'];
         verifColumn($vericolumn,$postData);
         $userModel = new \app\common\model\User();
@@ -33,12 +33,14 @@ class User extends Controller{
      */
     public function getUserInfo(){
 
-        $user = new Member();
-        $data = $user->select();
-        if($data){
-            $data = $data->toArray();
-        }
-        return json($data);
+        $postData = input('');
+        $vericolumn = ['wx_openid'];
+        verifColumn($vericolumn,$postData);
+        $userModel = new \app\common\model\User();
+        $where = [];
+        $where['wx_openid'] = ['=',$postData['wx_openid']];
+        $userInfo = $userModel->getUserInfo($where);
+        return json($userInfo);
     }
 
     /**
