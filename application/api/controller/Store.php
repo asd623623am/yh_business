@@ -12,7 +12,7 @@ class Store extends Controller{
      */
     public function getStoreInfo(){
 
-        $postData = input('post.');
+        $postData = input('');
         $storeModel = new \app\admin\model\Store();
         $where = [];
         $where['member_secret_key'] = ['=',$postData['member_secret_key']];

@@ -1,11 +1,11 @@
 <?php
 namespace app\api\controller;
 use think\Controller;
-use think\Request;
+use third\wxapp\WXBizDataCrypt;
 
 class Index extends Controller{
 
-    /**
+/**
      * Notes: 入口
      * Class: index
      * user: bingwoo
@@ -13,8 +13,6 @@ class Index extends Controller{
      */
     public function index(){
 
-        var_dump('api默认入口');
+        return "holle word";
     }
-
-
 }

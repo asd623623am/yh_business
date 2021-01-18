@@ -13,7 +13,7 @@ class Order extends Controller{
      */
     public function getOrderList(){
 
-        $getData = input('get.');
+        $getData = input('');
         $orderModel = new Xmorder();
         $where = [];
         $where['storeid'] = ['=',$getData['storeid']];
@@ -33,7 +33,7 @@ class Order extends Controller{
      */
     public function getOrderInfo(){
 
-        $getData = input('get.');
+        $getData = input('');
         $orderModel = new Xmorder();
         $where = [];
         $where['order_sn'] = ['=',$getData['order_sn']];

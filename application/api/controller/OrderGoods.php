@@ -13,7 +13,7 @@ class OrderGoods extends Controller{
      */
     public function getOrderGoodsList(){
 
-        $getData = input('get.');
+        $getData = input('');
         $ogModel = new Xmordergoods();
         $where = [];
         $where['order_sn'] = ['=',$getData['order_sn']];
