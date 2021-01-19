@@ -5,6 +5,22 @@ use think\Controller;
 
 class Order extends Controller{
 
+
+    /**
+     * Notes: 获取订单数量
+     * Class: getOrderCount
+     * user: bingwoo
+     * date: 2021/1/19 19:45
+     */
+    public function getOrderCount(){
+
+        $getData = input('');
+        $orderModel = new \app\common\model\Order();
+        $where = [];
+        $where['storeid'] = ['=',$getData['storeid']];
+        $orderCount = $orderModel->getOrderCount($where);
+        return json($orderCount);
+    }
     /**
      * Notes: 获取订单列表
      * Class: getOrderList
@@ -17,7 +33,23 @@ class Order extends Controller{
         $orderModel = new \app\common\model\Order();
         $where = [];
         $where['storeid'] = ['=',$getData['storeid']];
-        $orderData = $orderModel->getOrderList($where);
+        $page = 0;
+        if(isset($getData['page'])){
+            $page = $getData['page'];
+        }
+        $limit = 20;
+        if(isset($getData['limit'])){
+            $limit = $getData['limit'];
+        }
+        $field = '*';
+        if(isset($getData['field'])){
+            $field = $getData['field'];
+        }
+        $order = '';
+        if(isset($getData['order'])){
+            $order = $getData['order'];
+        }
+        $orderData = $orderModel->getOrderList($where,$field,$page,$limit,$order,false);
         $data = [];
         if($orderData['data']){
             $data = $orderData['data'];
@@ -34,6 +66,8 @@ class Order extends Controller{
         }
         return json($data);
     }
+
+
 
 
     /**

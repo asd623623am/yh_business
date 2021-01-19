@@ -87,6 +87,17 @@ class Order extends Model{
     }
 
     /**
+     * Notes: 获取订单数量
+     * Class: getOrderCount
+     * user: bingwoo
+     * date: 2021/1/19 19:47
+     */
+    public function getOrderCount($where = []){
+
+        return $this->where($where)->count();
+    }
+
+    /**
      * Notes: 获取订单集合
      * Class: getOrderSum
      * user: bingwoo
@@ -311,17 +322,6 @@ class Order extends Model{
                 $data['sname'] = $storeInfo['name'];
             }
         }
-//        //获取会员名称
-//        if(isset($data['uid'])){
-//            $userModel = new User();
-//            $uWhere = [];
-//            $uWhere['uid'] = ['=',$data['uid']];
-//            $data['uname'] = '';
-//            $userInfo = $userModel->getUserInfo($uWhere,'name');
-//            if($userInfo){
-//                $data['sname'] = $userInfo['name'];
-//            }
-//        }
 
         //支付方式名称
         if(isset($data['pay_id'])){
