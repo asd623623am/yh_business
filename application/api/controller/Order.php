@@ -14,12 +14,23 @@ class Order extends Controller{
     public function getOrderList(){
 
         $getData = input('');
-        $orderModel = new Xmorder();
+        $orderModel = new \app\common\model\Order();
         $where = [];
         $where['storeid'] = ['=',$getData['storeid']];
-        $data = $orderModel->where($where)->select();
-        if($data){
-            $data = $data->toArray();
+        $orderData = $orderModel->getOrderList($where);
+        $data = [];
+        if($orderData['data']){
+            $data = $orderData['data'];
+            //获取订单商品数据
+            if(isset($getData['goods'])){
+                $goodsModel = new \app\common\model\OrderGoods();
+                foreach ($data as &$val){
+                    $gwhere = [];
+                    $gwhere['order_id'] = ['=',$val['order_sn']];
+                    $goodsData = $goodsModel->getOrderGoodsList($gwhere);
+                    $val['goods'] = $goodsData['data'];
+                }
+            }
         }
         return json($data);
     }
