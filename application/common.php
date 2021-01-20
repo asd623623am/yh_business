@@ -409,10 +409,8 @@ function verifColumn($vericolumn,$postData){
 
     foreach ($vericolumn as $v){
         if(!isset($postData[$v])){
-            if($postData[$v] == false && empty($postData[$v])){
-                echo json_encode(['code'=>-1,'msg'=>'字段['.$v.']必传']);
-                exit;
-            }
+            echo json_encode(['code'=>-1,'msg'=>'字段['.$v.']必传']);
+            exit;
         }
     }
 }

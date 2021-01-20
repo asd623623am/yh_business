@@ -79,7 +79,7 @@ class User extends Controller{
                     'wx_openid'=>$postData['openid'],
                     'storeid'=>$postData['storeid'],
                     'phone'=>$dataObj->purePhoneNumber,
-                    'sex'=>$postData['sex'],
+                    'sex'=>(int)$postData['sex']-1,
                     'create_time'=>time(),
                     'update_time'=>time(),
                 ];
