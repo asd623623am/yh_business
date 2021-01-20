@@ -84,7 +84,7 @@ class Order extends Controller{
         $orderModel = new \app\common\model\Order();
         $where = [];
         $where['order_sn'] = ['=',$getData['order_sn']];
-        $orderInfo = $orderModel->getOrderInfo($where);
+        $orderInfo = $orderModel->getOrderInfo($where,'*','',false);
         if(!empty($orderInfo)){
             $orderInfo['goods'] = [];
             if($getData['type'] == 'goods'){

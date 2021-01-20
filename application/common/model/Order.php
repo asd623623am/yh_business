@@ -113,7 +113,7 @@ class Order extends Model{
      * user: bingwoo
      * date: 2020/12/4 13:31
      */
-    public function getOrderInfo($where = [],$field = '*',$Order = ''){
+    public function getOrderInfo($where = [],$field = '*',$Order = '',$changeName = true){
         $qurey = $this;
         if(!empty($where)){
             $qurey = $qurey->where($where);
@@ -124,6 +124,8 @@ class Order extends Model{
         $data = $qurey->field($field)->find();
         if(!empty($data)){
             $data = $data->toArray();
+        }
+        if($changeName){
             $data = $this->changeName($data);
         }
         return $data;
