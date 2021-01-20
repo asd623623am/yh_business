@@ -79,15 +79,22 @@ class Order extends Controller{
     public function getOrderInfo(){
 
         $getData = input('');
-        $orderModel = new Xmorder();
+        $verifData = ['order_sn','type'];
+        verifColumn($verifData,$getData);
+        $orderModel = new \app\common\model\Order();
         $where = [];
         $where['order_sn'] = ['=',$getData['order_sn']];
-        $data = $orderModel->where($where)->find();
-        if($data){
-            $data = $data->toArray();
-        }
-        return json($data);
+        $orderInfo = $orderModel->getOrderInfo($where);
+        if(empty($orderInfo)){
 
+        }
+        $orderInfo['goods'] = [];
+        $ogModel = new \app\common\model\OrderGoods();
+        $ogData = $ogModel->getOrderGoodsList($where);
+        if(!$ogData['data']){
+            $orderInfo['goods'] = $ogData['data'];
+        }
+        return json($orderInfo);
     }
 
 
