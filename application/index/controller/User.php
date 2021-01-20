@@ -49,7 +49,7 @@ class User extends Controller{
             return failMsg('请求方式有误');
         }
         $postData = input('post.');
-        $verifColumn = ['encryptedData','iv','sessionKey','openid'];
+        $verifColumn = ['encryptedData','iv','sessionKey','openid','wx_name','wx_img','storeid','sex'];
         verifColumn($verifColumn,$postData);
         $aesKey = base64_decode($postData['sessionKey']);
         $aesIV = base64_decode($postData['iv']);
@@ -63,12 +63,30 @@ class User extends Controller{
             $userModel = new \app\index\model\User();
             $where = [];
             $where['wx_openid'] = ['=',$postData['openid']];
-            $saveData = [
-                'phone'=>$dataObj->purePhoneNumber
-            ];
-            $ret = $userModel->editUserData('',$saveData,$where);
-            if($ret){
-                successMsg('更新用户信息成功');
+            $userInfo = $userModel->getUserInfo($where);
+            if($userInfo){
+                $saveData = [
+                    'phone'=>$dataObj->purePhoneNumber
+                ];
+                $ret = $userModel->editUserData('',$saveData,$where);
+                if($ret){
+                    successMsg('更新用户信息成功');
+                }
+            }else{
+                $addData = [
+                    'wx_name'=>$postData['wx_name'],
+                    'wx_img'=>$postData['wx_img'],
+                    'wx_openid'=>$postData['openid'],
+                    'storeid'=>$postData['storeid'],
+                    'phone'=>$dataObj->purePhoneNumber,
+                    'sex'=>$postData['sex'],
+                    'create_time'=>time(),
+                    'update_time'=>time(),
+                ];
+                $addRete = $userModel->addUserData($addData);
+                if(!$addRete){
+                    successMsg('添加用户信息成功');
+                }
             }
         }
         failMsg('更新用户信息失败');
