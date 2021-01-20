@@ -4,7 +4,7 @@ use think\Model;
 
 class User extends Model{
 
-    protected $table='user';
+    protected $table='xm_user';
     //定义时间戳字段名;
     //protected $createTime='ctime';
     //protected $updateTime=false;
@@ -87,20 +87,13 @@ class User extends Model{
         if(!empty($where)){
             $qurey = $this->where($where);
         }
-        if(!empty($where)){
-            if(!empty($Order)){
-                $qurey = $qurey->order($Order);
-            }
-        }else{
-            if(!empty($Order)){
-                $qurey = $this->order($Order);
-            }
-        }
         $data = $qurey->field($field)->find();
         if(empty($data)){
             return false;
         }
-        $data = $data->toArray();
+        if($data){
+            $data = $data->toArray();
+        }
         $data = $this->changeName($data);
         return $data;
     }
@@ -149,6 +142,7 @@ class User extends Model{
 
         if($where){
             $ret = $this->where($where)->update($saveData);
+            successMsg($this->getLastSql());
         }else{
             $ret = $this->where(['uid'=>$id])->update($saveData);
         }

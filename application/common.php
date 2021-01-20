@@ -354,34 +354,26 @@ function getStoreid(){
 }
 
 /**
- * 成功返回结果
- * @param  string $msg  [description]
- * @param  array  $data [description]
- * @return [type]       [description]
+ * Notes: 错误信息
+ * Class: failMsg
+ * user: bingwoo
+ * date: 2020/12/21 15:34
  */
-function successMsg(string $msg = '',array $data = [], $count = 0)
-{
-    return json([
-        'code' => 1,
-        'msg'  => $msg,
-        'count'=>$count,
-        'data' => $data
-    ]);
+function failMsg($font){
+    echo json_encode(['code'=>2,'font'=>$font]);
+    exit;
 }
 
 /**
- * 错误返回结果
- * @param  string $msg  [description]
- * @return [type]       [description]
+ * Notes: 正确
+ * Class: successMsg
+ * user: bingwoo
+ * date: 2020/12/21 15:33
  */
-function failMsg(string $msg = '')
-{
-    return json([
-        'code' => -1,
-        'msg'  => $msg,
-    ]);
+function successMsg($font,$data = []){
+    echo json_encode(['code'=>1,'font'=>$font,'data'=>$data]);
+    exit;
 }
-
 /**
  * Notes: 根据登录账号名称获取账号所属门店id
  * Class: getStoreidByName

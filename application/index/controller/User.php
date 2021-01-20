@@ -45,10 +45,10 @@ class User extends Controller{
      */
     public function ecryptUserPhoned(){
 
-        if(Request::instance()->isPost() == false){
-            return failMsg('请求方式有误');
+        if(Request::instance()->isGet() == false){
+            failMsg('请求方式有误');
         }
-        $postData = input('post.');
+        $postData = input('get.');
         $verifColumn = ['encryptedData','iv','sessionKey','openid','wx_name','wx_img','storeid','sex'];
         verifColumn($verifColumn,$postData);
         $aesKey = base64_decode($postData['sessionKey']);
