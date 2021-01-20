@@ -89,7 +89,7 @@ class Order extends Controller{
             $orderInfo['goods'] = [];
             if($getData['type'] == 'goods'){
                 $ogWhere = [];
-                $ogWhere['order_id'] = ['=',$ogWhere['order_sn']];
+                $ogWhere['order_id'] = ['=',$getData['order_sn']];
                 $ogModel = new \app\common\model\OrderGoods();
                 $ogData = $ogModel->getOrderGoodsList($ogWhere);
                 if(!$ogData['data']){
