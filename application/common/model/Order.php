@@ -122,11 +122,10 @@ class Order extends Model{
             $qurey = $qurey->order($Order);
         }
         $data = $qurey->field($field)->find();
-        if(empty($data)){
-            return false;
+        if(!empty($data)){
+            $data = $data->toArray();
+            $data = $this->changeName($data);
         }
-        $data = $data->toArray();
-        $data = $this->changeName($data);
         return $data;
     }
 

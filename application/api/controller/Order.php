@@ -85,14 +85,17 @@ class Order extends Controller{
         $where = [];
         $where['order_sn'] = ['=',$getData['order_sn']];
         $orderInfo = $orderModel->getOrderInfo($where);
-        if(empty($orderInfo)){
-
-        }
-        $orderInfo['goods'] = [];
-        $ogModel = new \app\common\model\OrderGoods();
-        $ogData = $ogModel->getOrderGoodsList($where);
-        if(!$ogData['data']){
-            $orderInfo['goods'] = $ogData['data'];
+        if(!empty($orderInfo)){
+            $orderInfo['goods'] = [];
+            if($getData['type'] == 'goods'){
+                $ogWhere = [];
+                $ogWhere['order_id'] = ['=',$ogWhere['order_sn']];
+                $ogModel = new \app\common\model\OrderGoods();
+                $ogData = $ogModel->getOrderGoodsList($ogWhere);
+                if(!$ogData['data']){
+                    $orderInfo['goods'] = $ogData['data'];
+                }
+            }
         }
         return json($orderInfo);
     }
