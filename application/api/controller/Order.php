@@ -17,7 +17,12 @@ class Order extends Controller{
         $getData = input('');
         $orderModel = new \app\common\model\Order();
         $where = [];
-        $where['storeid'] = ['=',$getData['storeid']];
+        if(isset($getData['storeid'])){
+            $where['storeid'] = ['=',$getData['storeid']];
+        }
+        if(isset($getData['wx_openid'])){
+            $where['wx_openid'] = ['=',$getData['wx_openid']];
+        }
         $orderCount = $orderModel->getOrderCount($where);
         return json($orderCount);
     }
@@ -32,7 +37,12 @@ class Order extends Controller{
         $getData = input('');
         $orderModel = new \app\common\model\Order();
         $where = [];
-        $where['storeid'] = ['=',$getData['storeid']];
+        if(isset($getData['storeid'])){
+            $where['storeid'] = ['=',$getData['storeid']];
+        }
+        if(isset($getData['wx_openid'])){
+            $where['wx_openid'] = ['=',$getData['wx_openid']];
+        }
         $page = 0;
         if(isset($getData['page'])){
             $page = $getData['page'];
