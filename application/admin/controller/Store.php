@@ -12,8 +12,7 @@ use think\Db;
  * user: bingwoo
  * date: 2020/8/12 10:50
  */
-class Store extends Common
-{
+class Store extends Common{
 
     /**
      * Notes: 获取门店列表
@@ -188,6 +187,13 @@ class Store extends Common
                 }
                 $res = model('Store')->save($insert,$where);
                 if ($res) {
+                    //同步门店信息
+                    $url = 'http://airscanmember.yinheyun.com.cn/api.php/Syncstore/syncStoreInfo';
+                    $param = [
+                        'airscan_secret_key'=>$storeData['airscan_secret_key'],
+                        'member_secret_key'=>$storeData['member_secret_key'],
+                    ];
+                    request_post($url,$param);
                     $this -> addLog('修改门店信息');
                     win('修改成功');
                 } else {

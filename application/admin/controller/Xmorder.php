@@ -595,6 +595,7 @@ class Xmorder extends Common
         $sign = md5($params);
         return $sign;
 	}
+
 	 /**
      * 发送post formdata请求
      */
@@ -942,7 +943,6 @@ class Xmorder extends Common
         curl_close($ch);
         return $data;
 	}
-	
 
 	public function updatetype()
 	{
@@ -965,7 +965,6 @@ class Xmorder extends Common
 			fail('批量已读失败！');
 		}
 	}
-
 
 	public function orderCount()
 	{
@@ -1168,7 +1167,6 @@ class Xmorder extends Common
         return $data;
 	}
 	
-
 	public function isConfirm()
 	{
 		$data = input();
