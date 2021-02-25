@@ -9,7 +9,7 @@ class User extends Model{
     //protected $createTime='ctime';
     //protected $updateTime=false;
 
-    protected $isNoMustField = ['name'=>'会员名称','phone'=>'手机号', 'sex'=>'性别','birthday'=>'生日','card'=>'会员卡',
+    protected $isVerifSyncColumn = ['name'=>'会员名称','phone'=>'手机号', 'sex'=>'性别','birthday'=>'生日','card'=>'会员卡',
                                 'storeid'=>'门店id','email'=>'邮箱','grid'=>'会员等级','role'=>'会员角色','points'=>'会员积分',
                                 'balance'=>'会员余额', 'wx_name'=>'微信昵称','wx_img'=>'微信头像','wx_openid'=>'微信openid',
                                 'wx_token'=>'微信token', 'mini_qrcode'=>'小程序二维码','mini_openid'=>'小程序openid',
@@ -23,12 +23,13 @@ class User extends Model{
      * date: 2020/12/23 20:49
      */
     public function isVerifSyncColumn($postData){
+        $data = [];
         foreach ($this->isVerifSyncColumn as $k => $val){
-            if(empty($postData[$k])){
-                unset($postData[$k]);
+            if(!empty($postData[$k])){
+                $data[$k] = $postData[$k];
             }
         }
-        return $postData;
+        return $data;
     }
 
     /**

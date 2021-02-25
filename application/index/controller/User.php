@@ -70,6 +70,7 @@ class User extends Controller{
                 ];
                 $ret = $userModel->editUserData('',$saveData,$where);
                 if($ret){
+                    $this->syncUserInfo($postData['openid']);
                     successMsg('更新用户信息成功');
                 }
             }else{
@@ -85,11 +86,26 @@ class User extends Controller{
                 ];
                 $addRete = $userModel->addUserData($addData);
                 if(!$addRete){
+                    $this->syncUserInfo($postData['openid']);
                     successMsg('添加用户信息成功');
                 }
             }
         }
         failMsg('更新用户信息失败');
 
+    }
+
+    /**
+     * Notes: 同步会会员信息到
+     * Class: syncUserInfo
+     * user: bingwoo
+     * date: 2021/1/28 15:45
+     */
+    public function syncUserInfo($wx_openid){
+        $url = 'http://airscanmemeber.yinheyun.com.cn/api.php/syncuser/syncUserInfo';
+        $param = [
+            'wx_openid'=>$wx_openid
+        ];
+        return request_post($url,$param);
     }
 }

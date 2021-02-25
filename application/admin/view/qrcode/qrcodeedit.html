@@ -57,18 +57,15 @@
         layui.use(['form','layer','upload','laydate','laydate'], function(){
             var form = layui.form;
             var layer = layui.layer;
-
             //设置分类默认值
             var storeid = $('#storevalue').val();
             $('#storeid').val(storeid)
-
             $('#up').click(function(){
                 // location.href="{:url('Qrcode/qrcodeList')}";
                 var page = $('#page').val();
-                                localStorage.setItem('page',page);
-                                window.history.back();
+                localStorage.setItem('page',page);
+                window.history.back();
             });
-
             form.on('submit(*)',function(data){
                 var storename = $("#storeid option:selected").text();
                 data.field.storename = storename;
