@@ -22,6 +22,9 @@ class User extends Controller{
         $where = [];
         $where['storeid'] = ['=',$postData['storeid']];
         $userData = $userModel->getUserList($where);
+        if(isset($postData['type'])){
+            successMsg('获取成功',$userData['data']);
+        }
         return json($userData['data']);
     }
 
@@ -40,6 +43,9 @@ class User extends Controller{
         $where = [];
         $where['wx_openid'] = ['=',$postData['wx_openid']];
         $userInfo = $userModel->getUserInfo($where);
+        if(isset($postData['type'])){
+            successMsg('获取成功',$userInfo);
+        }
         return json($userInfo);
     }
 
@@ -79,8 +85,5 @@ class User extends Controller{
         }
         failMsg('同步会员信息失败');
     }
-
-
-
 
 }
