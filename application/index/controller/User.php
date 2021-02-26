@@ -59,6 +59,9 @@ class User extends Controller{
         if($dataObj == NULL){
             failMsg('参数有误');
         }
+        $data = [
+            'phone'=>$dataObj->purePhoneNumber
+        ];
         if(isset($dataObj->purePhoneNumber)){
             $userModel = new \app\index\model\User();
             $where = [];
@@ -71,7 +74,7 @@ class User extends Controller{
                 $ret = $userModel->editUserData('',$saveData,$where);
                 if($ret){
                     $this->syncUserInfo($postData['openid']);
-                    successMsg('更新用户信息成功');
+                    successMsg('更新用户信息成功',$data);
                 }
             }else{
                 $addData = [
@@ -87,7 +90,7 @@ class User extends Controller{
                 $addRete = $userModel->addUserData($addData);
                 if(!$addRete){
                     $this->syncUserInfo($postData['openid']);
-                    successMsg('添加用户信息成功');
+                    successMsg('添加用户信息成功',$data);
                 }
             }
         }

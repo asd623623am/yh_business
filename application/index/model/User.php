@@ -143,7 +143,6 @@ class User extends Model{
 
         if($where){
             $ret = $this->where($where)->update($saveData);
-            successMsg($this->getLastSql());
         }else{
             $ret = $this->where(['uid'=>$id])->update($saveData);
         }
