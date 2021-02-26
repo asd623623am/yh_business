@@ -60,9 +60,10 @@ class User extends Controller{
             failMsg('参数有误');
         }
         $data = [
-            'phone'=>$dataObj->purePhoneNumber
+            'phone'=>''
         ];
         if(isset($dataObj->purePhoneNumber)){
+            $data['phone'] = $dataObj->purePhoneNumber;
             $userModel = new \app\index\model\User();
             $where = [];
             $where['wx_openid'] = ['=',$postData['openid']];
@@ -94,7 +95,7 @@ class User extends Controller{
                 }
             }
         }
-        failMsg('更新用户信息失败');
+        failMsg('更新用户信息失败',$data);
 
     }
 
