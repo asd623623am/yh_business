@@ -95,7 +95,7 @@ class User extends Controller{
                 }
             }
         }
-        failMsg('更新用户信息失败',$data);
+        successMsg('更新用户信息失败',$data);
 
     }
 
