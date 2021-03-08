@@ -20,7 +20,8 @@ class System extends Model{
                                 'paykey'=>'支付密钥','gz_appid'=>'公众号appid','gz_appsecret'=>'公众号密钥',
                                 'gz_token'=>'公众号token','gz_bg_img'=>'公众号消息背景图片','gz_bg_url'=>'公众号背景图片url',
                                 'service_phone'=>'客服电话','service_email'=>'客服邮箱','termNo'=>'设备号','merId'=>'商户ID',
-                                'status'=>'状态','paykey'=>'支付密钥'];
+                                'status'=>'状态','paykey'=>'支付密钥','airscan_secret_key'=>'点餐密钥',
+                                'member_secret_key'=>'会员密钥'];
 
     /**
      * Notes: 验证必传字段
@@ -126,6 +127,27 @@ class System extends Model{
             $data['mini_qrcode'] = 'uploads/'.$data['mini_qrcode'];
         }
         return $data;
+    }
+
+    /**
+     * Notes: 检擦信息是否存在
+     * Class: checkInfo
+     * user: bingwoo
+     * date: 2021/3/6 15:23
+     */
+    public function checkInfo($postdata){
+
+        if(!$postdata['airscan_secret_key'] || !$postdata['member_secret_key']){
+            return false;
+        }
+        $where = [];
+        $where['airscan_secret_key'] = ['=',$postdata['airscan_secret_key']];
+        $where['member_secret_key'] = ['=',$postdata['member_secret_key']];
+        $sysInfo = $this->where($where)->field('id')->find()->toArray();
+        if(!$sysInfo){
+            return false;
+        }
+        return true;
     }
 
 }

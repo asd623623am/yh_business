@@ -77,9 +77,6 @@ class Order extends Controller{
         return json($data);
     }
 
-
-
-
     /**
      * Notes: 获取订单信息
      * Class: getOrderInfo
@@ -108,6 +105,32 @@ class Order extends Controller{
             }
         }
         return json($orderInfo);
+    }
+
+    /**
+     * Notes: 修改订单信息
+     * Class: editOrderInfo
+     * user: bingwoo
+     * date: 2021/3/8 16:49
+     */
+    public function editOrderInfo(){
+
+        $postData = input();
+        $orderModel = new \app\common\model\Order();
+        $where = [];
+        addFileLog('editOrderInfo','info',$postData);
+        $where['order_sn'] = ['=',$postData['order_sn']];
+        $saveData = [
+            'order_status' => $postData['order_status'],
+            'pay_status' => $postData['pay_status'],
+            'pay_id' => $postData['pay_id'],
+            'pay_time' => $postData['pay_time'],
+        ];
+        $ret = $orderModel->editOrderData(1,$saveData,$where);
+        if(!$ret){
+            failMsg('修改失败');
+        }
+        successMsg('修改成功');
     }
 
 

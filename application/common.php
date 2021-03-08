@@ -457,3 +457,63 @@ function send_post_yinhepay($url,array $data)
     curl_close($curl);
     return @json_decode($output, true);
 }
+
+function key_verify($postData){
+    $system = new \app\common\model\System();
+    if(!$postData['airscan_secret_key'] || !$postData['member_secret_key']){
+        addFileLog('getStoreList','error',$postData);
+        return false;
+    }
+    $where = [];
+    $where['airscan_secret_key'] = ['=',$postData['airscan_secret_key']];
+    $where['member_secret_key'] = ['=',$postData['member_secret_key']];
+    $sysInfo = $system->where($where)->field('system_id')->find();
+    if(!$sysInfo){
+        addFileLog('getStoreList','error2',$sysInfo);
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Notes: 打印log日志
+ * Class: addFileLog
+ * param: 文件名 类型 日志内容
+ * user: bingwoo
+ * date: 2021/2/25 9:56
+ */
+function addFileLog($basename = null,$type = null,$msg = null){
+    if(is_array($msg)){
+        $msg = json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+    $msg = '['.date("Y-m-d H:i:s").']'.'文件名：'.$basename.'，类型：'.$type.'，'.'[info]：'.$msg;
+    $rootpath = ROOT_PATH.DS.'public'. DS .'logs'. DS;
+    makedir($rootpath);
+    // 日志文件名：日期.txt
+    $path = $rootpath.$basename.'.log';
+
+    file_put_contents($path, $msg.PHP_EOL,FILE_APPEND);
+}
+
+/**
+ * Notes: 创建文件
+ * Class: makedir
+ * param:  $path [目录路径]
+ * user: bingwoo
+ * date: 2021/2/25 9:58
+ */
+function makedir($path){
+    $arr=array();
+    while(!is_dir($path)){
+        array_push($arr,$path);//把路径中的各级父目录压入到数组中去，直接有父目录存在为止（即上面一行is_dir判断出来有目录，条件为假退出while循环）
+        $path=dirname($path);//父目录
+    }
+    if(empty($arr)){//arr为空证明上面的while循环没有执行，即目录已经存在
+        // echo $path,'已经存在';
+        return true;
+    }
+    while(count($arr)){
+        $parentdir=array_pop($arr);//弹出最后一个数组单元
+        mkdir($parentdir);//从父目录往下创建
+    }
+}

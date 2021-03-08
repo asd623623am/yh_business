@@ -112,7 +112,7 @@ class Store extends Common{
                     $storeInfo['storeid'] += 1;
                     $insert['store_no'] = $strno.$storeInfo['storeid'];
                 }
-                $insert['airscan_secret_key'] = $this->getAirscanKay();//生成点餐密钥
+                $insert['store_secret_key'] = $this->getAirscanKay();//生成点餐密钥
                 $insert['create_time'] = time();
                 $insert['update_time'] = time();
                 $insert['name'] = '郑州机场商业@'.$insert['name'];
@@ -182,18 +182,25 @@ class Store extends Common{
                 }
                 $insert = $this->processData($postData);
                 $insert['name'] = '郑州机场商业@'.$insert['name'];
-                if(!isset($storeData['airscan_secret_key']) || empty($storeData['airscan_secret_key'])){
-                    $insert['airscan_secret_key'] = $this->getAirscanKay();
+                if(!isset($storeData['store_secret_key']) || empty($storeData['store_secret_key'])){
+                    $insert['store_secret_key'] = $this->getAirscanKay();
                 }
                 $res = model('Store')->save($insert,$where);
                 if ($res) {
                     //同步门店信息
-                    $url = 'http://airscanmember.yinheyun.com.cn/api.php/Syncstore/syncStoreInfo';
-                    $param = [
-                        'airscan_secret_key'=>$storeData['airscan_secret_key'],
-                        'member_secret_key'=>$storeData['member_secret_key'],
-                    ];
-                    request_post($url,$param);
+                    $systemModel = new \app\common\model\System();
+                    $sysWhere = [];
+                    $sysWhere[''] = [];
+                    $systemInfo = $systemModel->getSystemInfo();
+                    if($systemInfo['airscan_secret_key'] && $systemInfo['member_secret_key'] && $storeData['store_secret_key']){
+                        $url = 'http://airscanmember.yinheyun.com.cn/api.php/Syncstore/syncStoreInfo';
+                        $param = [
+                            'airscan_secret_key'=>$systemInfo['airscan_secret_key'],
+                            'member_secret_key'=>$systemInfo['member_secret_key'],
+                            'store_secret_key'=>$storeData['store_secret_key'],
+                        ];
+                        request_post($url,$param);
+                    }
                     $this -> addLog('修改门店信息');
                     win('修改成功');
                 } else {
@@ -384,10 +391,6 @@ class Store extends Common{
         //刷脸支付
         if(!empty($postData['face_pay'])){
             $insert['face_pay'] =$postData['face_pay'];
-        }
-        //会员密钥
-        if(!empty($postData['member_secret_key'])){
-            $insert['member_secret_key'] = trim($postData['member_secret_key']);
         }
         //营业时间
         $insert['start_business_hours'] = strtotime(date('Y-m-d').$postData['start_business_hours']);
@@ -1012,6 +1015,6 @@ class Store extends Common{
     public function getAirscanKay(){
 
         $key = 'airscan'.date('YmdHis',time()).rand(0000,9999);
-        return md5($key);
+        return md5( md5($key));
     }
 }

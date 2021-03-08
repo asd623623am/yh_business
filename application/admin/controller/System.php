@@ -159,6 +159,10 @@ class System extends Common
 			'system_id'	=> $system_id
 		];
 		$data = model('System')->where($where)->find();
+		if(!isset($data['airscan_secret_key']) || empty($data['airscan_secret_key'])){
+		    $key ='airscan_secret_key'.time().rand(0000,9999);
+            $data['airscan_secret_key'] = md5(md5($key));
+        }
 		$this->assign('data',$data);
 		return view();
 	}
@@ -187,6 +191,8 @@ class System extends Common
             'gz_appsecret'	=> $data['gz_appsecret'],
             'gz_bg_img'	=> $data['gz_bg_img'],
             'gz_bg_url'	=> $data['gz_bg_url'],
+            'airscan_secret_key' => $data['airscan_secret_key'],
+            'member_secret_key'	=> $data['member_secret_key'],
             'update_time'	=> time(),
         ];
 
