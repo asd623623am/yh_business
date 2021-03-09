@@ -26,6 +26,7 @@ class Order extends Controller{
         $orderCount = $orderModel->getOrderCount($where);
         return json($orderCount);
     }
+
     /**
      * Notes: 获取订单列表
      * Class: getOrderList

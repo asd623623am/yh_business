@@ -72,6 +72,9 @@ class User extends Controller{
                 $saveData = [
                     'phone'=>$dataObj->purePhoneNumber
                 ];
+                if(isset($postData['unionid'])){
+                    $saveData['unionid'] = $postData['unionid'];
+                }
                 $ret = $userModel->editUserData('',$saveData,$where);
                 if($ret){
                     $this->syncUserInfo($postData['openid']);
@@ -88,6 +91,9 @@ class User extends Controller{
                     'create_time'=>time(),
                     'update_time'=>time(),
                 ];
+                if(isset($postData['unionid'])){
+                    $addData['unionid'] = $postData['unionid'];
+                }
                 $addRete = $userModel->addUserData($addData);
                 if(!$addRete){
                     $this->syncUserInfo($postData['openid']);

@@ -147,6 +147,26 @@ class Store extends Common{
                         ];
                         $adminres = model('AdminRole')->insert($roleinsert);
                         if($adminres){
+                            //同步门店信息
+                            $systemModel = new \app\common\model\System();
+                            $sysWhere = [];
+                            $sysWhere[''] = [];
+                            $systemInfo = $systemModel->getSystemInfo();
+                            $storeWhere = [];
+                            $storeWhere['storeid'] = ['=',$store_id];
+                            $storeData = model('Store')->where($storeWhere)->field('store_secret_key')->find();
+                            if($storeData){
+                                $storeData = $storeData->toArray();
+                                if($systemInfo['airscan_secret_key'] && $systemInfo['member_secret_key'] && $storeData['store_secret_key']){
+                                    $url = 'http://airscanmember.yinheyun.com.cn/api.php/Syncstore/syncStoreInfo';
+                                    $param = [
+                                        'airscan_secret_key'=>$systemInfo['airscan_secret_key'],
+                                        'member_secret_key'=>$systemInfo['member_secret_key'],
+                                        'store_secret_key'=>$storeData['store_secret_key'],
+                                    ];
+                                    request_post($url,$param);
+                                }
+                            }
                             $this->addLog('添加了一个门店');
                             win('添加成功');
                         }else{

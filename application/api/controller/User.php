@@ -62,11 +62,20 @@ class User extends Controller{
             return failMsg('请求方式有误');
         }
         $postData = input('');
-        $veriColumn = ['wx_openid'];
+        $veriColumn = [];//wx_openid，phone
         verifColumn($veriColumn,$postData);
         $wx_openid = $postData['wx_openid'];
         //获取会员用户数据
-        $url = 'http://airscanmember.yinheyun.com.cn/api.php/user/getUserInfo?third_wx_openid='.$wx_openid;
+        $url = '';
+        if($wx_openid){
+            $url = 'http://airscanmember.yinheyun.com.cn/api.php/user/getUserInfo?third_wx_openid='.$wx_openid;
+        }
+        if(isset($postData['phone'])){
+            $url = 'http://airscanmember.yinheyun.com.cn/api.php/user/getUserInfo?phone='.$postData['phone'];
+        }
+        if(!$url){
+            failMsg('参数有误,拉取会员信息失败');
+        }
         $ret = request_get($url);
         $ret = json_decode($ret,true);
         if(isset($ret['code']) && $ret['code'] == 1){
@@ -75,7 +84,12 @@ class User extends Controller{
                 $userModel = new \app\index\model\User();
                 $saveData = $userModel->isVerifSyncColumn($ret['data']);
                 $where = [];
-                $where['wx_openid'] = ['=',$wx_openid];
+                if($wx_openid){
+                    $where['wx_openid'] = ['=',$wx_openid];
+                }
+                if(isset($postData['phone'])){
+                    $where['phone'] = ['=',$postData['phone']];
+                }
                 $syncRet = $userModel->editUserData(1,$saveData,$where);
                 if($syncRet){
                     successMsg('同步数据成功');
